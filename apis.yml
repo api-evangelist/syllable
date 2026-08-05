@@ -1,23 +1,142 @@
 aid: syllable
 name: Syllable
-description: 'Syllable is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: Syllable is a Mountain View, California company (founded 2017) that operates an agentic platform
+  for building, deploying and optimizing AI voice, SMS, email, web-chat and WhatsApp agents, with a strong
+  focus on healthcare patient experience and contact-center automation. The Syllable Platform SDK exposes
+  a REST API at api.syllable.cloud covering agents, prompts, tools, services, data sources, channels and
+  channel targets, sessions and transcripts, outbound campaigns and batches, insights workflows, directory,
+  dashboards, incidents, organizations, roles, permissions and users. First-party TypeScript and Python
+  SDKs, a Go CLI, a documentation MCP server and a published A2A agent card make it an unusually agent-forward
+  developer surface.
+image: https://syllable.ai/figma/assets/syllable-social-share.png
 url: https://raw.githubusercontent.com/api-evangelist/syllable/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-08-05'
 modified: '2026-08-05'
 tags:
 - Company
-apis: []
+- Artificial Intelligence
+- AI Agents
+- Voice
+- Conversational AI
+- Contact Center
+- Healthcare
+- Telephony
+- SMS
+- Customer Experience
+apis:
+- aid: syllable:syllable-platform-sdk
+  name: Syllable Platform SDK API
+  description: The Syllable Platform SDK REST API for building and operating AI agents across voice, SMS,
+    email and chat channels. 176 operations across 107 paths cover agent configuration, prompt versioning,
+    tools and step workflows, services and credential stores, data sources, channels and targets (including
+    Twilio numbers and SIP), conversations and sessions with transcripts and latency timelines, outbound
+    campaigns and batches, insights folders/workflows/tools, directory, dashboards, incidents, takeouts,
+    organizations, roles, permissions and users. Authentication is an organization API token sent in the
+    Syllable-API-Key header.
+  humanURL: https://docs.syllable.ai/
+  baseURL: https://api.syllable.cloud
+  tags:
+  - AI Agents
+  - Voice
+  - SMS
+  - Conversational AI
+  - Contact Center
+  properties:
+  - type: OpenAPI
+    url: openapi/syllable-sdk-openapi-original.yml
+  - type: Overlay
+    url: overlays/syllable-sdk-overlay.yaml
+  - type: Documentation
+    url: https://docs.syllable.ai/
+  - type: APIReference
+    url: https://docs.syllable.ai/api-reference/agents/agent-list
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: AgenticAccess
+  url: agentic-access/syllable-agentic-access.yml
+- type: TrustCenter
+  url: security/syllable-trust-center.yml
+- type: DomainSecurity
+  url: security/syllable-domain-security.yml
 - type: Website
-  url: https://forgeglobal.com/syllable_stock/
+  url: https://syllable.ai/
+- type: DeveloperPortal
+  url: https://docs.syllable.ai/
+- type: Documentation
+  url: https://docs.syllable.ai/
+- type: APIReference
+  url: https://docs.syllable.ai/api-reference/agents/agent-list
+- type: GettingStarted
+  url: https://docs.syllable.ai/sdk-guides/Overview
+- type: Support
+  url: https://syllable.ai/contact-us/
+- type: Blog
+  url: https://syllable.ai/blog/
+- type: GitHubOrganization
+  url: https://github.com/asksyllable
+- type: Pricing
+  url: https://syllable.ai/pricing
+- type: SignUp
+  url: https://syllable.cloud/sign-up
+- type: Login
+  url: https://syllable.cloud/
+- type: TermsOfService
+  url: https://syllable.ai/terms
+- type: PrivacyPolicy
+  url: https://syllable.ai/legal/privacy-policy
+- type: StatusPage
+  url: https://syllable.statuspage.io
+- type: Compliance
+  url: https://trust.syllable.ai
+- type: ChangeLog
+  url: https://syllable.ai/release-notes/
+- type: Packages
+  url: packages/syllable-packages.yml
+- type: SDKs
+  url: packages/syllable-packages.yml
+- type: CLI
+  url: cli/syllable-cli.yml
+- type: MCPServer
+  url: mcp/syllable-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/syllable-tool-crosswalk.yml
+- type: AgentCard
+  url: a2a/syllable-a2a.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/syllable-llms.txt
+- type: WellKnown
+  url: well-known/syllable-well-known.yml
+- type: Authentication
+  url: authentication/syllable-authentication.yml
+- type: Conventions
+  url: conventions/syllable-conventions.yml
+- type: ErrorCatalog
+  url: errors/syllable-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/syllable-lifecycle.yml
+- type: Conformance
+  url: conformance/syllable-conformance.yml
+- type: DataModel
+  url: data-model/syllable-data-model.yml
+- type: Sandbox
+  url: sandbox/syllable-sandbox.yml
+- type: Components
+  url: components/syllable-components.yml
+- type: Webhooks
+  url: asyncapi/syllable-outbound-webhooks.yml
+- type: ChangeLog
+  url: changelog/syllable-changelog.yml
+x-enrichment:
+  date: '2026-08-05'
+  status: enriched
+  artifacts_added: 30
+  pass: local-v1

@@ -1,0 +1,77 @@
+generated: '2026-08-05'
+method: probed
+source: live probes of every Syllable host, 2026-08-05
+summary: >-
+  One /.well-known/ document is served across the whole estate: the A2A agent card on the
+  documentation host. There is no security.txt, no api-catalog, no OIDC or OAuth discovery
+  document, and no ai-plugin.json anywhere. All four hosts return honest 404s (api.syllable.cloud
+  returns a plain-text "404 page not found"; syllable.ai returns its own 404 page), so no
+  SPA catch-all false positives were possible on these probes.
+hosts:
+- host: https://docs.syllable.ai
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: application/json
+    file: ../a2a/syllable-agent-card.json
+    type: A2A Agent Card
+  - path: /.well-known/agent-skills/actiumhealth/skill.md
+    status: 200
+    file: ../skills/syllable-docs-agent-skill.md
+    type: Agent Skill
+    note: Referenced by the skills[] entry in the agent card.
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: https://api.syllable.cloud
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://syllable.ai
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+gaps:
+- >-
+  No RFC 9116 security.txt on any host, despite a published trust center carrying SOC 2,
+  HIPAA, HITRUST and GDPR posture. This is the cheapest single fix available to Syllable.
+- >-
+  No /.well-known/api-catalog, so the OpenAPI at spec.speakeasy.com is discoverable only by
+  reading the rendered documentation pages.

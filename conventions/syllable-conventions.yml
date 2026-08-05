@@ -1,0 +1,104 @@
+generated: '2026-08-05'
+method: searched
+source:
+- openapi/syllable-sdk-openapi-original.yml
+- https://github.com/asksyllable/syllable-cli
+- https://docs.syllable.ai/account/APITokens
+authentication:
+  style: api-key
+  header: Syllable-API-Key
+  scheme_name: APIKeyHeader
+  scope: per-organization
+  notes: >-
+    One API token per organization, generated and revoked from the Syllable Console
+    (profile menu -> API tokens). The token is displayed once at creation. Tokens carry a
+    creation and an expiry timestamp and can be revoked from the console. The CLI reads
+    the key from the SYLLABLE_API_KEY environment variable or from ~/.syllable/config.yaml,
+    which supports multiple orgs and multiple environments per org.
+  docs: https://docs.syllable.ai/account/APITokens
+  artifact: authentication/syllable-authentication.yml
+idempotency:
+  supported: false
+  evidence: >-
+    No Idempotency-Key header, parameter, or extension appears anywhere in the 176-operation
+    OpenAPI, and the documentation and CLI describe no retry-safety contract for writes.
+    Recorded as absent — no Idempotency pointer is emitted in apis.yml.
+pagination:
+  style: page-and-limit
+  request_params:
+  - name: page
+    default: 0
+    note: zero-based page index
+  - name: limit
+    default: 25
+    note: results per page
+  applies_to_operations: 30
+  ordering_params:
+  - order_by
+  - order_by_direction
+  filtering_params:
+  - search_fields
+  - search_field_values
+  - start_datetime
+  - end_datetime
+  sparse_fields_param: fields
+  response_envelope: ListResponse_<Entity>_
+  note: >-
+    List endpoints return a generic ListResponse envelope parameterized per entity
+    (ListResponse_Event_, ListResponse_Agent_, ...). The CLI exposes the same three
+    controls on every list subcommand as --page, --limit and --search.
+field_selection:
+  supported: true
+  param: fields
+  applies_to_operations: 28
+  cli_flag: --fields
+  note: Column/field projection on list operations; the CLI mirrors it for table output.
+expansion:
+  supported: false
+  note: No expand/include parameter is declared in the spec.
+request_tracing:
+  request_id_header: null
+  note: >-
+    No request-id or correlation-id header is declared in the OpenAPI. At the domain
+    level Syllable models tracing through session_id and conversation_id, which thread
+    through sessions, transcripts, timelines, latency and events.
+versioning:
+  api_scheme: uri-path
+  api_current: v1
+  api_prefix: /api/v1
+  spec_version: 0.0.3
+  platform_release_scheme: date-based (vYY.M.DD)
+  note: >-
+    The HTTP API is pinned at /api/v1 and the OpenAPI carries info.version 0.0.3. The
+    product itself ships on a date-based release train published at
+    https://syllable.ai/release-notes/ — see changelog/syllable-changelog.yml.
+error_envelope:
+  content_type: application/json
+  rfc9457: false
+  validation_shape: '{"detail": [{"loc": [...], "msg": "...", "type": "..."}]}'
+  validation_schema: HTTPValidationError
+  cli_shape: '{"error": {"status_code": ..., "detail": ..., "hint": "..."}}'
+  artifact: errors/syllable-problem-types.yml
+rate_limits:
+  documented: false
+  evidence: >-
+    No 429 response, Retry-After header, or X-RateLimit-* header appears in the OpenAPI,
+    and no rate-limit page was found in the documentation. Recorded as not documented.
+webhooks:
+  supported: true
+  scope: outbound campaigns only
+  signing: HMAC (hmac_secret, base64 RFC 4648, 32-512 bytes of key material)
+  artifact: asyncapi/syllable-outbound-webhooks.yml
+content_types:
+  request: application/json
+  response:
+  - application/json
+  - application/octet-stream
+  - text/csv
+  - application/zip
+cross_links:
+  authentication: authentication/syllable-authentication.yml
+  errors: errors/syllable-problem-types.yml
+  lifecycle: lifecycle/syllable-lifecycle.yml
+  data_model: data-model/syllable-data-model.yml
+  sandbox: sandbox/syllable-sandbox.yml

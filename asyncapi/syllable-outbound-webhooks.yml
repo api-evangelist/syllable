@@ -1,0 +1,95 @@
+generated: '2026-08-05'
+method: derived
+source: openapi/syllable-sdk-openapi-original.yml
+spec_type: Webhooks
+asyncapi_published: false
+asyncapi_note: >-
+  Syllable publishes no AsyncAPI document. Probes of /asyncapi.yaml and /asyncapi.json on
+  syllable.ai, docs.syllable.ai and api.syllable.cloud missed, and no event-catalog page
+  exists in the documentation. The event surface below is derived from the webhook schemas
+  declared in the provider's own OpenAPI, not fabricated.
+summary: >-
+  The only event/callback surface Syllable exposes is per-outbound-campaign webhooks.
+  A campaign carries a webhooks[] array; each entry registers an HTTPS URL, an HTTP method,
+  a set of trigger statuses, and an optional HMAC secret. There is no account-wide event
+  bus, no webhook subscription resource of its own, and no session/agent lifecycle webhook —
+  webhooks fire only on outbound communication status transitions.
+surface:
+  scope: outbound campaigns
+  configured_via: the webhooks[] field on an outbound campaign
+  input_schema: OutboundCampaignWebhookInput
+  response_schema: OutboundCampaignWebhookResponse
+  managing_operations_tag: outbound.campaigns
+delivery:
+  transport: HTTPS
+  methods:
+  - POST
+  - PUT
+  - PATCH
+  url_field: url
+  url_requirement: HTTPS URL to which to send the webhook payload
+  trigger_field: trigger_statuses
+  trigger_semantics: >-
+    Condition expression evaluated when the trigger fires; the spec's own example is
+    "campaign_id == 1 && channel_manager_status == 'COMPLETED'".
+security:
+  signing: HMAC
+  secret_field: auth_values.hmac_secret
+  secret_encoding: standard Base64 (RFC 4648)
+  secret_key_material: 32-512 bytes
+  read_back: >-
+    Responses return auth_value_keys (key names only); secret values are never echoed back.
+  update_semantics: >-
+    On update, leaving a key's value null keeps the stored value; omitting the key entirely
+    removes it.
+events:
+  enum: ChannelManagerStatus
+  description: Status of an outbound communication request (voice, SMS, or email).
+  values:
+  - PENDING
+  - DUPLICATE
+  - INVALID
+  - UNEXPECTED_ERROR
+  - FILTERED_LINE_TYPE
+  - PROCESSED
+  - DROPPED
+  - DEFERRED
+  - BOUNCED
+  - DELIVERED
+  - OPENED
+  - CLICKED
+  - SPAM_REPORT
+  - UNSUBSCRIBED
+  - PRIOR_UNSUBSCRIBED
+  - PRIOR_SPAM_REPORT
+  - PRIOR_DROPPED
+  - PRIOR_BOUNCED
+  - SENT
+  - ACCEPTED
+  - QUEUED
+  - SENDING
+  - UNDELIVERED
+  - DELIVERY_UNKNOWN
+  - DELIVERY_FAILED
+  - IN-PROGRESS
+  - BUSY
+  - CANCELED
+  - COMPLETED
+  - DECLINED
+  - NO-ANSWER
+  - MACHINE
+  - HUMAN
+  - UNKNOWN
+  - FAILED
+  - SIP_NOT_FOUND
+  - SIP_TEMPORARILY_UNAVAILABLE
+  - SIP_LOOP_DETECTED
+  - SIP_DOES_NOT_EXIST_ANYWHERE
+  count: 39
+polling_alternative:
+  operation_id: events_list
+  path: /api/v1/events/
+  method: GET
+  note: >-
+    For in-session events (tool calls and LLM prompts) there is no push surface at all —
+    the Events list endpoint is poll-only, keyed on session_id and conversation_id.

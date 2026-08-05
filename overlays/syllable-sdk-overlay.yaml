@@ -1,0 +1,60 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Syllable Platform SDK API
+  version: 1.0.0
+extends: openapi/syllable-sdk-openapi-original.yml
+x-generated: '2026-08-05'
+x-method: generated
+x-source: openapi/syllable-sdk-openapi-original.yml
+x-note: >-
+  Non-destructive enhancements API Evangelist derived from the harvested spec and the
+  provider's public surface. The harvested OpenAPI is never mutated; apply this overlay to
+  produce the enriched view. Nothing here changes operation semantics.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-profile: https://apis.io/provider/syllable/
+    x-apievangelist-harvested-from: https://spec.speakeasy.com/syllable/syllable/syllable-sdk-oas-with-code-samples
+    x-apievangelist-harvested-on: '2026-08-05'
+    x-provider-name: Syllable
+    x-provider-website: https://syllable.ai/
+    x-documentation: https://docs.syllable.ai/
+    x-status-page: https://syllable.statuspage.io
+    x-trust-center: https://trust.syllable.ai
+    x-changelog: https://syllable.ai/release-notes/
+- target: $.info
+  update:
+    x-api-conventions:
+      authentication: Syllable-API-Key header, one token per organization
+      pagination: page (0-based) + limit (default 25), with order_by/order_by_direction
+      field_selection: fields
+      error_envelope: HTTPValidationError -> detail[].loc / .msg / .type
+      idempotency: not supported
+      rate_limits: not documented
+      artifact: conventions/syllable-conventions.yml
+- target: $.info
+  update:
+    x-agent-surfaces:
+      mcp_server: https://docs.syllable.ai/mcp
+      mcp_scope: documentation only
+      agent_card: https://docs.syllable.ai/.well-known/agent-card.json
+      agent_card_grade: flavored
+      cli: https://github.com/asksyllable/syllable-cli
+      cli_claude_skill: .claude/skills/syllable-cli/
+      llms_txt: https://docs.syllable.ai/llms.txt
+- target: $.servers
+  update:
+  - url: https://api.syllable.cloud
+    description: API server (production)
+    x-verified: '2026-08-05'
+    x-tls: TLSv1.3
+    x-hsts: false
+- target: $.components.securitySchemes.APIKeyHeader
+  update:
+    description: >-
+      Organization API token issued from the Syllable Console (profile menu -> API tokens).
+      One token per organization, shown once at creation, with a visible creation and expiry
+      timestamp and a revoke action. The CLI reads it from SYLLABLE_API_KEY or
+      ~/.syllable/config.yaml.
+    x-docs: https://docs.syllable.ai/account/APITokens
+    x-rotation: revoke-and-regenerate in console

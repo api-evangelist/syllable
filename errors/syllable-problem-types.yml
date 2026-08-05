@@ -1,0 +1,77 @@
+generated: '2026-08-05'
+method: derived
+source: openapi/syllable-sdk-openapi-original.yml
+format: custom-json
+note: 'Syllable does not emit RFC 9457 application/problem+json. Every error response in the OpenAPI is
+  application/json. The 422 envelope is HTTPValidationError: {"detail":[{"loc":[...],"msg":"...","type":"..."}]}
+  (FastAPI/Pydantic shape). The Syllable CLI documents a wrapped machine-readable form under --output
+  json: {"error":{"status_code","detail","hint"}}.'
+envelope:
+  validation:
+    schema: HTTPValidationError
+    fields:
+    - detail[].loc
+    - detail[].msg
+    - detail[].type
+    content_type: application/json
+  cli_json:
+    fields:
+    - error.status_code
+    - error.detail
+    - error.hint
+    source: https://github.com/asksyllable/syllable-cli
+problems:
+- status: 400
+  title: Bad Request
+  occurrences: 13
+  example_operations:
+  - agent_create
+  - agent_update
+  - agent_delete
+  - insights_workflow_update
+  - insights_workflow_delete
+  - insights_workflow_queue_work
+- status: 404
+  title: Not Found
+  occurrences: 14
+  example_operations:
+  - agent_update
+  - agent_delete
+  - insights_workflow_update
+  - insights_workflow_delete
+  - insights_workflow_inactivate
+  - insights_workflow_activate
+- status: 409
+  title: Conflict
+  occurrences: 1
+  example_operations:
+  - directory_member_restore
+- status: 412
+  title: Precondition Failed
+  occurrences: 5
+  example_operations:
+  - insights_workflow_update
+  - insights_tool_delete
+  - insights_tool_update
+  - directory_member_update
+  - directory_member_bulk_load
+- status: 422
+  title: Validation Error
+  occurrences: 158
+  example_operations:
+  - agent_list
+  - agent_create
+  - agent_update
+  - agent_get_by_id
+  - agent_delete
+  - bridge_phrases_list
+- status: 500
+  title: Internal Server Error
+  occurrences: 17
+  example_operations:
+  - agent_create
+  - agent_update
+  - agent_delete
+  - insights_workflow_update
+  - insights_workflow_delete
+  - insights_workflow_inactivate

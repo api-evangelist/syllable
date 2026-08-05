@@ -1,0 +1,122 @@
+generated: '2026-08-05'
+method: searched
+source: https://github.com/asksyllable/syllable-cli
+repository: https://github.com/asksyllable/syllable-cli
+description: >-
+  First-party Go CLI for the Syllable platform, built on Cobra. The provider describes it
+  as "built for humans and AI agents" — it ships a machine-readable JSON output mode,
+  a dry-run mode that prints the exact request it would send, a schema explorer that
+  surfaces the API request-body types, and a bundled Claude Code skill.
+language: go
+minimum_toolchain: Go 1.24+
+current_major: v2.0.0
+install:
+- method: homebrew
+  commands:
+  - brew tap asksyllable/syllable-cli https://github.com/asksyllable/syllable-cli
+  - brew install --cask syllable
+  upgrade: brew upgrade --cask syllable
+- method: install-script
+  commands:
+  - curl -fsSL https://github.com/asksyllable/syllable-cli/releases/latest/download/install.sh | sh
+  pinned_version: sh -s v1.2.3
+  installs_to: /usr/local/bin/syllable (falls back to ~/.local/bin/syllable)
+- method: release-binary
+  url: https://github.com/asksyllable/syllable-cli/releases/latest
+- method: source
+  commands:
+  - git clone https://github.com/asksyllable/syllable-cli
+  - cd syllable-cli/scripts/syllable-cli && go build -o syllable .
+shell_completion:
+- bash
+- zsh
+- fish
+configuration:
+  command: syllable setup
+  note: >-
+    Opens a browser UI to manage orgs, API keys and environments. The provider explicitly
+    instructs users and agents never to hand-edit the config file or paste keys into a terminal.
+  config_file: ~/.syllable/config.yaml
+  multi_org: true
+  multi_environment: true
+  builtin_environment: prod
+  auth_env_var: SYLLABLE_API_KEY
+  no_flags_for:
+  - --api-key
+  - --base-url
+global_flags:
+- flag: --org
+  description: Select org (looks up API key from config)
+- flag: --env
+  description: Select environment (prod is built in; others come from syllable setup)
+- flag: --yes / -y
+  description: Skip the confirmation prompt on destructive commands
+- flag: --output / -o
+  description: 'Output format: table (default) or json'
+- flag: --fields
+  description: Columns to show in table output
+- flag: --dry-run
+  description: Show the request that would be sent, without sending it
+- flag: --debug
+  description: Print full HTTP request/response to stderr (credentials redacted)
+- flag: --config
+  description: Config file location
+- flag: --version / -v
+  description: Print version and exit
+list_flags:
+- --page
+- --limit
+- --search
+command_groups:
+- agents
+- channels
+- conversations
+- prompts
+- tools
+- sessions
+- outbound
+- users
+- directory
+- insights
+- custom messages
+- bridge phrases
+- schema (schema explorer)
+- permissions
+example_flows:
+- name: List and inspect agents
+  commands:
+  - syllable agents list --search "name"
+  - syllable agents get 42 --output json
+- name: Round-trip edit through jq
+  commands:
+  - syllable agents get 42 --output json | jq '.name = "Updated Name"' | syllable agents update 42 --file -
+- name: Preview a write without sending it
+  commands:
+  - syllable agents create --name "Test Bot" --type voice --prompt-id 10 --timezone UTC --dry-run
+- name: Troubleshoot auth and permissions
+  commands:
+  - syllable users me
+  - syllable permissions list
+  - syllable schema list
+agent_affordances:
+  json_errors: '{"error": {"status_code", "detail", "hint"}}'
+  dry_run_output_fields:
+  - body
+  - dry_run
+  - method
+  - url
+  dry_run_missing_required_fields: true (added in v2.0.0)
+  claude_code_skill: .claude/skills/syllable-cli/
+  claude_code_skill_local: skills/syllable-cli-skill.md
+breaking_changes:
+  v2.0.0:
+  - Destructive delete commands confirm interactively and require --yes when non-interactive
+  - channels delete removed (no such API operation; use channels targets delete)
+  - data-sources create inline takes --text in place of the non-functional --content
+  - --output is validated; unknown --fields columns warn
+feedback: https://github.com/asksyllable/syllable-cli/issues
+x-evidence:
+  fetched: '2026-08-05'
+  url: https://api.github.com/repos/asksyllable/syllable-cli
+  http_status: 200
+  last_push_seen: '2026-07-30'

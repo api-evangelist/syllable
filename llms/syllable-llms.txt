@@ -1,0 +1,267 @@
+# Syllable SDK
+
+## Docs
+
+- [API Tokens](https://docs.syllable.ai/account/APITokens.md): How to securely manage authentication tokens for SDK access using the Syllable Console interface
+- [Data Takeout](https://docs.syllable.ai/account/DataTakeout.md): How to export and manage account data using the Syllable Console interface.
+- [Highlights](https://docs.syllable.ai/account/Highlights.md): Discover core platform highlights and features for the Syllable Console interface.
+- [Agent List](https://docs.syllable.ai/api-reference/agents/agent-list.md): List the existing agents
+- [Create Agent](https://docs.syllable.ai/api-reference/agents/create-agent.md): Create a new agent
+- [Delete Agent](https://docs.syllable.ai/api-reference/agents/delete-agent.md)
+- [Get Agent By Id](https://docs.syllable.ai/api-reference/agents/get-agent-by-id.md): Get an agent by ID.
+- [Get Available Agent Voices](https://docs.syllable.ai/api-reference/agents/get-available-agent-voices.md): Get available agent voices.
+- [List Active Agent Labels](https://docs.syllable.ai/api-reference/agents/list-active-agent-labels.md): List all distinct labels in use across active agents.
+- [Update Agent](https://docs.syllable.ai/api-reference/agents/update-agent.md): Update an existing agent
+- [Send New Message](https://docs.syllable.ai/api-reference/agentstest/send-new-message.md): Send a new message
+- [Create Bridge Phrases](https://docs.syllable.ai/api-reference/bridge_phrases/create-bridge-phrases.md): Create a new bridge phrases config.
+- [Delete Bridge Phrases](https://docs.syllable.ai/api-reference/bridge_phrases/delete-bridge-phrases.md): Delete a bridge phrases config.
+- [Get Bridge Phrases](https://docs.syllable.ai/api-reference/bridge_phrases/get-bridge-phrases.md): Fetch a given bridge phrases config.
+- [List Bridge Phrases](https://docs.syllable.ai/api-reference/bridge_phrases/list-bridge-phrases.md): Fetch bridge phrases configs.
+- [Update Bridge Phrases](https://docs.syllable.ai/api-reference/bridge_phrases/update-bridge-phrases.md): Update an existing bridge phrases config.
+- [Create Channel](https://docs.syllable.ai/api-reference/channels/create-channel.md)
+- [Delete Channel Target](https://docs.syllable.ai/api-reference/channels/delete-channel-target.md): Hard-delete a channel target by ID
+- [Get Channels](https://docs.syllable.ai/api-reference/channels/get-channels.md)
+- [Update Channel](https://docs.syllable.ai/api-reference/channels/update-channel.md)
+- [Assign A Channel Target](https://docs.syllable.ai/api-reference/channelstargets/assign-a-channel-target.md)
+- [Available Targets List](https://docs.syllable.ai/api-reference/channelstargets/available-targets-list.md): List the available phone numbers
+- [Edit Channel Target](https://docs.syllable.ai/api-reference/channelstargets/edit-channel-target.md): Update channel target by ID
+- [Get A Channel Target](https://docs.syllable.ai/api-reference/channelstargets/get-a-channel-target.md)
+- [Get Channel Targets](https://docs.syllable.ai/api-reference/channelstargets/get-channel-targets.md): List channel targets for the current suborg.
+- [Create Twilio Channel](https://docs.syllable.ai/api-reference/channelstwilio/create-twilio-channel.md)
+- [Get Twilio Channel By Id](https://docs.syllable.ai/api-reference/channelstwilio/get-twilio-channel-by-id.md)
+- [Update Twilio Channel](https://docs.syllable.ai/api-reference/channelstwilio/update-twilio-channel.md)
+- [Add Twilio Number](https://docs.syllable.ai/api-reference/channelstwilionumbers/add-twilio-number.md): Purchase a Twilio number and associate it with a channel.
+- [List Twilio Phone Numbers](https://docs.syllable.ai/api-reference/channelstwilionumbers/list-twilio-phone-numbers.md): List Twilio phone numbers.
+- [Update Twilio Number](https://docs.syllable.ai/api-reference/channelstwilionumbers/update-twilio-number.md): Update a Twilio number and associate it with a channel.
+- [Verify Twilio Us A2P Compliance](https://docs.syllable.ai/api-reference/channelstwilionumbers/verify-twilio-us-a2p-compliance.md): Return whether Twilio shows this number on a US A2P messaging path with an approved brand.
+- [Get Bridge Phrases Config](https://docs.syllable.ai/api-reference/conversation-config/get-bridge-phrases-config.md): Get the bridge phrases configuration.
+- [Update Bridge Phrases Config](https://docs.syllable.ai/api-reference/conversation-config/update-bridge-phrases-config.md): Update the bridge phrases configuration.
+- [Conversations List](https://docs.syllable.ai/api-reference/conversations/conversations-list.md)
+- [Create Custom Message](https://docs.syllable.ai/api-reference/custom_messages/create-custom-message.md): Create a new custom message
+- [Custom Messages List](https://docs.syllable.ai/api-reference/custom_messages/custom-messages-list.md): List the existing custom_messages
+- [Delete Custom Message](https://docs.syllable.ai/api-reference/custom_messages/delete-custom-message.md): Delete custom message by ID
+- [Get Custom Message By Id](https://docs.syllable.ai/api-reference/custom_messages/get-custom-message-by-id.md): Get the custom message by its ID
+- [Update Custom Message](https://docs.syllable.ai/api-reference/custom_messages/update-custom-message.md): Update a custom message
+- [Post Fetch Info](https://docs.syllable.ai/api-reference/dashboards/post-fetch-info.md): METHOD: POST URL: /dashboard/fetch_info ARGUMENTS: None RETURNS: Dashboard info for embedding
+- [Post List Dashboards](https://docs.syllable.ai/api-reference/dashboards/post-list-dashboards.md): METHOD: POST URL: /dashboard/list ARGUMENTS: None RETURNS: List of dashboards
+- [Post Session Events](https://docs.syllable.ai/api-reference/dashboards/post-session-events.md): METHOD: POST URL: /dashboard/session_events ARGUMENTS: None RETURNS: Dashboard info for embedding DEPRECATED: This endpoint is deprecated. Please use /dashboard/list instead
+- [Post Session Summary](https://docs.syllable.ai/api-reference/dashboards/post-session-summary.md): METHOD: POST URL: /dashboard/session_summary ARGUMENTS: None RETURNS: Dashboard info for embedding DEPRECATED: This endpoint is deprecated. Please use /dashboard/list instead
+- [Post Session Transfers](https://docs.syllable.ai/api-reference/dashboards/post-session-transfers.md): METHOD: POST URL: /dashboard/session_transfers ARGUMENTS: None RETURNS: Dashboard info for embedding DEPRECATED: This endpoint is deprecated. Please use /dashboard/list instead
+- [Post Sessions](https://docs.syllable.ai/api-reference/dashboards/post-sessions.md): METHOD: POST URL: /dashboard/sessions ARGUMENTS: None RETURNS: Dashboard info for embedding DEPRECATED: This endpoint is deprecated. Please use /dashboard/list instead
+- [Create Data Source](https://docs.syllable.ai/api-reference/data_sources/create-data-source.md): Create a new data source.
+- [Delete Data Source](https://docs.syllable.ai/api-reference/data_sources/delete-data-source.md): Delete a given data source.
+- [Get Data Source](https://docs.syllable.ai/api-reference/data_sources/get-data-source.md): Fetch a given data source, including its text.
+- [List Data Sources](https://docs.syllable.ai/api-reference/data_sources/list-data-sources.md): Fetch metadata about all data sources, not including their text.
+- [Update Data Source](https://docs.syllable.ai/api-reference/data_sources/update-data-source.md): Update an existing data source.
+- [Bulk Load Directory Members](https://docs.syllable.ai/api-reference/directory/bulk-load-directory-members.md): Update Directory Members in chunks of 100.
+- [Create Directory Member](https://docs.syllable.ai/api-reference/directory/create-directory-member.md): Create a new member in the directory
+- [Delete Directory Member](https://docs.syllable.ai/api-reference/directory/delete-directory-member.md): Delete a DirectoryMember.
+- [Directory Member List](https://docs.syllable.ai/api-reference/directory/directory-member-list.md): List the directory_members
+- [Download Directory Members](https://docs.syllable.ai/api-reference/directory/download-directory-members.md): Download the entire directory as a JSON file.
+- [Get Directory Member By Id](https://docs.syllable.ai/api-reference/directory/get-directory-member-by-id.md): Get a DirectoryMember by ID.
+- [Get Directory Member History](https://docs.syllable.ai/api-reference/directory/get-directory-member-history.md): Get version history for a directory member (contact). Version 1 is always the oldest; order_by_direction only controls response order.
+- [Restore Directory Member](https://docs.syllable.ai/api-reference/directory/restore-directory-member.md): Restore a soft-deleted directory member.
+- [Test Directory Member Extension](https://docs.syllable.ai/api-reference/directory/test-directory-member-extension.md): Test directory member extension at a specific timestamp and language.
+- [Update Directory Member](https://docs.syllable.ai/api-reference/directory/update-directory-member.md): Update a DirectoryMember.
+- [Events List](https://docs.syllable.ai/api-reference/events/events-list.md)
+- [Create Incident](https://docs.syllable.ai/api-reference/incidents/create-incident.md): Create a new incident
+- [Delete Incident](https://docs.syllable.ai/api-reference/incidents/delete-incident.md): Delete an incident by ID
+- [Get Incident By Id](https://docs.syllable.ai/api-reference/incidents/get-incident-by-id.md): Get incident by ID
+- [Get Organizations](https://docs.syllable.ai/api-reference/incidents/get-organizations.md): Get all organizations
+- [List Incidents](https://docs.syllable.ai/api-reference/incidents/list-incidents.md): List service incidents with pagination and filtering
+- [Update Incident](https://docs.syllable.ai/api-reference/incidents/update-incident.md): Update an existing incident
+- [Insights List](https://docs.syllable.ai/api-reference/insights/insights-list.md): List the evaluated insights for sessions.
+- [Create Insights Upload Folder](https://docs.syllable.ai/api-reference/insightsfolders/create-insights-upload-folder.md)
+- [Delete Insights Folder](https://docs.syllable.ai/api-reference/insightsfolders/delete-insights-folder.md)
+- [Fetch Insights Upload Files](https://docs.syllable.ai/api-reference/insightsfolders/fetch-insights-upload-files.md)
+- [Get Insights Folder Details](https://docs.syllable.ai/api-reference/insightsfolders/get-insights-folder-details.md)
+- [List Insights Upload Folders](https://docs.syllable.ai/api-reference/insightsfolders/list-insights-upload-folders.md)
+- [Move Insights Upload Files](https://docs.syllable.ai/api-reference/insightsfolders/move-insights-upload-files.md)
+- [Update Insights Folder](https://docs.syllable.ai/api-reference/insightsfolders/update-insights-folder.md)
+- [Upload Insights  Upload Folder](https://docs.syllable.ai/api-reference/insightsfolders/upload-insights-upload-folder.md)
+- [Create Insight Tool Configuration](https://docs.syllable.ai/api-reference/insightstools/create-insight-tool-configuration.md): Create a new insight tool.
+- [Delete Insight Tool Configuration](https://docs.syllable.ai/api-reference/insightstools/delete-insight-tool-configuration.md): Delete an Insights tool configuration.
+- [Get Insight Tool Config By Id](https://docs.syllable.ai/api-reference/insightstools/get-insight-tool-config-by-id.md): Get a InsightTool by Name.
+- [Get Insight Tool Definitions](https://docs.syllable.ai/api-reference/insightstools/get-insight-tool-definitions.md): Get a InsightTool by Name.
+- [List Insight Tool Configurations](https://docs.syllable.ai/api-reference/insightstools/list-insight-tool-configurations.md): List the existing insight_tools
+- [Test Insights Tool](https://docs.syllable.ai/api-reference/insightstools/test-insights-tool.md): Manually run the given insight tool against a session and return the response.
+- [Update Insights Tool Configuration](https://docs.syllable.ai/api-reference/insightstools/update-insights-tool-configuration.md): Update an Insights tool.
+- [Activate Insights Workflow](https://docs.syllable.ai/api-reference/insightsworkflows/activate-insights-workflow.md): Activate an InsightWorkflow.
+- [Create Insight Workflow](https://docs.syllable.ai/api-reference/insightsworkflows/create-insight-workflow.md): Create a new tool in the insights
+- [Delete Insights Workflow](https://docs.syllable.ai/api-reference/insightsworkflows/delete-insights-workflow.md): Delete an Insights workflow.
+- [Get Insight Workflow By Id](https://docs.syllable.ai/api-reference/insightsworkflows/get-insight-workflow-by-id.md): Get a InsightWorkflow by ID.
+- [Inactivate Insights Workflow](https://docs.syllable.ai/api-reference/insightsworkflows/inactivate-insights-workflow.md): Inactivate an InsightWorkflow.
+- [Insight Workflow List](https://docs.syllable.ai/api-reference/insightsworkflows/insight-workflow-list.md): List the existing insight_workflows
+- [Queue Insights Workflow For Sessions/Files](https://docs.syllable.ai/api-reference/insightsworkflows/queue-insights-workflow-for-sessionsfiles.md): Manually queue sessions for insights workflow evaluation.
+- [Update Insights Workflow](https://docs.syllable.ai/api-reference/insightsworkflows/update-insights-workflow.md): Update a InsightWorkflow.
+- [Create Language Group](https://docs.syllable.ai/api-reference/language_groups/create-language-group.md): Deprecated alias for `POST /api/v1/voice_groups/`.
+- [Create Voice Sample](https://docs.syllable.ai/api-reference/language_groups/create-voice-sample.md): Deprecated alias for `POST /api/v1/voice_groups/voices/sample`.
+- [Delete Language Group](https://docs.syllable.ai/api-reference/language_groups/delete-language-group.md): Deprecated alias for `DELETE /api/v1/voice_groups/{voice_group_id}`.
+- [Get Language Group](https://docs.syllable.ai/api-reference/language_groups/get-language-group.md): Deprecated alias for `GET /api/v1/voice_groups/{voice_group_id}`.
+- [List Language Groups](https://docs.syllable.ai/api-reference/language_groups/list-language-groups.md): Deprecated alias for `GET /api/v1/voice_groups/`.
+- [Update Language Group](https://docs.syllable.ai/api-reference/language_groups/update-language-group.md): Deprecated alias for `PUT /api/v1/voice_groups/`.
+- [Create Organization](https://docs.syllable.ai/api-reference/organizations/create-organization.md): Create a new organization.
+- [Delete Current Organization](https://docs.syllable.ai/api-reference/organizations/delete-current-organization.md): Delete the current organization and all its users.
+- [Get Current Organization](https://docs.syllable.ai/api-reference/organizations/get-current-organization.md): Fetch the current organization.
+- [Update Current Organization](https://docs.syllable.ai/api-reference/organizations/update-current-organization.md): Update the current organization.
+- [Create Organization Sip Ip Range](https://docs.syllable.ai/api-reference/organizationssip_ip_ranges/create-organization-sip-ip-range.md): Create an unverified SIP signaling/media IP range for the current organization.
+- [Delete Organization Sip Ip Range](https://docs.syllable.ai/api-reference/organizationssip_ip_ranges/delete-organization-sip-ip-range.md): Delete a SIP signaling/media IP range for the current organization.
+- [List Organization Sip Ip Ranges](https://docs.syllable.ai/api-reference/organizationssip_ip_ranges/list-organization-sip-ip-ranges.md): List SIP signaling/media IP ranges for the current organization.
+- [Update Organization Sip Ip Range](https://docs.syllable.ai/api-reference/organizationssip_ip_ranges/update-organization-sip-ip-range.md): Update a SIP IP range. The verified status is managed by Syllable only.
+- [Create Outbound Communication Batch](https://docs.syllable.ai/api-reference/outboundbatches/create-outbound-communication-batch.md)
+- [Create Outbound Communication Request](https://docs.syllable.ai/api-reference/outboundbatches/create-outbound-communication-request.md)
+- [Delete Outbound Communication Batch](https://docs.syllable.ai/api-reference/outboundbatches/delete-outbound-communication-batch.md)
+- [Delete Requests By List Of Reference Ids](https://docs.syllable.ai/api-reference/outboundbatches/delete-requests-by-list-of-reference-ids.md)
+- [Fetch Outbound Communication Batch Results](https://docs.syllable.ai/api-reference/outboundbatches/fetch-outbound-communication-batch-results.md)
+- [Get Outbound Communication Batch](https://docs.syllable.ai/api-reference/outboundbatches/get-outbound-communication-batch.md)
+- [List Outbound Communication Batches](https://docs.syllable.ai/api-reference/outboundbatches/list-outbound-communication-batches.md)
+- [Update Outbound Communication Batch](https://docs.syllable.ai/api-reference/outboundbatches/update-outbound-communication-batch.md)
+- [Upload Outbound Communication Batch](https://docs.syllable.ai/api-reference/outboundbatches/upload-outbound-communication-batch.md)
+- [Create Outbound Communication Campaign](https://docs.syllable.ai/api-reference/outboundcampaigns/create-outbound-communication-campaign.md)
+- [Delete Outbound Communication Campaign](https://docs.syllable.ai/api-reference/outboundcampaigns/delete-outbound-communication-campaign.md)
+- [Get Outbound Communication Campaign](https://docs.syllable.ai/api-reference/outboundcampaigns/get-outbound-communication-campaign.md)
+- [List Outbound Communication Campaigns](https://docs.syllable.ai/api-reference/outboundcampaigns/list-outbound-communication-campaigns.md)
+- [Update Outbound Communication Campaign](https://docs.syllable.ai/api-reference/outboundcampaigns/update-outbound-communication-campaign.md)
+- [List Permissions](https://docs.syllable.ai/api-reference/permissions/list-permissions.md): Get all available permissions in the system.
+- [Create Prompt](https://docs.syllable.ai/api-reference/prompts/create-prompt.md): Create a new prompt
+- [Delete Prompt](https://docs.syllable.ai/api-reference/prompts/delete-prompt.md): Delete a prompt
+- [Get Prompt By Id](https://docs.syllable.ai/api-reference/prompts/get-prompt-by-id.md): Get a prompt by ID
+- [Get Prompt History](https://docs.syllable.ai/api-reference/prompts/get-prompt-history.md): Get a list of historical versions of a prompt by its ID
+- [Get Supported Llm Configs](https://docs.syllable.ai/api-reference/prompts/get-supported-llm-configs.md): Get supported LLM configs.
+- [Prompt List](https://docs.syllable.ai/api-reference/prompts/prompt-list.md): List the existing prompts
+- [Update Prompt](https://docs.syllable.ai/api-reference/prompts/update-prompt.md): Update an existing prompt
+- [Delete Pronunciations Dictionary](https://docs.syllable.ai/api-reference/pronunciations/delete-pronunciations-dictionary.md)
+- [Download Pronunciations Csv](https://docs.syllable.ai/api-reference/pronunciations/download-pronunciations-csv.md)
+- [Get Pronunciations Dictionary](https://docs.syllable.ai/api-reference/pronunciations/get-pronunciations-dictionary.md)
+- [Get Pronunciations Metadata](https://docs.syllable.ai/api-reference/pronunciations/get-pronunciations-metadata.md)
+- [Upload Pronunciations Csv](https://docs.syllable.ai/api-reference/pronunciations/upload-pronunciations-csv.md)
+- [Create Role](https://docs.syllable.ai/api-reference/roles/create-role.md): Create a new role.
+- [Delete Role](https://docs.syllable.ai/api-reference/roles/delete-role.md): Delete a role. Optionally, reassign existing users with that role to a new role.
+- [Get Role](https://docs.syllable.ai/api-reference/roles/get-role.md): Fetch a given role.
+- [List Roles](https://docs.syllable.ai/api-reference/roles/list-roles.md): List the existing roles.
+- [Update Role](https://docs.syllable.ai/api-reference/roles/update-role.md): Update an existing role.
+- [Create Service](https://docs.syllable.ai/api-reference/services/create-service.md): Create a new service.
+- [Delete Service](https://docs.syllable.ai/api-reference/services/delete-service.md): Delete a service. A service with linked tools cannot be deleted.
+- [Get Service By Id](https://docs.syllable.ai/api-reference/services/get-service-by-id.md): Get a service by its ID
+- [Service List](https://docs.syllable.ai/api-reference/services/service-list.md): List the existing services
+- [Update Service](https://docs.syllable.ai/api-reference/services/update-service.md): Update an existing service.
+- [Get Session Data By Session Id](https://docs.syllable.ai/api-reference/session_debug/get-session-data-by-session-id.md)
+- [Get Session Data By Sid](https://docs.syllable.ai/api-reference/session_debug/get-session-data-by-sid.md)
+- [Get Session Tool Call Result By Id](https://docs.syllable.ai/api-reference/session_debug/get-session-tool-call-result-by-id.md)
+- [Create Label](https://docs.syllable.ai/api-reference/session_labels/create-label.md): Create a new label
+- [Get Label By Id](https://docs.syllable.ai/api-reference/session_labels/get-label-by-id.md)
+- [Session Labels List](https://docs.syllable.ai/api-reference/session_labels/session-labels-list.md)
+- [Generate Recording Urls](https://docs.syllable.ai/api-reference/sessions/generate-recording-urls.md)
+- [Get A Single Session By Id](https://docs.syllable.ai/api-reference/sessions/get-a-single-session-by-id.md)
+- [Sessions List](https://docs.syllable.ai/api-reference/sessions/sessions-list.md)
+- [Stream Recording](https://docs.syllable.ai/api-reference/sessions/stream-recording.md)
+- [Get Full Session Summary By Id](https://docs.syllable.ai/api-reference/sessionsfull-summary/get-full-session-summary-by-id.md)
+- [Inspect Latency For Session](https://docs.syllable.ai/api-reference/sessionslatency/inspect-latency-for-session.md)
+- [Get Session Timeline By Id](https://docs.syllable.ai/api-reference/sessionstimeline/get-session-timeline-by-id.md): Consolidated, time-ordered timeline of a session's events.
+- [Get Session Transcript By Id](https://docs.syllable.ai/api-reference/sessionstranscript/get-session-transcript-by-id.md)
+- [Create Takeout](https://docs.syllable.ai/api-reference/takeouts/create-takeout.md)
+- [Get File](https://docs.syllable.ai/api-reference/takeouts/get-file.md)
+- [Get Takeout](https://docs.syllable.ai/api-reference/takeouts/get-takeout.md)
+- [Create Tool](https://docs.syllable.ai/api-reference/tools/create-tool.md): Create a new tool
+- [Delete Tool](https://docs.syllable.ai/api-reference/tools/delete-tool.md): Delete a tool.
+- [Tool History](https://docs.syllable.ai/api-reference/tools/tool-history.md): Get version history for a tool.
+- [Tool Info](https://docs.syllable.ai/api-reference/tools/tool-info.md): Get the details of a specific tool
+- [Tool List](https://docs.syllable.ai/api-reference/tools/tool-list.md): List the existing tools
+- [Update Tool](https://docs.syllable.ai/api-reference/tools/update-tool.md): Update an existing tool
+- [Create User](https://docs.syllable.ai/api-reference/users/create-user.md): Create a new user.
+- [Delete User](https://docs.syllable.ai/api-reference/users/delete-user.md): Delete a user.
+- [Get User](https://docs.syllable.ai/api-reference/users/get-user.md): Fetch a given user.
+- [List Users](https://docs.syllable.ai/api-reference/users/list-users.md): List the existing users.
+- [Request Removal Of This Account](https://docs.syllable.ai/api-reference/users/request-removal-of-this-account.md): Request removal of the account of the user calling this endpoint. Intended for removing trial accounts.
+- [Send User Email](https://docs.syllable.ai/api-reference/users/send-user-email.md): Send a welcome email to a user.
+- [Update User](https://docs.syllable.ai/api-reference/users/update-user.md): Update an existing user.
+- [Create Voice Group](https://docs.syllable.ai/api-reference/voice_groups/create-voice-group.md): Create a new voice group.
+- [Create Voice Sample](https://docs.syllable.ai/api-reference/voice_groups/create-voice-sample.md): Generate voice sample.
+- [Delete Voice Group](https://docs.syllable.ai/api-reference/voice_groups/delete-voice-group.md): Delete a voice group.
+- [Get Voice Group](https://docs.syllable.ai/api-reference/voice_groups/get-voice-group.md): Fetch a given voice group.
+- [List Voice Groups](https://docs.syllable.ai/api-reference/voice_groups/list-voice-groups.md): Fetch voice groups.
+- [Update Voice Group](https://docs.syllable.ai/api-reference/voice_groups/update-voice-group.md): Update an existing voice group
+- [How Syllable works](https://docs.syllable.ai/introsyllable/HowSyllableWorks.md): How to understand the platform architecture and core AI logic using the Syllable developer guide.
+- [Key Features](https://docs.syllable.ai/introsyllable/KeyFeatures.md): How to explore and implement key platform features using the Syllable developer documentation.
+- [Login and signup](https://docs.syllable.ai/introsyllable/LoginSignup.md): How to register and manage your account credentials for the Syllable platform.
+- [Channels](https://docs.syllable.ai/resources/Channels.md): Syllable now works across Voice, SMS, Email, Web chat and WhatsApp. This multi-channel approach lets you setup how your agents communicate with users.
+- [Data Sources](https://docs.syllable.ai/resources/DataSources.md): How to index and manage external knowledge bases using the Syllable Console interface.
+- [Messages](https://docs.syllable.ai/resources/Messages.md)
+- [Organization](https://docs.syllable.ai/resources/Organization.md): How to manage workspace organization and user roles using the Syllable Console interface.
+- [Prompts](https://docs.syllable.ai/resources/Prompts.md): How to build and optimize an AI Agent prompt using the Syllable Console interface.
+- [Telephony Integration](https://docs.syllable.ai/resources/TelephonyIntegration.md): Learn more about SIP and Twilio telephony services using Syllable SDK.
+- [Tools](https://docs.syllable.ai/resources/Tools.md): How to configure and register a new tool for AI agent actions using the Syllable Console interface.
+- [Variables](https://docs.syllable.ai/resources/Variables.md): How to use dynamic variables for personalized agent responses using the Syllable Console interface.
+- [Voices](https://docs.syllable.ai/resources/Voices.md): How to implement and configure voice groups using Syllable SDK and the developer console.
+- [Web Chat](https://docs.syllable.ai/resources/Webchat.md): How to embed and customize the AI chat widget on a website.
+- [Overview](https://docs.syllable.ai/sdk-guides/Overview.md): How to access the platform overview and get started with developer tools using Syllable SDK.
+- [SDK Environment Setup](https://docs.syllable.ai/sdk-guides/SdkSetup.md): How to install and configure the Syllable SDK in your local developer environment.
+- [Create an agent](https://docs.syllable.ai/sdk-guides/sdk-build-first-agent/CreateAgent.md): How to set up and configure a new AI agent related to First Agent using Syllable SDK.
+- [Create a data source](https://docs.syllable.ai/sdk-guides/sdk-build-first-agent/CreateDataSource.md): How to implement and configure create data source related to First Agent using Syllable SDK.
+- [Create a message](https://docs.syllable.ai/sdk-guides/sdk-build-first-agent/CreateMessage.md): How to configure custom greetings and automated messages related to First Agent using Syllable SDK.
+- [Create a prompt](https://docs.syllable.ai/sdk-guides/sdk-build-first-agent/CreatePrompt.md): How to build and optimize a system prompt related to First Agent using Syllable SDK.
+- [Create tools](https://docs.syllable.ai/sdk-guides/sdk-build-first-agent/CreateTools.md): How to configure and register a new tool for AI agent actions related to First Agent using Syllable SDK.
+- [Start here](https://docs.syllable.ai/sdk-guides/sdk-build-first-agent/StartHere.md): How to implement and configure start here related to SDK Build First Agent using Syllable SDK.
+- [Create an agent](https://docs.syllable.ai/tutorials/buildFirstAgent/CreateAgent.md): How to set up and configure a new AI agent related to First Agent using the Syllable Console interface.
+- [Create a data source](https://docs.syllable.ai/tutorials/buildFirstAgent/CreateDataSource.md): How to implement and configure create data source related to First Agent using the Syllable Console interface.
+- [Create a message](https://docs.syllable.ai/tutorials/buildFirstAgent/CreateMessage.md): How to configure custom greetings and automated messages related to First Agent using the Syllable Console interface.
+- [Create a prompt](https://docs.syllable.ai/tutorials/buildFirstAgent/CreatePrompt.md): How to build and optimize a system prompt related to First Agent using the Syllable Console interface.
+- [Create tools](https://docs.syllable.ai/tutorials/buildFirstAgent/CreateTools.md): How to implement and configure create tools related to First Agent using the Syllable Console interface.
+- [Overview](https://docs.syllable.ai/tutorials/buildFirstAgent/Quickstart.md): How to architect and design effective AI agent conversation flows related to First Agent using the Syllable Console interface.
+- [Create an agent](https://docs.syllable.ai/tutorials/buildHomeMortgageAgent/CreateAgent.md): How to set up and configure a new AI agent related to Home Mortgage Agent using the Syllable Console interface.
+- [Create a message](https://docs.syllable.ai/tutorials/buildHomeMortgageAgent/CreateMessage.md): How to configure custom greetings and automated messages related to Home Mortgage Agent using the Syllable Console interface.
+- [Create a prompt](https://docs.syllable.ai/tutorials/buildHomeMortgageAgent/CreatePrompt.md): How to build and optimize a system prompt related to Home Mortgage Agent using the Syllable Console interface.
+- [Create a tool](https://docs.syllable.ai/tutorials/buildHomeMortgageAgent/CreateTool.md): How to configure and register a new tool for AI agent actions related to Home Mortgage Agent using the Syllable Console interface.
+- [Overview](https://docs.syllable.ai/tutorials/buildHomeMortgageAgent/Overview.md): How to build and implement a Home Mortgage Agent using the Syllable Console interface.
+- [Add languages (optional)](https://docs.syllable.ai/tutorials/buildMedicalRecordsAgent/AddLanguages.md): How to implement and configure additional languages related to Medical Records Agent using the Syllable Console interface.
+- [Attach tools](https://docs.syllable.ai/tutorials/buildMedicalRecordsAgent/AttachTools.md): How to enable autonomous actions by attaching tools related to Medical Records Agent using the Syllable Console interface.
+- [Create an agent](https://docs.syllable.ai/tutorials/buildMedicalRecordsAgent/CreateAgent.md): How to set up and configure a new AI agent related to Medical Records Agent using the Syllable Console interface.
+- [Create a batch](https://docs.syllable.ai/tutorials/buildMedicalRecordsAgent/CreateBatch.md): How to create and upload a batch for an active campaign related to Medical Records Agent using the Syllable Console interface.
+- [Create a campaign](https://docs.syllable.ai/tutorials/buildMedicalRecordsAgent/CreateCampaign.md): How to set up and manage an outbound campaign related to Medical Records Agent using the Syllable Console interface.
+- [Create a channel](https://docs.syllable.ai/tutorials/buildMedicalRecordsAgent/CreateChannel.md): How to provision and link a telephony channel related to Medical Records Agent using the Syllable Console interface.
+- [Create a message](https://docs.syllable.ai/tutorials/buildMedicalRecordsAgent/CreateMessage.md): How to configure custom greetings and automated messages related to Medical Records Agent using the Syllable Console interface.
+- [Create a prompt](https://docs.syllable.ai/tutorials/buildMedicalRecordsAgent/CreatePrompt.md): How to build and optimize a system prompt related to Medical Records Agent using the Syllable Console interface.
+- [Overiew](https://docs.syllable.ai/tutorials/buildMedicalRecordsAgent/Overview.md): How to build and implement a Medical Records Agent using the Syllable Console interface.
+- [Create an agent](https://docs.syllable.ai/tutorials/buildShopifyAgent/CreateAgent.md): How to set up and configure a new AI agent related to Shopify Agent using the Syllable Console interface.
+- [Create a data source](https://docs.syllable.ai/tutorials/buildShopifyAgent/CreateDataSource.md): How to implement and configure create data source related to Shopify Agent using the Syllable Console interface.
+- [Create a message](https://docs.syllable.ai/tutorials/buildShopifyAgent/CreateMessage.md): How to implement and configure messages related to Shopify Agent using the Syllable Console interface.
+- [Create a prompt](https://docs.syllable.ai/tutorials/buildShopifyAgent/CreatePrompt.md): How to build and optimize a system prompt related to Shopify Agent using the Syllable Console interface.
+- [Proxy service](https://docs.syllable.ai/tutorials/buildShopifyAgent/CreateProxyService.md): How to implement and configure create proxy service related to Shopify Agent using the Syllable Console interface.
+- [Create tools](https://docs.syllable.ai/tutorials/buildShopifyAgent/CreateTools.md): How to implement and configure create tools related to Shopify Agent using the Syllable Console interface.
+- [Embedding your agent on Shopify Storefront](https://docs.syllable.ai/tutorials/buildShopifyAgent/EmbeddingAgentOnShopify.md): How to embed the AI agent onto a Shopify store website using the Syllable Console interface.
+- [Shopify integration](https://docs.syllable.ai/tutorials/buildShopifyAgent/ShopifyIntegration.md): How to implement and configure shopify integration related to Shopify Agent using the Syllable Console interface.
+- [Overview](https://docs.syllable.ai/tutorials/buildShopifyAgent/StartHere.md): How to build and implement a Shopify Agent using the Syllable Console interface.
+- [Testing your agent](https://docs.syllable.ai/tutorials/buildShopifyAgent/TestingAgent.md): How to verify and test AI agent performance and logic related to Shopify Agent using the Syllable Console interface.
+- [Create an agent](https://docs.syllable.ai/tutorials/buildTestDriveAgent/CreateAgent.md): How to set up and configure a new AI agent related to Test Drive Agent using the Syllable Console interface.
+- [Create a batch](https://docs.syllable.ai/tutorials/buildTestDriveAgent/CreateBatch.md): How to create and upload a batch for an active campaign related to Test Drive Agent using the Syllable Console interface.
+- [Create a campaign](https://docs.syllable.ai/tutorials/buildTestDriveAgent/CreateCampaign.md): How to implement and configure create campaign related to Test Drive Agent using the Syllable Console interface.
+- [Create a channel](https://docs.syllable.ai/tutorials/buildTestDriveAgent/CreateChannel.md): How to provision and link a telephony channel related to Test Drive Agent using the Syllable Console interface.
+- [Create a data source](https://docs.syllable.ai/tutorials/buildTestDriveAgent/CreateDataSource.md): How to implement and configure create data source related to Test Drive Agent using the Syllable Console interface.
+- [Create a message](https://docs.syllable.ai/tutorials/buildTestDriveAgent/CreateMessage.md): How to configure custom greetings and automated messages related to Test Drive Agent using the Syllable Console interface.
+- [Create a prompt](https://docs.syllable.ai/tutorials/buildTestDriveAgent/CreatePrompt.md): How to build and optimize a system prompt related to Test Drive Agent using the Syllable Console interface.
+- [Create a Google service account](https://docs.syllable.ai/tutorials/buildTestDriveAgent/CreateServiceAccount.md): How to implement and configure create service account related to Test Drive Agent using the Syllable Console interface.
+- [Create tools](https://docs.syllable.ai/tutorials/buildTestDriveAgent/CreateTool.md): How to configure and register a new tool for AI agent actions related to Test Drive Agent using the Syllable Console interface.
+- [Overview](https://docs.syllable.ai/tutorials/buildTestDriveAgent/Overview.md): How to build and implement a Test Drive Agent using the Syllable Console interface.
+- [Example 1: Hello World](https://docs.syllable.ai/tutorials/stepTools/example-01-hello-world.md): Build the simplest possible Step Workflow with a single greeting step
+- [Example 2: Collect Input](https://docs.syllable.ai/tutorials/stepTools/example-02-collect-input.md): Add input parameters with automatic validation to your workflow
+- [Example 3: Multi-Step Flow](https://docs.syllable.ai/tutorials/stepTools/example-03-multi-step.md): Chain multiple steps together to build a complete contact form workflow
+- [Example 4: Lifecycle Actions](https://docs.syllable.ai/tutorials/stepTools/example-04-lifecycle.md): Add polish with welcome messages, progress indicators, and counters using lifecycle hooks
+- [Example 5: Conditional Branching](https://docs.syllable.ai/tutorials/stepTools/example-05-conditional.md): Implement smart routing based on user preferences with conditional transitions
+- [Example 6: Retry Loop](https://docs.syllable.ai/tutorials/stepTools/example-06-retry.md): Add validation with retry attempts and graceful error handling
+- [Example 7: Tool Integration](https://docs.syllable.ai/tutorials/stepTools/example-07-integration.md): Integrate external APIs and implement progressive tool disclosure patterns
+- [Step Workflows](https://docs.syllable.ai/tutorials/stepTools/index.md): Complete documentation for building multi-step AI agent workflows with progressive disclosure
+- [Overview](https://docs.syllable.ai/tutorials/stepTools/overview.md): Learn about Step Workflows progressive disclosure pattern for AI agents and when to use it
+- [Reference](https://docs.syllable.ai/tutorials/stepTools/reference.md): Complete technical reference for Step Workflow configuration options, lifecycle hooks, and actions
+- [Tutorial Overview](https://docs.syllable.ai/tutorials/stepTools/tutorial-overview.md): Introduction to the hands-on Step Workflows tutorial series building a contact form workflow
+- [Agents](https://docs.syllable.ai/workspaces/Agents.md): How to set up and configure a new AI agent using the Syllable Console interface.
+- [Campaigns](https://docs.syllable.ai/workspaces/Campaigns.md): How to set up and manage outbound campaigns using the Syllable Console interface.
+- [Dashboards](https://docs.syllable.ai/workspaces/Dashboards.md): How to analyze agent performance using real-time dashboards using the Syllable Console interface.
+- [Sessions](https://docs.syllable.ai/workspaces/Sessions.md): How to monitor agent interaction sessions using the Syllable Console interface.
+- [Insights](https://docs.syllable.ai/workspaces/Workflows.md): How to create automated insight workflows for call analysis using the Syllable Console interface.
+
+## OpenAPI Specs
+
+- [syllable-sdk-oas-with-code-samples](https://spec.speakeasy.com/syllable/syllable/syllable-sdk-oas-with-code-samples)
+- [mint-backup](https://docs.syllable.ai/mint-backup.json)
+- [openapi](https://docs.syllable.ai/openapi.yaml)
+- [openapi-final](https://docs.syllable.ai/openapi-final.json)

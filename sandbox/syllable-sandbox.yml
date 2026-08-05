@@ -1,0 +1,75 @@
+generated: '2026-08-05'
+method: searched
+source:
+- https://syllable.ai/pricing
+- https://github.com/asksyllable/syllable-cli
+- openapi/syllable-sdk-openapi-original.yml
+summary: >-
+  Syllable has no separate sandbox host and publishes no magic test values (no test card
+  numbers, test phone-number ranges, or test-mode key prefixes). Testing happens against
+  the real platform, on a free-trial account with a limited minute allowance, using the
+  auto-generated per-agent test channel and the CLI's dry-run mode. Multiple named
+  environments per org are supported by the CLI config, but only "prod" is built in — any
+  other environment (for example a staging base URL) comes from a customer-specific
+  provisioning step, not from a public sandbox.
+test_account:
+  free_trial: true
+  signup: https://syllable.cloud/sign-up
+  credit_card_required: false
+  allowance: limited-minute allowance, max 3 minutes per call
+  credit_expiry: credits remain active as long as the account is open
+  paid_entry: metered pay-as-you-go, $150 initial prepayment with $100 auto-recharge below $50
+test_vs_live_separation:
+  key_prefixes: null
+  modes: null
+  note: >-
+    No test-mode/live-mode key distinction is documented. One API token per organization;
+    isolation is achieved by using a separate organization or sub-organization rather than
+    a test key. The CLI config supports several orgs and several environments per org.
+in_platform_testing:
+- name: Auto-generated agent test channel
+  description: >-
+    A test channel is auto-generated for every agent so it can be exercised before going
+    live. Documented in the syllable-cli README's platform overview.
+- name: Agent test message endpoint
+  description: Send a message to an agent under test.
+  operation_id: send_test_message
+  tag: agents.test
+- name: Voice testing
+  description: >-
+    Voice testing capabilities in the console, expanded in release v26.7.28; a Responsive
+    Dialogue testing toggle for voice-mode agents shipped in v26.6.27.
+  source: https://syllable.ai/release-notes/
+- name: Session debug
+  description: Session debug operations for inspecting a completed session.
+  tag: session_debug
+cli_simulation:
+- flag: --dry-run
+  description: >-
+    Prints the exact request that would be sent (method, url, body) and, since CLI v2.0.0,
+    any missing_required_fields — without sending it.
+- flag: --debug
+  description: Prints the full HTTP request/response to stderr with credentials redacted.
+- flag: --output json
+  description: Returns the full raw API response and machine-readable errors for assertions.
+environments:
+  builtin:
+  - prod
+  configurable: true
+  config_file: ~/.syllable/config.yaml
+  note: >-
+    Non-prod environments are declared per customer in the CLI config with their own
+    base_url and API key; they are provisioned via `syllable setup`, not published.
+magic_values:
+  test_cards: null
+  test_phone_numbers: null
+  test_identifiers: null
+  note: >-
+    None published. Deliberately recorded as absent rather than invented.
+x-evidence:
+- url: https://syllable.ai/pricing
+  http_status: 200
+- url: https://syllable.cloud/sign-up
+  http_status: 200
+- url: https://api.github.com/repos/asksyllable/syllable-cli
+  http_status: 200

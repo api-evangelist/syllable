@@ -1,0 +1,78 @@
+generated: '2026-08-05'
+method: searched
+source:
+- https://trust.syllable.ai
+- openapi/syllable-sdk-openapi-original.yml
+- https://syllable.ai/pricing
+standards:
+- id: openapi-3.1
+  conforms: true
+  evidence: openapi/syllable-sdk-openapi-original.yml declares openapi 3.1.0, 107 paths, 176 operations, 310 component schemas
+- id: json-schema-2020-12
+  conforms: true
+  evidence: implied by OpenAPI 3.1.0 schema dialect
+- id: api-key-auth
+  conforms: true
+  evidence: components.securitySchemes.APIKeyHeader (apiKey, in header, Syllable-API-Key)
+- id: oauth2
+  conforms: false
+  evidence: no oauth2 security scheme in the spec and no OAuth documentation; scopes/ is therefore not emitted
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration returns 404 on every host
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: all error responses are application/json; no application/problem+json anywhere in the spec
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on syllable.ai, docs.syllable.ai and api.syllable.cloud
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: no Sunset or Deprecation response header declared; 12 operations carry only in-spec deprecated:true
+- id: pagination
+  conforms: true
+  evidence: page/limit on 30 operations with order_by, order_by_direction, search_fields, search_field_values and a ListResponse envelope
+- id: idempotency
+  conforms: false
+  evidence: no Idempotency-Key header or parameter anywhere in the 176-operation spec
+- id: webhook-hmac-signing
+  conforms: true
+  evidence: OutboundCampaignWebhookInput.auth_values.hmac_secret, base64 RFC 4648, 32-512 bytes of key material
+- id: a2a
+  conforms: partial
+  evidence: agent card served at docs.syllable.ai/.well-known/agent-card.json; graded flavored against A2A 1.0.0 (see a2a/syllable-a2a.yml)
+- id: mcp
+  conforms: true
+  evidence: JSON-RPC tools/list responds 200 anonymously at https://docs.syllable.ai/mcp (documentation scope)
+- id: llms-txt
+  conforms: true
+  evidence: llms.txt served on both docs.syllable.ai and syllable.ai
+compliance_program:
+  published: true
+  url: https://trust.syllable.ai
+  certifications:
+  - SOC 2 Type 2
+  - HIPAA
+  - HITRUST
+  - GDPR
+  additional_documents:
+  - CAIQ Lite (Cloud Security Alliance self-assessment)
+  - Application penetration test report
+  - AI Security & Transparency Statement
+  - Syllable + EU AI Act
+  regulatory_context:
+  - EU AI Act
+  eu_representative:
+    organization: Instant EU GDPR Representative Ltd.
+    contact: contact@gdprlocal.com
+  note: >-
+    Certifications are named on the trust center; the underlying reports are behind a
+    document-request flow, which is normal. Recorded as published claims, not as verified
+    audit evidence.
+x-evidence:
+- url: https://trust.syllable.ai
+  http_status: 200
+- url: https://api.syllable.cloud/.well-known/openid-configuration
+  http_status: 404
+- url: https://api.syllable.cloud/.well-known/security.txt
+  http_status: 404

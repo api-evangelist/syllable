@@ -1,0 +1,350 @@
+generated: '2026-08-05'
+method: derived
+source:
+- mcp/syllable-mcp.yml
+- openapi/syllable-sdk-openapi-original.yml
+summary: 'Syllable publishes both a real OpenAPI (176 operations on api.syllable.cloud) and a real, anonymously-introspectable
+  MCP server (3 tools on docs.syllable.ai). They do not overlap at all: the MCP server is a documentation-search
+  surface, so no MCP tool binds to a REST operation and every platform capability is REST-only. The agent-facing
+  path to the platform API is the first-party Go CLI, which ships a provider-authored Claude Code skill covering
+  the same resources.'
+surfaces:
+  openapi:
+    file: openapi/syllable-sdk-openapi-original.yml
+    host: https://api.syllable.cloud
+    operations: 176
+    gated: false
+    note: Spec is served publicly from spec.speakeasy.com; calling the API needs a Syllable-API-Key.
+  mcp:
+    url: https://docs.syllable.ai/mcp
+    tools: 3
+    gated: false
+    note: tools/list responds 200 anonymously; scope is documentation only.
+  graphql:
+    endpoint: null
+    note: No GraphQL surface found on any Syllable host.
+crosswalk: []
+mcp_only:
+- tool: search_syllable_sdk
+  reason: Documentation search over the Mintlify docs corpus. No REST equivalent — the platform API has no docs-search
+    operation.
+- tool: query_docs_filesystem_syllable_sdk
+  reason: Read-only virtual filesystem over documentation pages and OpenAPI specs. No REST equivalent.
+- tool: submit_feedback
+  reason: Files documentation feedback to the docs team. No REST equivalent; unrelated to the platform API.
+rest_only:
+- capability: V1
+  operations: 7
+  operation_ids:
+  - users_create
+  - users_delete
+  - users_delete_account
+  - users_get_by_email
+  - users_list
+  - users_send_email
+  - users_update
+- capability: agents
+  operations: 7
+  operation_ids:
+  - agent_create
+  - agent_delete
+  - agent_get_available_voices
+  - agent_get_by_id
+  - agent_list
+  - agent_list_active_labels
+  - agent_update
+- capability: agents.test
+  operations: 1
+  operation_ids:
+  - send_test_message
+- capability: bridge_phrases
+  operations: 5
+  operation_ids:
+  - bridge_phrases_create
+  - bridge_phrases_delete
+  - bridge_phrases_get_by_id
+  - bridge_phrases_list
+  - bridge_phrases_update
+- capability: channels
+  operations: 4
+  operation_ids:
+  - channel_targets_delete
+  - channels_create
+  - channels_list
+  - channels_update
+- capability: channels.targets
+  operations: 5
+  operation_ids:
+  - available_targets
+  - channel_targets_create
+  - channel_targets_get_by_id
+  - channel_targets_list
+  - channel_targets_update
+- capability: channels.twilio
+  operations: 3
+  operation_ids:
+  - channels_twilio_create
+  - channels_twilio_get_by_id
+  - channels_twilio_update
+- capability: channels.twilio.numbers
+  operations: 4
+  operation_ids:
+  - channels_twilio_numbers_a2p_compliance_check
+  - channels_twilio_numbers_add
+  - channels_twilio_numbers_list
+  - channels_twilio_numbers_update
+- capability: conversation-config
+  operations: 2
+  operation_ids:
+  - get_bridge_phrases_config
+  - update_bridge_phrases_config
+- capability: conversations
+  operations: 1
+  operation_ids:
+  - conversations_list
+- capability: custom_messages
+  operations: 5
+  operation_ids:
+  - custom_message_get_by_id
+  - custom_messages_create
+  - custom_messages_delete
+  - custom_messages_list
+  - custom_messages_update
+- capability: dashboards
+  operations: 6
+  operation_ids:
+  - post_get_dashboard
+  - post_list_dashboard
+  - post_session_events_dashboard
+  - post_session_summary_dashboard
+  - post_session_transfers_dashboard
+  - post_sessions_dashboard
+- capability: data_sources
+  operations: 5
+  operation_ids:
+  - data_sources_create
+  - data_sources_delete
+  - data_sources_get_by_id
+  - data_sources_list
+  - data_sources_update
+- capability: directory
+  operations: 10
+  operation_ids:
+  - directory_member_bulk_load
+  - directory_member_create
+  - directory_member_delete
+  - directory_member_download
+  - directory_member_get_by_id
+  - directory_member_history
+  - directory_member_list
+  - directory_member_restore
+  - directory_member_test_extension
+  - directory_member_update
+- capability: events
+  operations: 1
+  operation_ids:
+  - events_list
+- capability: incidents
+  operations: 6
+  operation_ids:
+  - incident_create
+  - incident_delete
+  - incident_get_by_id
+  - incident_get_organizations
+  - incident_list
+  - incident_update
+- capability: insights
+  operations: 1
+  operation_ids:
+  - insights_list
+- capability: insights.folders
+  operations: 8
+  operation_ids:
+  - insights_folder_create
+  - insights_folder_delete
+  - insights_folder_get_by_id
+  - insights_folder_list
+  - insights_folder_update
+  - insights_folder_upload_file
+  - insights_upload_list_files
+  - insights_upload_move_files
+- capability: insights.tools
+  operations: 7
+  operation_ids:
+  - insight_tool_get_by_id
+  - insight_tool_get_definitions
+  - insight_tool_list
+  - insights_tool_create
+  - insights_tool_delete
+  - insights_tool_test
+  - insights_tool_update
+- capability: insights.workflows
+  operations: 8
+  operation_ids:
+  - insights_workflow_activate
+  - insights_workflow_create
+  - insights_workflow_delete
+  - insights_workflow_get_by_id
+  - insights_workflow_inactivate
+  - insights_workflow_list
+  - insights_workflow_queue_work
+  - insights_workflow_update
+- capability: language_groups
+  operations: 6
+  operation_ids:
+  - language_groups_create
+  - language_groups_create_voice_sample
+  - language_groups_delete
+  - language_groups_get_by_id
+  - language_groups_list
+  - language_groups_update
+- capability: organizations
+  operations: 4
+  operation_ids:
+  - organizations_create
+  - organizations_delete
+  - organizations_get
+  - organizations_update
+- capability: organizations.sip_ip_ranges
+  operations: 4
+  operation_ids:
+  - organization_sip_ip_ranges_create
+  - organization_sip_ip_ranges_delete
+  - organization_sip_ip_ranges_list
+  - organization_sip_ip_ranges_update
+- capability: outbound.batches
+  operations: 9
+  operation_ids:
+  - outbound_batch_add
+  - outbound_batch_create
+  - outbound_batch_delete
+  - outbound_batch_get_by_id
+  - outbound_batch_list
+  - outbound_batch_remove
+  - outbound_batch_results
+  - outbound_batch_update
+  - outbound_batch_upload
+- capability: outbound.campaigns
+  operations: 5
+  operation_ids:
+  - outbound_campaign_create
+  - outbound_campaign_delete
+  - outbound_campaign_get_by_id
+  - outbound_campaign_list
+  - outbound_campaign_update
+- capability: permissions
+  operations: 1
+  operation_ids:
+  - permissions_list
+- capability: prompts
+  operations: 7
+  operation_ids:
+  - prompt_get_supported_llms
+  - prompts_create
+  - prompts_delete
+  - prompts_get_by_id
+  - prompts_history
+  - prompts_list
+  - prompts_update
+- capability: pronunciations
+  operations: 5
+  operation_ids:
+  - pronunciations_delete_csv
+  - pronunciations_download_csv
+  - pronunciations_get
+  - pronunciations_get_metadata
+  - pronunciations_upload_csv
+- capability: roles
+  operations: 5
+  operation_ids:
+  - roles_create
+  - roles_delete
+  - roles_get_by_id
+  - roles_list
+  - roles_update
+- capability: services
+  operations: 5
+  operation_ids:
+  - service_create
+  - service_delete
+  - service_list
+  - service_update
+  - services_get_by_id
+- capability: session_debug
+  operations: 3
+  operation_ids:
+  - get_session_data_by_session_id
+  - get_session_data_by_sid
+  - get_session_tool_call_result_by_id
+- capability: session_labels
+  operations: 3
+  operation_ids:
+  - session_label_create
+  - session_label_get_by_id
+  - session_labels_list
+- capability: sessions
+  operations: 4
+  operation_ids:
+  - generate_session_recording_urls
+  - session_get_by_id
+  - session_recording_stream
+  - sessions_list
+- capability: sessions.full-summary
+  operations: 1
+  operation_ids:
+  - session_full_summary_get_by_id
+- capability: sessions.latency
+  operations: 1
+  operation_ids:
+  - session_latency_get_by_id
+- capability: sessions.timeline
+  operations: 1
+  operation_ids:
+  - session_timeline_get_by_id
+- capability: sessions.transcript
+  operations: 1
+  operation_ids:
+  - session_transcript_get_by_id
+- capability: takeouts
+  operations: 3
+  operation_ids:
+  - takeouts_create
+  - takeouts_get_by_job_id
+  - takeouts_get_file
+- capability: tools
+  operations: 6
+  operation_ids:
+  - tool_create
+  - tool_delete
+  - tool_get_by_name
+  - tool_history
+  - tool_list
+  - tool_update
+- capability: users
+  operations: 7
+  operation_ids:
+  - users_create
+  - users_delete
+  - users_delete_account
+  - users_get_by_email
+  - users_list
+  - users_send_email
+  - users_update
+- capability: voice_groups
+  operations: 6
+  operation_ids:
+  - voice_groups_create
+  - voice_groups_create_voice_sample
+  - voice_groups_delete
+  - voice_groups_get_by_id
+  - voice_groups_list
+  - voice_groups_update
+coverage:
+  tools_named: 3
+  tools_bound_to_rest: 0
+  mcp_only: 3
+  rest_operations_total: 176
+  rest_operations_with_a_tool: 0
+  binding_rate: 0.0
+confidence_note: No mapping is asserted because none exists. The two surfaces are genuinely disjoint; inventing
+  bindings between docs tools and platform operations would be fabrication.

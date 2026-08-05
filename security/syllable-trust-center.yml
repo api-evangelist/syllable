@@ -1,0 +1,44 @@
+generated: '2026-08-05'
+method: searched
+probe: true
+source: https://trust.syllable.ai/
+url: https://trust.syllable.ai/
+certifications:
+- SOC 2 Type 2
+- HIPAA
+- HITRUST
+- GDPR
+evidence:
+- source: https://trust.syllable.ai/
+  keywords:
+  - soc 2
+  - hipaa
+  - trust center
+  - gdpr
+- source: https://trust.syllable.ai
+  fetched: '2026-08-05'
+  http_status: 200
+  keywords:
+  - soc 2 type 2
+  - hipaa
+  - hitrust
+  - gdpr
+  - eu ai act
+  - caiq lite
+  - pentest report
+additional_documents:
+- CAIQ Lite (Cloud Security Alliance self-assessment)
+- Application penetration test report
+- AI Security & Transparency Statement
+- Syllable + EU AI Act
+regulatory_context:
+- EU AI Act
+eu_representative:
+  organization: Instant EU GDPR Representative Ltd.
+  contact: contact@gdprlocal.com
+  address: Office 2, 12A Lower Main Street, Lucan Co. Dublin K78 X5P8, Ireland
+vulnerability_disclosure:
+  published: false
+  note: No responsible-disclosure policy, bug bounty program, or security.txt was found. The trust center
+    names a GDPR representative but no security contact. security/syllable-vulnerability-disclosure.yml
+    is deliberately not written, and no Security pointer is emitted in apis.yml.

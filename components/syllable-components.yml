@@ -1,0 +1,76 @@
+generated: '2026-08-05'
+method: searched
+source: https://docs.syllable.ai/resources/Webchat
+docs: https://docs.syllable.ai/resources/Webchat
+components:
+- family: Web Chat
+  name: Syllable Web Chat
+  kind: embeddable-widget
+  description: >-
+    Embedded, secure web chat application for registered third-party domains. Maintains
+    the session across pages under the same domain and can be branded per client. Renders
+    as a launcher button in the corner of a page, or into a caller-supplied container.
+  loaders:
+  - kind: npm
+    package: '@syllableai/webchat'
+    install: npm install @syllableai/webchat
+    version_seen: 1.0.3
+    usage: |
+      import SyllableWebChat from '@syllableai/webchat';
+      const webChat = new SyllableWebChat({ clientId: 'MY_CLIENT_ID' });
+      webChat.init();
+  - kind: cdn
+    script: https://cdn.syllable.ai/scripts/webchat/syllable-webchat.latest.min.js
+    pinned_form: https://cdn.syllable.ai/scripts/webchat/syllable-webchat.[VERSION].min.js
+    global: window.SyllableWebChat
+  mount_point: '#syllable-webchat-container (optional; otherwise appended to body)'
+  required_configuration:
+  - name: clientId
+    description: Unique key identifying a specific Syllable AI target. Provisioned by Syllable support.
+  - name: domain
+    description: The domain where the web chat will be deployed; must be registered with Syllable.
+  provisioning: >-
+    Registering a web chat instance and obtaining a Client Id requires contacting
+    support@syllable.ai. It is not self-serve.
+  customization_parameters:
+  - session_timeout_m
+  - header_title
+  - header_subtitle
+  - header_bgcolor
+  - header_image_url
+  - info_text
+  - info_button_label
+  - info_button_bgcolor
+  - info_button_bgcolor_hover
+  - message_required
+  - input_placeholder
+  - embed_mode
+  - chat_button_bgcolor
+  - chat_button_bgcolor_hover
+  - chat_button_image_url
+  - chat_agent_bubble_bgcolor
+  - chat_user_bubble_bgcolor
+  - chat_error_bubble_bgcolor
+  - chat_error_bubble_start_session
+  - chat_error_bubble_failed_message
+  - session_expired_label
+  - session_ended_label
+  - start_session_button_label
+- family: Web Cards
+  name: Syllable Web Cards
+  kind: rendered-response-surface
+  description: >-
+    Graphical cards that render structured data inside the Web Chat channel. A tool must
+    return a card-formatted response and be defined with options.propagate_tool_result set
+    to true so the result reaches Web Chat.
+  requires:
+  - Web Chat channel
+  - 'tool definition options: {"propagate_tool_result": true}'
+  docs: https://docs.syllable.ai/resources/Webchat
+live_example: https://syllable.ai/ (Syllable logo, bottom right)
+support: support@syllable.ai
+x-evidence:
+- url: https://docs.syllable.ai/resources/Webchat.md
+  http_status: 200
+- url: https://registry.npmjs.org/@syllableai/webchat
+  http_status: 200

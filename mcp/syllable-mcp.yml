@@ -1,0 +1,66 @@
+generated: '2026-08-05'
+method: searched
+status: published
+source: https://docs.syllable.ai/mcp
+server:
+  name: syllable-sdk-docs
+  transport: http
+  url: https://docs.syllable.ai/mcp
+  auth: none
+  introspection: anonymous
+  note: >-
+    tools/list returns 200 anonymously over a text/event-stream response, so the tool
+    set below is the live, real inputSchema-bearing manifest, not a reconstruction.
+scope: documentation
+scope_note: >-
+  This is a documentation MCP server, not a platform-API MCP server. Its three tools
+  search and read the Syllable SDK documentation corpus and file docs feedback; none of
+  them call the api.syllable.cloud platform API. An agent that needs to operate Syllable
+  resources uses the REST API, the TypeScript/Python SDKs, or the first-party Go CLI
+  (which ships its own Claude Code skill) — see mcp/syllable-tool-crosswalk.yml.
+  Probes for a platform MCP server at api.syllable.cloud/mcp (404), syllable.ai/mcp (405)
+  and mcp.syllable.ai (DNS does not resolve) all missed.
+tools:
+- name: search_syllable_sdk
+  title: Search documentation
+  description: >-
+    Search across the Syllable SDK knowledge base to find relevant information, code
+    examples, API references, and guides. Returns contextual content with titles and
+    direct links to documentation pages.
+  input_schema_properties:
+  - query
+  source_operation: null
+  binding: docs-corpus
+- name: query_docs_filesystem_syllable_sdk
+  title: null
+  description: >-
+    Run a read-only shell-like query against a virtualized, in-memory filesystem rooted
+    at / that contains ONLY the Syllable SDK documentation pages and OpenAPI specs.
+  input_schema_properties:
+  - command
+  source_operation: null
+  binding: docs-corpus
+- name: submit_feedback
+  title: Submit documentation feedback
+  description: >-
+    Report a problem with this documentation site so the docs team can fix it. For
+    feedback about the documentation itself, not about the product.
+  input_schema_properties:
+  - path
+  - feedback
+  source_operation: null
+  binding: docs-feedback
+verbatim_manifest: syllable-mcp-tools.json
+x-evidence:
+  fetched: '2026-08-05'
+  url: https://docs.syllable.ai/mcp
+  method: 'POST {"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+  http_status: 200
+  content_type: text/event-stream
+  negative_probes:
+  - url: https://api.syllable.cloud/mcp
+    http_status: 404
+  - url: https://syllable.ai/mcp
+    http_status: 405
+  - url: https://docs.syllable.ai/sse
+    http_status: 405

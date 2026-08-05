@@ -1,0 +1,49 @@
+generated: '2026-08-05'
+method: searched
+source:
+- openapi/syllable-sdk-openapi-original.yml
+- https://docs.syllable.ai/account/APITokens
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+  oauth2_flows: []
+schemes:
+- name: APIKeyHeader
+  type: apiKey
+  in: header
+  parameter: Syllable-API-Key
+  sources:
+  - openapi/syllable-sdk-openapi-original.yml
+  description: Organization API token. Generated from the Syllable Console profile menu -> "API tokens".
+    Exactly one token per organization; the value is displayed once at creation and cannot be retrieved
+    again. Tokens show a creation timestamp and an expiry timestamp and can be revoked from the console.
+    Sub-organizations get their own token.
+docs: https://docs.syllable.ai/account/APITokens
+token_lifecycle:
+  issuance: Syllable Console -> profile -> API tokens -> Generate
+  tokens_per_org: 1
+  shown_once: true
+  expiry: displayed per token
+  revocable: true
+  rotation: revoke and regenerate
+  docs: https://docs.syllable.ai/account/APITokens
+client_side:
+  cli_env_var: SYLLABLE_API_KEY
+  cli_config: ~/.syllable/config.yaml
+  cli_note: Multi-org and multi-environment; managed via `syllable setup`, never hand-edited.
+not_supported:
+  oauth2: false
+  openid_connect: false
+  mutual_tls: false
+  basic_auth: false
+  note: 'No OAuth2 or OIDC anywhere: no oauth2 securityScheme in the spec and /.well-known/openid-configuration
+    and /.well-known/oauth-authorization-server 404 on every host. scopes/ is therefore not emitted for
+    this provider.'
+x-evidence:
+- url: https://docs.syllable.ai/account/APITokens.md
+  http_status: 200
+- url: https://api.syllable.cloud/api/v1/openapi.json
+  http_status: 401
+  note: Unauthorized / Missing Authorization header — confirms the API is key-gated.

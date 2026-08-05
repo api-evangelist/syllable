@@ -42,5 +42,41 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Syllable is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://forgeglobal.com/syllable_stock/
+Syllable is a Mountain View, California company (founded 2017) that operates an agentic platform for
+building, deploying and optimizing AI voice, SMS, email, web-chat and WhatsApp agents, with a strong
+focus on healthcare patient experience and contact-center automation.
+
+- Website: https://syllable.ai/
+- Documentation: https://docs.syllable.ai/
+- Console / sign-up: https://syllable.cloud/sign-up
+- GitHub: https://github.com/asksyllable
+- Status: https://syllable.statuspage.io
+- Trust center: https://trust.syllable.ai
+
+## API surface
+
+The **Syllable Platform SDK API** is served from `https://api.syllable.cloud` under `/api/v1`, with a
+real OpenAPI 3.1.0 document (**176 operations, 107 paths, 310 component schemas**) published at
+`https://spec.speakeasy.com/syllable/syllable/syllable-sdk-oas-with-code-samples` and rendered into the
+documentation site. Authentication is a per-organization API token in the `Syllable-API-Key` header.
+
+Agent-facing surfaces are unusually complete for a company this size:
+
+| Surface | Where |
+|---|---|
+| OpenAPI 3.1.0 | `openapi/` (harvested verbatim, with code samples) |
+| MCP server | `https://docs.syllable.ai/mcp` — anonymous `tools/list`, 3 tools, documentation scope |
+| A2A agent card | `https://docs.syllable.ai/.well-known/agent-card.json` — graded *flavored* against A2A 1.0.0 |
+| Provider agent skills | a Claude Code skill in the CLI repo, plus a `/.well-known/agent-skills/` skill |
+| llms.txt | on both `docs.syllable.ai` and `syllable.ai` |
+| SDKs | `syllable-sdk` on npm and PyPI; `@syllableai/webchat` for the embeddable widget |
+| CLI | `asksyllable/syllable-cli` (Go), Homebrew cask, "built for humans and AI agents" |
+
+## Notable gaps
+
+- **No `security.txt`** on any host, despite a trust center carrying SOC 2 Type 2, HIPAA, HITRUST and GDPR.
+- **No idempotency contract** — no `Idempotency-Key` on any of the 176 operations.
+- **No documented rate limits** — no `429`, `Retry-After` or `X-RateLimit-*` in the spec.
+- **No deprecation policy or `Sunset` header**, though 12 operations are marked `deprecated: true`.
+- **No AsyncAPI**; the only event surface is per-campaign outbound webhooks (HMAC-signed).
+- Errors are plain `application/json`, not RFC 9457.

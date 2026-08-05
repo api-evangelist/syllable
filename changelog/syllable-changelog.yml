@@ -1,0 +1,75 @@
+generated: '2026-08-05'
+method: searched
+source: https://syllable.ai/release-notes/
+url: https://syllable.ai/release-notes/
+scheme: date-based
+scheme_pattern: vYY.M.DD
+current_version: v26.7.30
+window: recent (2026-06-27 through 2026-07-30)
+note: >-
+  Syllable publishes a dated product release-notes stream on its marketing site rather
+  than a versioned API changelog in the docs. Entries are platform-wide (console, agents,
+  telephony, insights) and mix fixes with additions; breaking-change callouts are not a
+  separate section. The API itself is pinned at /api/v1 and the OpenAPI carries
+  info.version 0.0.3, so release dates — not API versions — are the moving part.
+  Separately, the Go CLI is semver'd and its v2.0.0 release documents explicit breaking
+  changes (see cli/syllable-cli.yml).
+entries:
+- version: v26.7.30
+  date: '2026-07-30'
+  breaking: false
+  highlights:
+  - Campaign setup shows only channel sources compatible with the selected mode
+  - Agent creation works immediately in newly created sub-organizations
+  - Contact alias search and improved outbound session timestamps
+- version: v26.7.28
+  date: '2026-07-28'
+  breaking: false
+  highlights:
+  - Pin an agent to a specific prompt version or follow the latest automatically
+  - Richer voice testing capabilities
+  - New Insights workflow actions
+- version: v26.7.23
+  date: '2026-07-23'
+  breaking: false
+  highlights:
+  - Step Tool cards preview what each step says and which tools it calls
+  - Review workflows at a glance without opening individual steps
+- version: v26.7.21
+  date: '2026-07-21'
+  breaking: false
+  highlights:
+  - Voice groups can be duplicated from the table or the details page
+  - Sessions view highlights related transcript and inspect items on hover
+  - Responsive Dialogue no longer repeats replies
+- version: v26.7.16
+  date: '2026-07-16'
+  breaking: false
+  highlights:
+  - New voicemail detection mode for outbound calls
+  - Rule editor filters outbound campaign calls by line type, carrier and country code
+- version: v26.7.14
+  date: '2026-07-14'
+  breaking: false
+  highlights:
+  - Agents automatically use the latest model version
+  - Auto-created Syllable Voice/SMS channels include Responsive Dialogue by default
+  - Custom-role permission errors resolved
+- version: v26.7.7
+  date: '2026-07-07'
+  breaking: false
+  highlights:
+  - SMS channel targets creatable in the UI
+  - Step Tool steps can be duplicated
+  - User transcripts captured for outbound sessions ending before speech recognition
+- version: v26.6.27
+  date: '2026-06-27'
+  breaking: false
+  highlights:
+  - Redesigned Sessions page with full session timeline
+  - Responsive Dialogue testing toggle for voice-mode agents
+  - Prompt Update API temperature validation
+x-evidence:
+  fetched: '2026-08-05'
+  url: https://syllable.ai/release-notes/
+  http_status: 200

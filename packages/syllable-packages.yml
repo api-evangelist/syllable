@@ -1,0 +1,63 @@
+generated: '2026-08-05'
+method: searched
+source: https://docs.syllable.ai/sdk-guides/SdkSetup
+docs: https://docs.syllable.ai/sdk-guides/SdkSetup
+note: 'Registries probed: npm, PyPI, pkg.go.dev, Maven Central, NuGet, RubyGems, Packagist, crates.io.
+  Two first-party client libraries are published (TypeScript and Python), both Speakeasy-generated from
+  the same OpenAPI at spec.speakeasy.com and both linked from the provider''s own SDK setup page. The
+  Go CLI is distributed as a Homebrew cask and GitHub release binary rather than through a package registry;
+  its command surface is captured separately in cli/syllable-cli.yml. Unrelated registry namesakes ("syllable"
+  on npm = words/syllable hyphenation library; "syllable" on PyPI = bgarcial/syllable) are deliberately
+  excluded.'
+packages:
+- language: typescript
+  registry: npm
+  name: syllable-sdk
+  url: https://www.npmjs.com/package/syllable-sdk
+  source: https://github.com/asksyllable/syllable-sdk-typescript
+  install: npm add syllable-sdk
+  alternate_installs:
+  - pnpm add syllable-sdk
+  - bun add syllable-sdk
+  - yarn add syllable-sdk zod
+  version_seen: 1.0.54
+  official: true
+- language: python
+  registry: pypi
+  name: syllable-sdk
+  url: https://pypi.org/project/syllable-sdk/
+  source: https://github.com/asksyllable/syllable-sdk-python
+  install: pip install syllable-sdk
+  version_seen: 0.48.18
+  official: true
+- language: go
+  registry: homebrew
+  name: syllable
+  url: https://github.com/asksyllable/syllable-cli
+  install: brew tap asksyllable/syllable-cli https://github.com/asksyllable/syllable-cli && brew install
+    --cask syllable
+  alternate_installs:
+  - curl -fsSL https://github.com/asksyllable/syllable-cli/releases/latest/download/install.sh | sh
+  kind: cli
+  official: true
+- language: javascript
+  registry: npm
+  name: '@syllableai/webchat'
+  url: https://www.npmjs.com/package/@syllableai/webchat
+  install: npm install @syllableai/webchat
+  version_seen: 1.0.3
+  kind: ui-component
+  note: Embeddable Web Chat widget; also distributed via https://cdn.syllable.ai/scripts/webchat/. See
+    components/syllable-components.yml.
+  official: true
+x-evidence:
+- url: https://registry.npmjs.org/syllable-sdk
+  http_status: 200
+- url: https://pypi.org/pypi/syllable-sdk/json
+  http_status: 200
+- url: https://api.github.com/repos/asksyllable/syllable-cli
+  http_status: 200
+- url: https://docs.syllable.ai/sdk-guides/SdkSetup.md
+  http_status: 200
+- url: https://registry.npmjs.org/@syllableai/webchat
+  http_status: 200

@@ -1,0 +1,98 @@
+generated: '2026-08-05'
+method: searched
+source:
+- https://syllable.ai/release-notes/
+- https://syllable.statuspage.io
+- openapi/syllable-sdk-openapi-original.yml
+versioning:
+  scheme: uri-path
+  current: v1
+  prefix: /api/v1
+  spec_version: 0.0.3
+  platform_release_scheme: date-based vYY.M.DD
+  docs: https://syllable.ai/release-notes/
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: 'No published deprecation or sunset policy was found on syllable.ai or docs.syllable.ai, and no Sunset or
+    Deprecation response header is declared in the OpenAPI. Deprecation is signalled only in-spec, via deprecated:
+    true on individual operations (listed below). Because there is no policy page, no Deprecation pointer is emitted
+    in apis.yml — this is a real gap on the provider side, not a harvesting miss.'
+  deprecated_operation_count: 12
+sla:
+  url: null
+  uptime_target: null
+  note: No public SLA or uptime commitment was found; pricing is metered pay-as-you-go with a free trial.
+status_page: https://syllable.statuspage.io
+status_page_evidence:
+  url: https://syllable.statuspage.io
+  http_status: 200
+  title: Syllable Status
+  control_check: A non-existent tenant (zzznotarealcompanyxyz.statuspage.io) also returns 200 but renders the generic
+    Atlassian Statuspage marketing page; the Syllable subdomain renders a real tenant status page titled "Syllable
+    Status". Verified against that control before crediting.
+deprecated_operations:
+- operation_id: channels_twilio_update
+  method: PUT
+  path: /api/v1/channels/twilio/
+  tags:
+  - channels.twilio
+- operation_id: channels_twilio_create
+  method: POST
+  path: /api/v1/channels/twilio/
+  tags:
+  - channels.twilio
+- operation_id: post_session_events_dashboard
+  method: POST
+  path: /api/v1/dashboards/session_events
+  tags:
+  - dashboards
+- operation_id: post_session_summary_dashboard
+  method: POST
+  path: /api/v1/dashboards/session_summary
+  tags:
+  - dashboards
+- operation_id: post_session_transfers_dashboard
+  method: POST
+  path: /api/v1/dashboards/session_transfers
+  tags:
+  - dashboards
+- operation_id: post_sessions_dashboard
+  method: POST
+  path: /api/v1/dashboards/sessions
+  tags:
+  - dashboards
+- operation_id: language_groups_list
+  method: GET
+  path: /api/v1/language_groups/
+  tags:
+  - language_groups
+- operation_id: language_groups_create
+  method: POST
+  path: /api/v1/language_groups/
+  tags:
+  - language_groups
+- operation_id: language_groups_update
+  method: PUT
+  path: /api/v1/language_groups/
+  tags:
+  - language_groups
+- operation_id: language_groups_get_by_id
+  method: GET
+  path: /api/v1/language_groups/{language_group_id}
+  tags:
+  - language_groups
+- operation_id: language_groups_delete
+  method: DELETE
+  path: /api/v1/language_groups/{language_group_id}
+  tags:
+  - language_groups
+- operation_id: language_groups_create_voice_sample
+  method: POST
+  path: /api/v1/language_groups/voices/sample
+  tags:
+  - language_groups
+support:
+  contact: https://syllable.ai/contact-us/
+  cli_issues: https://github.com/asksyllable/syllable-cli/issues
+  docs_feedback_tool: submit_feedback via https://docs.syllable.ai/mcp
