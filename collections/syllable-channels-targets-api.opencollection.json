@@ -1,0 +1,254 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SyllableSDK Channels.targets API",
+    "version": "0.0.3"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "channels.targets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Available Targets List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.syllable.cloud/api/v1/channels/available-targets",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number from which to start (0-based)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of items to return"
+              },
+              {
+                "name": "search_fields",
+                "value": "",
+                "type": "query",
+                "description": "String names of fields to search. Correspond by index to search field values"
+              },
+              {
+                "name": "search_field_values",
+                "value": "",
+                "type": "query",
+                "description": "Values of fields to search. Correspond by index to search fields. Unless field name contains \"list\", an individual search field value cannot be a list"
+              },
+              {
+                "name": "order_by",
+                "value": "",
+                "type": "query",
+                "description": "The field whose value should be used to order the results"
+              },
+              {
+                "name": "order_by_direction",
+                "value": "",
+                "type": "query",
+                "description": "The direction in which to order the results"
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "The fields to include in the response"
+              },
+              {
+                "name": "start_datetime",
+                "value": "",
+                "type": "query",
+                "description": "The start datetime for filtering results"
+              },
+              {
+                "name": "end_datetime",
+                "value": "",
+                "type": "query",
+                "description": "The end datetime for filtering results"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List the available phone numbers"
+        },
+        {
+          "info": {
+            "name": "Get Channel Targets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.syllable.cloud/api/v1/channels/targets",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number from which to start (0-based)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of items to return"
+              },
+              {
+                "name": "search_fields",
+                "value": "",
+                "type": "query",
+                "description": "String names of fields to search. Correspond by index to search field values"
+              },
+              {
+                "name": "search_field_values",
+                "value": "",
+                "type": "query",
+                "description": "Values of fields to search. Correspond by index to search fields. Unless field name contains \"list\", an individual search field value cannot be a list"
+              },
+              {
+                "name": "order_by",
+                "value": "",
+                "type": "query",
+                "description": "The field whose value should be used to order the results"
+              },
+              {
+                "name": "order_by_direction",
+                "value": "",
+                "type": "query",
+                "description": "The direction in which to order the results"
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "The fields to include in the response"
+              },
+              {
+                "name": "start_datetime",
+                "value": "",
+                "type": "query",
+                "description": "The start datetime for filtering results"
+              },
+              {
+                "name": "end_datetime",
+                "value": "",
+                "type": "query",
+                "description": "The end datetime for filtering results"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List channel targets for the current suborg.\n\nSupports the standard `ListManager` filters via `search_fields`/`search_field_values`. In\naddition to `target_mode` (single value), `target_mode_list` accepts a comma-separated list of\nmodes (e.g. `voice,sms`) and matches targets whose mode is any of the listed values. Whitespace\naround tokens is tolerated and empty tokens are ignored. If both `target_mode` and\n`target_mode_list` are supplied, the two filters are combined with AND. `target_mode_list`"
+        },
+        {
+          "info": {
+            "name": "Assign A Channel Target",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.syllable.cloud/api/v1/channels/:channel_id/targets",
+            "params": [
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Assign A Channel Target"
+        },
+        {
+          "info": {
+            "name": "Get A Channel Target",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.syllable.cloud/api/v1/channels/:channel_id/targets/:target_id",
+            "params": [
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "target_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get A Channel Target"
+        },
+        {
+          "info": {
+            "name": "Edit Channel Target",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.syllable.cloud/api/v1/channels/:channel_id/targets/:target_id",
+            "params": [
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "target_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update channel target by ID"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

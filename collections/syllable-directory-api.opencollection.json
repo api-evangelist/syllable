@@ -1,0 +1,390 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SyllableSDK Directory API",
+    "version": "0.0.3"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "directory",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Directory Member List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.syllable.cloud/api/v1/directory_members/",
+            "params": [
+              {
+                "name": "include_deleted",
+                "value": "",
+                "type": "query",
+                "description": "If true, include soft-deleted members in the list. Default excludes them."
+              },
+              {
+                "name": "response_format",
+                "value": "",
+                "type": "query",
+                "description": "Directory response format: normalized (default) strips @hours and formats times; raw returns stored @hours values."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (0-based)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Items per page"
+              },
+              {
+                "name": "search_fields",
+                "value": "",
+                "type": "query",
+                "description": "Fields to search; aligns with search_field_values"
+              },
+              {
+                "name": "search_field_values",
+                "value": "",
+                "type": "query",
+                "description": "Values for search_fields in matching order"
+              },
+              {
+                "name": "order_by",
+                "value": "",
+                "type": "query",
+                "description": "Field to order results by"
+              },
+              {
+                "name": "order_by_direction",
+                "value": "",
+                "type": "query",
+                "description": "Direction to order results"
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "Fields to include in response"
+              },
+              {
+                "name": "start_datetime",
+                "value": "",
+                "type": "query",
+                "description": "Start datetime for filtering results"
+              },
+              {
+                "name": "end_datetime",
+                "value": "",
+                "type": "query",
+                "description": "End datetime for filtering results"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List the directory_members"
+        },
+        {
+          "info": {
+            "name": "Create Directory Member",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.syllable.cloud/api/v1/directory_members/",
+            "params": [
+              {
+                "name": "response_format",
+                "value": "",
+                "type": "query",
+                "description": "Directory response format: normalized (default) strips @hours and formats times; raw returns stored @hours values."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create a new member in the directory"
+        },
+        {
+          "info": {
+            "name": "Get Directory Member History",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.syllable.cloud/api/v1/directory_members/:member_id/history",
+            "params": [
+              {
+                "name": "member_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (0-based)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Items per page"
+              },
+              {
+                "name": "order_by_direction",
+                "value": "",
+                "type": "query",
+                "description": "Sort by oldest first (asc) or newest first (desc). Version 1 is always the oldest."
+              },
+              {
+                "name": "response_format",
+                "value": "",
+                "type": "query",
+                "description": "Directory response format: normalized (default) strips @hours and formats times; raw returns stored @hours values."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get version history for a directory member (contact).\nVersion 1 is always the oldest; order_by_direction only controls response order."
+        },
+        {
+          "info": {
+            "name": "Get Directory Member By Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.syllable.cloud/api/v1/directory_members/:member_id",
+            "params": [
+              {
+                "name": "member_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "response_format",
+                "value": "",
+                "type": "query",
+                "description": "Directory response format: normalized (default) strips @hours and formats times; raw returns stored @hours values."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get a DirectoryMember by ID."
+        },
+        {
+          "info": {
+            "name": "Update Directory Member",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.syllable.cloud/api/v1/directory_members/:member_id",
+            "params": [
+              {
+                "name": "member_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "response_format",
+                "value": "",
+                "type": "query",
+                "description": "Directory response format: normalized (default) strips @hours and formats times; raw returns stored @hours values."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update a DirectoryMember."
+        },
+        {
+          "info": {
+            "name": "Delete Directory Member",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.syllable.cloud/api/v1/directory_members/:member_id",
+            "params": [
+              {
+                "name": "member_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "comment",
+                "value": "",
+                "type": "query",
+                "description": "Comment stored in version history for this deletion"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete a DirectoryMember."
+        },
+        {
+          "info": {
+            "name": "Test Directory Member Extension",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.syllable.cloud/api/v1/directory_members/:member_id/test",
+            "params": [
+              {
+                "name": "member_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "timestamp",
+                "value": "",
+                "type": "query",
+                "description": "Timestamp for test in ISO 8601 format (e.g., 2025-12-04T14:29:39)"
+              },
+              {
+                "name": "language_code",
+                "value": "",
+                "type": "query",
+                "description": "Optional language code for test"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Test directory member extension at a specific timestamp and language."
+        },
+        {
+          "info": {
+            "name": "Restore Directory Member",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.syllable.cloud/api/v1/directory_members/:member_id/restore",
+            "params": [
+              {
+                "name": "member_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "response_format",
+                "value": "",
+                "type": "query",
+                "description": "Directory response format for the restored member."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Restore a soft-deleted directory member."
+        },
+        {
+          "info": {
+            "name": "Bulk Load Directory Members",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.syllable.cloud/api/v1/directory_members/upload/",
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update Directory Members in chunks of 100."
+        },
+        {
+          "info": {
+            "name": "Download Directory Members",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.syllable.cloud/api/v1/directory_members/download/",
+            "params": [
+              {
+                "name": "response_format",
+                "value": "",
+                "type": "query",
+                "description": "Directory response format: normalized (default) strips @hours and formats times; raw returns stored @hours values."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Download the entire directory as a JSON file."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

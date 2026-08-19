@@ -1,0 +1,1000 @@
+{
+  "item": [
+    {
+      "id": "4684bc0a-806f-41fb-b3f3-5ad368175403",
+      "name": "bridge_phrases",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "efbdf6c0-c703-4378-9e49-b236a571916e",
+          "name": "List Bridge Phrases",
+          "request": {
+            "name": "List Bridge Phrases",
+            "description": {
+              "content": "Fetch bridge phrases configs.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "bridge_phrases",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "The page number from which to start (0-based)"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "25",
+                  "description": "The maximum number of items to return"
+                },
+                {
+                  "disabled": false,
+                  "key": "order_by",
+                  "value": "<string>",
+                  "description": "The field whose value should be used to order the results"
+                },
+                {
+                  "disabled": false,
+                  "key": "order_by_direction",
+                  "value": "<string>",
+                  "description": "The direction in which to order the results"
+                },
+                {
+                  "disabled": false,
+                  "key": "fields",
+                  "value": "<string>",
+                  "description": "The fields to include in the response"
+                },
+                {
+                  "disabled": false,
+                  "key": "fields",
+                  "value": "<string>",
+                  "description": "The fields to include in the response"
+                },
+                {
+                  "disabled": false,
+                  "key": "start_datetime",
+                  "value": "<string>",
+                  "description": "The start datetime for filtering results"
+                },
+                {
+                  "disabled": false,
+                  "key": "end_datetime",
+                  "value": "<string>",
+                  "description": "The end datetime for filtering results"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Syllable-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "7ab9f8c8-0c29-4523-9170-cf36b612b33d",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "bridge_phrases",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "25"
+                    },
+                    {
+                      "key": "order_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order_by_direction",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_datetime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "end_datetime",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"name\": \"string\",\n      \"id\": 317,\n      \"updated_at\": \"1978-02-11T06:30:35.065Z\",\n      \"last_updated_by\": \"string\",\n      \"description\": \"string\",\n      \"config\": {\n        \"phrases\": {\n          \"messages\": [\n            \"string\",\n            \"string\"\n          ],\n          \"localized\": {\n            \"es-US\": {\n              \"messages\": [\n                \"Un momento, por favor.\"\n              ]\n            },\n            \"fr-FR\": {\n              \"messages\": [\n                \"Un instant, je vous en prie.\"\n              ]\n            }\n          }\n        },\n        \"tools\": [\n          {\n            \"tool_name\": \"string\",\n            \"phrases\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"tool_name\": \"string\",\n            \"phrases\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"smart_turn_timeout_seconds\": 2.7847274743457824,\n        \"randomize_bridge_phrases\": false\n      },\n      \"is_default\": false,\n      \"edit_comments\": \"string\",\n      \"agents_info\": [\n        {\n          \"id\": 6967,\n          \"name\": \"string\"\n        },\n        {\n          \"id\": 6046,\n          \"name\": \"string\"\n        }\n      ]\n    },\n    {\n      \"name\": \"string\",\n      \"id\": 9309,\n      \"updated_at\": \"1958-09-12T23:47:10.029Z\",\n      \"last_updated_by\": \"string\",\n      \"description\": \"string\",\n      \"config\": {\n        \"phrases\": {\n          \"messages\": [\n            \"string\",\n            \"string\"\n          ],\n          \"localized\": {\n            \"es-US\": {\n              \"messages\": [\n                \"Un momento, por favor.\"\n              ]\n            },\n            \"fr-FR\": {\n              \"messages\": [\n                \"Un instant, je vous en prie.\"\n              ]\n            }\n          }\n        },\n        \"tools\": [\n          {\n            \"tool_name\": \"string\",\n            \"phrases\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"tool_name\": \"string\",\n            \"phrases\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"smart_turn_timeout_seconds\": 11.422489643139073,\n        \"randomize_bridge_phrases\": false\n      },\n      \"is_default\": false,\n      \"edit_comments\": \"string\",\n      \"agents_info\": [\n        {\n          \"id\": 5001,\n          \"name\": \"string\"\n        },\n        {\n          \"id\": 5855,\n          \"name\": \"string\"\n        }\n      ]\n    }\n  ],\n  \"page\": 4672,\n  \"page_size\": 8446,\n  \"total_pages\": 3813,\n  \"total_count\": 6515\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3012cbff-d0b7-4aaf-b3fe-1ec8c0f98929",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "bridge_phrases",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "25"
+                    },
+                    {
+                      "key": "order_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order_by_direction",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_datetime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "end_datetime",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e1d50160-29ad-4b30-9f00-78b9d446ddcd",
+          "name": "Create Bridge Phrases",
+          "request": {
+            "name": "Create Bridge Phrases",
+            "description": {
+              "content": "Create a new bridge phrases config.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "bridge_phrases",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Syllable-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"config\": {\n    \"phrases\": {\n      \"messages\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"localized\": {\n        \"key_0\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        },\n        \"key_1\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        }\n      }\n    },\n    \"tools\": [\n      {\n        \"tool_name\": \"<string>\",\n        \"phrases\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"localized\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      {\n        \"tool_name\": \"<string>\",\n        \"phrases\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"localized\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      }\n    ],\n    \"smart_turn_timeout_seconds\": \"<number>\",\n    \"randomize_bridge_phrases\": false\n  },\n  \"is_default\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "82513d5d-697e-4a84-9057-1408382fa357",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "bridge_phrases",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"config\": {\n    \"phrases\": {\n      \"messages\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"localized\": {\n        \"key_0\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        },\n        \"key_1\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        }\n      }\n    },\n    \"tools\": [\n      {\n        \"tool_name\": \"<string>\",\n        \"phrases\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"localized\": {\n            \"es-US\": {\n              \"messages\": [\n                \"Un momento, por favor.\"\n              ]\n            },\n            \"fr-FR\": {\n              \"messages\": [\n                \"Un instant, je vous en prie.\"\n              ]\n            }\n          }\n        }\n      },\n      {\n        \"tool_name\": \"<string>\",\n        \"phrases\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"localized\": {\n            \"es-US\": {\n              \"messages\": [\n                \"Un momento, por favor.\"\n              ]\n            },\n            \"fr-FR\": {\n              \"messages\": [\n                \"Un instant, je vous en prie.\"\n              ]\n            }\n          }\n        }\n      }\n    ],\n    \"smart_turn_timeout_seconds\": \"<number>\",\n    \"randomize_bridge_phrases\": false\n  },\n  \"is_default\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"id\": 1637,\n  \"updated_at\": \"2008-03-13T11:35:58.750Z\",\n  \"last_updated_by\": \"string\",\n  \"description\": \"string\",\n  \"config\": {\n    \"phrases\": {\n      \"messages\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"localized\": {\n        \"key_0\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        }\n      }\n    },\n    \"tools\": [\n      {\n        \"tool_name\": \"<string>\",\n        \"phrases\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"localized\": {\n            \"es-US\": {\n              \"messages\": [\n                \"Un momento, por favor.\"\n              ]\n            },\n            \"fr-FR\": {\n              \"messages\": [\n                \"Un instant, je vous en prie.\"\n              ]\n            }\n          }\n        }\n      },\n      {\n        \"tool_name\": \"<string>\",\n        \"phrases\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"localized\": {\n            \"es-US\": {\n              \"messages\": [\n                \"Un momento, por favor.\"\n              ]\n            },\n            \"fr-FR\": {\n              \"messages\": [\n                \"Un instant, je vous en prie.\"\n              ]\n            }\n          }\n        }\n      }\n    ],\n    \"smart_turn_timeout_seconds\": \"<number>\",\n    \"randomize_bridge_phrases\": false\n  },\n  \"is_default\": false,\n  \"edit_comments\": \"string\",\n  \"agents_info\": [\n    {\n      \"id\": 4507,\n      \"name\": \"string\"\n    },\n    {\n      \"id\": 4442,\n      \"name\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "82c74092-a885-4e9d-8276-0ad982765ed3",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "bridge_phrases",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"config\": {\n    \"phrases\": {\n      \"messages\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"localized\": {\n        \"key_0\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        },\n        \"key_1\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        }\n      }\n    },\n    \"tools\": [\n      {\n        \"tool_name\": \"<string>\",\n        \"phrases\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"localized\": {\n            \"es-US\": {\n              \"messages\": [\n                \"Un momento, por favor.\"\n              ]\n            },\n            \"fr-FR\": {\n              \"messages\": [\n                \"Un instant, je vous en prie.\"\n              ]\n            }\n          }\n        }\n      },\n      {\n        \"tool_name\": \"<string>\",\n        \"phrases\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"localized\": {\n            \"es-US\": {\n              \"messages\": [\n                \"Un momento, por favor.\"\n              ]\n            },\n            \"fr-FR\": {\n              \"messages\": [\n                \"Un instant, je vous en prie.\"\n              ]\n            }\n          }\n        }\n      }\n    ],\n    \"smart_turn_timeout_seconds\": \"<number>\",\n    \"randomize_bridge_phrases\": false\n  },\n  \"is_default\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "42dac9c2-3364-40e7-9afe-245c60bb680d",
+          "name": "Update Bridge Phrases",
+          "request": {
+            "name": "Update Bridge Phrases",
+            "description": {
+              "content": "Update an existing bridge phrases config.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "bridge_phrases",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Syllable-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"config\": {\n    \"phrases\": {\n      \"messages\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"localized\": {\n        \"key_0\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        }\n      }\n    },\n    \"tools\": [\n      {\n        \"tool_name\": \"<string>\",\n        \"phrases\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"localized\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_3\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      {\n        \"tool_name\": \"<string>\",\n        \"phrases\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"localized\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_3\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      }\n    ],\n    \"smart_turn_timeout_seconds\": \"<number>\",\n    \"randomize_bridge_phrases\": false\n  },\n  \"is_default\": \"<boolean>\",\n  \"edit_comments\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "304369b2-032a-4bfe-9d90-80a74ac96ff6",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "bridge_phrases",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"config\": {\n    \"phrases\": {\n      \"messages\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"localized\": {\n        \"key_0\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        }\n      }\n    },\n    \"tools\": [\n      {\n        \"tool_name\": \"<string>\",\n        \"phrases\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"localized\": {\n            \"es-US\": {\n              \"messages\": [\n                \"Un momento, por favor.\"\n              ]\n            },\n            \"fr-FR\": {\n              \"messages\": [\n                \"Un instant, je vous en prie.\"\n              ]\n            }\n          }\n        }\n      },\n      {\n        \"tool_name\": \"<string>\",\n        \"phrases\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"localized\": {\n            \"es-US\": {\n              \"messages\": [\n                \"Un momento, por favor.\"\n              ]\n            },\n            \"fr-FR\": {\n              \"messages\": [\n                \"Un instant, je vous en prie.\"\n              ]\n            }\n          }\n        }\n      }\n    ],\n    \"smart_turn_timeout_seconds\": \"<number>\",\n    \"randomize_bridge_phrases\": false\n  },\n  \"is_default\": \"<boolean>\",\n  \"edit_comments\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"id\": 1637,\n  \"updated_at\": \"2008-03-13T11:35:58.750Z\",\n  \"last_updated_by\": \"string\",\n  \"description\": \"string\",\n  \"config\": {\n    \"phrases\": {\n      \"messages\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"localized\": {\n        \"key_0\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        }\n      }\n    },\n    \"tools\": [\n      {\n        \"tool_name\": \"<string>\",\n        \"phrases\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"localized\": {\n            \"es-US\": {\n              \"messages\": [\n                \"Un momento, por favor.\"\n              ]\n            },\n            \"fr-FR\": {\n              \"messages\": [\n                \"Un instant, je vous en prie.\"\n              ]\n            }\n          }\n        }\n      },\n      {\n        \"tool_name\": \"<string>\",\n        \"phrases\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"localized\": {\n            \"es-US\": {\n              \"messages\": [\n                \"Un momento, por favor.\"\n              ]\n            },\n            \"fr-FR\": {\n              \"messages\": [\n                \"Un instant, je vous en prie.\"\n              ]\n            }\n          }\n        }\n      }\n    ],\n    \"smart_turn_timeout_seconds\": \"<number>\",\n    \"randomize_bridge_phrases\": false\n  },\n  \"is_default\": false,\n  \"edit_comments\": \"string\",\n  \"agents_info\": [\n    {\n      \"id\": 4507,\n      \"name\": \"string\"\n    },\n    {\n      \"id\": 4442,\n      \"name\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "45a66eee-d623-4515-9d1b-f1121b82954f",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "bridge_phrases",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"id\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"config\": {\n    \"phrases\": {\n      \"messages\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"localized\": {\n        \"key_0\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        }\n      }\n    },\n    \"tools\": [\n      {\n        \"tool_name\": \"<string>\",\n        \"phrases\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"localized\": {\n            \"es-US\": {\n              \"messages\": [\n                \"Un momento, por favor.\"\n              ]\n            },\n            \"fr-FR\": {\n              \"messages\": [\n                \"Un instant, je vous en prie.\"\n              ]\n            }\n          }\n        }\n      },\n      {\n        \"tool_name\": \"<string>\",\n        \"phrases\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"localized\": {\n            \"es-US\": {\n              \"messages\": [\n                \"Un momento, por favor.\"\n              ]\n            },\n            \"fr-FR\": {\n              \"messages\": [\n                \"Un instant, je vous en prie.\"\n              ]\n            }\n          }\n        }\n      }\n    ],\n    \"smart_turn_timeout_seconds\": \"<number>\",\n    \"randomize_bridge_phrases\": false\n  },\n  \"is_default\": \"<boolean>\",\n  \"edit_comments\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "12ba9649-b3d9-454e-845b-46cdc8b8e319",
+          "name": "Get Bridge Phrases",
+          "request": {
+            "name": "Get Bridge Phrases",
+            "description": {
+              "content": "Fetch a given bridge phrases config.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "bridge_phrases",
+                ":bridge_phrases_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "bridge_phrases_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Syllable-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "68426f2b-4831-4734-847c-061ef18f3f3a",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "bridge_phrases",
+                    ":bridge_phrases_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "bridge_phrases_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"id\": 1637,\n  \"updated_at\": \"2008-03-13T11:35:58.750Z\",\n  \"last_updated_by\": \"string\",\n  \"description\": \"string\",\n  \"config\": {\n    \"phrases\": {\n      \"messages\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"localized\": {\n        \"key_0\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ]\n        }\n      }\n    },\n    \"tools\": [\n      {\n        \"tool_name\": \"<string>\",\n        \"phrases\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"localized\": {\n            \"es-US\": {\n              \"messages\": [\n                \"Un momento, por favor.\"\n              ]\n            },\n            \"fr-FR\": {\n              \"messages\": [\n                \"Un instant, je vous en prie.\"\n              ]\n            }\n          }\n        }\n      },\n      {\n        \"tool_name\": \"<string>\",\n        \"phrases\": {\n          \"messages\": [\n            \"<string>\",\n            \"<string>\"\n          ],\n          \"localized\": {\n            \"es-US\": {\n              \"messages\": [\n                \"Un momento, por favor.\"\n              ]\n            },\n            \"fr-FR\": {\n              \"messages\": [\n                \"Un instant, je vous en prie.\"\n              ]\n            }\n          }\n        }\n      }\n    ],\n    \"smart_turn_timeout_seconds\": \"<number>\",\n    \"randomize_bridge_phrases\": false\n  },\n  \"is_default\": false,\n  \"edit_comments\": \"string\",\n  \"agents_info\": [\n    {\n      \"id\": 4507,\n      \"name\": \"string\"\n    },\n    {\n      \"id\": 4442,\n      \"name\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3b2bfdf6-688f-404d-83bb-51b4b06eaf91",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "bridge_phrases",
+                    ":bridge_phrases_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "bridge_phrases_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6147b067-76fe-4095-acf9-9eadeebd7125",
+          "name": "Delete Bridge Phrases",
+          "request": {
+            "name": "Delete Bridge Phrases",
+            "description": {
+              "content": "Delete a bridge phrases config.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "bridge_phrases",
+                ":bridge_phrases_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "reason",
+                  "value": "<string>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "bridge_phrases_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Syllable-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "f6b5095a-ae01-4e97-b70f-bbaf4044b7f3",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "bridge_phrases",
+                    ":bridge_phrases_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "reason",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "bridge_phrases_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "25452423-e15a-43e3-bdd3-f2fb317c0b0c",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "bridge_phrases",
+                    ":bridge_phrases_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "reason",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "bridge_phrases_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.syllable.cloud",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "71677712-0411-4fd0-b577-267ac9626fc5",
+    "name": "SyllableSDK Bridge Phrases API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "\n# Syllable Platform SDK\n\nSyllable SDK gives you the power of awesome AI agentry. 🚀\n\n## Overview\n\nThe Syllable SDK provides a comprehensive set of tools and APIs to integrate powerful AI\ncapabilities into your communication applications. Whether you're building phone agents, chatbots,\nvirtual assistants, or any other AI-driven solutions, Syllable SDK has got you covered.\n\n## Features\n\n- **Agent Configuration**: Create and manage agents that can interact with users across various \nchannels.\n- **Channel Management**: Configure channels like SMS, web chat, and more to connect agents with \nusers.\n- **Custom Messages**: Set up custom messages that agents can deliver as greetings or responses.\n- **Conversations**: Track and manage conversations between users and agents, including session \nmanagement.\n- **Tools and Workflows**: Leverage tools and workflows to enhance agent capabilities, such as data \nprocessing and API calls.\n- **Data Sources**: Integrate data sources to provide agents with additional context and \ninformation.\n- **Insights and Analytics**: Analyze conversations and sessions to gain insights into user \ninteractions.\n- **Permissions and Security**: Manage permissions to control access to various features and \nfunctionalities.\n- **Language Support**: Define language groups to enable multilingual support for agents.\n- **Outbound Campaigns**: Create and manage outbound communication campaigns to reach users \neffectively.\n- **Session Labels**: Label sessions with evaluations of quality and descriptions of issues \nencountered.\n- **Incident Management**: Track and manage incidents related to agent interactions.\n",
+      "type": "text/plain"
+    }
+  }
+}

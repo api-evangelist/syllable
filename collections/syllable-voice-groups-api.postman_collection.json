@@ -1,0 +1,1178 @@
+{
+  "item": [
+    {
+      "id": "86aff96d-0dea-4042-857f-f96cbfa53b24",
+      "name": "voice_groups",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1c6c2401-7352-472c-84ec-a7714d15cf3e",
+          "name": "List Voice Groups",
+          "request": {
+            "name": "List Voice Groups",
+            "description": {
+              "content": "Fetch voice groups.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "voice_groups",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "The page number from which to start (0-based)"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "25",
+                  "description": "The maximum number of items to return"
+                },
+                {
+                  "disabled": false,
+                  "key": "order_by",
+                  "value": "<string>",
+                  "description": "The field whose value should be used to order the results"
+                },
+                {
+                  "disabled": false,
+                  "key": "order_by_direction",
+                  "value": "<string>",
+                  "description": "The direction in which to order the results"
+                },
+                {
+                  "disabled": false,
+                  "key": "fields",
+                  "value": "<string>",
+                  "description": "The fields to include in the response"
+                },
+                {
+                  "disabled": false,
+                  "key": "fields",
+                  "value": "<string>",
+                  "description": "The fields to include in the response"
+                },
+                {
+                  "disabled": false,
+                  "key": "start_datetime",
+                  "value": "<string>",
+                  "description": "The start datetime for filtering results"
+                },
+                {
+                  "disabled": false,
+                  "key": "end_datetime",
+                  "value": "<string>",
+                  "description": "The end datetime for filtering results"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Syllable-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "00a380de-d57d-442b-81b5-aefb7722c19d",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "voice_groups",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "25"
+                    },
+                    {
+                      "key": "order_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order_by_direction",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_datetime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "end_datetime",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"name\": \"string\",\n      \"language_configs\": [\n        {\n          \"language_code\": \"vi-VN\",\n          \"voice_provider\": \"Google\",\n          \"voice_display_name\": \"en-US-Studio-O\",\n          \"dtmf_code\": 2984,\n          \"voice_speed\": 9919.636441903409,\n          \"voice_pitch\": 8828.721405534174\n        },\n        {\n          \"language_code\": \"ne-NP\",\n          \"voice_provider\": \"OpenAI\",\n          \"voice_display_name\": \"Umbriel (Mandarin)\",\n          \"dtmf_code\": 9622,\n          \"voice_speed\": 5491.617918137382,\n          \"voice_pitch\": 8796.758171070418\n        }\n      ],\n      \"skip_current_language_in_message\": false,\n      \"id\": 456,\n      \"updated_at\": \"1955-11-02T20:57:01.984Z\",\n      \"last_updated_by\": \"string\",\n      \"description\": \"string\",\n      \"edit_comments\": \"string\",\n      \"agents_info\": [\n        {\n          \"id\": 496,\n          \"name\": \"string\"\n        },\n        {\n          \"id\": 1347,\n          \"name\": \"string\"\n        }\n      ]\n    },\n    {\n      \"name\": \"string\",\n      \"language_configs\": [\n        {\n          \"language_code\": \"ko-KR\",\n          \"voice_provider\": \"OpenAI\",\n          \"voice_display_name\": \"Charon (Thai)\",\n          \"dtmf_code\": 5558,\n          \"voice_speed\": 6982.4487867863645,\n          \"voice_pitch\": 1192.8547328021832\n        },\n        {\n          \"language_code\": \"ne-NP\",\n          \"voice_provider\": \"Google\",\n          \"voice_display_name\": \"Kore (French)\",\n          \"dtmf_code\": 3174,\n          \"voice_speed\": 4657.99364952506,\n          \"voice_pitch\": 2438.4795797666925\n        }\n      ],\n      \"skip_current_language_in_message\": true,\n      \"id\": 8110,\n      \"updated_at\": \"1997-01-10T05:01:31.450Z\",\n      \"last_updated_by\": \"string\",\n      \"description\": \"string\",\n      \"edit_comments\": \"string\",\n      \"agents_info\": [\n        {\n          \"id\": 1748,\n          \"name\": \"string\"\n        },\n        {\n          \"id\": 3987,\n          \"name\": \"string\"\n        }\n      ]\n    }\n  ],\n  \"page\": 211,\n  \"page_size\": 8660,\n  \"total_pages\": 5615,\n  \"total_count\": 856\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3553e287-6bc3-4ccb-b824-2ac0586a1cf4",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "voice_groups",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "25"
+                    },
+                    {
+                      "key": "order_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order_by_direction",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_datetime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "end_datetime",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "dd721871-05f4-48c7-aa09-f079c8d10eb9",
+          "name": "Create Voice Group",
+          "request": {
+            "name": "Create Voice Group",
+            "description": {
+              "content": "Create a new voice group.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "voice_groups",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Syllable-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"language_configs\": [\n    {\n      \"language_code\": \"<string>\",\n      \"voice_provider\": \"<string>\",\n      \"voice_display_name\": \"<string>\",\n      \"dtmf_code\": \"<integer>\",\n      \"voice_speed\": \"<number>\",\n      \"voice_pitch\": \"<number>\"\n    },\n    {\n      \"language_code\": \"<string>\",\n      \"voice_provider\": \"<string>\",\n      \"voice_display_name\": \"<string>\",\n      \"dtmf_code\": \"<integer>\",\n      \"voice_speed\": \"<number>\",\n      \"voice_pitch\": \"<number>\"\n    }\n  ],\n  \"skip_current_language_in_message\": \"<boolean>\",\n  \"description\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "64e307bf-cbcb-4af2-8c13-a0c014d5a5d0",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "voice_groups",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"language_configs\": [\n    {\n      \"language_code\": \"<string>\",\n      \"voice_provider\": \"<string>\",\n      \"voice_display_name\": \"<string>\",\n      \"dtmf_code\": \"<integer>\",\n      \"voice_speed\": \"<number>\",\n      \"voice_pitch\": \"<number>\"\n    },\n    {\n      \"language_code\": \"<string>\",\n      \"voice_provider\": \"<string>\",\n      \"voice_display_name\": \"<string>\",\n      \"dtmf_code\": \"<integer>\",\n      \"voice_speed\": \"<number>\",\n      \"voice_pitch\": \"<number>\"\n    }\n  ],\n  \"skip_current_language_in_message\": \"<boolean>\",\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"language_configs\": [\n    {\n      \"language_code\": \"<string>\",\n      \"voice_provider\": \"<string>\",\n      \"voice_display_name\": \"<string>\",\n      \"dtmf_code\": \"<integer>\",\n      \"voice_speed\": \"<number>\",\n      \"voice_pitch\": \"<number>\"\n    },\n    {\n      \"language_code\": \"<string>\",\n      \"voice_provider\": \"<string>\",\n      \"voice_display_name\": \"<string>\",\n      \"dtmf_code\": \"<integer>\",\n      \"voice_speed\": \"<number>\",\n      \"voice_pitch\": \"<number>\"\n    }\n  ],\n  \"skip_current_language_in_message\": false,\n  \"id\": 1389,\n  \"updated_at\": \"1950-04-18T04:24:31.701Z\",\n  \"last_updated_by\": \"string\",\n  \"description\": \"string\",\n  \"edit_comments\": \"string\",\n  \"agents_info\": [\n    {\n      \"id\": 9464,\n      \"name\": \"string\"\n    },\n    {\n      \"id\": 1162,\n      \"name\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1a30520a-1796-4c63-9a2f-d4c705c678d5",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "voice_groups",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"language_configs\": [\n    {\n      \"language_code\": \"<string>\",\n      \"voice_provider\": \"<string>\",\n      \"voice_display_name\": \"<string>\",\n      \"dtmf_code\": \"<integer>\",\n      \"voice_speed\": \"<number>\",\n      \"voice_pitch\": \"<number>\"\n    },\n    {\n      \"language_code\": \"<string>\",\n      \"voice_provider\": \"<string>\",\n      \"voice_display_name\": \"<string>\",\n      \"dtmf_code\": \"<integer>\",\n      \"voice_speed\": \"<number>\",\n      \"voice_pitch\": \"<number>\"\n    }\n  ],\n  \"skip_current_language_in_message\": \"<boolean>\",\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4ce67ecf-7f13-49d9-a957-be3a911267c5",
+          "name": "Update Voice Group",
+          "request": {
+            "name": "Update Voice Group",
+            "description": {
+              "content": "Update an existing voice group",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "voice_groups",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Syllable-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"language_configs\": [\n    {\n      \"language_code\": \"<string>\",\n      \"voice_provider\": \"<string>\",\n      \"voice_display_name\": \"<string>\",\n      \"dtmf_code\": \"<integer>\",\n      \"voice_speed\": \"<number>\",\n      \"voice_pitch\": \"<number>\"\n    },\n    {\n      \"language_code\": \"<string>\",\n      \"voice_provider\": \"<string>\",\n      \"voice_display_name\": \"<string>\",\n      \"dtmf_code\": \"<integer>\",\n      \"voice_speed\": \"<number>\",\n      \"voice_pitch\": \"<number>\"\n    }\n  ],\n  \"skip_current_language_in_message\": \"<boolean>\",\n  \"id\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"edit_comments\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fe0ba2c5-eb55-4520-9254-28925865999a",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "voice_groups",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"language_configs\": [\n    {\n      \"language_code\": \"<string>\",\n      \"voice_provider\": \"<string>\",\n      \"voice_display_name\": \"<string>\",\n      \"dtmf_code\": \"<integer>\",\n      \"voice_speed\": \"<number>\",\n      \"voice_pitch\": \"<number>\"\n    },\n    {\n      \"language_code\": \"<string>\",\n      \"voice_provider\": \"<string>\",\n      \"voice_display_name\": \"<string>\",\n      \"dtmf_code\": \"<integer>\",\n      \"voice_speed\": \"<number>\",\n      \"voice_pitch\": \"<number>\"\n    }\n  ],\n  \"skip_current_language_in_message\": \"<boolean>\",\n  \"id\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"edit_comments\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"language_configs\": [\n    {\n      \"language_code\": \"<string>\",\n      \"voice_provider\": \"<string>\",\n      \"voice_display_name\": \"<string>\",\n      \"dtmf_code\": \"<integer>\",\n      \"voice_speed\": \"<number>\",\n      \"voice_pitch\": \"<number>\"\n    },\n    {\n      \"language_code\": \"<string>\",\n      \"voice_provider\": \"<string>\",\n      \"voice_display_name\": \"<string>\",\n      \"dtmf_code\": \"<integer>\",\n      \"voice_speed\": \"<number>\",\n      \"voice_pitch\": \"<number>\"\n    }\n  ],\n  \"skip_current_language_in_message\": false,\n  \"id\": 1389,\n  \"updated_at\": \"1950-04-18T04:24:31.701Z\",\n  \"last_updated_by\": \"string\",\n  \"description\": \"string\",\n  \"edit_comments\": \"string\",\n  \"agents_info\": [\n    {\n      \"id\": 9464,\n      \"name\": \"string\"\n    },\n    {\n      \"id\": 1162,\n      \"name\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "25af890b-c057-4a13-b955-4ad8382bf70a",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "voice_groups",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"language_configs\": [\n    {\n      \"language_code\": \"<string>\",\n      \"voice_provider\": \"<string>\",\n      \"voice_display_name\": \"<string>\",\n      \"dtmf_code\": \"<integer>\",\n      \"voice_speed\": \"<number>\",\n      \"voice_pitch\": \"<number>\"\n    },\n    {\n      \"language_code\": \"<string>\",\n      \"voice_provider\": \"<string>\",\n      \"voice_display_name\": \"<string>\",\n      \"dtmf_code\": \"<integer>\",\n      \"voice_speed\": \"<number>\",\n      \"voice_pitch\": \"<number>\"\n    }\n  ],\n  \"skip_current_language_in_message\": \"<boolean>\",\n  \"id\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"edit_comments\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "83f31bd8-c7e6-412c-9b09-0dfe896d5d9b",
+          "name": "Get Voice Group",
+          "request": {
+            "name": "Get Voice Group",
+            "description": {
+              "content": "Fetch a given voice group.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "voice_groups",
+                ":voice_group_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "voice_group_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Syllable-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "4bcc2acb-2c24-4323-92b7-45347db847d6",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "voice_groups",
+                    ":voice_group_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "voice_group_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"language_configs\": [\n    {\n      \"language_code\": \"<string>\",\n      \"voice_provider\": \"<string>\",\n      \"voice_display_name\": \"<string>\",\n      \"dtmf_code\": \"<integer>\",\n      \"voice_speed\": \"<number>\",\n      \"voice_pitch\": \"<number>\"\n    },\n    {\n      \"language_code\": \"<string>\",\n      \"voice_provider\": \"<string>\",\n      \"voice_display_name\": \"<string>\",\n      \"dtmf_code\": \"<integer>\",\n      \"voice_speed\": \"<number>\",\n      \"voice_pitch\": \"<number>\"\n    }\n  ],\n  \"skip_current_language_in_message\": false,\n  \"id\": 1389,\n  \"updated_at\": \"1950-04-18T04:24:31.701Z\",\n  \"last_updated_by\": \"string\",\n  \"description\": \"string\",\n  \"edit_comments\": \"string\",\n  \"agents_info\": [\n    {\n      \"id\": 9464,\n      \"name\": \"string\"\n    },\n    {\n      \"id\": 1162,\n      \"name\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1b35b3d4-762e-4a46-833f-54fa342529d9",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "voice_groups",
+                    ":voice_group_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "voice_group_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "abcb7945-3e89-456e-a93d-dad7254274a3",
+          "name": "Delete Voice Group",
+          "request": {
+            "name": "Delete Voice Group",
+            "description": {
+              "content": "Delete a voice group.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "voice_groups",
+                ":voice_group_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "reason",
+                  "value": "<string>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "voice_group_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Syllable-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "0e030e5d-3c2f-49b2-9bd4-c0b3d0290eea",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "voice_groups",
+                    ":voice_group_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "reason",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "voice_group_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d5acc174-4a7d-4f2e-8e4f-22ad66c53725",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "voice_groups",
+                    ":voice_group_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "reason",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "voice_group_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "56f873e9-bc98-4d9a-964e-b6aba1f203e0",
+          "name": "Create Voice Sample",
+          "request": {
+            "name": "Create Voice Sample",
+            "description": {
+              "content": "Generate voice sample.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "voice_groups",
+                "voices",
+                "sample"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/octet-stream"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Syllable-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"language_code\": \"<string>\",\n  \"voice_provider\": \"<string>\",\n  \"voice_display_name\": \"<string>\",\n  \"voice_speed\": \"<number>\",\n  \"voice_pitch\": \"<number>\",\n  \"text\": \"\",\n  \"apply_pronunciation_overrides\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3ed35342-40c2-4eb1-adf9-854f23c8015e",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "voice_groups",
+                    "voices",
+                    "sample"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/octet-stream"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"language_code\": \"<string>\",\n  \"voice_provider\": \"<string>\",\n  \"voice_display_name\": \"<string>\",\n  \"voice_speed\": \"<number>\",\n  \"voice_pitch\": \"<number>\",\n  \"text\": \"\",\n  \"apply_pronunciation_overrides\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/octet-stream"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d1c8aa4f-461d-4e17-bad9-4165ac7b8192",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "voice_groups",
+                    "voices",
+                    "sample"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"language_code\": \"<string>\",\n  \"voice_provider\": \"<string>\",\n  \"voice_display_name\": \"<string>\",\n  \"voice_speed\": \"<number>\",\n  \"voice_pitch\": \"<number>\",\n  \"text\": \"\",\n  \"apply_pronunciation_overrides\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.syllable.cloud",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "5539c7d8-fea0-45a9-a6ff-365bcd90dc47",
+    "name": "SyllableSDK Voice Groups API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "\n# Syllable Platform SDK\n\nSyllable SDK gives you the power of awesome AI agentry. 🚀\n\n## Overview\n\nThe Syllable SDK provides a comprehensive set of tools and APIs to integrate powerful AI\ncapabilities into your communication applications. Whether you're building phone agents, chatbots,\nvirtual assistants, or any other AI-driven solutions, Syllable SDK has got you covered.\n\n## Features\n\n- **Agent Configuration**: Create and manage agents that can interact with users across various \nchannels.\n- **Channel Management**: Configure channels like SMS, web chat, and more to connect agents with \nusers.\n- **Custom Messages**: Set up custom messages that agents can deliver as greetings or responses.\n- **Conversations**: Track and manage conversations between users and agents, including session \nmanagement.\n- **Tools and Workflows**: Leverage tools and workflows to enhance agent capabilities, such as data \nprocessing and API calls.\n- **Data Sources**: Integrate data sources to provide agents with additional context and \ninformation.\n- **Insights and Analytics**: Analyze conversations and sessions to gain insights into user \ninteractions.\n- **Permissions and Security**: Manage permissions to control access to various features and \nfunctionalities.\n- **Language Support**: Define language groups to enable multilingual support for agents.\n- **Outbound Campaigns**: Create and manage outbound communication campaigns to reach users \neffectively.\n- **Session Labels**: Label sessions with evaluations of quality and descriptions of issues \nencountered.\n- **Incident Management**: Track and manage incidents related to agent interactions.\n",
+      "type": "text/plain"
+    }
+  }
+}

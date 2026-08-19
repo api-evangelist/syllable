@@ -1,0 +1,1173 @@
+openapi: 3.2.0
+info:
+  title: SyllableSDK Outbound.batches API
+  description: "\n# Syllable Platform SDK\n\nSyllable SDK gives you the power of awesome AI agentry. \U0001F680\n\n## Overview\n\nThe Syllable SDK provides a comprehensive set of tools and APIs to integrate powerful AI\ncapabilities into your communication applications. Whether you're building phone agents, chatbots,\nvirtual assistants, or any other AI-driven solutions, Syllable SDK has got you covered.\n\n## Features\n\n- **Agent Configuration**: Create and manage agents that can interact with users across various \nchannels.\n- **Channel Management**: Configure channels like SMS, web chat, and more to connect agents with \nusers.\n- **Custom Messages**: Set up custom messages that agents can deliver as greetings or responses.\n- **Conversations**: Track and manage conversations between users and agents, including session \nmanagement.\n- **Tools and Workflows**: Leverage tools and workflows to enhance agent capabilities, such as data \nprocessing and API calls.\n- **Data Sources**: Integrate data sources to provide agents with additional context and \ninformation.\n- **Insights and Analytics**: Analyze conversations and sessions to gain insights into user \ninteractions.\n- **Permissions and Security**: Manage permissions to control access to various features and \nfunctionalities.\n- **Language Support**: Define language groups to enable multilingual support for agents.\n- **Outbound Campaigns**: Create and manage outbound communication campaigns to reach users \neffectively.\n- **Session Labels**: Label sessions with evaluations of quality and descriptions of issues \nencountered.\n- **Incident Management**: Track and manage incidents related to agent interactions.\n"
+  version: 0.0.3
+servers:
+- url: https://api.syllable.cloud
+  description: API server
+tags:
+- name: outbound.batches
+  description: Operations related to outbound campaign batches
+paths:
+  /api/v1/outbound/batches:
+    get:
+      tags:
+      - outbound.batches
+      summary: List Outbound Communication Batches
+      operationId: outbound_batch_list
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            minimum: 0
+          - type: 'null'
+          description: The page number from which to start (0-based)
+          examples:
+          - 0
+          default: 0
+          title: Page
+        description: The page number from which to start (0-based)
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: The maximum number of items to return
+          examples:
+          - 25
+          default: 25
+          title: Limit
+        description: The maximum number of items to return
+      - name: search_fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchProperties'
+          description: String names of fields to search. Correspond by index to search field values
+          examples:
+          - name
+          default: []
+          title: Search Fields
+        description: String names of fields to search. Correspond by index to search field values
+      - name: search_field_values
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          description: Values of fields to search. Correspond by index to search fields. Unless field name contains "list", an individual search field value cannot be a list
+          examples:
+          - Some Object Name
+          default: []
+          title: Search Field Values
+        description: Values of fields to search. Correspond by index to search fields. Unless field name contains "list", an individual search field value cannot be a list
+      - name: order_by
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/BatchProperties'
+          - type: 'null'
+          description: The field whose value should be used to order the results
+          examples:
+          - name
+          title: Order By
+        description: The field whose value should be used to order the results
+      - name: order_by_direction
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/OrderByDirection'
+          - type: 'null'
+          description: The direction in which to order the results
+          title: Order By Direction
+        description: The direction in which to order the results
+      - name: fields
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              $ref: '#/components/schemas/BatchProperties'
+          - type: 'null'
+          description: The fields to include in the response
+          default: []
+          title: Fields
+        description: The fields to include in the response
+      - name: start_datetime
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The start datetime for filtering results
+          examples:
+          - '2023-01-01T00:00:00Z'
+          title: Start Datetime
+        description: The start datetime for filtering results
+      - name: end_datetime
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The end datetime for filtering results
+          examples:
+          - '2024-01-01T00:00:00Z'
+          title: End Datetime
+        description: The end datetime for filtering results
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListResponse_CommunicationBatch_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK, models\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.outbound.batches.list(page=0, limit=25, search_fields=[\n        models.BatchProperties.LAST_UPDATED_AT,\n    ], search_field_values=[\n        \"Some Object Name\",\n    ], start_datetime=\"2023-01-01T00:00:00Z\", end_datetime=\"2024-01-01T00:00:00Z\")\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.outbound.batches.list({\n    page: 0,\n    searchFields: [\n      \"last_updated_at\",\n    ],\n    searchFieldValues: [\n      \"Some Object Name\",\n    ],\n    startDatetime: \"2023-01-01T00:00:00Z\",\n    endDatetime: \"2024-01-01T00:00:00Z\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+    post:
+      tags:
+      - outbound.batches
+      summary: Create Outbound Communication Batch
+      operationId: outbound_batch_create
+      security:
+      - APIKeyHeader: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommunicationBatchInput'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                anyOf:
+                - $ref: '#/components/schemas/CommunicationBatch'
+                - type: 'null'
+                title: Response Outbound Batch Create
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\nfrom syllable_sdk.utils import parse_datetime\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.outbound.batches.create(request={\n        \"batch_id\": \"20260204.9\",\n        \"campaign_id\": 1,\n        \"expires_on\": parse_datetime(\"2026-02-05T00:00:00Z\"),\n        \"paused\": True,\n    })\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.outbound.batches.create({\n    batchId: \"20260204.9\",\n    campaignId: 1,\n    expiresOn: new Date(\"2026-02-05T00:00:00Z\"),\n    paused: true,\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/outbound/batches/{batch_id}:
+    get:
+      tags:
+      - outbound.batches
+      summary: Get Outbound Communication Batch
+      operationId: outbound_batch_get_by_id
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: batch_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Batch Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchDetails'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.outbound.batches.get_by_id(batch_id=\"<id>\")\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.outbound.batches.getById({\n    batchId: \"<id>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+    put:
+      tags:
+      - outbound.batches
+      summary: Update Outbound Communication Batch
+      operationId: outbound_batch_update
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: batch_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Batch Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommunicationBatchUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommunicationBatch'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\nfrom syllable_sdk.utils import parse_datetime\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.outbound.batches.update(batch_id=\"<id>\", communication_batch_update={\n        \"paused\": True,\n        \"expires_on\": parse_datetime(\"2027-01-01T06:00:00Z\"),\n    })\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.outbound.batches.update({\n    batchId: \"<id>\",\n    communicationBatchUpdate: {\n      paused: true,\n      expiresOn: new Date(\"2027-01-01T06:00:00Z\"),\n    },\n  });\n\n  console.log(result);\n}\n\nrun();"
+    delete:
+      tags:
+      - outbound.batches
+      summary: Delete Outbound Communication Batch
+      operationId: outbound_batch_delete
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: batch_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Batch Id
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Body_outbound_batch_delete'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.outbound.batches.delete(batch_id=\"<id>\", body_outbound_batch_delete={\n        \"delete_reason\": \"<value>\",\n    })\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.outbound.batches.delete({\n    batchId: \"<id>\",\n    bodyOutboundBatchDelete: {\n      deleteReason: \"<value>\",\n    },\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/outbound/batches/{batch_id}/upload_batch:
+    post:
+      tags:
+      - outbound.batches
+      summary: Upload Outbound Communication Batch
+      operationId: outbound_batch_upload
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: batch_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Batch Id
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_outbound_batch_upload'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.outbound.batches.upload(batch_id=\"<id>\")\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.outbound.batches.upload({\n    batchId: \"<id>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/outbound/batches/{batch_id}/results:
+    get:
+      tags:
+      - outbound.batches
+      summary: Fetch Outbound Communication Batch Results
+      operationId: outbound_batch_results
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: batch_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Batch Id
+      - name: reference_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reference Id
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+      - name: insights_status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Insights Status
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CommunicationRequestResult'
+                title: Response Outbound Batch Results
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.outbound.batches.results(batch_id=\"<id>\")\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.outbound.batches.results({\n    batchId: \"<id>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/outbound/batches/{batch_id}/requests:
+    post:
+      tags:
+      - outbound.batches
+      summary: Create Outbound Communication Request
+      operationId: outbound_batch_add
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: batch_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Batch Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommunicationRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.outbound.batches.add(batch_id=\"<id>\", communication_request={\n        \"reference_id\": \"12345\",\n        \"target\": \"512-555-1234\",\n        \"request_variables\": {\n\n        },\n    })\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.outbound.batches.add({\n    batchId: \"<id>\",\n    communicationRequest: {\n      referenceId: \"12345\",\n      target: \"512-555-1234\",\n      requestVariables: {\n\n      },\n    },\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/outbound/batches/{batch_id}/remove-requests:
+    post:
+      tags:
+      - outbound.batches
+      summary: Delete Requests By List Of Reference Ids
+      operationId: outbound_batch_remove
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: batch_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Batch Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+              title: Reference Ids
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.outbound.batches.remove(batch_id=\"<id>\", request_body=[\n        \"<value 1>\",\n        \"<value 2>\",\n    ])\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.outbound.batches.remove({\n    batchId: \"<id>\",\n    requestBody: [\n      \"<value 1>\",\n      \"<value 2>\",\n    ],\n  });\n\n  console.log(result);\n}\n\nrun();"
+components:
+  schemas:
+    BatchStatus:
+      type: string
+      enum:
+      - PENDING
+      - ACTIVE
+      - PAUSED
+      - FAILED
+      - CANCELED
+      - EXPIRED
+      title: BatchStatus
+      description: Status of a communication batch.
+    RequestStatusBreakdown:
+      properties:
+        total_count:
+          type: integer
+          title: Total Count
+          description: Total number of requests with this request_status
+        counts:
+          anyOf:
+          - additionalProperties:
+              type: integer
+            type: object
+          - type: 'null'
+          title: Counts
+          description: Counts by channel_manager_status within this request_status; omitted if none
+          examples:
+          - DELIVERED: 2
+            PENDING: 3
+            SENT: 5
+      type: object
+      required:
+      - total_count
+      title: RequestStatusBreakdown
+      description: Per-request_status breakdown with total count and optional channel_manager_status counts.
+    CommunicationRequestResult:
+      properties:
+        reference_id:
+          type: string
+          title: Reference Id
+          description: ID for target outreach (unique within batch)
+          examples:
+          - '12345'
+        target:
+          type: string
+          title: Target
+          description: Target phone number
+          examples:
+          - 512-555-1234
+          - '+15125551234'
+        request_variables:
+          additionalProperties:
+            type: string
+          type: object
+          title: Request Variables
+          description: Variables for request
+        channel_manager_sid:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Channel Manager Sid
+          description: Channel manager SID
+          examples:
+          - LMc4b16a9df2ce33d84b3d30581fe6598c
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: Timestamp of request creation
+          examples:
+          - '2026-08-04T00:00:00Z'
+        sent_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Sent At
+          description: Timestamp at which request was sent
+          examples:
+          - '2026-08-05T00:00:00Z'
+        attempt_count:
+          type: integer
+          title: Attempt Count
+          description: Number of attempts for request
+          default: 0
+          examples:
+          - 0
+        session_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Session Id
+          description: Unique ID for call session
+          examples:
+          - 1
+        conversation_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Conversation Id
+          description: Unique ID for conversation
+          examples:
+          - 1
+        request_status:
+          $ref: '#/components/schemas/RequestStatus'
+          description: Status of request
+          default: PENDING
+          examples:
+          - PENDING
+          - DUPLICATE
+          - INITIATED
+          - CONNECTED
+          - COMPLETED
+          - FAILED
+          - CANCELED
+          - INVALID
+          - SKIPPED
+        channel_manager_status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Channel Manager Status
+          description: Status of request in channel manager (see ChannelManagerStatus)
+          examples:
+          - COMPLETED
+          - FAILED
+          - NO-ANSWER
+          - BUSY
+        insights_status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Insights Status
+          description: Status of session in insight workflow
+          examples:
+          - PENDING
+          - PROCESSING
+          - COMPLETED
+          - FAILED
+        insights:
+          anyOf:
+          - additionalProperties:
+              anyOf:
+              - type: string
+              - type: integer
+              - type: number
+            type: object
+          - type: 'null'
+          title: Insights
+          description: Insights from call
+          examples:
+          - rating: Good
+            summary: The customer service agent successfully assisted the caller with their inquiry and the call ended positively.
+        line_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Line Type
+          description: Line type of the target number from Twilio Lookup (e.g. 'mobile', 'landline', 'voip'); resolved at ingestion.
+          examples:
+          - mobile
+          - landline
+          - voip
+        enrichment:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Enrichment
+          description: Full Twilio Lookup v2 line_type_intelligence payload resolved at ingestion (line_type / carrier_name / mcc / mnc / error_code). None when no lookup was performed.
+          examples:
+          - carrier_name: Onvoy, LLC - Sinch
+            line_type: mobile
+            mcc: '313'
+            mnc: '410'
+      type: object
+      required:
+      - reference_id
+      - target
+      - request_variables
+      title: CommunicationRequestResult
+    CommunicationBatchUpdate:
+      properties:
+        paused:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Paused
+          description: Whether the batch is on HOLD. When on HOLD, no outreach will be made.
+          examples:
+          - true
+          - false
+        expires_on:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Expires On
+          description: Timestamp of batch expiration
+          examples:
+          - '2027-01-01T06:00:00Z'
+      type: object
+      title: CommunicationBatchUpdate
+    BatchProperties:
+      type: string
+      enum:
+      - batch_id
+      - campaign_id
+      - status
+      - expires_on
+      - last_updated_at
+      title: BatchProperties
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
+    Body_outbound_batch_upload:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+      type: object
+      title: Body_outbound_batch_upload
+    CommunicationBatchInput:
+      properties:
+        batch_id:
+          type: string
+          title: Batch Id
+          description: Unique ID for conversation batch
+          examples:
+          - '20260805.9'
+        campaign_id:
+          type: integer
+          title: Campaign Id
+          description: Unique ID for campaign
+          examples:
+          - 1
+        expires_on:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Expires On
+          description: Timestamp of batch expiration
+          examples:
+          - '2026-08-06T00:00:00Z'
+        paused:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Paused
+          description: Whether the batch is on HOLD. When on HOLD, no outreach will be made.
+          examples:
+          - true
+          - false
+      type: object
+      required:
+      - batch_id
+      - campaign_id
+      title: CommunicationBatchInput
+    CommunicationBatch:
+      properties:
+        batch_id:
+          type: string
+          title: Batch Id
+          description: Unique ID for conversation batch
+          examples:
+          - '20260805.9'
+        campaign_id:
+          type: integer
+          title: Campaign Id
+          description: Unique ID for campaign
+          examples:
+          - 1
+        expires_on:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Expires On
+          description: Timestamp of batch expiration
+          examples:
+          - '2026-08-06T00:00:00Z'
+        paused:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Paused
+          description: Whether the batch is on HOLD. When on HOLD, no outreach will be made.
+          examples:
+          - true
+          - false
+        status:
+          $ref: '#/components/schemas/BatchStatus'
+          description: Status of batch
+          default: PENDING
+          examples:
+          - PENDING
+          - ACTIVE
+          - PAUSED
+          - FAILED
+          - CANCELED
+          - EXPIRED
+        upload_filename:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Upload Filename
+          description: Name of file used to create batch
+          examples:
+          - LATE_PAYMENTS_20250401.csv
+        dispatch_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dispatch Id
+          description: A unique identifier for dipatched job
+          examples:
+          - 5ac42327fbd7e03b441650b79ae91ae1
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: Timestamp of batch creation
+          examples:
+          - '2026-08-05T00:00:00Z'
+        deleted_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Deleted At
+          description: Timestamp of batch deletion
+          examples:
+          - '2026-08-05T00:00:00Z'
+        deleted_reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Deleted Reason
+          description: Reason for batch deletion
+          examples:
+          - User request
+        last_updated_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Last Updated At
+          description: Timestamp of last change to batch
+          examples:
+          - '2026-08-05T00:00:00Z'
+        last_updated_by:
+          type: string
+          title: Last Updated By
+          description: Email of user who last updated campaign
+          examples:
+          - user@email.com
+        error_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Message
+          description: Error message if batch upload failed
+          examples:
+          - Invalid file format
+          - Missing required fields
+      type: object
+      required:
+      - batch_id
+      - campaign_id
+      - last_updated_by
+      title: CommunicationBatch
+    CommunicationRequest:
+      properties:
+        reference_id:
+          type: string
+          title: Reference Id
+          description: ID for target outreach (unique within batch)
+          examples:
+          - '12345'
+        target:
+          type: string
+          title: Target
+          description: Target phone number
+          examples:
+          - 512-555-1234
+          - '+15125551234'
+        request_variables:
+          additionalProperties:
+            type: string
+          type: object
+          title: Request Variables
+          description: Variables for request
+      type: object
+      required:
+      - reference_id
+      - target
+      - request_variables
+      title: CommunicationRequest
+    ListResponse_CommunicationBatch_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/CommunicationBatch'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[CommunicationBatch]
+    BatchDetails:
+      properties:
+        batch_id:
+          type: string
+          title: Batch Id
+          description: Unique ID for conversation batch
+          examples:
+          - '20260805.9'
+        campaign_id:
+          type: integer
+          title: Campaign Id
+          description: Unique ID for campaign
+          examples:
+          - 1
+        expires_on:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Expires On
+          description: Timestamp of batch expiration
+          examples:
+          - '2026-08-06T00:00:00Z'
+        paused:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Paused
+          description: Whether the batch is on HOLD. When on HOLD, no outreach will be made.
+          examples:
+          - true
+          - false
+        status:
+          $ref: '#/components/schemas/BatchStatus'
+          description: Status of batch
+          default: PENDING
+          examples:
+          - PENDING
+          - ACTIVE
+          - PAUSED
+          - FAILED
+          - CANCELED
+          - EXPIRED
+        upload_filename:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Upload Filename
+          description: Name of file used to create batch
+          examples:
+          - LATE_PAYMENTS_20250401.csv
+        dispatch_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dispatch Id
+          description: A unique identifier for dipatched job
+          examples:
+          - 5ac42327fbd7e03b441650b79ae91ae1
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: Timestamp of batch creation
+          examples:
+          - '2026-08-05T00:00:00Z'
+        deleted_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Deleted At
+          description: Timestamp of batch deletion
+          examples:
+          - '2026-08-05T00:00:00Z'
+        deleted_reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Deleted Reason
+          description: Reason for batch deletion
+          examples:
+          - User request
+        last_updated_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Last Updated At
+          description: Timestamp of last change to batch
+          examples:
+          - '2026-08-05T00:00:00Z'
+        last_updated_by:
+          type: string
+          title: Last Updated By
+          description: Email of user who last updated campaign
+          examples:
+          - user@email.com
+        error_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Message
+          description: Error message if batch upload failed
+          examples:
+          - Invalid file format
+          - Missing required fields
+        status_counts:
+          anyOf:
+          - additionalProperties:
+              type: integer
+            type: object
+          - type: 'null'
+          title: Status Counts
+          description: Counts of requests by status
+          examples:
+          - CANCELED: 7
+            CONNECTED: 100
+            DUPLICATE: 5
+            FAILED: 10
+            INITIATED: 20
+            PENDING: 10
+        detailed_status_counts:
+          anyOf:
+          - additionalProperties:
+              $ref: '#/components/schemas/RequestStatusBreakdown'
+            type: object
+          - type: 'null'
+          title: Detailed Status Counts
+          description: 'Per request_status: total count and optional counts by channel_manager_status'
+          examples:
+          - CONNECTED:
+              counts:
+                COMPLETED: 95
+                NO-ANSWER: 5
+              total_count: 100
+            PENDING:
+              counts:
+                PENDING: 8
+                SENT: 2
+              total_count: 10
+            QUEUED:
+              total_count: 200
+      type: object
+      required:
+      - batch_id
+      - campaign_id
+      - last_updated_by
+      title: BatchDetails
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    RequestStatus:
+      type: string
+      enum:
+      - PENDING
+      - DUPLICATE
+      - INITIATED
+      - CONNECTED
+      - COMPLETED
+      - FAILED
+      - CANCELED
+      - INVALID
+      - SKIPPED
+      title: RequestStatus
+      description: Status of a communication request.
+    Body_outbound_batch_delete:
+      properties:
+        delete_reason:
+          type: string
+          title: Delete Reason
+      type: object
+      required:
+      - delete_reason
+      title: Body_outbound_batch_delete
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: Syllable-API-Key
+x-speakeasy-name-override:
+- operationId: .*_list$
+  methodNameOverride: list
+- operationId: .*_create$
+  methodNameOverride: create
+- operationId: .*_update$
+  methodNameOverride: update
+- operationId: .*_upload$
+  methodNameOverride: upload
+- operationId: .*_delete$
+  methodNameOverride: delete
+- operationId: .*_get_by_id$
+  methodNameOverride: get_by_id
+- operationId: .*_get_by_name$
+  methodNameOverride: get_by_name
+- operationId: .*_add$
+  methodNameOverride: add
+- operationId: .*_remove$
+  methodNameOverride: remove
+- operationId: .*_results$
+  methodNameOverride: results
+- operationId: .*_queue_work$
+  methodNameOverride: queue_work
+- operationId: .*_activate$
+  methodNameOverride: activate
+- operationId: .*_inactivate$
+  methodNameOverride: inactivate
+- operationId: .*_list_files$
+  methodNameOverride: list_files
+- operationId: .*_move_files$
+  methodNameOverride: move_files
+- operationId: .*_upload_file$
+  methodNameOverride: upload_file

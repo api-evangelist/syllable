@@ -1,0 +1,1189 @@
+openapi: 3.2.0
+info:
+  title: SyllableSDK Outbound.campaigns API
+  description: "\n# Syllable Platform SDK\n\nSyllable SDK gives you the power of awesome AI agentry. \U0001F680\n\n## Overview\n\nThe Syllable SDK provides a comprehensive set of tools and APIs to integrate powerful AI\ncapabilities into your communication applications. Whether you're building phone agents, chatbots,\nvirtual assistants, or any other AI-driven solutions, Syllable SDK has got you covered.\n\n## Features\n\n- **Agent Configuration**: Create and manage agents that can interact with users across various \nchannels.\n- **Channel Management**: Configure channels like SMS, web chat, and more to connect agents with \nusers.\n- **Custom Messages**: Set up custom messages that agents can deliver as greetings or responses.\n- **Conversations**: Track and manage conversations between users and agents, including session \nmanagement.\n- **Tools and Workflows**: Leverage tools and workflows to enhance agent capabilities, such as data \nprocessing and API calls.\n- **Data Sources**: Integrate data sources to provide agents with additional context and \ninformation.\n- **Insights and Analytics**: Analyze conversations and sessions to gain insights into user \ninteractions.\n- **Permissions and Security**: Manage permissions to control access to various features and \nfunctionalities.\n- **Language Support**: Define language groups to enable multilingual support for agents.\n- **Outbound Campaigns**: Create and manage outbound communication campaigns to reach users \neffectively.\n- **Session Labels**: Label sessions with evaluations of quality and descriptions of issues \nencountered.\n- **Incident Management**: Track and manage incidents related to agent interactions.\n"
+  version: 0.0.3
+servers:
+- url: https://api.syllable.cloud
+  description: API server
+tags:
+- name: outbound.campaigns
+  description: Operations related to outbound message campaigns
+paths:
+  /api/v1/outbound/campaigns:
+    get:
+      tags:
+      - outbound.campaigns
+      summary: List Outbound Communication Campaigns
+      operationId: outbound_campaign_list
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            minimum: 0
+          - type: 'null'
+          description: The page number from which to start (0-based)
+          examples:
+          - 0
+          default: 0
+          title: Page
+        description: The page number from which to start (0-based)
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: The maximum number of items to return
+          examples:
+          - 25
+          default: 25
+          title: Limit
+        description: The maximum number of items to return
+      - name: search_fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/CampaignProperties'
+          description: String names of fields to search. Correspond by index to search field values
+          examples:
+          - name
+          default: []
+          title: Search Fields
+        description: String names of fields to search. Correspond by index to search field values
+      - name: search_field_values
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          description: Values of fields to search. Correspond by index to search fields. Unless field name contains "list", an individual search field value cannot be a list
+          examples:
+          - Some Object Name
+          default: []
+          title: Search Field Values
+        description: Values of fields to search. Correspond by index to search fields. Unless field name contains "list", an individual search field value cannot be a list
+      - name: order_by
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/CampaignProperties'
+          - type: 'null'
+          description: The field whose value should be used to order the results
+          examples:
+          - name
+          title: Order By
+        description: The field whose value should be used to order the results
+      - name: order_by_direction
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/OrderByDirection'
+          - type: 'null'
+          description: The direction in which to order the results
+          title: Order By Direction
+        description: The direction in which to order the results
+      - name: fields
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              $ref: '#/components/schemas/CampaignProperties'
+          - type: 'null'
+          description: The fields to include in the response
+          default: []
+          title: Fields
+        description: The fields to include in the response
+      - name: start_datetime
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The start datetime for filtering results
+          examples:
+          - '2023-01-01T00:00:00Z'
+          title: Start Datetime
+        description: The start datetime for filtering results
+      - name: end_datetime
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The end datetime for filtering results
+          examples:
+          - '2024-01-01T00:00:00Z'
+          title: End Datetime
+        description: The end datetime for filtering results
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                anyOf:
+                - $ref: '#/components/schemas/ListResponse_OutboundCampaign_'
+                - type: 'null'
+                title: Response Outbound Campaign List
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK, models\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.outbound.campaigns.list(page=0, limit=25, search_fields=[\n        models.CampaignProperties.ID,\n    ], search_field_values=[\n        \"Some Object Name\",\n    ], start_datetime=\"2023-01-01T00:00:00Z\", end_datetime=\"2024-01-01T00:00:00Z\")\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.outbound.campaigns.list({\n    page: 0,\n    searchFields: [\n      \"id\",\n    ],\n    searchFieldValues: [\n      \"Some Object Name\",\n    ],\n    startDatetime: \"2023-01-01T00:00:00Z\",\n    endDatetime: \"2024-01-01T00:00:00Z\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+    post:
+      tags:
+      - outbound.campaigns
+      summary: Create Outbound Communication Campaign
+      operationId: outbound_campaign_create
+      security:
+      - APIKeyHeader: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OutboundCampaignInput'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                anyOf:
+                - $ref: '#/components/schemas/OutboundCampaign'
+                - type: 'null'
+                title: Response Outbound Campaign Create
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK, models\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.outbound.campaigns.create(request=models.OutboundCampaignInput(\n        campaign_name=\"Outbound Campaign 1\",\n        description=\"This is a test campaign\",\n        mode=\"voice\",\n        sms_session_ttl=720,\n        labels=[\n            \"test\",\n            \"demo\",\n        ],\n        campaign_variables={\n            \"key\": \"value\",\n            \"key2\": \"value2\",\n        },\n        daily_start_time=\"09:00:00\",\n        daily_end_time=\"17:00:00\",\n        source=\"+19032900844\",\n        caller_id=\"19995551234\",\n        hourly_rate=25,\n        max_daily_calls=2500,\n        retry_count=1,\n        retry_interval=\"30m\",\n        active_days=[\n            models.DaysOfWeek.MON,\n            models.DaysOfWeek.TUE,\n            models.DaysOfWeek.WED,\n            models.DaysOfWeek.THU,\n            models.DaysOfWeek.FRI,\n        ],\n        voicemail_detection=models.VoicemailDetectionConfig(\n            voicemail_detection_overall_timeout=30,\n            voicemail_detection_pre_speech_timeout=3.5,\n            voicemail_detection_post_speech_timeout=1.75,\n        ),\n        allowed_line_types=[\n            models.LineTypeBucket.MOBILE,\n            models.LineTypeBucket.VOIP,\n        ],\n        target_filters=models.TargetFilters(\n            match=models.Match.ANY,\n            rules=[\n                models.TargetFilterRule(\n                    field=\"line_type\",\n                    op=models.FilterOp.IN,\n                    values=[\n                        \"landline\",\n                        \"fixedVoip\",\n                        \"nonFixedVoip\",\n                    ],\n                ),\n                models.TargetFilterRule(\n                    field=\"carrier_name\",\n                    op=models.FilterOp.IN,\n                    values=[\n                        \"Onvoy, LLC - Sinch\",\n                    ],\n                ),\n            ],\n        ),\n        webhooks=[\n            models.OutboundCampaignWebhookInput(\n                trigger_statuses=[\n                    models.ChannelManagerStatus.COMPLETED,\n                ],\n                url=\"https://example.com/hooks/syllable\",\n                request_method=\"POST\",\n            ),\n        ],\n    ))\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.outbound.campaigns.create({\n    campaignName: \"Outbound Campaign 1\",\n    description: \"This is a test campaign\",\n    mode: \"voice\",\n    smsSessionTtl: 720,\n    labels: [\n      \"test\",\n      \"demo\",\n    ],\n    campaignVariables: {\n      \"key\": \"value\",\n      \"key2\": \"value2\",\n    },\n    dailyStartTime: \"09:00:00\",\n    dailyEndTime: \"17:00:00\",\n    source: \"+19032900844\",\n    callerId: \"19995551234\",\n    hourlyRate: 25,\n    maxDailyCalls: 2500,\n    retryCount: 1,\n    retryInterval: \"30m\",\n    activeDays: [\n      \"mon\",\n      \"tue\",\n      \"wed\",\n      \"thu\",\n      \"fri\",\n    ],\n    voicemailDetection: {\n      voicemailDetectionOverallTimeout: 30,\n      voicemailDetectionPreSpeechTimeout: 3.5,\n      voicemailDetectionPostSpeechTimeout: 1.75,\n    },\n    allowedLineTypes: [\n      \"mobile\",\n      \"voip\",\n    ],\n    targetFilters: {\n      match: \"any\",\n      rules: [\n        {\n          field: \"line_type\",\n          op: \"in\",\n          values: [\n            \"landline\",\n            \"fixedVoip\",\n            \"nonFixedVoip\",\n          ],\n        },\n        {\n          field: \"carrier_name\",\n          op: \"in\",\n          values: [\n            \"Onvoy, LLC - Sinch\",\n          ],\n        },\n      ],\n    },\n    webhooks: [\n      {\n        triggerStatuses: [\n          \"COMPLETED\",\n        ],\n        url: \"https://example.com/hooks/syllable\",\n        requestMethod: \"POST\",\n      },\n    ],\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/outbound/campaigns/{campaign_id}:
+    get:
+      tags:
+      - outbound.campaigns
+      summary: Get Outbound Communication Campaign
+      operationId: outbound_campaign_get_by_id
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: campaign_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Campaign Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutboundCampaign'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.outbound.campaigns.get_by_id(campaign_id=11227)\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.outbound.campaigns.getById({\n    campaignId: 11227,\n  });\n\n  console.log(result);\n}\n\nrun();"
+    put:
+      tags:
+      - outbound.campaigns
+      summary: Update Outbound Communication Campaign
+      operationId: outbound_campaign_update
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: campaign_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Campaign Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OutboundCampaignInput'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutboundCampaign'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK, models\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.outbound.campaigns.update(campaign_id=187717, outbound_campaign_input=models.OutboundCampaignInput(\n        campaign_name=\"Outbound Campaign 1\",\n        description=\"This is a test campaign\",\n        mode=\"voice\",\n        sms_session_ttl=720,\n        labels=[\n            \"test\",\n            \"demo\",\n        ],\n        campaign_variables={\n            \"key\": \"value\",\n            \"key2\": \"value2\",\n        },\n        daily_start_time=\"09:00:00\",\n        daily_end_time=\"17:00:00\",\n        source=\"+19032900844\",\n        caller_id=\"19995551234\",\n        hourly_rate=25,\n        max_daily_calls=2500,\n        retry_count=1,\n        retry_interval=\"30m\",\n        active_days=[\n            models.DaysOfWeek.MON,\n            models.DaysOfWeek.TUE,\n            models.DaysOfWeek.WED,\n            models.DaysOfWeek.THU,\n            models.DaysOfWeek.FRI,\n        ],\n        voicemail_detection=models.VoicemailDetectionConfig(\n            voicemail_detection_overall_timeout=30,\n            voicemail_detection_pre_speech_timeout=3.5,\n            voicemail_detection_post_speech_timeout=1.75,\n        ),\n        allowed_line_types=[\n            models.LineTypeBucket.MOBILE,\n            models.LineTypeBucket.VOIP,\n        ],\n        target_filters=models.TargetFilters(\n            match=models.Match.ANY,\n            rules=[\n                models.TargetFilterRule(\n                    field=\"line_type\",\n                    op=models.FilterOp.IN,\n                    values=[\n                        \"landline\",\n                        \"fixedVoip\",\n                        \"nonFixedVoip\",\n                    ],\n                ),\n                models.TargetFilterRule(\n                    field=\"carrier_name\",\n                    op=models.FilterOp.IN,\n                    values=[\n                        \"Onvoy, LLC - Sinch\",\n                    ],\n                ),\n            ],\n        ),\n        webhooks=[\n            models.OutboundCampaignWebhookInput(\n                trigger_statuses=[\n                    models.ChannelManagerStatus.COMPLETED,\n                ],\n                url=\"https://example.com/hooks/syllable\",\n                request_method=\"POST\",\n            ),\n        ],\n    ))\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.outbound.campaigns.update({\n    campaignId: 679645,\n    outboundCampaignInput: {\n      campaignName: \"Outbound Campaign 1\",\n      description: \"This is a test campaign\",\n      mode: \"voice\",\n      smsSessionTtl: 720,\n      labels: [\n        \"test\",\n        \"demo\",\n      ],\n      campaignVariables: {\n        \"key\": \"value\",\n        \"key2\": \"value2\",\n      },\n      dailyStartTime: \"09:00:00\",\n      dailyEndTime: \"17:00:00\",\n      source: \"+19032900844\",\n      callerId: \"19995551234\",\n      hourlyRate: 25,\n      maxDailyCalls: 2500,\n      retryCount: 1,\n      retryInterval: \"30m\",\n      activeDays: [\n        \"mon\",\n        \"tue\",\n        \"wed\",\n        \"thu\",\n        \"fri\",\n      ],\n      voicemailDetection: {\n        voicemailDetectionOverallTimeout: 30,\n        voicemailDetectionPreSpeechTimeout: 3.5,\n        voicemailDetectionPostSpeechTimeout: 1.75,\n      },\n      allowedLineTypes: [\n        \"mobile\",\n        \"voip\",\n      ],\n      targetFilters: {\n        match: \"any\",\n        rules: [\n          {\n            field: \"line_type\",\n            op: \"in\",\n            values: [\n              \"landline\",\n              \"fixedVoip\",\n              \"nonFixedVoip\",\n            ],\n          },\n          {\n            field: \"carrier_name\",\n            op: \"in\",\n            values: [\n              \"Onvoy, LLC - Sinch\",\n            ],\n          },\n        ],\n      },\n      webhooks: [\n        {\n          triggerStatuses: [\n            \"COMPLETED\",\n          ],\n          url: \"https://example.com/hooks/syllable\",\n          requestMethod: \"POST\",\n        },\n      ],\n    },\n  });\n\n  console.log(result);\n}\n\nrun();"
+    delete:
+      tags:
+      - outbound.campaigns
+      summary: Delete Outbound Communication Campaign
+      operationId: outbound_campaign_delete
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: campaign_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Campaign Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.outbound.campaigns.delete(campaign_id=439537)\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.outbound.campaigns.delete({\n    campaignId: 439537,\n  });\n\n  console.log(result);\n}\n\nrun();"
+components:
+  schemas:
+    DaysOfWeek:
+      type: string
+      enum:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+      - sat
+      - sun
+      title: DaysOfWeek
+      description: Enum representing days of the week.
+    ChannelManagerStatus:
+      type: string
+      enum:
+      - PENDING
+      - DUPLICATE
+      - INVALID
+      - UNEXPECTED_ERROR
+      - FILTERED_LINE_TYPE
+      - PROCESSED
+      - DROPPED
+      - DEFERRED
+      - BOUNCED
+      - DELIVERED
+      - OPENED
+      - CLICKED
+      - SPAM_REPORT
+      - UNSUBSCRIBED
+      - PRIOR_UNSUBSCRIBED
+      - PRIOR_SPAM_REPORT
+      - PRIOR_DROPPED
+      - PRIOR_BOUNCED
+      - SENT
+      - ACCEPTED
+      - QUEUED
+      - SENDING
+      - UNDELIVERED
+      - DELIVERY_UNKNOWN
+      - DELIVERY_FAILED
+      - IN-PROGRESS
+      - BUSY
+      - CANCELED
+      - COMPLETED
+      - DECLINED
+      - NO-ANSWER
+      - MACHINE
+      - HUMAN
+      - UNKNOWN
+      - FAILED
+      - SIP_NOT_FOUND
+      - SIP_TEMPORARILY_UNAVAILABLE
+      - SIP_LOOP_DETECTED
+      - SIP_DOES_NOT_EXIST_ANYWHERE
+      title: ChannelManagerStatus
+      description: Status of an outbound communication request (voice, SMS, or email).
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TargetFilterRule:
+      properties:
+        field:
+          type: string
+          title: Field
+          description: Enrichment attribute to match on (a key in the request enrichment payload).
+          examples:
+          - line_type
+          - carrier_name
+          - mnc
+        op:
+          $ref: '#/components/schemas/FilterOp'
+          description: Comparison operator.
+          examples:
+          - in
+          - not_in
+        values:
+          items:
+            type: string
+          type: array
+          title: Values
+          description: Values to compare against. Ignored for exists / not_exists.
+          examples:
+          - - landline
+            - fixedVoip
+            - nonFixedVoip
+      type: object
+      required:
+      - field
+      - op
+      title: TargetFilterRule
+      description: 'A single predicate over one enrichment attribute of an outbound request.
+
+
+        ``field`` names a key in the request''s enrichment payload (e.g. ``line_type``, ``carrier_name``,
+
+        ``mcc``, ``mnc``). Any attribute captured at lookup time can be filtered on with no code change.'
+    OutboundCampaignWebhookResponse:
+      properties:
+        trigger_statuses:
+          items:
+            $ref: '#/components/schemas/ChannelManagerStatus'
+          type: array
+          title: Trigger Statuses
+          description: Condition expression evaluated when the trigger fires
+          examples:
+          - campaign_id == 1 && channel_manager_status == 'COMPLETED'
+        url:
+          type: string
+          title: Url
+          description: HTTPS URL to which to send the webhook payload
+          examples:
+          - https://example.com/hooks/syllable
+        request_method:
+          type: string
+          title: Request Method
+          description: HTTP method for the outbound request (POST, PUT, or PATCH)
+          examples:
+          - POST
+        id:
+          type: integer
+          title: Id
+          description: Unique ID for webhook
+          examples:
+          - 1
+        auth_value_keys:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Auth Value Keys
+          description: Auth value keys (values omitted for security); only hmac_secret is currently supported
+          examples:
+          - - hmac_secret
+      type: object
+      required:
+      - trigger_statuses
+      - url
+      - request_method
+      - id
+      title: OutboundCampaignWebhookResponse
+    FilterOp:
+      type: string
+      enum:
+      - in
+      - not_in
+      - eq
+      - neq
+      - exists
+      - not_exists
+      title: FilterOp
+      description: Comparison operator for a single target-filter rule.
+    OutboundCampaignWebhookInput:
+      properties:
+        trigger_statuses:
+          items:
+            $ref: '#/components/schemas/ChannelManagerStatus'
+          type: array
+          title: Trigger Statuses
+          description: Condition expression evaluated when the trigger fires
+          examples:
+          - campaign_id == 1 && channel_manager_status == 'COMPLETED'
+        url:
+          type: string
+          title: Url
+          description: HTTPS URL to which to send the webhook payload
+          examples:
+          - https://example.com/hooks/syllable
+        request_method:
+          type: string
+          title: Request Method
+          description: HTTP method for the outbound request (POST, PUT, or PATCH)
+          examples:
+          - POST
+        id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Id
+          description: Unique ID for webhook, if updating an existing webhook
+          examples:
+          - 1
+        auth_values:
+          anyOf:
+          - additionalProperties:
+              anyOf:
+              - type: string
+              - type: 'null'
+            type: object
+          - type: 'null'
+          title: Auth Values
+          description: Optional dict of auth values. Currently, only the key "hmac_secret" is allowed; value must be standard Base64 (RFC 4648) decoding to 32–512 bytes of key material. On update, leave a value for a given key null and the stored value for that key is kept. (If a key is omitted entirely, any existing value for that key is removed.)
+          examples:
+          - hmac_secret: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+      type: object
+      required:
+      - trigger_statuses
+      - url
+      - request_method
+      title: OutboundCampaignWebhookInput
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    TargetFilters:
+      properties:
+        match:
+          type: string
+          enum:
+          - all
+          - any
+          title: Match
+          description: 'How to combine rules: ''all'' (AND) or ''any'' (OR).'
+          default: all
+          examples:
+          - all
+          - any
+        on_unknown:
+          type: string
+          enum:
+          - include
+          - exclude
+          title: On Unknown
+          description: Whether to dial requests whose enrichment is unresolved (no lookup data).
+          default: include
+          examples:
+          - include
+          - exclude
+        rules:
+          items:
+            $ref: '#/components/schemas/TargetFilterRule'
+          type: array
+          title: Rules
+          description: Predicates over request enrichment attributes. Empty means no filter.
+          examples:
+          - - field: line_type
+              op: in
+              values:
+              - landline
+              - fixedVoip
+              - nonFixedVoip
+            - field: carrier_name
+              op: in
+              values:
+              - Onvoy, LLC - Sinch
+      type: object
+      title: TargetFilters
+      description: 'Generic target filter for an outbound campaign: a flat list of rules over request enrichment.
+
+
+        A request is *dialable* when it matches the ruleset (``match=''all''`` -> every rule; ``''any''`` ->
+
+        at least one rule); non-matching requests are skipped. ``on_unknown`` decides the fate of
+
+        requests whose enrichment never resolved (no lookup / lookup failed). An empty ``rules`` list
+
+        means no filter (all numbers dialed), matching the pre-filter behavior.'
+    CampaignProperties:
+      type: string
+      enum:
+      - id
+      - campaign_name
+      - campaign_variables
+      - daily_start_time
+      - daily_end_time
+      - source
+      - mode
+      - caller_id
+      - updated_at
+      - label
+      - labels
+      - voicemail_detection
+      title: CampaignProperties
+    ListResponse_OutboundCampaign_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/OutboundCampaign'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[OutboundCampaign]
+    VoicemailDetectionConfig:
+      properties:
+        mode:
+          anyOf:
+          - type: string
+            enum:
+            - v1
+            - v2
+          - type: 'null'
+          title: Mode
+          description: 'Voicemail-detection strategy: ''v1'' (original check_voicemail/leave_voicemail) or ''v2'' (Voicemail Detection 2, which suppresses the turn-0 greeting and uses the greeting tool). The two modes are mutually exclusive. Omitted/null on legacy v1 campaigns is treated as v1.'
+          examples:
+          - v1
+          - v2
+        voicemail_detection_overall_timeout:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Voicemail Detection Overall Timeout
+        voicemail_detection_pre_speech_timeout:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Voicemail Detection Pre Speech Timeout
+        voicemail_detection_post_speech_timeout:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Voicemail Detection Post Speech Timeout
+        voicemail_detection_speech_threshold:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Voicemail Detection Speech Threshold
+      additionalProperties: true
+      type: object
+      title: VoicemailDetectionConfig
+      description: 'Voicemail detection config stored on outbound_campaign.voicemail_detection.
+
+
+        `mode` selects the (mutually-exclusive) strategy; the remaining fields are detection timeouts.
+
+        Unknown keys are preserved (`extra=''allow''`) so the schema stays backwards compatible with blobs
+
+        written before fields were added. See ZOO-7818.'
+    LineTypeBucket:
+      type: string
+      enum:
+      - mobile
+      - landline
+      - voip
+      title: LineTypeBucket
+      description: 'Friendly line-type buckets a campaign can be restricted to dial.
+
+
+        These map to raw Twilio Lookup v2 line types via
+
+        ``lib.twilio.line_type_lookup.LINE_TYPE_BUCKETS``.'
+    OutboundCampaignInput:
+      properties:
+        campaign_name:
+          type: string
+          title: Campaign Name
+          description: Human readable name of campaign
+          examples:
+          - Outbound Campaign 1
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of campaign
+          examples:
+          - This is a test campaign
+        mode:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Mode
+          description: Mode of the campaign (e.g. voice, sms, email)
+          examples:
+          - voice
+          - sms
+          - email
+        sms_session_ttl:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Sms Session Ttl
+          description: Time to live for SMS session in minutes
+          examples:
+          - 720
+        label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label
+          description: Label for campaign (DEPRECATED - use labels instead)
+          deprecated: true
+          examples:
+          - test
+          - demo
+        labels:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Labels
+          description: Labels for campaign
+          examples:
+          - - test
+            - demo
+        campaign_variables:
+          additionalProperties:
+            type: string
+          type: object
+          title: Campaign Variables
+          description: Variables for campaign
+          examples:
+          - key: value
+            key2: value2
+        daily_start_time:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Daily Start Time
+          description: Start time of campaign each day
+          examples:
+          - 09:00:00
+        daily_end_time:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Daily End Time
+          description: End time of campaign each day
+          examples:
+          - '17:00:00'
+        source:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source
+          description: Source phone number, email, or SMS number
+          examples:
+          - '+19032900844'
+          - account@email.com
+        caller_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Caller Id
+          description: Caller ID for call
+          examples:
+          - 19995551234
+        hourly_rate:
+          type: integer
+          maximum: 3600
+          minimum: 1
+          title: Hourly Rate
+          description: Target number of outreach calls per hour
+          default: 1
+          examples:
+          - 25
+        max_daily_calls:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Daily Calls
+          description: Maximum number of outreach calls per day
+          examples:
+          - 2500
+        retry_count:
+          type: integer
+          title: Retry Count
+          description: Number of retries per target
+          default: 0
+          examples:
+          - 1
+        retry_interval:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Retry Interval
+          description: How long to wait before retrying
+          examples:
+          - 30m
+          - 12h
+          - 7d
+        active_days:
+          items:
+            $ref: '#/components/schemas/DaysOfWeek'
+          type: array
+          title: Active Days
+          description: Days of the week when campaign is active
+          examples:
+          - '["mon", "tue", "wed", "thu", "fri"]'
+        voicemail_detection:
+          anyOf:
+          - $ref: '#/components/schemas/VoicemailDetectionConfig'
+          - type: 'null'
+          description: Config for voicemail detection for voice campaigns. Set to None to disable.
+          examples:
+          - voicemail_detection_overall_timeout: 30.0
+            voicemail_detection_post_speech_timeout: 1.75
+            voicemail_detection_pre_speech_timeout: 3.5
+        allowed_line_types:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/LineTypeBucket'
+            type: array
+          - type: 'null'
+          title: Allowed Line Types
+          description: Line-type buckets this campaign is allowed to dial. Empty or omitted means no filter (all line types are dialed).
+          examples:
+          - - mobile
+            - voip
+        include_unknown_line_types:
+          type: boolean
+          title: Include Unknown Line Types
+          description: When a line-type filter is active, whether to also dial numbers whose line type is unknown or could not be classified. Has no effect when allowed_line_types is empty.
+          default: true
+          examples:
+          - true
+        target_filters:
+          anyOf:
+          - $ref: '#/components/schemas/TargetFilters'
+          - type: 'null'
+          description: Generic target filter (a flat rule list over request enrichment attributes such as line_type, carrier_name, mcc, mnc). When set, takes precedence over allowed_line_types / include_unknown_line_types. Omitted or null means those legacy fields are used instead.
+          examples:
+          - match: any
+            on_unknown: include
+            rules:
+            - field: line_type
+              op: in
+              values:
+              - landline
+              - fixedVoip
+              - nonFixedVoip
+            - field: carrier_name
+              op: in
+              values:
+              - Onvoy, LLC - Sinch
+        webhooks:
+          items:
+            $ref: '#/components/schemas/OutboundCampaignWebhookInput'
+          type: array
+          title: Webhooks
+          description: Webhooks for campaign
+          default: []
+          examples:
+          - request_method: POST
+            trigger_statuses:
+            - COMPLETED
+            url: https://example.com/hooks/syllable
+      type: object
+      required:
+      - campaign_name
+      - campaign_variables
+      - caller_id
+      - active_days
+      title: OutboundCampaignInput
+    OutboundCampaign:
+      properties:
+        campaign_name:
+          type: string
+          title: Campaign Name
+          description: Human readable name of campaign
+          examples:
+          - Outbound Campaign 1
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of campaign
+          examples:
+          - This is a test campaign
+        mode:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Mode
+          description: Mode of the campaign (e.g. voice, sms, email)
+          examples:
+          - voice
+          - sms
+          - email
+        sms_session_ttl:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Sms Session Ttl
+          description: Time to live for SMS session in minutes
+          examples:
+          - 720
+        label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label
+          description: Label for campaign (DEPRECATED - use labels instead)
+          deprecated: true
+          examples:
+          - test
+          - demo
+        labels:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Labels
+          description: Labels for campaign
+          examples:
+          - - test
+            - demo
+        campaign_variables:
+          additionalProperties:
+            type: string
+          type: object
+          title: Campaign Variables
+          description: Variables for campaign
+          examples:
+          - key: value
+            key2: value2
+        daily_start_time:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Daily Start Time
+          description: Start time of campaign each day
+          examples:
+          - 09:00:00
+        daily_end_time:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Daily End Time
+          description: End time of campaign each day
+          examples:
+          - '17:00:00'
+        source:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source
+          description: Source phone number, email, or SMS number
+          examples:
+          - '+19032900844'
+          - account@email.com
+        caller_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Caller Id
+          description: Caller ID for call
+          examples:
+          - 19995551234
+        hourly_rate:
+          type: integer
+          maximum: 3600
+          minimum: 1
+          title: Hourly Rate
+          description: Target number of outreach calls per hour
+          default: 1
+          examples:
+          - 25
+        max_daily_calls:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Daily Calls
+          description: Maximum number of outreach calls per day
+          examples:
+          - 2500
+        retry_count:
+          type: integer
+          title: Retry Count
+          description: Number of retries per target
+          default: 0
+          examples:
+          - 1
+        retry_interval:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Retry Interval
+          description: How long to wait before retrying
+          examples:
+          - 30m
+          - 12h
+          - 7d
+        active_days:
+          items:
+            $ref: '#/components/schemas/DaysOfWeek'
+          type: array
+          title: Active Days
+          description: Days of the week when campaign is active
+          examples:
+          - '["mon", "tue", "wed", "thu", "fri"]'
+        voicemail_detection:
+          anyOf:
+          - $ref: '#/components/schemas/VoicemailDetectionConfig'
+          - type: 'null'
+          description: Config for voicemail detection for voice campaigns. Set to None to disable.
+          examples:
+          - voicemail_detection_overall_timeout: 30.0
+            voicemail_detection_post_speech_timeout: 1.75
+            voicemail_detection_pre_speech_timeout: 3.5
+        allowed_line_types:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/LineTypeBucket'
+            type: array
+          - type: 'null'
+          title: Allowed Line Types
+          description: Line-type buckets this campaign is allowed to dial. Empty or omitted means no filter (all line types are dialed).
+          examples:
+          - - mobile
+            - voip
+        include_unknown_line_types:
+          type: boolean
+          title: Include Unknown Line Types
+          description: When a line-type filter is active, whether to also dial numbers whose line type is unknown or could not be classified. Has no effect when allowed_line_types is empty.
+          default: true
+          examples:
+          - true
+        target_filters:
+          anyOf:
+          - $ref: '#/components/schemas/TargetFilters'
+          - type: 'null'
+          description: Generic target filter (a flat rule list over request enrichment attributes such as line_type, carrier_name, mcc, mnc). When set, takes precedence over allowed_line_types / include_unknown_line_types. Omitted or null means those legacy fields are used instead.
+          examples:
+          - match: any
+            on_unknown: include
+            rules:
+            - field: line_type
+              op: in
+              values:
+              - landline
+              - fixedVoip
+              - nonFixedVoip
+            - field: carrier_name
+              op: in
+              values:
+              - Onvoy, LLC - Sinch
+        id:
+          type: integer
+          title: Id
+          description: Unique ID for campaign
+          examples:
+          - 1
+        agent_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Agent Id
+          description: ID of agent assigned to campaign
+          examples:
+          - agent_id
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: Timestamp of campaign creation
+          examples:
+          - '2026-08-05T00:00:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+          description: Timestamp of campaign update
+          examples:
+          - '2026-08-05T00:00:00Z'
+        last_updated_by:
+          type: string
+          title: Last Updated By
+          description: Email of user who last updated campaign
+          examples:
+          - user@email.com
+        webhooks:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/OutboundCampaignWebhookResponse'
+            type: array
+          - type: 'null'
+          title: Webhooks
+          description: Webhooks for campaign
+          examples:
+          - id: 1
+            request_method: POST
+            trigger_statuses:
+            - COMPLETED
+            url: https://example.com/hooks/syllable
+      type: object
+      required:
+      - campaign_name
+      - campaign_variables
+      - caller_id
+      - active_days
+      - id
+      - last_updated_by
+      title: OutboundCampaign
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: Syllable-API-Key
+x-speakeasy-name-override:
+- operationId: .*_list$
+  methodNameOverride: list
+- operationId: .*_create$
+  methodNameOverride: create
+- operationId: .*_update$
+  methodNameOverride: update
+- operationId: .*_upload$
+  methodNameOverride: upload
+- operationId: .*_delete$
+  methodNameOverride: delete
+- operationId: .*_get_by_id$
+  methodNameOverride: get_by_id
+- operationId: .*_get_by_name$
+  methodNameOverride: get_by_name
+- operationId: .*_add$
+  methodNameOverride: add
+- operationId: .*_remove$
+  methodNameOverride: remove
+- operationId: .*_results$
+  methodNameOverride: results
+- operationId: .*_queue_work$
+  methodNameOverride: queue_work
+- operationId: .*_activate$
+  methodNameOverride: activate
+- operationId: .*_inactivate$
+  methodNameOverride: inactivate
+- operationId: .*_list_files$
+  methodNameOverride: list_files
+- operationId: .*_move_files$
+  methodNameOverride: move_files
+- operationId: .*_upload_file$
+  methodNameOverride: upload_file

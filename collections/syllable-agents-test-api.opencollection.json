@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SyllableSDK Agents.test API",
+    "version": "0.0.3"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "agents.test",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Send New Message",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.syllable.cloud/api/v1/agents/test/messages",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Send a new message"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

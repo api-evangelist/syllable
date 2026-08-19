@@ -1,0 +1,377 @@
+openapi: 3.2.0
+info:
+  title: SyllableSDK Conversations API
+  description: "\n# Syllable Platform SDK\n\nSyllable SDK gives you the power of awesome AI agentry. \U0001F680\n\n## Overview\n\nThe Syllable SDK provides a comprehensive set of tools and APIs to integrate powerful AI\ncapabilities into your communication applications. Whether you're building phone agents, chatbots,\nvirtual assistants, or any other AI-driven solutions, Syllable SDK has got you covered.\n\n## Features\n\n- **Agent Configuration**: Create and manage agents that can interact with users across various \nchannels.\n- **Channel Management**: Configure channels like SMS, web chat, and more to connect agents with \nusers.\n- **Custom Messages**: Set up custom messages that agents can deliver as greetings or responses.\n- **Conversations**: Track and manage conversations between users and agents, including session \nmanagement.\n- **Tools and Workflows**: Leverage tools and workflows to enhance agent capabilities, such as data \nprocessing and API calls.\n- **Data Sources**: Integrate data sources to provide agents with additional context and \ninformation.\n- **Insights and Analytics**: Analyze conversations and sessions to gain insights into user \ninteractions.\n- **Permissions and Security**: Manage permissions to control access to various features and \nfunctionalities.\n- **Language Support**: Define language groups to enable multilingual support for agents.\n- **Outbound Campaigns**: Create and manage outbound communication campaigns to reach users \neffectively.\n- **Session Labels**: Label sessions with evaluations of quality and descriptions of issues \nencountered.\n- **Incident Management**: Track and manage incidents related to agent interactions.\n"
+  version: 0.0.3
+servers:
+- url: https://api.syllable.cloud
+  description: API server
+tags:
+- name: conversations
+  description: Operations related to conversations.           A conversation is a record of messages between a user and an agent, and is composed of           one or more sessions.
+paths:
+  /api/v1/conversations/:
+    get:
+      tags:
+      - conversations
+      summary: Conversations List
+      operationId: conversations_list
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            minimum: 0
+          - type: 'null'
+          description: The page number from which to start (0-based)
+          examples:
+          - 0
+          default: 0
+          title: Page
+        description: The page number from which to start (0-based)
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: The maximum number of items to return
+          examples:
+          - 25
+          default: 25
+          title: Limit
+        description: The maximum number of items to return
+      - name: search_fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConversationProperties'
+          description: String names of fields to search. Correspond by index to search field values
+          examples:
+          - name
+          default: []
+          title: Search Fields
+        description: String names of fields to search. Correspond by index to search field values
+      - name: search_field_values
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          description: Values of fields to search. Correspond by index to search fields. Unless field name contains "list", an individual search field value cannot be a list
+          examples:
+          - Some Object Name
+          default: []
+          title: Search Field Values
+        description: Values of fields to search. Correspond by index to search fields. Unless field name contains "list", an individual search field value cannot be a list
+      - name: order_by
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/ConversationProperties'
+          - type: 'null'
+          description: The field whose value should be used to order the results
+          examples:
+          - name
+          title: Order By
+        description: The field whose value should be used to order the results
+      - name: order_by_direction
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/OrderByDirection'
+          - type: 'null'
+          description: The direction in which to order the results
+          title: Order By Direction
+        description: The direction in which to order the results
+      - name: fields
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              $ref: '#/components/schemas/ConversationProperties'
+          - type: 'null'
+          description: The fields to include in the response
+          default: []
+          title: Fields
+        description: The fields to include in the response
+      - name: start_datetime
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The start datetime for filtering results
+          examples:
+          - '2023-01-01T00:00:00Z'
+          title: Start Datetime
+        description: The start datetime for filtering results
+      - name: end_datetime
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The end datetime for filtering results
+          examples:
+          - '2024-01-01T00:00:00Z'
+          title: End Datetime
+        description: The end datetime for filtering results
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListResponse_Conversation_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK, models\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.conversations.list(page=0, limit=25, search_fields=[\n        models.ConversationProperties.AGENT_NAME,\n    ], search_field_values=[\n        \"Some Object Name\",\n    ], start_datetime=\"2023-01-01T00:00:00Z\", end_datetime=\"2024-01-01T00:00:00Z\")\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.conversations.list({\n    page: 0,\n    searchFields: [\n      \"agent_name\",\n    ],\n    searchFieldValues: [\n      \"Some Object Name\",\n    ],\n    startDatetime: \"2023-01-01T00:00:00Z\",\n    endDatetime: \"2024-01-01T00:00:00Z\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+components:
+  schemas:
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Conversation:
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+          description: Timestamp of the conversation
+        conversation_id:
+          type: string
+          title: Conversation Id
+          description: ID of the conversation
+        agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Id
+          description: ID of the agent with which the conversation occurred
+        agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Name
+          description: Name of the agent with which the conversation occurred
+        agent_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Type
+          description: Value of the "type" field of the agent with which the conversation occurred
+        prompt_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Prompt Id
+          description: ID of the prompt used in the conversation
+        prompt_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Prompt Name
+          description: Name of the prompt used in the conversation
+        prompt_version:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Prompt Version
+          description: Version of the prompt used in the conversation
+        llm_provider:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Llm Provider
+          description: Provider for the LLM used in the conversation (see PromptResponse.llm_config.provider)
+        llm_model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Llm Model
+          description: Model for the LLM used in the conversation (see PromptResponse.llm_config.model)
+        llm_version:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Llm Version
+          description: Version for the LLM used in the conversation (see PromptResponse.llm_config.version)
+        llm_temperature:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Llm Temperature
+          description: Temperature for the LLM used in the conversation (see PromptResponse.llm_config.temperature)
+        llm_seed:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Llm Seed
+          description: Seed for the LLM used in the conversation (see PromptResponse.llm_config.seed).
+        is_legacy:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Legacy
+          description: Whether the conversation occurred on the legacy Syllable system
+      type: object
+      required:
+      - timestamp
+      - conversation_id
+      title: Conversation
+      description: 'A conversation is a record of messages between a user and an agent, and is composed of one or
+
+        more sessions.'
+    ConversationProperties:
+      type: string
+      enum:
+      - timestamp
+      - agent_type
+      - agent_id
+      - agent_name
+      - prompt_id
+      - prompt_name
+      - llm_provider
+      - llm_model
+      - llm_version
+      - is_legacy
+      title: ConversationProperties
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ListResponse_Conversation_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Conversation'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[Conversation]
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: Syllable-API-Key
+x-speakeasy-name-override:
+- operationId: .*_list$
+  methodNameOverride: list
+- operationId: .*_create$
+  methodNameOverride: create
+- operationId: .*_update$
+  methodNameOverride: update
+- operationId: .*_upload$
+  methodNameOverride: upload
+- operationId: .*_delete$
+  methodNameOverride: delete
+- operationId: .*_get_by_id$
+  methodNameOverride: get_by_id
+- operationId: .*_get_by_name$
+  methodNameOverride: get_by_name
+- operationId: .*_add$
+  methodNameOverride: add
+- operationId: .*_remove$
+  methodNameOverride: remove
+- operationId: .*_results$
+  methodNameOverride: results
+- operationId: .*_queue_work$
+  methodNameOverride: queue_work
+- operationId: .*_activate$
+  methodNameOverride: activate
+- operationId: .*_inactivate$
+  methodNameOverride: inactivate
+- operationId: .*_list_files$
+  methodNameOverride: list_files
+- operationId: .*_move_files$
+  methodNameOverride: move_files
+- operationId: .*_upload_file$
+  methodNameOverride: upload_file

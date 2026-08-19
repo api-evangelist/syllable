@@ -1,0 +1,1218 @@
+{
+  "item": [
+    {
+      "id": "87fab0ce-2fab-4965-b9ec-e187abdd059a",
+      "name": "tools",
+      "description": {
+        "content": "Operations related to tool configuration. A tool is a function that an           agent can call to perform actions like accessing databases, making API calls, or           processing data. For an agent to have access to a tool, the prompt associated with that           agent should be linked to the tool and include instructions to use it. For more           information, see [Console docs](https://docs.syllable.ai/Resources/Tools).",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c3601566-36df-4c31-b422-977c87176579",
+          "name": "Tool List",
+          "request": {
+            "name": "Tool List",
+            "description": {
+              "content": "List the existing tools",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "tools",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "The page number from which to start (0-based)"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "25",
+                  "description": "The maximum number of items to return"
+                },
+                {
+                  "disabled": false,
+                  "key": "order_by",
+                  "value": "<string>",
+                  "description": "The field whose value should be used to order the results"
+                },
+                {
+                  "disabled": false,
+                  "key": "order_by_direction",
+                  "value": "<string>",
+                  "description": "The direction in which to order the results"
+                },
+                {
+                  "disabled": false,
+                  "key": "fields",
+                  "value": "<string>",
+                  "description": "The fields to include in the response"
+                },
+                {
+                  "disabled": false,
+                  "key": "fields",
+                  "value": "<string>",
+                  "description": "The fields to include in the response"
+                },
+                {
+                  "disabled": false,
+                  "key": "start_datetime",
+                  "value": "<string>",
+                  "description": "The start datetime for filtering results"
+                },
+                {
+                  "disabled": false,
+                  "key": "end_datetime",
+                  "value": "<string>",
+                  "description": "The end datetime for filtering results"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Syllable-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "6a9132e8-1a96-44b1-b608-f5aac82f46cb",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tools",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "25"
+                    },
+                    {
+                      "key": "order_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order_by_direction",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_datetime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "end_datetime",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"name\": \"string\",\n      \"definition\": {\n        \"tool\": {\n          \"function\": {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"description\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"parameters\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"type\": \"function\"\n        },\n        \"type\": \"action\",\n        \"endpoint\": {\n          \"url\": \"string\",\n          \"method\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"argument_location\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"timeout\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"context\": {\n          \"task\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"defaults\": {},\n        \"static_parameters\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"result\": {},\n        \"options\": {\n          \"propagate_tool_result\": false\n        }\n      },\n      \"service_id\": 840,\n      \"id\": 4257,\n      \"last_updated\": \"1975-12-11T04:56:56.350Z\",\n      \"last_updated_by\": \"string\",\n      \"version_number\": 6096,\n      \"last_updated_comments\": \"string\",\n      \"service_name\": \"string\",\n      \"prompts_info\": [\n        {\n          \"id\": 6448,\n          \"name\": \"string\"\n        },\n        {\n          \"id\": 4547,\n          \"name\": \"string\"\n        }\n      ],\n      \"agents_info\": [\n        {\n          \"id\": 260,\n          \"name\": \"string\"\n        },\n        {\n          \"id\": 1115,\n          \"name\": \"string\"\n        }\n      ],\n      \"validation_issues\": [\n        {\n          \"id\": \"string\",\n          \"message\": \"string\",\n          \"severity\": \"error\",\n          \"path\": \"string\",\n          \"value\": \"string\"\n        },\n        {\n          \"id\": \"string\",\n          \"message\": \"string\",\n          \"severity\": \"error\",\n          \"path\": \"string\",\n          \"value\": \"string\"\n        }\n      ]\n    },\n    {\n      \"name\": \"string\",\n      \"definition\": {\n        \"tool\": {\n          \"function\": {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"description\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"parameters\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"type\": \"function\"\n        },\n        \"type\": \"action\",\n        \"endpoint\": {\n          \"url\": \"string\",\n          \"method\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"argument_location\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"timeout\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"context\": {\n          \"task\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"defaults\": {},\n        \"static_parameters\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"result\": {},\n        \"options\": {\n          \"propagate_tool_result\": false\n        }\n      },\n      \"service_id\": 279,\n      \"id\": 8565,\n      \"last_updated\": \"1958-11-02T10:05:14.234Z\",\n      \"last_updated_by\": \"string\",\n      \"version_number\": 2958,\n      \"last_updated_comments\": \"string\",\n      \"service_name\": \"string\",\n      \"prompts_info\": [\n        {\n          \"id\": 368,\n          \"name\": \"string\"\n        },\n        {\n          \"id\": 2923,\n          \"name\": \"string\"\n        }\n      ],\n      \"agents_info\": [\n        {\n          \"id\": 9336,\n          \"name\": \"string\"\n        },\n        {\n          \"id\": 5011,\n          \"name\": \"string\"\n        }\n      ],\n      \"validation_issues\": [\n        {\n          \"id\": \"string\",\n          \"message\": \"string\",\n          \"severity\": \"error\",\n          \"path\": \"string\",\n          \"value\": \"string\"\n        },\n        {\n          \"id\": \"string\",\n          \"message\": \"string\",\n          \"severity\": \"error\",\n          \"path\": \"string\",\n          \"value\": \"string\"\n        }\n      ]\n    }\n  ],\n  \"page\": 363,\n  \"page_size\": 7189,\n  \"total_pages\": 778,\n  \"total_count\": 9375\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9de5e22e-d186-4fa7-b10a-13a24fc516ca",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tools",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "25"
+                    },
+                    {
+                      "key": "order_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order_by_direction",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_datetime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "end_datetime",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e8dd5cb5-35ac-457e-aa9c-86f6220b330f",
+          "name": "Create Tool",
+          "request": {
+            "name": "Create Tool",
+            "description": {
+              "content": "Create a new tool",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "tools",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Syllable-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"definition\": {\n    \"tool\": {\n      \"function\": {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": {}\n      },\n      \"type\": \"function\"\n    },\n    \"type\": \"<string>\",\n    \"endpoint\": {\n      \"url\": \"<string>\",\n      \"method\": \"<string>\",\n      \"argument_location\": \"<string>\",\n      \"timeout\": \"<number>\"\n    },\n    \"context\": {\n      \"task\": {\n        \"id\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"config\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"variables\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"metadata\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tool\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"type\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"version\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"inputs\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"expression\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"output\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"true\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    \"defaults\": {},\n    \"static_parameters\": [\n      {\n        \"name\": \"<string>\",\n        \"required\": \"<boolean>\",\n        \"type\": \"<string>\",\n        \"description\": \"<string>\",\n        \"default\": {}\n      },\n      {\n        \"name\": \"<string>\",\n        \"required\": \"<boolean>\",\n        \"type\": \"<string>\",\n        \"description\": \"<string>\",\n        \"default\": {}\n      }\n    ],\n    \"result\": {},\n    \"options\": {\n      \"propagate_tool_result\": false\n    }\n  },\n  \"service_id\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bbebdecd-016a-45cc-98e6-7825c8501192",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tools",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"definition\": {\n    \"tool\": {\n      \"function\": {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": {}\n      },\n      \"type\": \"function\"\n    },\n    \"type\": \"<string>\",\n    \"endpoint\": {\n      \"url\": \"<string>\",\n      \"method\": \"<string>\",\n      \"argument_location\": \"<string>\",\n      \"timeout\": \"<number>\"\n    },\n    \"context\": {\n      \"task\": {\n        \"id\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"config\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"variables\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"metadata\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tool\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"type\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"version\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"inputs\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"expression\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"output\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"true\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    \"defaults\": {},\n    \"static_parameters\": [\n      {\n        \"name\": \"<string>\",\n        \"required\": \"<boolean>\",\n        \"type\": \"<string>\",\n        \"description\": \"<string>\",\n        \"default\": {}\n      },\n      {\n        \"name\": \"<string>\",\n        \"required\": \"<boolean>\",\n        \"type\": \"<string>\",\n        \"description\": \"<string>\",\n        \"default\": {}\n      }\n    ],\n    \"result\": {},\n    \"options\": {\n      \"propagate_tool_result\": false\n    }\n  },\n  \"service_id\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"definition\": {\n    \"tool\": {\n      \"function\": {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": {}\n      },\n      \"type\": \"function\"\n    },\n    \"type\": \"<string>\",\n    \"endpoint\": {\n      \"url\": \"<string>\",\n      \"method\": \"<string>\",\n      \"argument_location\": \"<string>\",\n      \"timeout\": \"<number>\"\n    },\n    \"context\": {\n      \"task\": {\n        \"id\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"config\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"variables\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"metadata\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tool\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"type\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"version\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"inputs\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"expression\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"output\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"true\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    \"defaults\": {},\n    \"static_parameters\": [\n      {\n        \"name\": \"<string>\",\n        \"required\": \"<boolean>\",\n        \"type\": \"<string>\",\n        \"description\": \"<string>\",\n        \"default\": {}\n      },\n      {\n        \"name\": \"<string>\",\n        \"required\": \"<boolean>\",\n        \"type\": \"<string>\",\n        \"description\": \"<string>\",\n        \"default\": {}\n      }\n    ],\n    \"result\": {},\n    \"options\": {\n      \"propagate_tool_result\": false\n    }\n  },\n  \"service_id\": 9013,\n  \"id\": 5157,\n  \"last_updated\": \"2013-01-27T20:25:45.729Z\",\n  \"last_updated_by\": \"string\",\n  \"version_number\": 9975,\n  \"last_updated_comments\": \"string\",\n  \"service_name\": \"string\",\n  \"prompts_info\": [\n    {\n      \"id\": 9181,\n      \"name\": \"string\"\n    },\n    {\n      \"id\": 6708,\n      \"name\": \"string\"\n    }\n  ],\n  \"agents_info\": [\n    {\n      \"id\": 4871,\n      \"name\": \"string\"\n    },\n    {\n      \"id\": 295,\n      \"name\": \"string\"\n    }\n  ],\n  \"validation_issues\": [\n    {\n      \"id\": \"string\",\n      \"message\": \"string\",\n      \"severity\": \"error\",\n      \"path\": \"string\",\n      \"value\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"message\": \"string\",\n      \"severity\": \"error\",\n      \"path\": \"string\",\n      \"value\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "568414f3-f793-461d-92e8-25680bf5148a",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tools",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"definition\": {\n    \"tool\": {\n      \"function\": {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": {}\n      },\n      \"type\": \"function\"\n    },\n    \"type\": \"<string>\",\n    \"endpoint\": {\n      \"url\": \"<string>\",\n      \"method\": \"<string>\",\n      \"argument_location\": \"<string>\",\n      \"timeout\": \"<number>\"\n    },\n    \"context\": {\n      \"task\": {\n        \"id\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"config\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"variables\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"metadata\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tool\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"type\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"version\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"inputs\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"expression\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"output\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"true\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    \"defaults\": {},\n    \"static_parameters\": [\n      {\n        \"name\": \"<string>\",\n        \"required\": \"<boolean>\",\n        \"type\": \"<string>\",\n        \"description\": \"<string>\",\n        \"default\": {}\n      },\n      {\n        \"name\": \"<string>\",\n        \"required\": \"<boolean>\",\n        \"type\": \"<string>\",\n        \"description\": \"<string>\",\n        \"default\": {}\n      }\n    ],\n    \"result\": {},\n    \"options\": {\n      \"propagate_tool_result\": false\n    }\n  },\n  \"service_id\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d0912154-6801-4c28-835c-a73fba31bb30",
+          "name": "Update Tool",
+          "request": {
+            "name": "Update Tool",
+            "description": {
+              "content": "Update an existing tool",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "tools",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Syllable-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"definition\": {\n    \"tool\": {\n      \"function\": {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": {}\n      },\n      \"type\": \"function\"\n    },\n    \"type\": \"<string>\",\n    \"endpoint\": {\n      \"url\": \"<string>\",\n      \"method\": \"<string>\",\n      \"argument_location\": \"<string>\",\n      \"timeout\": \"<number>\"\n    },\n    \"context\": {\n      \"task\": {\n        \"id\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"config\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"variables\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"metadata\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tool\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"type\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"version\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"inputs\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"expression\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"output\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"true\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    \"defaults\": {},\n    \"static_parameters\": [\n      {\n        \"name\": \"<string>\",\n        \"required\": \"<boolean>\",\n        \"type\": \"<string>\",\n        \"description\": \"<string>\",\n        \"default\": {}\n      },\n      {\n        \"name\": \"<string>\",\n        \"required\": \"<boolean>\",\n        \"type\": \"<string>\",\n        \"description\": \"<string>\",\n        \"default\": {}\n      }\n    ],\n    \"result\": {},\n    \"options\": {\n      \"propagate_tool_result\": false\n    }\n  },\n  \"service_id\": \"<integer>\",\n  \"id\": \"<integer>\",\n  \"last_updated_comments\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b5794b3b-29c9-47bf-a2e3-423acdb86b57",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tools",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"definition\": {\n    \"tool\": {\n      \"function\": {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": {}\n      },\n      \"type\": \"function\"\n    },\n    \"type\": \"<string>\",\n    \"endpoint\": {\n      \"url\": \"<string>\",\n      \"method\": \"<string>\",\n      \"argument_location\": \"<string>\",\n      \"timeout\": \"<number>\"\n    },\n    \"context\": {\n      \"task\": {\n        \"id\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"config\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"variables\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"metadata\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tool\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"type\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"version\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"inputs\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"expression\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"output\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"true\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    \"defaults\": {},\n    \"static_parameters\": [\n      {\n        \"name\": \"<string>\",\n        \"required\": \"<boolean>\",\n        \"type\": \"<string>\",\n        \"description\": \"<string>\",\n        \"default\": {}\n      },\n      {\n        \"name\": \"<string>\",\n        \"required\": \"<boolean>\",\n        \"type\": \"<string>\",\n        \"description\": \"<string>\",\n        \"default\": {}\n      }\n    ],\n    \"result\": {},\n    \"options\": {\n      \"propagate_tool_result\": false\n    }\n  },\n  \"service_id\": \"<integer>\",\n  \"id\": \"<integer>\",\n  \"last_updated_comments\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"definition\": {\n    \"tool\": {\n      \"function\": {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": {}\n      },\n      \"type\": \"function\"\n    },\n    \"type\": \"<string>\",\n    \"endpoint\": {\n      \"url\": \"<string>\",\n      \"method\": \"<string>\",\n      \"argument_location\": \"<string>\",\n      \"timeout\": \"<number>\"\n    },\n    \"context\": {\n      \"task\": {\n        \"id\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"config\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"variables\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"metadata\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tool\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"type\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"version\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"inputs\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"expression\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"output\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"true\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    \"defaults\": {},\n    \"static_parameters\": [\n      {\n        \"name\": \"<string>\",\n        \"required\": \"<boolean>\",\n        \"type\": \"<string>\",\n        \"description\": \"<string>\",\n        \"default\": {}\n      },\n      {\n        \"name\": \"<string>\",\n        \"required\": \"<boolean>\",\n        \"type\": \"<string>\",\n        \"description\": \"<string>\",\n        \"default\": {}\n      }\n    ],\n    \"result\": {},\n    \"options\": {\n      \"propagate_tool_result\": false\n    }\n  },\n  \"service_id\": 9013,\n  \"id\": 5157,\n  \"last_updated\": \"2013-01-27T20:25:45.729Z\",\n  \"last_updated_by\": \"string\",\n  \"version_number\": 9975,\n  \"last_updated_comments\": \"string\",\n  \"service_name\": \"string\",\n  \"prompts_info\": [\n    {\n      \"id\": 9181,\n      \"name\": \"string\"\n    },\n    {\n      \"id\": 6708,\n      \"name\": \"string\"\n    }\n  ],\n  \"agents_info\": [\n    {\n      \"id\": 4871,\n      \"name\": \"string\"\n    },\n    {\n      \"id\": 295,\n      \"name\": \"string\"\n    }\n  ],\n  \"validation_issues\": [\n    {\n      \"id\": \"string\",\n      \"message\": \"string\",\n      \"severity\": \"error\",\n      \"path\": \"string\",\n      \"value\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"message\": \"string\",\n      \"severity\": \"error\",\n      \"path\": \"string\",\n      \"value\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f47f847c-6f0d-4cea-a44c-2d2cfc7583be",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tools",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"definition\": {\n    \"tool\": {\n      \"function\": {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": {}\n      },\n      \"type\": \"function\"\n    },\n    \"type\": \"<string>\",\n    \"endpoint\": {\n      \"url\": \"<string>\",\n      \"method\": \"<string>\",\n      \"argument_location\": \"<string>\",\n      \"timeout\": \"<number>\"\n    },\n    \"context\": {\n      \"task\": {\n        \"id\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"config\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"variables\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"metadata\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tool\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"type\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"version\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"inputs\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"expression\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"output\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"true\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    \"defaults\": {},\n    \"static_parameters\": [\n      {\n        \"name\": \"<string>\",\n        \"required\": \"<boolean>\",\n        \"type\": \"<string>\",\n        \"description\": \"<string>\",\n        \"default\": {}\n      },\n      {\n        \"name\": \"<string>\",\n        \"required\": \"<boolean>\",\n        \"type\": \"<string>\",\n        \"description\": \"<string>\",\n        \"default\": {}\n      }\n    ],\n    \"result\": {},\n    \"options\": {\n      \"propagate_tool_result\": false\n    }\n  },\n  \"service_id\": \"<integer>\",\n  \"id\": \"<integer>\",\n  \"last_updated_comments\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4416400d-5336-4932-b370-164de2f93b28",
+          "name": "Tool History",
+          "request": {
+            "name": "Tool History",
+            "description": {
+              "content": "Get version history for a tool.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "tools",
+                ":tool_id",
+                "history"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "0",
+                  "description": "Page number (0-based)"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "25",
+                  "description": "Items per page"
+                },
+                {
+                  "disabled": false,
+                  "key": "order_by_direction",
+                  "value": "<string>",
+                  "description": "Sort by oldest first (asc) or newest first (desc). Version 1 is always the oldest."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "tool_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Syllable-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "cefaa0d5-f6b7-4417-871a-8052df69495a",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tools",
+                    ":tool_id",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "25"
+                    },
+                    {
+                      "key": "order_by_direction",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "tool_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"tool_id\": 2420,\n      \"version_number\": 6088,\n      \"created_at\": \"2019-03-09T04:04:53.314Z\",\n      \"updated_by\": \"string\",\n      \"operation\": \"string\",\n      \"service_id\": 6547,\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"type\": \"string\",\n      \"definition\": {\n        \"tool\": {\n          \"function\": {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"description\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"parameters\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"type\": \"function\"\n        },\n        \"type\": \"<string>\",\n        \"endpoint\": {\n          \"url\": \"<string>\",\n          \"method\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"argument_location\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"timeout\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"context\": {\n          \"task\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"defaults\": {},\n        \"static_parameters\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"result\": {},\n        \"options\": {\n          \"propagate_tool_result\": false\n        }\n      },\n      \"comments\": \"string\",\n      \"deleted_reason\": \"string\",\n      \"service_name\": \"string\"\n    },\n    {\n      \"tool_id\": 4477,\n      \"version_number\": 5185,\n      \"created_at\": \"2009-08-20T03:33:53.707Z\",\n      \"updated_by\": \"string\",\n      \"operation\": \"string\",\n      \"service_id\": 8658,\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"type\": \"string\",\n      \"definition\": {\n        \"tool\": {\n          \"function\": {\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"description\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"parameters\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"type\": \"function\"\n        },\n        \"type\": \"<string>\",\n        \"endpoint\": {\n          \"url\": \"<string>\",\n          \"method\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"argument_location\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"timeout\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"context\": {\n          \"task\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"defaults\": {},\n        \"static_parameters\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"result\": {},\n        \"options\": {\n          \"propagate_tool_result\": false\n        }\n      },\n      \"comments\": \"string\",\n      \"deleted_reason\": \"string\",\n      \"service_name\": \"string\"\n    }\n  ],\n  \"page\": 378,\n  \"page_size\": 5807,\n  \"total_pages\": 532,\n  \"total_count\": 3258\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "43f5b135-d107-4a65-b698-058d6283a5d4",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tools",
+                    ":tool_id",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "25"
+                    },
+                    {
+                      "key": "order_by_direction",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "tool_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "51250e24-9141-4ac6-b2fa-cbfa3a951294",
+          "name": "Tool Info",
+          "request": {
+            "name": "Tool Info",
+            "description": {
+              "content": "Get the details of a specific tool",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "tools",
+                ":tool_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tool_name",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Syllable-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "cbf0124a-1acb-4b1f-9a93-2fc4cbe20aa2",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tools",
+                    ":tool_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tool_name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"definition\": {\n    \"tool\": {\n      \"function\": {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": {}\n      },\n      \"type\": \"function\"\n    },\n    \"type\": \"<string>\",\n    \"endpoint\": {\n      \"url\": \"<string>\",\n      \"method\": \"<string>\",\n      \"argument_location\": \"<string>\",\n      \"timeout\": \"<number>\"\n    },\n    \"context\": {\n      \"task\": {\n        \"id\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"config\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"variables\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"metadata\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"tool\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"type\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"version\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"inputs\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"expression\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"output\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"true\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    \"defaults\": {},\n    \"static_parameters\": [\n      {\n        \"name\": \"<string>\",\n        \"required\": \"<boolean>\",\n        \"type\": \"<string>\",\n        \"description\": \"<string>\",\n        \"default\": {}\n      },\n      {\n        \"name\": \"<string>\",\n        \"required\": \"<boolean>\",\n        \"type\": \"<string>\",\n        \"description\": \"<string>\",\n        \"default\": {}\n      }\n    ],\n    \"result\": {},\n    \"options\": {\n      \"propagate_tool_result\": false\n    }\n  },\n  \"service_id\": 5764,\n  \"id\": 4228,\n  \"last_updated\": \"1977-09-12T07:58:56.394Z\",\n  \"last_updated_by\": \"string\",\n  \"version_number\": 2874,\n  \"fields\": [\n    \"string\",\n    \"string\"\n  ],\n  \"last_updated_comments\": \"string\",\n  \"service_name\": \"string\",\n  \"prompts_info\": [\n    {\n      \"id\": 865,\n      \"name\": \"string\"\n    },\n    {\n      \"id\": 3597,\n      \"name\": \"string\"\n    }\n  ],\n  \"agents_info\": [\n    {\n      \"id\": 5186,\n      \"name\": \"string\"\n    },\n    {\n      \"id\": 172,\n      \"name\": \"string\"\n    }\n  ],\n  \"validation_issues\": [\n    {\n      \"id\": \"string\",\n      \"message\": \"string\",\n      \"severity\": \"error\",\n      \"path\": \"string\",\n      \"value\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"message\": \"string\",\n      \"severity\": \"error\",\n      \"path\": \"string\",\n      \"value\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4593ff96-4bd4-4c87-ad2d-106a3d254bd3",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tools",
+                    ":tool_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tool_name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2d12af09-1de9-4906-a6b8-65a9d3e0184f",
+          "name": "Delete Tool",
+          "request": {
+            "name": "Delete Tool",
+            "description": {
+              "content": "Delete a tool.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "tools",
+                ":tool_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "reason",
+                  "value": "<string>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tool_name",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Syllable-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "5ee62936-c820-4776-b23e-a2a4e98c03c0",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tools",
+                    ":tool_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "reason",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tool_name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "84ca45b9-8695-4679-8cd2-4417e7301409",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "tools",
+                    ":tool_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "reason",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tool_name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.syllable.cloud",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "87609b2a-1286-4b57-944f-0e51a629a1ba",
+    "name": "SyllableSDK Tools API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "\n# Syllable Platform SDK\n\nSyllable SDK gives you the power of awesome AI agentry. 🚀\n\n## Overview\n\nThe Syllable SDK provides a comprehensive set of tools and APIs to integrate powerful AI\ncapabilities into your communication applications. Whether you're building phone agents, chatbots,\nvirtual assistants, or any other AI-driven solutions, Syllable SDK has got you covered.\n\n## Features\n\n- **Agent Configuration**: Create and manage agents that can interact with users across various \nchannels.\n- **Channel Management**: Configure channels like SMS, web chat, and more to connect agents with \nusers.\n- **Custom Messages**: Set up custom messages that agents can deliver as greetings or responses.\n- **Conversations**: Track and manage conversations between users and agents, including session \nmanagement.\n- **Tools and Workflows**: Leverage tools and workflows to enhance agent capabilities, such as data \nprocessing and API calls.\n- **Data Sources**: Integrate data sources to provide agents with additional context and \ninformation.\n- **Insights and Analytics**: Analyze conversations and sessions to gain insights into user \ninteractions.\n- **Permissions and Security**: Manage permissions to control access to various features and \nfunctionalities.\n- **Language Support**: Define language groups to enable multilingual support for agents.\n- **Outbound Campaigns**: Create and manage outbound communication campaigns to reach users \neffectively.\n- **Session Labels**: Label sessions with evaluations of quality and descriptions of issues \nencountered.\n- **Incident Management**: Track and manage incidents related to agent interactions.\n",
+      "type": "text/plain"
+    }
+  }
+}

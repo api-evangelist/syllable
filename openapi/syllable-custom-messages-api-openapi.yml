@@ -1,0 +1,796 @@
+openapi: 3.2.0
+info:
+  title: SyllableSDK Custom Messages API
+  description: "\n# Syllable Platform SDK\n\nSyllable SDK gives you the power of awesome AI agentry. \U0001F680\n\n## Overview\n\nThe Syllable SDK provides a comprehensive set of tools and APIs to integrate powerful AI\ncapabilities into your communication applications. Whether you're building phone agents, chatbots,\nvirtual assistants, or any other AI-driven solutions, Syllable SDK has got you covered.\n\n## Features\n\n- **Agent Configuration**: Create and manage agents that can interact with users across various \nchannels.\n- **Channel Management**: Configure channels like SMS, web chat, and more to connect agents with \nusers.\n- **Custom Messages**: Set up custom messages that agents can deliver as greetings or responses.\n- **Conversations**: Track and manage conversations between users and agents, including session \nmanagement.\n- **Tools and Workflows**: Leverage tools and workflows to enhance agent capabilities, such as data \nprocessing and API calls.\n- **Data Sources**: Integrate data sources to provide agents with additional context and \ninformation.\n- **Insights and Analytics**: Analyze conversations and sessions to gain insights into user \ninteractions.\n- **Permissions and Security**: Manage permissions to control access to various features and \nfunctionalities.\n- **Language Support**: Define language groups to enable multilingual support for agents.\n- **Outbound Campaigns**: Create and manage outbound communication campaigns to reach users \neffectively.\n- **Session Labels**: Label sessions with evaluations of quality and descriptions of issues \nencountered.\n- **Incident Management**: Track and manage incidents related to agent interactions.\n"
+  version: 0.0.3
+servers:
+- url: https://api.syllable.cloud
+  description: API server
+tags:
+- name: custom_messages
+  description: Operations related to custom message configuration.           A custom message is a pre-configured message delivered by an agent as a greeting at the           beginning of a conversation. Multiple agents can use the same custom mesasage. A custom           message has one or more rules defined, which allow for different messages to be           dynamically selected and delivered at runtime based on the current time and either           date or day of the week. For more information, see           [Console docs](https://docs.syllable.ai/Resources/Messages).
+paths:
+  /api/v1/custom_messages/:
+    get:
+      tags:
+      - custom_messages
+      summary: Custom Messages List
+      description: List the existing custom_messages
+      operationId: custom_messages_list
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            minimum: 0
+          - type: 'null'
+          description: The page number from which to start (0-based)
+          examples:
+          - 0
+          default: 0
+          title: Page
+        description: The page number from which to start (0-based)
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: The maximum number of items to return
+          examples:
+          - 25
+          default: 25
+          title: Limit
+        description: The maximum number of items to return
+      - name: search_fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomMessageProperties'
+          description: String names of fields to search. Correspond by index to search field values
+          examples:
+          - name
+          default: []
+          title: Search Fields
+        description: String names of fields to search. Correspond by index to search field values
+      - name: search_field_values
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          description: Values of fields to search. Correspond by index to search fields. Unless field name contains "list", an individual search field value cannot be a list
+          examples:
+          - Some Object Name
+          default: []
+          title: Search Field Values
+        description: Values of fields to search. Correspond by index to search fields. Unless field name contains "list", an individual search field value cannot be a list
+      - name: order_by
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/CustomMessageProperties'
+          - type: 'null'
+          description: The field whose value should be used to order the results
+          examples:
+          - name
+          title: Order By
+        description: The field whose value should be used to order the results
+      - name: order_by_direction
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/OrderByDirection'
+          - type: 'null'
+          description: The direction in which to order the results
+          title: Order By Direction
+        description: The direction in which to order the results
+      - name: fields
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              $ref: '#/components/schemas/CustomMessageProperties'
+          - type: 'null'
+          description: The fields to include in the response
+          default: []
+          title: Fields
+        description: The fields to include in the response
+      - name: start_datetime
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The start datetime for filtering results
+          examples:
+          - '2023-01-01T00:00:00Z'
+          title: Start Datetime
+        description: The start datetime for filtering results
+      - name: end_datetime
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The end datetime for filtering results
+          examples:
+          - '2024-01-01T00:00:00Z'
+          title: End Datetime
+        description: The end datetime for filtering results
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListResponse_CustomMessageResponse_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK, models\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.custom_messages.list(page=0, limit=25, search_fields=[\n        models.CustomMessageProperties.NAME,\n    ], search_field_values=[\n        \"Some Object Name\",\n    ], start_datetime=\"2023-01-01T00:00:00Z\", end_datetime=\"2024-01-01T00:00:00Z\")\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.customMessages.list({\n    page: 0,\n    searchFields: [\n      \"name\",\n    ],\n    searchFieldValues: [\n      \"Some Object Name\",\n    ],\n    startDatetime: \"2023-01-01T00:00:00Z\",\n    endDatetime: \"2024-01-01T00:00:00Z\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+    post:
+      tags:
+      - custom_messages
+      summary: Create Custom Message
+      description: Create a new custom message
+      operationId: custom_messages_create
+      security:
+      - APIKeyHeader: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomMessageCreateRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomMessageResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK, models\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.custom_messages.create(request={\n        \"name\": \"Customer service greeting\",\n        \"preamble\": \"If this is an emergency, please hang up and call 911.\",\n        \"text\": \"Hello and thank you for calling customer service. How can I help you today?\",\n        \"subject\": \"Your appointment reminder\",\n        \"label\": \"Customer service\",\n        \"rules\": [\n            {\n                \"description\": \"Closed on New Year's Day\",\n                \"time_range_start\": \"09:00\",\n                \"time_range_end\": \"17:00\",\n                \"date_\": \"2025-01-01\",\n                \"invert\": False,\n                \"text\": \"Hello, thank you for calling. Sorry, we're closed today.\",\n            },\n            {\n                \"description\": \"Closed on weekends\",\n                \"time_range_start\": \"09:00\",\n                \"time_range_end\": \"17:00\",\n                \"days_of_week\": [\n                    models.DayOfWeek.SA,\n                    models.DayOfWeek.SU,\n                ],\n                \"invert\": False,\n                \"text\": \"Hello, thank you for calling. Sorry, we're closed on weekends.\",\n            },\n        ],\n    })\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.customMessages.create({\n    name: \"Customer service greeting\",\n    preamble: \"If this is an emergency, please hang up and call 911.\",\n    text: \"Hello and thank you for calling customer service. How can I help you today?\",\n    subject: \"Your appointment reminder\",\n    label: \"Customer service\",\n    rules: [\n      {\n        description: \"Closed on New Year's Day\",\n        timeRangeStart: \"09:00\",\n        timeRangeEnd: \"17:00\",\n        date: \"2025-01-01\",\n        invert: false,\n        text: \"Hello, thank you for calling. Sorry, we're closed today.\",\n      },\n      {\n        description: \"Closed on weekends\",\n        timeRangeStart: \"09:00\",\n        timeRangeEnd: \"17:00\",\n        daysOfWeek: [\n          \"sa\",\n          \"su\",\n        ],\n        invert: false,\n        text: \"Hello, thank you for calling. Sorry, we're closed on weekends.\",\n      },\n    ],\n  });\n\n  console.log(result);\n}\n\nrun();"
+    put:
+      tags:
+      - custom_messages
+      summary: Update Custom Message
+      description: Update a custom message
+      operationId: custom_messages_update
+      security:
+      - APIKeyHeader: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomMessageUpdateRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomMessageResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK, models\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.custom_messages.update(request={\n        \"name\": \"Customer service greeting\",\n        \"preamble\": \"If this is an emergency, please hang up and call 911.\",\n        \"text\": \"Hello and thank you for calling customer service. How can I help you today?\",\n        \"subject\": \"Your appointment reminder\",\n        \"label\": \"Customer service\",\n        \"rules\": [\n            {\n                \"description\": \"Closed on New Year's Day\",\n                \"time_range_start\": \"09:00\",\n                \"time_range_end\": \"17:00\",\n                \"date_\": \"2025-01-01\",\n                \"invert\": False,\n                \"text\": \"Hello, thank you for calling. Sorry, we're closed today.\",\n            },\n            {\n                \"description\": \"Closed on weekends\",\n                \"time_range_start\": \"09:00\",\n                \"time_range_end\": \"17:00\",\n                \"days_of_week\": [\n                    models.DayOfWeek.SA,\n                    models.DayOfWeek.SU,\n                ],\n                \"invert\": False,\n                \"text\": \"Hello, thank you for calling. Sorry, we're closed on weekends.\",\n            },\n        ],\n        \"id\": 1,\n    })\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.customMessages.update({\n    name: \"Customer service greeting\",\n    preamble: \"If this is an emergency, please hang up and call 911.\",\n    text: \"Hello and thank you for calling customer service. How can I help you today?\",\n    subject: \"Your appointment reminder\",\n    label: \"Customer service\",\n    rules: [\n      {\n        description: \"Closed on New Year's Day\",\n        timeRangeStart: \"09:00\",\n        timeRangeEnd: \"17:00\",\n        date: \"2025-01-01\",\n        invert: false,\n        text: \"Hello, thank you for calling. Sorry, we're closed today.\",\n      },\n      {\n        description: \"Closed on weekends\",\n        timeRangeStart: \"09:00\",\n        timeRangeEnd: \"17:00\",\n        daysOfWeek: [\n          \"sa\",\n          \"su\",\n        ],\n        invert: false,\n        text: \"Hello, thank you for calling. Sorry, we're closed on weekends.\",\n      },\n    ],\n    id: 1,\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/custom_messages/{custom_message_id}:
+    get:
+      tags:
+      - custom_messages
+      summary: Get Custom Message By Id
+      description: Get the custom message by its ID
+      operationId: custom_message_get_by_id
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: custom_message_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Custom Message Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomMessageResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.custom_messages.get_by_id(custom_message_id=909433)\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.customMessages.getById({\n    customMessageId: 909433,\n  });\n\n  console.log(result);\n}\n\nrun();"
+    delete:
+      tags:
+      - custom_messages
+      summary: Delete Custom Message
+      description: Delete custom message by ID
+      operationId: custom_messages_delete
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: custom_message_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Custom Message Id
+      - name: reason
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Reason
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.custom_messages.delete(custom_message_id=729986, reason=\"<value>\")\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.customMessages.delete({\n    customMessageId: 729986,\n    reason: \"<value>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+components:
+  schemas:
+    CustomMessageResponse:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The name of the custom message
+          examples:
+          - Customer service greeting
+        type:
+          $ref: '#/components/schemas/CustomMessageType'
+          description: 'Type of the custom message: greeting (voice) or email_template.'
+          default: greeting
+          examples:
+          - greeting
+        preamble:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preamble
+          description: An optional preamble that will be delivered before the main message, regardless of whether the current time and date match a rule or the system uses the default message. Cannot contain the "{{ language.mode }}" tag. In the case of a voice conversation, the user will not be able to interrupt the preamble. Can be used for e.g. legal disclaimers that the user must always see/hear.
+          examples:
+          - If this is an emergency, please hang up and call 911.
+        text:
+          type: string
+          title: Text
+          description: The default message that the agent will deliver if no rules are set or no rules match the current timestamp. For email_template, this is the body.
+          examples:
+          - Hello and thank you for calling customer service. How can I help you today?
+        subject:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Subject
+          description: Email subject. Required for email_template (in type_config); ignored otherwise.
+          examples:
+          - Your appointment reminder
+        label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label
+          description: The label of the custom message
+          examples:
+          - Customer service
+        repeat_after_language_change:
+          type: boolean
+          title: Repeat After Language Change
+          description: If true, if the caller changes language using the language menu in the custom message, the message will be repeated in the new language (not including the language menu).
+        rules:
+          items:
+            $ref: '#/components/schemas/CustomMessageRule'
+          type: array
+          title: Rules
+          description: Rules for time-specific message variants
+          default: []
+          examples:
+          - - date: '2025-01-01'
+              description: Closed on New Year's Day
+              invert: false
+              text: Hello, thank you for calling. Sorry, we're closed today.
+              time_range_end: '17:00'
+              time_range_start: 09:00
+            - days_of_week:
+              - sa
+              - su
+              description: Closed on weekends
+              invert: false
+              text: Hello, thank you for calling. Sorry, we're closed on weekends.
+              time_range_end: '17:00'
+              time_range_start: 09:00
+        id:
+          type: integer
+          title: Id
+          description: The ID of the custom message
+          examples:
+          - 1
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+          description: Timestamp of the most recent update to the custom message
+          examples:
+          - '2024-01-01T00:00:00Z'
+        agent_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Agent Count
+          description: The number of agents using the custom message
+          examples:
+          - 1
+        last_updated_by:
+          type: string
+          title: Last Updated By
+          description: The email address of the user who most recently updated the custom message
+          examples:
+          - user@email.com
+      type: object
+      required:
+      - name
+      - text
+      - repeat_after_language_change
+      - id
+      - updated_at
+      - last_updated_by
+      title: CustomMessageResponse
+      description: 'Response model for custom message operations.
+
+        A custom message is a pre-configured message delivered by an agent (e.g. as a greeting at the
+
+        beginning of a conversation, or as an email template with subject and body). Multiple agents can
+
+        use the same custom message. Greeting-type messages may have rules for time-based variants; email
+
+        templates have a subject and body only. For more information, see [Console docs](https://docs.syllable.ai/Resources/Messages).'
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
+    CustomMessageProperties:
+      type: string
+      enum:
+      - id
+      - name
+      - name_exact
+      - text
+      - label
+      - type
+      - updated_at
+      - agent_id
+      title: CustomMessageProperties
+    CustomMessageType:
+      type: string
+      enum:
+      - greeting
+      - email_template
+      title: CustomMessageType
+      description: Type of custom message. Greeting is for voice; email_template is for email (subject + body).
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    CustomMessageCreateRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The name of the custom message
+          examples:
+          - Customer service greeting
+        type:
+          $ref: '#/components/schemas/CustomMessageType'
+          description: 'Type of the custom message: greeting (voice) or email_template.'
+          default: greeting
+          examples:
+          - greeting
+        preamble:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preamble
+          description: An optional preamble that will be delivered before the main message, regardless of whether the current time and date match a rule or the system uses the default message. Cannot contain the "{{ language.mode }}" tag. In the case of a voice conversation, the user will not be able to interrupt the preamble. Can be used for e.g. legal disclaimers that the user must always see/hear.
+          examples:
+          - If this is an emergency, please hang up and call 911.
+        text:
+          type: string
+          title: Text
+          description: The default message that the agent will deliver if no rules are set or no rules match the current timestamp. For email_template, this is the body.
+          examples:
+          - Hello and thank you for calling customer service. How can I help you today?
+        subject:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Subject
+          description: Email subject. Required for email_template (in type_config); ignored otherwise.
+          examples:
+          - Your appointment reminder
+        label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label
+          description: The label of the custom message
+          examples:
+          - Customer service
+        repeat_after_language_change:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Repeat After Language Change
+          description: If true, if the caller changes language using the language menu in the custom message, the message will be repeated in the new language (not including the language menu). If omitted or null on create, false is stored. If omitted or null on update, existing value will not be changed.
+        rules:
+          items:
+            $ref: '#/components/schemas/CustomMessageRule'
+          type: array
+          title: Rules
+          description: Rules for time-specific message variants
+          default: []
+          examples:
+          - - date: '2025-01-01'
+              description: Closed on New Year's Day
+              invert: false
+              text: Hello, thank you for calling. Sorry, we're closed today.
+              time_range_end: '17:00'
+              time_range_start: 09:00
+            - days_of_week:
+              - sa
+              - su
+              description: Closed on weekends
+              invert: false
+              text: Hello, thank you for calling. Sorry, we're closed on weekends.
+              time_range_end: '17:00'
+              time_range_start: 09:00
+      type: object
+      required:
+      - name
+      - text
+      title: CustomMessageCreateRequest
+      description: Request model to create a custom message.
+    CustomMessageRule:
+      properties:
+        description:
+          type: string
+          title: Description
+          description: The description of the rule
+          examples:
+          - Closed on New Year's Day
+        time_range_start:
+          anyOf:
+          - type: string
+            pattern: ^([01]\d|2[0-3]):[0-5]\d$
+          - type: 'null'
+          title: Time Range Start
+          description: The start of the time range for the rule in 24-hour format hh:mm (should be null for "all day" cases)
+          examples:
+          - 09:00
+        time_range_end:
+          anyOf:
+          - type: string
+            pattern: ^([01]\d|2[0-3]):[0-5]\d$
+          - type: 'null'
+          title: Time Range End
+          description: The end of the time range for the rule in 24-hour format hh:mm (should be null for "all day" cases)
+          examples:
+          - '17:00'
+        date:
+          anyOf:
+          - type: string
+            pattern: \b(19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\b
+          - type: 'null'
+          title: Date
+          description: The date for the rule in YYYY-MM-DD format
+          examples:
+          - '2025-01-01'
+        days_of_week:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/DayOfWeek'
+            type: array
+          - type: 'null'
+          title: Days Of Week
+          description: The days of the week for the rule
+          examples:
+          - - mo
+            - tu
+            - we
+            - th
+            - fr
+        invert:
+          type: boolean
+          title: Invert
+          description: Whether the rule logic should be inverted (i.e. "not")
+          examples:
+          - false
+        text:
+          type: string
+          title: Text
+          description: Message text associated with the rule
+          examples:
+          - Hello, thank you for calling. Sorry, we're closed today.
+      type: object
+      required:
+      - description
+      - invert
+      - text
+      title: CustomMessageRule
+      description: 'A rule used to determine whether a custom message should present a variant message based on
+
+        the current timestamp.'
+    CustomMessageUpdateRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The name of the custom message
+          examples:
+          - Customer service greeting
+        type:
+          $ref: '#/components/schemas/CustomMessageType'
+          description: 'Type of the custom message: greeting (voice) or email_template.'
+          default: greeting
+          examples:
+          - greeting
+        preamble:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preamble
+          description: An optional preamble that will be delivered before the main message, regardless of whether the current time and date match a rule or the system uses the default message. Cannot contain the "{{ language.mode }}" tag. In the case of a voice conversation, the user will not be able to interrupt the preamble. Can be used for e.g. legal disclaimers that the user must always see/hear.
+          examples:
+          - If this is an emergency, please hang up and call 911.
+        text:
+          type: string
+          title: Text
+          description: The default message that the agent will deliver if no rules are set or no rules match the current timestamp. For email_template, this is the body.
+          examples:
+          - Hello and thank you for calling customer service. How can I help you today?
+        subject:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Subject
+          description: Email subject. Required for email_template (in type_config); ignored otherwise.
+          examples:
+          - Your appointment reminder
+        label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label
+          description: The label of the custom message
+          examples:
+          - Customer service
+        repeat_after_language_change:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Repeat After Language Change
+          description: If true, if the caller changes language using the language menu in the custom message, the message will be repeated in the new language (not including the language menu). If omitted or null on create, false is stored. If omitted or null on update, existing value will not be changed.
+        rules:
+          items:
+            $ref: '#/components/schemas/CustomMessageRule'
+          type: array
+          title: Rules
+          description: Rules for time-specific message variants
+          default: []
+          examples:
+          - - date: '2025-01-01'
+              description: Closed on New Year's Day
+              invert: false
+              text: Hello, thank you for calling. Sorry, we're closed today.
+              time_range_end: '17:00'
+              time_range_start: 09:00
+            - days_of_week:
+              - sa
+              - su
+              description: Closed on weekends
+              invert: false
+              text: Hello, thank you for calling. Sorry, we're closed on weekends.
+              time_range_end: '17:00'
+              time_range_start: 09:00
+        id:
+          type: integer
+          title: Id
+          description: The ID of the custom message
+          examples:
+          - 1
+      type: object
+      required:
+      - name
+      - text
+      - id
+      title: CustomMessageUpdateRequest
+      description: Request model to update an existing custom message.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ListResponse_CustomMessageResponse_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/CustomMessageResponse'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[CustomMessageResponse]
+    DayOfWeek:
+      type: string
+      enum:
+      - mo
+      - tu
+      - we
+      - th
+      - fr
+      - sa
+      - su
+      title: DayOfWeek
+      description: Available options for day of the week for use in message rules.
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: Syllable-API-Key
+x-speakeasy-name-override:
+- operationId: .*_list$
+  methodNameOverride: list
+- operationId: .*_create$
+  methodNameOverride: create
+- operationId: .*_update$
+  methodNameOverride: update
+- operationId: .*_upload$
+  methodNameOverride: upload
+- operationId: .*_delete$
+  methodNameOverride: delete
+- operationId: .*_get_by_id$
+  methodNameOverride: get_by_id
+- operationId: .*_get_by_name$
+  methodNameOverride: get_by_name
+- operationId: .*_add$
+  methodNameOverride: add
+- operationId: .*_remove$
+  methodNameOverride: remove
+- operationId: .*_results$
+  methodNameOverride: results
+- operationId: .*_queue_work$
+  methodNameOverride: queue_work
+- operationId: .*_activate$
+  methodNameOverride: activate
+- operationId: .*_inactivate$
+  methodNameOverride: inactivate
+- operationId: .*_list_files$
+  methodNameOverride: list_files
+- operationId: .*_move_files$
+  methodNameOverride: move_files
+- operationId: .*_upload_file$
+  methodNameOverride: upload_file

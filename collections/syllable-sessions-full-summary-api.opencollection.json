@@ -1,0 +1,42 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SyllableSDK Sessions.full Summary API",
+    "version": "0.0.3"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "sessions.full-summary",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Full Session Summary By Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.syllable.cloud/api/v1/sessions/full-summary/:session_id",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get Full Session Summary By Id"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

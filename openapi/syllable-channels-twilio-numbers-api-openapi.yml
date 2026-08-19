@@ -1,0 +1,380 @@
+openapi: 3.2.0
+info:
+  title: SyllableSDK Channels.twilio.numbers API
+  description: "\n# Syllable Platform SDK\n\nSyllable SDK gives you the power of awesome AI agentry. \U0001F680\n\n## Overview\n\nThe Syllable SDK provides a comprehensive set of tools and APIs to integrate powerful AI\ncapabilities into your communication applications. Whether you're building phone agents, chatbots,\nvirtual assistants, or any other AI-driven solutions, Syllable SDK has got you covered.\n\n## Features\n\n- **Agent Configuration**: Create and manage agents that can interact with users across various \nchannels.\n- **Channel Management**: Configure channels like SMS, web chat, and more to connect agents with \nusers.\n- **Custom Messages**: Set up custom messages that agents can deliver as greetings or responses.\n- **Conversations**: Track and manage conversations between users and agents, including session \nmanagement.\n- **Tools and Workflows**: Leverage tools and workflows to enhance agent capabilities, such as data \nprocessing and API calls.\n- **Data Sources**: Integrate data sources to provide agents with additional context and \ninformation.\n- **Insights and Analytics**: Analyze conversations and sessions to gain insights into user \ninteractions.\n- **Permissions and Security**: Manage permissions to control access to various features and \nfunctionalities.\n- **Language Support**: Define language groups to enable multilingual support for agents.\n- **Outbound Campaigns**: Create and manage outbound communication campaigns to reach users \neffectively.\n- **Session Labels**: Label sessions with evaluations of quality and descriptions of issues \nencountered.\n- **Incident Management**: Track and manage incidents related to agent interactions.\n"
+  version: 0.0.3
+servers:
+- url: https://api.syllable.cloud
+  description: API server
+tags:
+- name: channels.twilio.numbers
+  description: Operations related to setting up phone numbers in Twilio for use in           channels.
+paths:
+  /api/v1/channels/twilio/{channel_id}/numbers/verify-a2p-compliance:
+    post:
+      tags:
+      - channels.twilio.numbers
+      summary: Verify Twilio Us A2P Compliance
+      description: Return whether Twilio shows this number on a US A2P messaging path with an approved brand.
+      operationId: channels_twilio_numbers_a2p_compliance_check
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: channel_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Channel Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/A2pMessagingPathCheckRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/A2pMessagingPathCheckResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.channels.twilio.numbers.channels_twilio_numbers_a2p_compliance_check(channel_id=661482, a2p_messaging_path_check_request={\n        \"phone\": \"+18042221111\",\n    })\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.channels.twilio.numbers.channelsTwilioNumbersA2pComplianceCheck({\n    channelId: 661482,\n    a2pMessagingPathCheckRequest: {\n      phone: \"+18042221111\",\n    },\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/channels/twilio/{channel_id}/numbers:
+    post:
+      tags:
+      - channels.twilio.numbers
+      summary: Add Twilio Number
+      description: Purchase a Twilio number and associate it with a channel.
+      operationId: channels_twilio_numbers_add
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: channel_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Channel Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TwilioNumberAddRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TwilioNumberAddResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.channels.twilio.numbers.add(channel_id=314558, twilio_number_add_request={\n        \"friendly_name\": \"Support Line\",\n        \"area_code\": \"804\",\n    })\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.channels.twilio.numbers.add({\n    channelId: 314558,\n    twilioNumberAddRequest: {\n      friendlyName: \"Support Line\",\n      areaCode: \"804\",\n    },\n  });\n\n  console.log(result);\n}\n\nrun();"
+    put:
+      tags:
+      - channels.twilio.numbers
+      summary: Update Twilio Number
+      description: Update a Twilio number and associate it with a channel.
+      operationId: channels_twilio_numbers_update
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: channel_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Channel Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TwilioNumberUpdateRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TwilioNumberUpdateResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.channels.twilio.numbers.update(channel_id=815949, twilio_number_update_request={\n        \"friendly_name\": \"Support Line\",\n        \"phone_sid\": \"PN123\",\n    })\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.channels.twilio.numbers.update({\n    channelId: 815949,\n    twilioNumberUpdateRequest: {\n      friendlyName: \"Support Line\",\n      phoneSid: \"PN123\",\n    },\n  });\n\n  console.log(result);\n}\n\nrun();"
+    get:
+      tags:
+      - channels.twilio.numbers
+      summary: List Twilio Phone Numbers
+      description: List Twilio phone numbers.
+      operationId: channels_twilio_numbers_list
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: channel_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Channel Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TwilioListNumbersResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.channels.twilio.numbers.list(channel_id=739627)\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.channels.twilio.numbers.list({\n    channelId: 739627,\n  });\n\n  console.log(result);\n}\n\nrun();"
+components:
+  schemas:
+    TwilioNumberAddResponse:
+      properties:
+        phone_number:
+          type: string
+          title: Phone Number
+          description: The purchased Twilio phone number
+          examples:
+          - '+18042221111'
+      type: object
+      required:
+      - phone_number
+      title: TwilioNumberAddResponse
+      description: Response model for purchasing a Twilio number and associating it with a channel.
+    TwilioNumberUpdateRequest:
+      properties:
+        friendly_name:
+          type: string
+          title: Friendly Name
+          description: Friendly name for the Twilio number
+          examples:
+          - Support Line
+        phone_sid:
+          type: string
+          title: Phone Sid
+          description: Twilio number SID
+          examples:
+          - PN123
+      type: object
+      required:
+      - friendly_name
+      - phone_sid
+      title: TwilioNumberUpdateRequest
+      description: Request model for updating a Twilio number and associating it with a channel.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TwilioListNumbersResponse:
+      properties:
+        phone_numbers:
+          items:
+            $ref: '#/components/schemas/TwilioPhoneNumber'
+          type: array
+          title: Phone Numbers
+          description: List of phone numbers.
+          examples:
+          - - friendly_name: Test number
+              phone_number: '+19876543210'
+              sid: PN123
+              trunk_sid: TK123
+      type: object
+      required:
+      - phone_numbers
+      title: TwilioListNumbersResponse
+      description: Response model for a list of Twilio phone numbers
+    TwilioPhoneNumber:
+      properties:
+        sid:
+          type: string
+          title: Sid
+          description: The unique identifier for the phone number.
+        phone_number:
+          type: string
+          title: Phone Number
+          description: The phone number.
+        friendly_name:
+          type: string
+          title: Friendly Name
+          description: A user-friendly name for the number.
+        trunk_sid:
+          type: string
+          title: Trunk Sid
+          description: Associated trunk SID, if any.
+      type: object
+      required:
+      - sid
+      - phone_number
+      - friendly_name
+      - trunk_sid
+      title: TwilioPhoneNumber
+    TwilioNumberUpdateResponse:
+      properties:
+        phone_number:
+          type: string
+          title: Phone Number
+          description: The updated Twilio phone number
+          examples:
+          - '+18042221111'
+      type: object
+      required:
+      - phone_number
+      title: TwilioNumberUpdateResponse
+      description: Response model for updating a Twilio number and associating it with a channel.
+    A2pMessagingPathCheckResponse:
+      properties:
+        a2p_approved:
+          type: boolean
+          title: A2P Approved
+          description: True when the number is on a Messaging Service with a US A2P registration whose brand is approved and campaign is verified on the same registration.
+      type: object
+      required:
+      - a2p_approved
+      title: A2pMessagingPathCheckResponse
+      description: 'Twilio-side A2P setup state for the number.
+
+
+        Reflects Twilio configuration (Messaging Service + Brand + Campaign records); it is not
+
+        carrier per-number REGISTERED state or legal/content compliance.'
+    TwilioNumberAddRequest:
+      properties:
+        friendly_name:
+          type: string
+          title: Friendly Name
+          description: Friendly name for the Twilio number
+          examples:
+          - Support Line
+        area_code:
+          type: string
+          title: Area Code
+          description: Area code for the Twilio number
+          examples:
+          - '804'
+      type: object
+      required:
+      - friendly_name
+      - area_code
+      title: TwilioNumberAddRequest
+      description: Request model for purchasing a Twilio number and associating it with a channel.
+    A2pMessagingPathCheckRequest:
+      properties:
+        phone:
+          type: string
+          title: Phone
+          description: E.164 phone number exactly as Twilio stores it for this incoming number.
+          examples:
+          - '+18042221111'
+      type: object
+      required:
+      - phone
+      title: A2pMessagingPathCheckRequest
+      description: Body to check US A2P / Messaging Service setup for one number on the Twilio channel.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: Syllable-API-Key
+x-speakeasy-name-override:
+- operationId: .*_list$
+  methodNameOverride: list
+- operationId: .*_create$
+  methodNameOverride: create
+- operationId: .*_update$
+  methodNameOverride: update
+- operationId: .*_upload$
+  methodNameOverride: upload
+- operationId: .*_delete$
+  methodNameOverride: delete
+- operationId: .*_get_by_id$
+  methodNameOverride: get_by_id
+- operationId: .*_get_by_name$
+  methodNameOverride: get_by_name
+- operationId: .*_add$
+  methodNameOverride: add
+- operationId: .*_remove$
+  methodNameOverride: remove
+- operationId: .*_results$
+  methodNameOverride: results
+- operationId: .*_queue_work$
+  methodNameOverride: queue_work
+- operationId: .*_activate$
+  methodNameOverride: activate
+- operationId: .*_inactivate$
+  methodNameOverride: inactivate
+- operationId: .*_list_files$
+  methodNameOverride: list_files
+- operationId: .*_move_files$
+  methodNameOverride: move_files
+- operationId: .*_upload_file$
+  methodNameOverride: upload_file

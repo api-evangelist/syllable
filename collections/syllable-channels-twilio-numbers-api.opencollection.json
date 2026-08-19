@@ -1,0 +1,126 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SyllableSDK Channels.twilio.numbers API",
+    "version": "0.0.3"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "channels.twilio.numbers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Verify Twilio Us A2P Compliance",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.syllable.cloud/api/v1/channels/twilio/:channel_id/numbers/verify-a2p-compliance",
+            "params": [
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Return whether Twilio shows this number on a US A2P messaging path with an approved brand."
+        },
+        {
+          "info": {
+            "name": "List Twilio Phone Numbers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.syllable.cloud/api/v1/channels/twilio/:channel_id/numbers",
+            "params": [
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List Twilio phone numbers."
+        },
+        {
+          "info": {
+            "name": "Add Twilio Number",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.syllable.cloud/api/v1/channels/twilio/:channel_id/numbers",
+            "params": [
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Purchase a Twilio number and associate it with a channel."
+        },
+        {
+          "info": {
+            "name": "Update Twilio Number",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.syllable.cloud/api/v1/channels/twilio/:channel_id/numbers",
+            "params": [
+              {
+                "name": "channel_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update a Twilio number and associate it with a channel."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

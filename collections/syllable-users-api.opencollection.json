@@ -1,0 +1,224 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SyllableSDK Users API",
+    "version": "0.0.3"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.syllable.cloud/api/v1/users/",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number from which to start (0-based)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of items to return"
+              },
+              {
+                "name": "search_fields",
+                "value": "",
+                "type": "query",
+                "description": "String names of fields to search. Correspond by index to search field values"
+              },
+              {
+                "name": "search_field_values",
+                "value": "",
+                "type": "query",
+                "description": "Values of fields to search. Correspond by index to search fields. Unless field name contains \"list\", an individual search field value cannot be a list"
+              },
+              {
+                "name": "order_by",
+                "value": "",
+                "type": "query",
+                "description": "The field whose value should be used to order the results"
+              },
+              {
+                "name": "order_by_direction",
+                "value": "",
+                "type": "query",
+                "description": "The direction in which to order the results"
+              },
+              {
+                "name": "fields",
+                "value": "",
+                "type": "query",
+                "description": "The fields to include in the response"
+              },
+              {
+                "name": "start_datetime",
+                "value": "",
+                "type": "query",
+                "description": "The start datetime for filtering results"
+              },
+              {
+                "name": "end_datetime",
+                "value": "",
+                "type": "query",
+                "description": "The end datetime for filtering results"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List the existing users."
+        },
+        {
+          "info": {
+            "name": "Create User",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.syllable.cloud/api/v1/users/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create a new user."
+        },
+        {
+          "info": {
+            "name": "Update User",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.syllable.cloud/api/v1/users/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update an existing user."
+        },
+        {
+          "info": {
+            "name": "Delete User",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.syllable.cloud/api/v1/users/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete a user."
+        },
+        {
+          "info": {
+            "name": "Get User",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.syllable.cloud/api/v1/users/:user_email",
+            "params": [
+              {
+                "name": "user_email",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Fetch a given user."
+        },
+        {
+          "info": {
+            "name": "Send User Email",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.syllable.cloud/api/v1/users/:user_email/send_email",
+            "params": [
+              {
+                "name": "user_email",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "skip_auth",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Send a welcome email to a user."
+        },
+        {
+          "info": {
+            "name": "Request Removal Of This Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.syllable.cloud/api/v1/users/delete_account",
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Request removal of the account of the user calling this endpoint. Intended for removing trial\naccounts."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

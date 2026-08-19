@@ -1,0 +1,42 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SyllableSDK Sessions.latency API",
+    "version": "0.0.3"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "sessions.latency",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Inspect Latency For Session",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.syllable.cloud/api/v1/sessions/latency/:session_id",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Inspect Latency For Session"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

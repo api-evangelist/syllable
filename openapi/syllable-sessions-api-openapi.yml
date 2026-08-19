@@ -1,0 +1,585 @@
+openapi: 3.2.0
+info:
+  title: SyllableSDK Sessions API
+  description: "\n# Syllable Platform SDK\n\nSyllable SDK gives you the power of awesome AI agentry. \U0001F680\n\n## Overview\n\nThe Syllable SDK provides a comprehensive set of tools and APIs to integrate powerful AI\ncapabilities into your communication applications. Whether you're building phone agents, chatbots,\nvirtual assistants, or any other AI-driven solutions, Syllable SDK has got you covered.\n\n## Features\n\n- **Agent Configuration**: Create and manage agents that can interact with users across various \nchannels.\n- **Channel Management**: Configure channels like SMS, web chat, and more to connect agents with \nusers.\n- **Custom Messages**: Set up custom messages that agents can deliver as greetings or responses.\n- **Conversations**: Track and manage conversations between users and agents, including session \nmanagement.\n- **Tools and Workflows**: Leverage tools and workflows to enhance agent capabilities, such as data \nprocessing and API calls.\n- **Data Sources**: Integrate data sources to provide agents with additional context and \ninformation.\n- **Insights and Analytics**: Analyze conversations and sessions to gain insights into user \ninteractions.\n- **Permissions and Security**: Manage permissions to control access to various features and \nfunctionalities.\n- **Language Support**: Define language groups to enable multilingual support for agents.\n- **Outbound Campaigns**: Create and manage outbound communication campaigns to reach users \neffectively.\n- **Session Labels**: Label sessions with evaluations of quality and descriptions of issues \nencountered.\n- **Incident Management**: Track and manage incidents related to agent interactions.\n"
+  version: 0.0.3
+servers:
+- url: https://api.syllable.cloud
+  description: API server
+tags:
+- name: sessions
+  description: Operations related to sessions. A session is a building block of a           conversation. For more information, see           [Console docs](https://docs.syllable.ai/workspaces/Sessions).
+paths:
+  /api/v1/sessions/:
+    get:
+      tags:
+      - sessions
+      summary: Sessions List
+      operationId: sessions_list
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            minimum: 0
+          - type: 'null'
+          description: The page number from which to start (0-based)
+          examples:
+          - 0
+          default: 0
+          title: Page
+        description: The page number from which to start (0-based)
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: The maximum number of items to return
+          examples:
+          - 25
+          default: 25
+          title: Limit
+        description: The maximum number of items to return
+      - name: search_fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/SessionProperties'
+          description: String names of fields to search. Correspond by index to search field values
+          examples:
+          - name
+          default: []
+          title: Search Fields
+        description: String names of fields to search. Correspond by index to search field values
+      - name: search_field_values
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          description: Values of fields to search. Correspond by index to search fields. Unless field name contains "list", an individual search field value cannot be a list
+          examples:
+          - Some Object Name
+          default: []
+          title: Search Field Values
+        description: Values of fields to search. Correspond by index to search fields. Unless field name contains "list", an individual search field value cannot be a list
+      - name: order_by
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/SessionProperties'
+          - type: 'null'
+          description: The field whose value should be used to order the results
+          examples:
+          - name
+          title: Order By
+        description: The field whose value should be used to order the results
+      - name: order_by_direction
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/OrderByDirection'
+          - type: 'null'
+          description: The direction in which to order the results
+          title: Order By Direction
+        description: The direction in which to order the results
+      - name: fields
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              $ref: '#/components/schemas/SessionProperties'
+          - type: 'null'
+          description: The fields to include in the response
+          default: []
+          title: Fields
+        description: The fields to include in the response
+      - name: start_datetime
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The start datetime for filtering results
+          examples:
+          - '2023-01-01T00:00:00Z'
+          title: Start Datetime
+        description: The start datetime for filtering results
+      - name: end_datetime
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The end datetime for filtering results
+          examples:
+          - '2024-01-01T00:00:00Z'
+          title: End Datetime
+        description: The end datetime for filtering results
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListResponse_Session_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK, models\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.sessions.list(page=0, limit=25, search_fields=[\n        models.SessionProperties.CONVERSATION_ID,\n    ], search_field_values=[\n        \"Some Object Name\",\n    ], start_datetime=\"2023-01-01T00:00:00Z\", end_datetime=\"2024-01-01T00:00:00Z\")\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.sessions.list({\n    page: 0,\n    searchFields: [\n      \"conversation_id\",\n    ],\n    searchFieldValues: [\n      \"Some Object Name\",\n    ],\n    startDatetime: \"2023-01-01T00:00:00Z\",\n    endDatetime: \"2024-01-01T00:00:00Z\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/sessions/{session_id}:
+    get:
+      tags:
+      - sessions
+      summary: Get A Single Session By Id
+      operationId: session_get_by_id
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.sessions.get_by_id(session_id=\"<id>\")\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.sessions.getById({\n    sessionId: \"<id>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/sessions/recording/{session_id}:
+    post:
+      tags:
+      - sessions
+      summary: Generate Recording Urls
+      operationId: generate_session_recording_urls
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionRecordingResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.sessions.generate_session_recording_urls(session_id=\"<id>\")\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.sessions.generateSessionRecordingUrls({\n    sessionId: \"<id>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/sessions/recording/stream:
+    get:
+      tags:
+      - sessions
+      summary: Stream Recording
+      operationId: session_recording_stream
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: token
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Token
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                title: bytes
+                format: binary
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.sessions.session_recording_stream(token=\"<value>\")\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.sessions.sessionRecordingStream({\n    token: \"<value>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+components:
+  schemas:
+    Session:
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+          description: Timestamp of the session
+        session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Session Id
+          description: Internal ID of the session, generated based on interaction details
+        conversation_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Conversation Id
+          description: ID of the conversation of which the session is a part
+        channel_manager_service:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Channel Manager Service
+          description: Name of the service used to facilitate the session
+          examples:
+          - hedy
+          - console
+        channel_manager_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Channel Manager Type
+          description: Type of the service used to facilitate the session
+          examples:
+          - voice_sip_v1
+          - voice_twilio_v1
+          - web_chat_v1
+        channel_manager_sid:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Channel Manager Sid
+          description: Channel-manager-side ID of the session (different from session_id)
+        agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Id
+          description: ID of the agent with which the session occurred
+        agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Name
+          description: Name of the agent with which the session occurred
+        agent_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Type
+          description: Type of the agent with which the session occurred
+        agent_timezone:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Timezone
+          description: Timezone of the agent with which the session occurred
+        prompt_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Prompt Id
+          description: ID of the prompt used by the agent with which the session occurred
+        prompt_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Prompt Name
+          description: Name of the prompt used by the agent with which the session occurred
+        prompt_version:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Prompt Version
+          description: Legacy prompt version timestamp used by the agent with which the session occurred
+        prompt_version_number:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Prompt Version Number
+          description: Prompt version number used by the agent with which the session occurred (new system)
+        duration:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Duration
+          description: Duration of the session in seconds
+        session_label_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Session Label Id
+          description: ID of the label (listing the quality of the session and any issues that occurred) associated with the session
+        source:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source
+          description: Source of the session (e.g., for an inbound session, the user's phone number/username/email)
+          examples:
+          - '+18042221111'
+          - user@email.com
+        target:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Target
+          description: The name of the channel target associated with the agent at the time of the session (see ChannelTargetResponse.target)
+        is_legacy:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Legacy
+          description: Whether the session occurred on the legacy Syllable system
+        is_test:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Test
+          description: Whether the session is a test session
+        is_outbound:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Outbound
+          description: Whether the session direction is outbound (true) or inbound (false).
+        user_terminated:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: User Terminated
+          description: Whether the voice session was ended by the recipient (outbound) / caller (inbound). False if the user was transferred or there was an error. Unset if the session was not a voice session.
+        transfer_voicemail_detected:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Transfer Voicemail Detected
+          description: Whether a voicemail was detected during the transfer leg of the session
+        override_timestamp:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Timestamp
+          description: ISO 8601 datetime used to override the session's current time. Set only for test sessions that supplied a datetime override; otherwise null.
+      type: object
+      required:
+      - timestamp
+      title: Session
+      description: A session is a building block of a conversation.
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SessionRecordingResponse:
+      properties:
+        session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Session Id
+          description: The internal ID of the session
+          examples:
+          - 1
+        recordings:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Recordings
+          description: List of recording URLs
+          examples:
+          - - https://example.com/recording1.mp3
+            - https://example.com/recording2.mp3
+      type: object
+      title: SessionRecordingResponse
+      description: Recording URLs for a given session.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ListResponse_Session_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Session'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[Session]
+    SessionProperties:
+      type: string
+      enum:
+      - timestamp
+      - session_id
+      - conversation_id
+      - channel_manager_service
+      - channel_manager_type
+      - channel_manager_sid
+      - agent_type
+      - agent_id
+      - agent_name
+      - prompt_id
+      - prompt_name
+      - source
+      - target
+      - duration
+      - is_outbound
+      - is_legacy
+      - is_test
+      title: SessionProperties
+      description: Names of session fields supported for filtering/sorting on list endpoint.
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: Syllable-API-Key
+x-speakeasy-name-override:
+- operationId: .*_list$
+  methodNameOverride: list
+- operationId: .*_create$
+  methodNameOverride: create
+- operationId: .*_update$
+  methodNameOverride: update
+- operationId: .*_upload$
+  methodNameOverride: upload
+- operationId: .*_delete$
+  methodNameOverride: delete
+- operationId: .*_get_by_id$
+  methodNameOverride: get_by_id
+- operationId: .*_get_by_name$
+  methodNameOverride: get_by_name
+- operationId: .*_add$
+  methodNameOverride: add
+- operationId: .*_remove$
+  methodNameOverride: remove
+- operationId: .*_results$
+  methodNameOverride: results
+- operationId: .*_queue_work$
+  methodNameOverride: queue_work
+- operationId: .*_activate$
+  methodNameOverride: activate
+- operationId: .*_inactivate$
+  methodNameOverride: inactivate
+- operationId: .*_list_files$
+  methodNameOverride: list_files
+- operationId: .*_move_files$
+  methodNameOverride: move_files
+- operationId: .*_upload_file$
+  methodNameOverride: upload_file

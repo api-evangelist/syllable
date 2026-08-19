@@ -1,0 +1,600 @@
+openapi: 3.2.0
+info:
+  title: SyllableSDK Services API
+  description: "\n# Syllable Platform SDK\n\nSyllable SDK gives you the power of awesome AI agentry. \U0001F680\n\n## Overview\n\nThe Syllable SDK provides a comprehensive set of tools and APIs to integrate powerful AI\ncapabilities into your communication applications. Whether you're building phone agents, chatbots,\nvirtual assistants, or any other AI-driven solutions, Syllable SDK has got you covered.\n\n## Features\n\n- **Agent Configuration**: Create and manage agents that can interact with users across various \nchannels.\n- **Channel Management**: Configure channels like SMS, web chat, and more to connect agents with \nusers.\n- **Custom Messages**: Set up custom messages that agents can deliver as greetings or responses.\n- **Conversations**: Track and manage conversations between users and agents, including session \nmanagement.\n- **Tools and Workflows**: Leverage tools and workflows to enhance agent capabilities, such as data \nprocessing and API calls.\n- **Data Sources**: Integrate data sources to provide agents with additional context and \ninformation.\n- **Insights and Analytics**: Analyze conversations and sessions to gain insights into user \ninteractions.\n- **Permissions and Security**: Manage permissions to control access to various features and \nfunctionalities.\n- **Language Support**: Define language groups to enable multilingual support for agents.\n- **Outbound Campaigns**: Create and manage outbound communication campaigns to reach users \neffectively.\n- **Session Labels**: Label sessions with evaluations of quality and descriptions of issues \nencountered.\n- **Incident Management**: Track and manage incidents related to agent interactions.\n"
+  version: 0.0.3
+servers:
+- url: https://api.syllable.cloud
+  description: API server
+tags:
+- name: services
+  description: Operations related to service configuration. A service is a collection of           tools. You can specify an authentication method and values on a service, and any linked           tools will use that auth information to generate headers for HTTP calls.
+paths:
+  /api/v1/services/:
+    get:
+      tags:
+      - services
+      summary: Service List
+      description: List the existing services
+      operationId: service_list
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            minimum: 0
+          - type: 'null'
+          description: The page number from which to start (0-based)
+          examples:
+          - 0
+          default: 0
+          title: Page
+        description: The page number from which to start (0-based)
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: The maximum number of items to return
+          examples:
+          - 25
+          default: 25
+          title: Limit
+        description: The maximum number of items to return
+      - name: search_fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceProperties'
+          description: String names of fields to search. Correspond by index to search field values
+          examples:
+          - name
+          default: []
+          title: Search Fields
+        description: String names of fields to search. Correspond by index to search field values
+      - name: search_field_values
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          description: Values of fields to search. Correspond by index to search fields. Unless field name contains "list", an individual search field value cannot be a list
+          examples:
+          - Some Object Name
+          default: []
+          title: Search Field Values
+        description: Values of fields to search. Correspond by index to search fields. Unless field name contains "list", an individual search field value cannot be a list
+      - name: order_by
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/ServiceProperties'
+          - type: 'null'
+          description: The field whose value should be used to order the results
+          examples:
+          - name
+          title: Order By
+        description: The field whose value should be used to order the results
+      - name: order_by_direction
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/OrderByDirection'
+          - type: 'null'
+          description: The direction in which to order the results
+          title: Order By Direction
+        description: The direction in which to order the results
+      - name: fields
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              $ref: '#/components/schemas/ServiceProperties'
+          - type: 'null'
+          description: The fields to include in the response
+          default: []
+          title: Fields
+        description: The fields to include in the response
+      - name: start_datetime
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The start datetime for filtering results
+          examples:
+          - '2023-01-01T00:00:00Z'
+          title: Start Datetime
+        description: The start datetime for filtering results
+      - name: end_datetime
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The end datetime for filtering results
+          examples:
+          - '2024-01-01T00:00:00Z'
+          title: End Datetime
+        description: The end datetime for filtering results
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListResponse_ServiceResponse_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK, models\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.services.list(page=0, limit=25, search_fields=[\n        models.ServiceProperties.NAME,\n    ], search_field_values=[\n        \"Some Object Name\",\n    ], start_datetime=\"2023-01-01T00:00:00Z\", end_datetime=\"2024-01-01T00:00:00Z\")\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.services.list({\n    page: 0,\n    searchFields: [\n      \"name\",\n    ],\n    searchFieldValues: [\n      \"Some Object Name\",\n    ],\n    startDatetime: \"2023-01-01T00:00:00Z\",\n    endDatetime: \"2024-01-01T00:00:00Z\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+    post:
+      tags:
+      - services
+      summary: Create Service
+      description: Create a new service.
+      operationId: service_create
+      security:
+      - APIKeyHeader: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceCreateRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK, models\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.services.create(request={\n        \"name\": \"Weather tools\",\n        \"description\": \"Service containing tools for fetching weather information\",\n        \"auth_type\": models.ToolAuthType.BASIC,\n        \"auth_values\": {\n            \"password\": \"my-password\",\n            \"username\": \"my-username\",\n        },\n    })\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.services.create({\n    name: \"Weather tools\",\n    description: \"Service containing tools for fetching weather information\",\n    authType: \"basic\",\n    authValues: {\n      \"password\": \"my-password\",\n      \"username\": \"my-username\",\n    },\n  });\n\n  console.log(result);\n}\n\nrun();"
+    put:
+      tags:
+      - services
+      summary: Update Service
+      description: Update an existing service.
+      operationId: service_update
+      security:
+      - APIKeyHeader: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceUpdateRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK, models\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.services.update(request={\n        \"name\": \"Weather tools\",\n        \"description\": \"Service containing tools for fetching weather information\",\n        \"auth_type\": models.ToolAuthType.BASIC,\n        \"auth_values\": {\n            \"password\": \"my-password\",\n            \"username\": \"my-username\",\n        },\n        \"id\": 1,\n        \"last_updated_comments\": \"Updated description to correct typo\",\n    })\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.services.update({\n    name: \"Weather tools\",\n    description: \"Service containing tools for fetching weather information\",\n    authType: \"basic\",\n    authValues: {\n      \"password\": \"my-password\",\n      \"username\": \"my-username\",\n    },\n    id: 1,\n    lastUpdatedComments: \"Updated description to correct typo\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/services/{service_id}:
+    get:
+      tags:
+      - services
+      summary: Get Service By Id
+      description: Get a service by its ID
+      operationId: services_get_by_id
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: service_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Service Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.services.get_by_id(service_id=902529)\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.services.getById({\n    serviceId: 902529,\n  });\n\n  console.log(result);\n}\n\nrun();"
+    delete:
+      tags:
+      - services
+      summary: Delete Service
+      description: Delete a service. A service with linked tools cannot be deleted.
+      operationId: service_delete
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: service_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Service Id
+      - name: reason
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Reason
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.services.delete(service_id=754999, reason=\"<value>\")\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.services.delete({\n    serviceId: 754999,\n    reason: \"<value>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+components:
+  schemas:
+    ServiceCreateRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The name of the service
+          examples:
+          - Weather tools
+        description:
+          type: string
+          title: Description
+          description: The description of the service
+          examples:
+          - Service containing tools for fetching weather information
+        auth_type:
+          anyOf:
+          - $ref: '#/components/schemas/ToolAuthType'
+          - type: 'null'
+          description: The type of authentication to use for the service's tools
+          examples:
+          - basic
+        auth_values:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Auth Values
+          description: The values to use for the authentication, as a dict. Should contain "username" and "password" keys if auth type is basic, "token" key if auth type is bearer, arbitrary header keys if auth type is custom_headers. or "client_id", "client_secret", and "auth_url" keys if auth type is oauth2. On an update, leave a value for a given key null and the value in the database will not be updated. (If a key is omitted entirely, any existing value for that key will be removed.)
+          examples:
+          - password: my-password
+            username: my-username
+      type: object
+      required:
+      - name
+      - description
+      title: ServiceCreateRequest
+      description: Request model to create a service.
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ServiceUpdateRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The name of the service
+          examples:
+          - Weather tools
+        description:
+          type: string
+          title: Description
+          description: The description of the service
+          examples:
+          - Service containing tools for fetching weather information
+        auth_type:
+          anyOf:
+          - $ref: '#/components/schemas/ToolAuthType'
+          - type: 'null'
+          description: The type of authentication to use for the service's tools
+          examples:
+          - basic
+        auth_values:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Auth Values
+          description: The values to use for the authentication, as a dict. Should contain "username" and "password" keys if auth type is basic, "token" key if auth type is bearer, arbitrary header keys if auth type is custom_headers. or "client_id", "client_secret", and "auth_url" keys if auth type is oauth2. On an update, leave a value for a given key null and the value in the database will not be updated. (If a key is omitted entirely, any existing value for that key will be removed.)
+          examples:
+          - password: my-password
+            username: my-username
+        id:
+          type: integer
+          title: Id
+          description: The internal ID of the service
+          examples:
+          - 1
+        last_updated_comments:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Updated Comments
+          description: Free text providing comment about what was updated
+          examples:
+          - Updated description to correct typo
+      type: object
+      required:
+      - name
+      - description
+      - id
+      title: ServiceUpdateRequest
+      description: Request model to update an existing service.
+    ServiceResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+          description: The internal ID of the service
+          examples:
+          - 1
+        name:
+          type: string
+          title: Name
+          description: The name of the service
+          examples:
+          - Weather tools
+        description:
+          type: string
+          title: Description
+          description: The description of the service
+          examples:
+          - Service containing tools for fetching weather information
+        auth_type:
+          anyOf:
+          - $ref: '#/components/schemas/ToolAuthType'
+          - type: 'null'
+          description: The type of authentication to use for the service's tools
+          examples:
+          - basic
+        auth_value_keys:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Auth Value Keys
+          description: Auth value keys (values omitted for security)
+          examples:
+          - - username
+            - password
+        last_updated_comments:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Updated Comments
+          description: Free text providing comment about what was updated
+          examples:
+          - Updated description to correct typo
+        last_updated:
+          type: string
+          format: date-time
+          title: Last Updated
+          description: The timestamp of the most recent update to the service
+          examples:
+          - '2024-01-01T12:00:00Z'
+        last_updated_by:
+          type: string
+          title: Last Updated By
+          description: The email of the user who last updated the service
+          examples:
+          - user@email.com
+        tools:
+          items:
+            type: string
+          type: array
+          title: Tools
+          description: Names of tools that belong to the service
+          examples:
+          - - hangup
+            - summary
+      type: object
+      required:
+      - id
+      - name
+      - description
+      - last_updated
+      - last_updated_by
+      - tools
+      title: ServiceResponse
+      description: Response model for service operations. A service is a collection of tools.
+    ListResponse_ServiceResponse_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/ServiceResponse'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[ServiceResponse]
+    ToolAuthType:
+      type: string
+      enum:
+      - basic
+      - bearer
+      - custom_headers
+      - oauth2
+      title: ToolAuthType
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ServiceProperties:
+      type: string
+      enum:
+      - id
+      - name
+      - description
+      - last_updated
+      - last_updated_by
+      title: ServiceProperties
+      description: Names of service fields supported for filtering/sorting on list endpoint.
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: Syllable-API-Key
+x-speakeasy-name-override:
+- operationId: .*_list$
+  methodNameOverride: list
+- operationId: .*_create$
+  methodNameOverride: create
+- operationId: .*_update$
+  methodNameOverride: update
+- operationId: .*_upload$
+  methodNameOverride: upload
+- operationId: .*_delete$
+  methodNameOverride: delete
+- operationId: .*_get_by_id$
+  methodNameOverride: get_by_id
+- operationId: .*_get_by_name$
+  methodNameOverride: get_by_name
+- operationId: .*_add$
+  methodNameOverride: add
+- operationId: .*_remove$
+  methodNameOverride: remove
+- operationId: .*_results$
+  methodNameOverride: results
+- operationId: .*_queue_work$
+  methodNameOverride: queue_work
+- operationId: .*_activate$
+  methodNameOverride: activate
+- operationId: .*_inactivate$
+  methodNameOverride: inactivate
+- operationId: .*_list_files$
+  methodNameOverride: list_files
+- operationId: .*_move_files$
+  methodNameOverride: move_files
+- operationId: .*_upload_file$
+  methodNameOverride: upload_file

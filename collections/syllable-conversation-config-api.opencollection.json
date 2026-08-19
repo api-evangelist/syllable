@@ -1,0 +1,84 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SyllableSDK Conversation Config API",
+    "version": "0.0.3"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "conversation-config",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Bridge Phrases Config",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.syllable.cloud/api/v1/conversation-config/bridges",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "query",
+                "description": "Agent ID to fetch config for"
+              },
+              {
+                "name": "tool_name",
+                "value": "",
+                "type": "query",
+                "description": "Tool name to fetch config for"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get the bridge phrases configuration."
+        },
+        {
+          "info": {
+            "name": "Update Bridge Phrases Config",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.syllable.cloud/api/v1/conversation-config/bridges",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "query",
+                "description": "Agent ID to update config for"
+              },
+              {
+                "name": "tool_name",
+                "value": "",
+                "type": "query",
+                "description": "Tool name to update config for"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update the bridge phrases configuration."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

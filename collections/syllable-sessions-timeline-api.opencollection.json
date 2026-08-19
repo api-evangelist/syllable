@@ -1,0 +1,42 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SyllableSDK Sessions.timeline API",
+    "version": "0.0.3"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "sessions.timeline",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Session Timeline By Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.syllable.cloud/api/v1/sessions/timeline/:session_id",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Consolidated, time-ordered timeline of a session's events."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

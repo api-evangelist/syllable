@@ -1,0 +1,108 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SyllableSDK Organizations.sip Ip Ranges API",
+    "version": "0.0.3"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "organizations.sip_ip_ranges",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Organization Sip Ip Ranges",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.syllable.cloud/api/v1/organizations/sip_ip_ranges/",
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List SIP signaling/media IP ranges for the current organization."
+        },
+        {
+          "info": {
+            "name": "Create Organization Sip Ip Range",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.syllable.cloud/api/v1/organizations/sip_ip_ranges/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create an unverified SIP signaling/media IP range for the current organization."
+        },
+        {
+          "info": {
+            "name": "Update Organization Sip Ip Range",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.syllable.cloud/api/v1/organizations/sip_ip_ranges/:sip_ip_range_id",
+            "params": [
+              {
+                "name": "sip_ip_range_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update a SIP IP range. The verified status is managed by Syllable only."
+        },
+        {
+          "info": {
+            "name": "Delete Organization Sip Ip Range",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.syllable.cloud/api/v1/organizations/sip_ip_ranges/:sip_ip_range_id",
+            "params": [
+              {
+                "name": "sip_ip_range_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete a SIP signaling/media IP range for the current organization."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

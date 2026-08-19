@@ -1,0 +1,1053 @@
+openapi: 3.2.0
+info:
+  title: SyllableSDK Insights.workflows API
+  description: "\n# Syllable Platform SDK\n\nSyllable SDK gives you the power of awesome AI agentry. \U0001F680\n\n## Overview\n\nThe Syllable SDK provides a comprehensive set of tools and APIs to integrate powerful AI\ncapabilities into your communication applications. Whether you're building phone agents, chatbots,\nvirtual assistants, or any other AI-driven solutions, Syllable SDK has got you covered.\n\n## Features\n\n- **Agent Configuration**: Create and manage agents that can interact with users across various \nchannels.\n- **Channel Management**: Configure channels like SMS, web chat, and more to connect agents with \nusers.\n- **Custom Messages**: Set up custom messages that agents can deliver as greetings or responses.\n- **Conversations**: Track and manage conversations between users and agents, including session \nmanagement.\n- **Tools and Workflows**: Leverage tools and workflows to enhance agent capabilities, such as data \nprocessing and API calls.\n- **Data Sources**: Integrate data sources to provide agents with additional context and \ninformation.\n- **Insights and Analytics**: Analyze conversations and sessions to gain insights into user \ninteractions.\n- **Permissions and Security**: Manage permissions to control access to various features and \nfunctionalities.\n- **Language Support**: Define language groups to enable multilingual support for agents.\n- **Outbound Campaigns**: Create and manage outbound communication campaigns to reach users \neffectively.\n- **Session Labels**: Label sessions with evaluations of quality and descriptions of issues \nencountered.\n- **Incident Management**: Track and manage incidents related to agent interactions.\n"
+  version: 0.0.3
+servers:
+- url: https://api.syllable.cloud
+  description: API server
+tags:
+- name: insights.workflows
+  description: Operations related to insights workflows. An workflow is series of tool           invocations that processes conversation data to extract information and generate           reports.
+paths:
+  /api/v1/insights/workflows/:
+    get:
+      tags:
+      - insights.workflows
+      summary: Insight Workflow List
+      description: List the existing insight_workflows
+      operationId: insights_workflow_list
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            minimum: 0
+          - type: 'null'
+          description: The page number from which to start (0-based)
+          examples:
+          - 0
+          default: 0
+          title: Page
+        description: The page number from which to start (0-based)
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: The maximum number of items to return
+          examples:
+          - 25
+          default: 25
+          title: Limit
+        description: The maximum number of items to return
+      - name: search_fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/InsightWorkflowProperties'
+          description: String names of fields to search. Correspond by index to search field values
+          examples:
+          - name
+          default: []
+          title: Search Fields
+        description: String names of fields to search. Correspond by index to search field values
+      - name: search_field_values
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          description: Values of fields to search. Correspond by index to search fields. Unless field name contains "list", an individual search field value cannot be a list
+          examples:
+          - Some Object Name
+          default: []
+          title: Search Field Values
+        description: Values of fields to search. Correspond by index to search fields. Unless field name contains "list", an individual search field value cannot be a list
+      - name: order_by
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/InsightWorkflowProperties'
+          - type: 'null'
+          description: The field whose value should be used to order the results
+          examples:
+          - name
+          title: Order By
+        description: The field whose value should be used to order the results
+      - name: order_by_direction
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/OrderByDirection'
+          - type: 'null'
+          description: The direction in which to order the results
+          title: Order By Direction
+        description: The direction in which to order the results
+      - name: fields
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              $ref: '#/components/schemas/InsightWorkflowProperties'
+          - type: 'null'
+          description: The fields to include in the response
+          default: []
+          title: Fields
+        description: The fields to include in the response
+      - name: start_datetime
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The start datetime for filtering results
+          examples:
+          - '2023-01-01T00:00:00Z'
+          title: Start Datetime
+        description: The start datetime for filtering results
+      - name: end_datetime
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The end datetime for filtering results
+          examples:
+          - '2024-01-01T00:00:00Z'
+          title: End Datetime
+        description: The end datetime for filtering results
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListResponse_InsightWorkflowOutput_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK, models\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.insights.workflows.list(page=0, limit=25, search_fields=[\n        models.InsightWorkflowProperties.NAME,\n    ], search_field_values=[\n        \"Some Object Name\",\n    ], start_datetime=\"2023-01-01T00:00:00Z\", end_datetime=\"2024-01-01T00:00:00Z\")\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.insights.workflows.list({\n    page: 0,\n    searchFields: [\n      \"name\",\n    ],\n    searchFieldValues: [\n      \"Some Object Name\",\n    ],\n    startDatetime: \"2023-01-01T00:00:00Z\",\n    endDatetime: \"2024-01-01T00:00:00Z\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+    post:
+      tags:
+      - insights.workflows
+      summary: Create Insight Workflow
+      description: Create a new tool in the insights
+      operationId: insights_workflow_create
+      security:
+      - APIKeyHeader: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InsightWorkflowInput'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsightWorkflowOutput'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\nfrom syllable_sdk.utils import parse_datetime\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.insights.workflows.create(request={\n        \"name\": \"summary-workflow\",\n        \"source\": \"agent\",\n        \"description\": \"Default workflow - generates a summary of the call\",\n        \"insight_tool_ids\": [\n            1,\n        ],\n        \"conditions\": {\n            \"min_duration\": 120,\n            \"max_duration\": 600,\n            \"sample_rate\": 0.1,\n            \"agent_list\": [\n                866324,\n                826325,\n            ],\n            \"prompt_list\": [\n                \"123324\",\n            ],\n            \"folder_list\": [\n                16754,\n                67535,\n            ],\n            \"sheet_info\": {\n                \"sheet_id\": \"1AGOCYz05AZYYOMzow2EYlgdDXSXaWIhyA3-zCxBm4go\",\n                \"sheet_name\": \"Q1 Sales Data\",\n            },\n        },\n        \"start_datetime\": parse_datetime(\"2026-02-03T00:00:00Z\"),\n        \"end_datetime\": parse_datetime(\"2026-02-04T00:00:00Z\"),\n    })\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.insights.workflows.create({\n    name: \"summary-workflow\",\n    source: \"agent\",\n    description: \"Default workflow - generates a summary of the call\",\n    insightToolIds: [\n      1,\n    ],\n    conditions: {\n      minDuration: 120,\n      maxDuration: 600,\n      sampleRate: 0.1,\n      agentList: [\n        866324,\n        826325,\n      ],\n      promptList: [\n        \"123324\",\n      ],\n      folderList: [\n        16754,\n        67535,\n      ],\n      sheetInfo: {\n        \"sheet_id\": \"1AGOCYz05AZYYOMzow2EYlgdDXSXaWIhyA3-zCxBm4go\",\n        \"sheet_name\": \"Q1 Sales Data\",\n      },\n    },\n    startDatetime: new Date(\"2026-02-03T00:00:00Z\"),\n    endDatetime: new Date(\"2026-02-04T00:00:00Z\"),\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/insights/workflows/{workflow_id}:
+    get:
+      tags:
+      - insights.workflows
+      summary: Get Insight Workflow By Id
+      description: Get a InsightWorkflow by ID.
+      operationId: insights_workflow_get_by_id
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: workflow_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Workflow Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsightWorkflowOutput'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.insights.workflows.get_by_id(workflow_id=788857)\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.insights.workflows.getById({\n    workflowId: 788857,\n  });\n\n  console.log(result);\n}\n\nrun();"
+    put:
+      tags:
+      - insights.workflows
+      summary: Update Insights Workflow
+      description: Update a InsightWorkflow.
+      operationId: insights_workflow_update
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: workflow_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Workflow Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InsightWorkflowInput'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsightWorkflowOutput'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '412':
+          description: Precondition Failed
+        '500':
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\nfrom syllable_sdk.utils import parse_datetime\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.insights.workflows.update(workflow_id=766381, insight_workflow_input={\n        \"name\": \"summary-workflow\",\n        \"source\": \"agent\",\n        \"description\": \"Default workflow - generates a summary of the call\",\n        \"insight_tool_ids\": [\n            1,\n        ],\n        \"conditions\": {\n            \"min_duration\": 120,\n            \"max_duration\": 600,\n            \"sample_rate\": 0.1,\n            \"agent_list\": [\n                866324,\n                826325,\n            ],\n            \"prompt_list\": [\n                \"123324\",\n            ],\n            \"folder_list\": [\n                16754,\n                67535,\n            ],\n            \"sheet_info\": {\n                \"sheet_id\": \"1AGOCYz05AZYYOMzow2EYlgdDXSXaWIhyA3-zCxBm4go\",\n                \"sheet_name\": \"Q1 Sales Data\",\n            },\n        },\n        \"start_datetime\": parse_datetime(\"2026-02-03T00:00:00Z\"),\n        \"end_datetime\": parse_datetime(\"2026-02-04T00:00:00Z\"),\n    })\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.insights.workflows.update({\n    workflowId: 673493,\n    insightWorkflowInput: {\n      name: \"summary-workflow\",\n      source: \"agent\",\n      description: \"Default workflow - generates a summary of the call\",\n      insightToolIds: [\n        1,\n      ],\n      conditions: {\n        minDuration: 120,\n        maxDuration: 600,\n        sampleRate: 0.1,\n        agentList: [\n          866324,\n          826325,\n        ],\n        promptList: [\n          \"123324\",\n        ],\n        folderList: [\n          16754,\n          67535,\n        ],\n        sheetInfo: {\n          \"sheet_id\": \"1AGOCYz05AZYYOMzow2EYlgdDXSXaWIhyA3-zCxBm4go\",\n          \"sheet_name\": \"Q1 Sales Data\",\n        },\n      },\n      startDatetime: new Date(\"2026-02-03T00:00:00Z\"),\n      endDatetime: new Date(\"2026-02-04T00:00:00Z\"),\n    },\n  });\n\n  console.log(result);\n}\n\nrun();"
+    delete:
+      tags:
+      - insights.workflows
+      summary: Delete Insights Workflow
+      description: Delete an Insights workflow.
+      operationId: insights_workflow_delete
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: workflow_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Workflow Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.insights.workflows.delete(workflow_id=609419)\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.insights.workflows.delete({\n    workflowId: 609419,\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/insights/workflows/{workflow_id}/inactivate:
+    put:
+      tags:
+      - insights.workflows
+      summary: Inactivate Insights Workflow
+      description: Inactivate an InsightWorkflow.
+      operationId: insights_workflow_inactivate
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: workflow_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Workflow Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsightWorkflowOutput'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.insights.workflows.inactivate(workflow_id=248768)\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.insights.workflows.inactivate({\n    workflowId: 248768,\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/insights/workflows/{workflow_id}/activate:
+    put:
+      tags:
+      - insights.workflows
+      summary: Activate Insights Workflow
+      description: Activate an InsightWorkflow.
+      operationId: insights_workflow_activate
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: workflow_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Workflow Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InsightWorkflowActivate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsightWorkflowOutput'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.insights.workflows.activate(workflow_id=303095, insight_workflow_activate={\n        \"is_acknowledged\": True,\n        \"estimate\": {\n            \"backfill_count\": 100,\n            \"backfill_duration\": 1000,\n            \"estimated_daily_count\": 10,\n            \"estimated_daily_duration\": 3674.11,\n            \"estimated_daily_cost\": 45.25,\n            \"estimated_backfill_cost\": 4561,\n        },\n    })\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.insights.workflows.activate({\n    workflowId: 303095,\n    insightWorkflowActivate: {\n      isAcknowledged: true,\n      estimate: {\n        backfillCount: 100,\n        backfillDuration: 1000,\n        estimatedDailyCount: 10,\n        estimatedDailyDuration: 3674.11,\n        estimatedDailyCost: 45.25,\n        estimatedBackfillCost: 4561,\n      },\n    },\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/insights/workflows/queue-work:
+    post:
+      tags:
+      - insights.workflows
+      summary: Queue Insights Workflow For Sessions/Files
+      description: Manually queue sessions for insights workflow evaluation.
+      operationId: insights_workflow_queue_work
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InsightsWorkflowQueueSession'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - APIKeyHeader: []
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.insights.workflows.queue_work(request={\n        \"workflow_name\": \"summary-workflow\",\n    })\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.insights.workflows.queueWork({\n    workflowName: \"summary-workflow\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+components:
+  schemas:
+    InsightsWorkflowQueueSession:
+      properties:
+        workflow_name:
+          type: string
+          title: Workflow Name
+          description: Unique name for workflow
+          examples:
+          - summary-workflow
+        session_id_list:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Session Id List
+          description: List of session identifiers
+          examples:
+          - '[12334,23445,34556]'
+        file_id_list:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: File Id List
+          description: List of file IDs to be processed. This is only applicable for upload folders
+          examples:
+          - '[1234,1678,2224]'
+      type: object
+      required:
+      - workflow_name
+      title: InsightsWorkflowQueueSession
+      description: Session identifier for workflow queue.
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
+    InsightWorkflowProperties:
+      type: string
+      enum:
+      - id
+      - name
+      - name_exact
+      - description
+      - status
+      - conditions
+      - insight_tool_ids
+      - updated_at
+      title: InsightWorkflowProperties
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    InsightWorkflowCondition:
+      properties:
+        min_duration:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Min Duration
+          description: Minimum duration of the calls in seconds
+          examples:
+          - 120
+        max_duration:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Duration
+          description: Maximum duration of the calls in seconds
+          examples:
+          - 600
+        sample_rate:
+          anyOf:
+          - type: integer
+          - type: number
+          - type: 'null'
+          title: Sample Rate
+          description: Sample rate as a percentage of calls
+          examples:
+          - 0.1
+          - 10
+        agent_list:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Agent List
+          description: List of agents
+          examples:
+          - - 866324
+            - 826325
+          - - Agnes.Wangeci
+            - Dorice.Otaaba
+        prompt_list:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Prompt List
+          description: List of prompts
+          examples:
+          - - '123324'
+        folder_list:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Folder List
+          description: List of folder IDs
+          examples:
+          - - 16754
+            - 67535
+        sheet_info:
+          anyOf:
+          - additionalProperties:
+              type: string
+            type: object
+          - type: 'null'
+          title: Sheet Info
+          description: Information about the sheet to be used for the workflow
+          examples:
+          - sheet_id: 1AGOCYz05AZYYOMzow2EYlgdDXSXaWIhyA3-zCxBm4go
+            sheet_name: Q1 Sales Data
+      type: object
+      title: InsightWorkflowCondition
+      description: Model for the conditions that trigger an insight workflow.
+    InsightWorkflowActivate:
+      properties:
+        is_acknowledged:
+          type: boolean
+          title: Is Acknowledged
+          description: Flag to indicate if the user has acknowledged the estimate
+          examples:
+          - true
+        estimate:
+          $ref: '#/components/schemas/InsightWorkflowEstimate'
+          description: Estimate of the number of calls that will be processed by the workflow
+      type: object
+      required:
+      - is_acknowledged
+      - estimate
+      title: InsightWorkflowActivate
+      description: Request model to activate an insight workflow.
+    InsightWorkflowEstimate:
+      properties:
+        backfill_count:
+          type: integer
+          title: Backfill Count
+          description: Number of extant calls that will be processed by the workflow
+          examples:
+          - 100
+        backfill_duration:
+          type: number
+          title: Backfill Duration
+          description: Estimated duration of the calls that will be processed by the workflow
+          examples:
+          - 1000.0
+        estimated_daily_count:
+          type: integer
+          title: Estimated Daily Count
+          description: Estimated number of calls that will be processed by the workflow daily
+          examples:
+          - 10
+        estimated_daily_duration:
+          type: number
+          title: Estimated Daily Duration
+          description: Estimated duration of the calls that will be processed by the workflow daily
+          examples:
+          - '3674.11'
+        estimated_daily_cost:
+          type: number
+          title: Estimated Daily Cost
+          description: Estimated cost of the calls that will be processed by the workflow daily
+          examples:
+          - '45.25'
+        estimated_backfill_cost:
+          type: number
+          title: Estimated Backfill Cost
+          description: Estimated cost of the backfill of the calls that will be processed by the workflow
+          examples:
+          - '4561.00'
+      type: object
+      required:
+      - backfill_count
+      - backfill_duration
+      - estimated_daily_count
+      - estimated_daily_duration
+      - estimated_daily_cost
+      - estimated_backfill_cost
+      title: InsightWorkflowEstimate
+      description: Response model for an insight workflow.
+    InsightWorkflowOutput:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Human-readable name of insight workflow
+          examples:
+          - summary-workflow
+        source:
+          type: string
+          title: Source
+          description: Source of the workflow
+          examples:
+          - agent
+          - transfer
+          - upload
+          - sheet
+          - manual
+        description:
+          type: string
+          title: Description
+          description: Text description of workflow
+          examples:
+          - Default workflow - generates a summary of the call
+        insight_tool_ids:
+          items:
+            type: integer
+          type: array
+          title: Insight Tool Ids
+          description: Ordered list of IDs of tool configurations to be executed in the workflow
+          examples:
+          - - 1
+        conditions:
+          $ref: '#/components/schemas/InsightWorkflowCondition'
+          description: Conditions (filters) on which a workflow should be triggered.
+        start_datetime:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Start Datetime
+          description: Target session timestamp the workflow (backfill) should start. An empty value indicates start on activation - live sessions only
+          examples:
+          - '2026-08-04T00:00:00Z'
+        end_datetime:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: End Datetime
+          description: Target session timestamp the workflow (backfill) should end. An empty value indicates no end, i.e., include live sessions until deactivation
+          examples:
+          - '2026-08-05T00:00:00Z'
+        id:
+          type: integer
+          title: Id
+          description: Internal ID of the insight workflow
+          examples:
+          - 1
+        insight_tools:
+          items:
+            $ref: '#/components/schemas/InsightToolOutput'
+          type: array
+          title: Insight Tools
+          description: List of insight tool configurations used in the workflow
+        status:
+          type: string
+          title: Status
+          description: Status of the insight workflow
+          examples:
+          - ACTIVE
+          - INACTIVE
+        estimate:
+          $ref: '#/components/schemas/InsightWorkflowEstimate'
+          description: Estimate of the number of calls that will be processed by the workflow and their cost
+        queue_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Queue Count
+          description: Number of calls in the workflow queue (pending or processing)
+          examples:
+          - 10
+        failed_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Failed Count
+          description: Number of workflow executions currently in FAILED status
+          examples:
+          - 2
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: Timestamp at which the insight workflow was created
+          examples:
+          - '2026-08-04T00:00:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+          description: Timestamp of most recent update to the insight workflow
+          examples:
+          - '2026-08-05T00:00:00Z'
+        last_updated_by:
+          type: string
+          title: Last Updated By
+          description: Email of user who last updated Insight Workflow
+          examples:
+          - user@email.com
+      type: object
+      required:
+      - name
+      - source
+      - description
+      - insight_tool_ids
+      - conditions
+      - id
+      - insight_tools
+      - status
+      - estimate
+      - last_updated_by
+      title: InsightWorkflowOutput
+      description: Response model for an insight workflow.
+    InsightToolOutput:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Human readable name of insight tool
+          examples:
+          - summary-tool
+        description:
+          type: string
+          title: Description
+          description: Text description of insight tool configuration
+          examples:
+          - This tool uses GPT4.1 to generate a summary of the call
+        version:
+          type: integer
+          title: Version
+          description: Version of insight tool
+          examples:
+          - 1
+        tool_arguments:
+          title: Tool Arguments
+          description: Arguments for calling the insight tool
+          examples:
+          - prompt: Provide a concise, accurate summary of the conversation's key points, focusing on the user's goal and how the agent responded
+        insight_tool_definition_id:
+          type: integer
+          title: Insight Tool Definition Id
+          description: Unique ID for insight tool definition used by this tool configuration
+          examples:
+          - 1
+        id:
+          type: integer
+          title: Id
+          description: Unique ID for insight tool
+          examples:
+          - 1
+        insight_tool_definition:
+          anyOf:
+          - $ref: '#/components/schemas/InsightToolDefinition'
+          - type: 'null'
+          description: Insight Tool Definition
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: Timestamp of at which insight tool configuration was created
+          examples:
+          - '2026-08-04T00:00:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+          description: Timestamp at which insight tool configuration was last updated
+          examples:
+          - '2026-08-05T00:00:00Z'
+        last_updated_by:
+          type: string
+          title: Last Updated By
+          description: Email of user who last updated insight tool configuration
+          examples:
+          - user@email.com
+      type: object
+      required:
+      - name
+      - description
+      - version
+      - tool_arguments
+      - insight_tool_definition_id
+      - id
+      - last_updated_by
+      title: InsightToolOutput
+      description: Response model for an insight tool configuration.
+    InsightToolDefinition:
+      properties:
+        id:
+          type: integer
+          title: Id
+          description: Unique ID for insight tool definition
+          examples:
+          - 1
+        name:
+          type: string
+          title: Name
+          description: Human-readable name of insight tool definition
+          examples:
+          - llm_tool
+        type:
+          type: string
+          title: Type
+          description: Type of insight tool definition
+        description:
+          type: string
+          title: Description
+          description: Text description of insight tool definition
+          examples:
+          - An LLM tool evaluates a transcript with a given prompt
+        tool_parameters:
+          title: Tool Parameters
+          description: Parameters for tools that use this definition and their associated types
+          examples:
+          - prompt: string
+        tool_result_set:
+          title: Tool Result Set
+          description: Result key/types for insight tool definition
+          examples:
+          - summary: string
+      type: object
+      required:
+      - id
+      - name
+      - type
+      - description
+      - tool_parameters
+      - tool_result_set
+      title: InsightToolDefinition
+      description: 'Model for an insight tool definition. This is a template that can be used by multiple insight
+
+        tool configurations, each providing their own parameter values.'
+    ListResponse_InsightWorkflowOutput_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/InsightWorkflowOutput'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[InsightWorkflowOutput]
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    InsightWorkflowInput:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Human-readable name of insight workflow
+          examples:
+          - summary-workflow
+        source:
+          type: string
+          title: Source
+          description: Source of the workflow
+          examples:
+          - agent
+          - transfer
+          - upload
+          - sheet
+          - manual
+        description:
+          type: string
+          title: Description
+          description: Text description of workflow
+          examples:
+          - Default workflow - generates a summary of the call
+        insight_tool_ids:
+          items:
+            type: integer
+          type: array
+          title: Insight Tool Ids
+          description: Ordered list of IDs of tool configurations to be executed in the workflow
+          examples:
+          - - 1
+        conditions:
+          $ref: '#/components/schemas/InsightWorkflowCondition'
+          description: Conditions (filters) on which a workflow should be triggered.
+        start_datetime:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Start Datetime
+          description: Target session timestamp the workflow (backfill) should start. An empty value indicates start on activation - live sessions only
+          examples:
+          - '2026-08-04T00:00:00Z'
+        end_datetime:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: End Datetime
+          description: Target session timestamp the workflow (backfill) should end. An empty value indicates no end, i.e., include live sessions until deactivation
+          examples:
+          - '2026-08-05T00:00:00Z'
+      type: object
+      required:
+      - name
+      - source
+      - description
+      - insight_tool_ids
+      - conditions
+      title: InsightWorkflowInput
+      description: Request model to create/update an insight workflow.
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: Syllable-API-Key
+x-speakeasy-name-override:
+- operationId: .*_list$
+  methodNameOverride: list
+- operationId: .*_create$
+  methodNameOverride: create
+- operationId: .*_update$
+  methodNameOverride: update
+- operationId: .*_upload$
+  methodNameOverride: upload
+- operationId: .*_delete$
+  methodNameOverride: delete
+- operationId: .*_get_by_id$
+  methodNameOverride: get_by_id
+- operationId: .*_get_by_name$
+  methodNameOverride: get_by_name
+- operationId: .*_add$
+  methodNameOverride: add
+- operationId: .*_remove$
+  methodNameOverride: remove
+- operationId: .*_results$
+  methodNameOverride: results
+- operationId: .*_queue_work$
+  methodNameOverride: queue_work
+- operationId: .*_activate$
+  methodNameOverride: activate
+- operationId: .*_inactivate$
+  methodNameOverride: inactivate
+- operationId: .*_list_files$
+  methodNameOverride: list_files
+- operationId: .*_move_files$
+  methodNameOverride: move_files
+- operationId: .*_upload_file$
+  methodNameOverride: upload_file

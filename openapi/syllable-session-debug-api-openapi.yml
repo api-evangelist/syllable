@@ -1,0 +1,348 @@
+openapi: 3.2.0
+info:
+  title: SyllableSDK Session Debug API
+  description: "\n# Syllable Platform SDK\n\nSyllable SDK gives you the power of awesome AI agentry. \U0001F680\n\n## Overview\n\nThe Syllable SDK provides a comprehensive set of tools and APIs to integrate powerful AI\ncapabilities into your communication applications. Whether you're building phone agents, chatbots,\nvirtual assistants, or any other AI-driven solutions, Syllable SDK has got you covered.\n\n## Features\n\n- **Agent Configuration**: Create and manage agents that can interact with users across various \nchannels.\n- **Channel Management**: Configure channels like SMS, web chat, and more to connect agents with \nusers.\n- **Custom Messages**: Set up custom messages that agents can deliver as greetings or responses.\n- **Conversations**: Track and manage conversations between users and agents, including session \nmanagement.\n- **Tools and Workflows**: Leverage tools and workflows to enhance agent capabilities, such as data \nprocessing and API calls.\n- **Data Sources**: Integrate data sources to provide agents with additional context and \ninformation.\n- **Insights and Analytics**: Analyze conversations and sessions to gain insights into user \ninteractions.\n- **Permissions and Security**: Manage permissions to control access to various features and \nfunctionalities.\n- **Language Support**: Define language groups to enable multilingual support for agents.\n- **Outbound Campaigns**: Create and manage outbound communication campaigns to reach users \neffectively.\n- **Session Labels**: Label sessions with evaluations of quality and descriptions of issues \nencountered.\n- **Incident Management**: Track and manage incidents related to agent interactions.\n"
+  version: 0.0.3
+servers:
+- url: https://api.syllable.cloud
+  description: API server
+tags:
+- name: session_debug
+paths:
+  /api/v1/session_debug/sid/{channel_manager_service}/{channel_manager_sid}:
+    get:
+      tags:
+      - session_debug
+      summary: Get Session Data By Sid
+      operationId: get_session_data_by_sid
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: channel_manager_service
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Channel Manager Service
+      - name: channel_manager_sid
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Channel Manager Sid
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionData'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.session_debug.get_session_data_by_sid(channel_manager_service=\"<value>\", channel_manager_sid=\"<id>\")\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.sessionDebug.getSessionDataBySid({\n    channelManagerService: \"<value>\",\n    channelManagerSid: \"<id>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/session_debug/session_id/{session_id}:
+    get:
+      tags:
+      - session_debug
+      summary: Get Session Data By Session Id
+      operationId: get_session_data_by_session_id
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionData'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.session_debug.get_session_data_by_session_id(session_id=303182)\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.sessionDebug.getSessionDataBySessionId({\n    sessionId: 303182,\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/session_debug/tool_result/{session_id}/{tool_call_id}:
+    get:
+      tags:
+      - session_debug
+      summary: Get Session Tool Call Result By Id
+      operationId: get_session_tool_call_result_by_id
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Session Id
+      - name: tool_call_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Tool Call Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToolResultData'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.session_debug.get_session_tool_call_result_by_id(session_id=832133, tool_call_id=\"<id>\")\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.sessionDebug.getSessionToolCallResultById({\n    sessionId: 832133,\n    toolCallId: \"<id>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+components:
+  schemas:
+    SessionData:
+      properties:
+        session_id:
+          type: integer
+          title: Session Id
+          description: Session ID
+          examples:
+          - '123'
+        source:
+          type: string
+          title: Source
+          description: Session source
+          examples:
+          - '+1234567890'
+        target:
+          type: string
+          title: Target
+          description: Session target
+          examples:
+          - '+1239876543'
+        is_test:
+          type: boolean
+          title: Is Test
+          description: Is test session
+          examples:
+          - false
+        messages:
+          items:
+            $ref: '#/components/schemas/SessionMessage'
+          type: array
+          title: Messages
+          description: Session messages
+      type: object
+      required:
+      - session_id
+      - source
+      - target
+      - is_test
+      - messages
+      title: SessionData
+    DialogRole:
+      type: string
+      enum:
+      - agent
+      - user
+      title: DialogRole
+      description: Role of dialog
+    ToolResultData:
+      properties:
+        tool_name:
+          type: string
+          title: Tool Name
+          description: Tool name
+          examples:
+          - general_information_web
+        tool_result:
+          title: Tool Result
+          description: Tool result data
+          examples:
+          - answer: Syllable is a platform for building and managing AI voice agents...
+      type: object
+      required:
+      - tool_name
+      - tool_result
+      title: ToolResultData
+    SessionMessage:
+      properties:
+        role:
+          $ref: '#/components/schemas/DialogRole'
+          description: Dialog role
+          examples:
+          - agent
+          - user
+        dialog:
+          $ref: '#/components/schemas/DialogMessage'
+          description: Dialog message
+        tool_calls:
+          items:
+            $ref: '#/components/schemas/DialogToolCall'
+          type: array
+          title: Tool Calls
+          description: Tool calls
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+          description: Message timestamp
+          examples:
+          - '2024-06-19T00:00:00'
+      type: object
+      required:
+      - role
+      - dialog
+      - tool_calls
+      - timestamp
+      title: SessionMessage
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    DialogMessage:
+      properties:
+        text:
+          type: string
+          title: Text
+          description: Dialog message text
+          examples:
+          - Tell me about Syllable.ai!
+      type: object
+      required:
+      - text
+      title: DialogMessage
+    DialogToolCall:
+      properties:
+        tool_call_id:
+          type: string
+          title: Tool Call Id
+          description: Tool call ID
+          examples:
+          - call_arbitrary_id
+        tool_name:
+          type: string
+          title: Tool Name
+          description: Tool name
+          examples:
+          - general_information_web
+        tool_arguments:
+          title: Tool Arguments
+          description: Tool arguments
+          examples:
+          - question: Tell me about Syllable.ai!
+        tool_result:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Tool Result
+          description: Tool result data (only included if tool has propagate_tool_result=true)
+          examples:
+          - answer: Syllable is a platform for building and managing AI voice agents...
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+          description: Tool call timestamp
+          examples:
+          - '2024-06-19T00:00:00'
+      type: object
+      required:
+      - tool_call_id
+      - tool_name
+      - tool_arguments
+      - tool_result
+      - timestamp
+      title: DialogToolCall
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: Syllable-API-Key
+x-speakeasy-name-override:
+- operationId: .*_list$
+  methodNameOverride: list
+- operationId: .*_create$
+  methodNameOverride: create
+- operationId: .*_update$
+  methodNameOverride: update
+- operationId: .*_upload$
+  methodNameOverride: upload
+- operationId: .*_delete$
+  methodNameOverride: delete
+- operationId: .*_get_by_id$
+  methodNameOverride: get_by_id
+- operationId: .*_get_by_name$
+  methodNameOverride: get_by_name
+- operationId: .*_add$
+  methodNameOverride: add
+- operationId: .*_remove$
+  methodNameOverride: remove
+- operationId: .*_results$
+  methodNameOverride: results
+- operationId: .*_queue_work$
+  methodNameOverride: queue_work
+- operationId: .*_activate$
+  methodNameOverride: activate
+- operationId: .*_inactivate$
+  methodNameOverride: inactivate
+- operationId: .*_list_files$
+  methodNameOverride: list_files
+- operationId: .*_move_files$
+  methodNameOverride: move_files
+- operationId: .*_upload_file$
+  methodNameOverride: upload_file

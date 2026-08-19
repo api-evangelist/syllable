@@ -1,0 +1,100 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SyllableSDK Session Debug API",
+    "version": "0.0.3"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "session_debug",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Session Data By Sid",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.syllable.cloud/api/v1/session_debug/sid/:channel_manager_service/:channel_manager_sid",
+            "params": [
+              {
+                "name": "channel_manager_service",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "channel_manager_sid",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get Session Data By Sid"
+        },
+        {
+          "info": {
+            "name": "Get Session Data By Session Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.syllable.cloud/api/v1/session_debug/session_id/:session_id",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get Session Data By Session Id"
+        },
+        {
+          "info": {
+            "name": "Get Session Tool Call Result By Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.syllable.cloud/api/v1/session_debug/tool_result/:session_id/:tool_call_id",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "tool_call_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Syllable-API-Key",
+              "value": "{{Syllable-API-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get Session Tool Call Result By Id"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

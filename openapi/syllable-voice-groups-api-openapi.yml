@@ -1,0 +1,989 @@
+openapi: 3.2.0
+info:
+  title: SyllableSDK Voice Groups API
+  description: "\n# Syllable Platform SDK\n\nSyllable SDK gives you the power of awesome AI agentry. \U0001F680\n\n## Overview\n\nThe Syllable SDK provides a comprehensive set of tools and APIs to integrate powerful AI\ncapabilities into your communication applications. Whether you're building phone agents, chatbots,\nvirtual assistants, or any other AI-driven solutions, Syllable SDK has got you covered.\n\n## Features\n\n- **Agent Configuration**: Create and manage agents that can interact with users across various \nchannels.\n- **Channel Management**: Configure channels like SMS, web chat, and more to connect agents with \nusers.\n- **Custom Messages**: Set up custom messages that agents can deliver as greetings or responses.\n- **Conversations**: Track and manage conversations between users and agents, including session \nmanagement.\n- **Tools and Workflows**: Leverage tools and workflows to enhance agent capabilities, such as data \nprocessing and API calls.\n- **Data Sources**: Integrate data sources to provide agents with additional context and \ninformation.\n- **Insights and Analytics**: Analyze conversations and sessions to gain insights into user \ninteractions.\n- **Permissions and Security**: Manage permissions to control access to various features and \nfunctionalities.\n- **Language Support**: Define language groups to enable multilingual support for agents.\n- **Outbound Campaigns**: Create and manage outbound communication campaigns to reach users \neffectively.\n- **Session Labels**: Label sessions with evaluations of quality and descriptions of issues \nencountered.\n- **Incident Management**: Track and manage incidents related to agent interactions.\n"
+  version: 0.0.3
+servers:
+- url: https://api.syllable.cloud
+  description: API server
+tags:
+- name: voice_groups
+paths:
+  /api/v1/voice_groups/:
+    get:
+      tags:
+      - voice_groups
+      summary: List Voice Groups
+      description: Fetch voice groups.
+      operationId: voice_groups_list
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            minimum: 0
+          - type: 'null'
+          description: The page number from which to start (0-based)
+          examples:
+          - 0
+          default: 0
+          title: Page
+        description: The page number from which to start (0-based)
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: The maximum number of items to return
+          examples:
+          - 25
+          default: 25
+          title: Limit
+        description: The maximum number of items to return
+      - name: search_fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/VoiceGroupProperties'
+          description: String names of fields to search. Correspond by index to search field values
+          examples:
+          - name
+          default: []
+          title: Search Fields
+        description: String names of fields to search. Correspond by index to search field values
+      - name: search_field_values
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          description: Values of fields to search. Correspond by index to search fields. Unless field name contains "list", an individual search field value cannot be a list
+          examples:
+          - Some Object Name
+          default: []
+          title: Search Field Values
+        description: Values of fields to search. Correspond by index to search fields. Unless field name contains "list", an individual search field value cannot be a list
+      - name: order_by
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/VoiceGroupProperties'
+          - type: 'null'
+          description: The field whose value should be used to order the results
+          examples:
+          - name
+          title: Order By
+        description: The field whose value should be used to order the results
+      - name: order_by_direction
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/OrderByDirection'
+          - type: 'null'
+          description: The direction in which to order the results
+          title: Order By Direction
+        description: The direction in which to order the results
+      - name: fields
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              $ref: '#/components/schemas/VoiceGroupProperties'
+          - type: 'null'
+          description: The fields to include in the response
+          default: []
+          title: Fields
+        description: The fields to include in the response
+      - name: start_datetime
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The start datetime for filtering results
+          examples:
+          - '2023-01-01T00:00:00Z'
+          title: Start Datetime
+        description: The start datetime for filtering results
+      - name: end_datetime
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The end datetime for filtering results
+          examples:
+          - '2024-01-01T00:00:00Z'
+          title: End Datetime
+        description: The end datetime for filtering results
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListResponse_VoiceGroupResponse_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK, models\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.voice_groups.list(page=0, limit=25, search_fields=[\n        models.VoiceGroupProperties.NAME,\n    ], search_field_values=[\n        \"Some Object Name\",\n    ], start_datetime=\"2023-01-01T00:00:00Z\", end_datetime=\"2024-01-01T00:00:00Z\")\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.voiceGroups.list({\n    page: 0,\n    searchFields: [\n      \"name\",\n    ],\n    searchFieldValues: [\n      \"Some Object Name\",\n    ],\n    startDatetime: \"2023-01-01T00:00:00Z\",\n    endDatetime: \"2024-01-01T00:00:00Z\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+    post:
+      tags:
+      - voice_groups
+      summary: Create Voice Group
+      description: Create a new voice group.
+      operationId: voice_groups_create
+      security:
+      - APIKeyHeader: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VoiceGroupCreateRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoiceGroupResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK, models\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.voice_groups.create(request={\n        \"name\": \"Call Center 1 Languages\",\n        \"description\": \"Languages spoken by operators at Call Center 1\",\n        \"language_configs\": [\n            {\n                \"language_code\": models.LanguageCode.EN_US,\n                \"voice_provider\": models.TtsProvider.OPEN_AI,\n                \"voice_display_name\": models.AgentVoiceDisplayName.ALLOY,\n                \"dtmf_code\": 1,\n            },\n            {\n                \"language_code\": models.LanguageCode.ES_US,\n                \"voice_provider\": models.TtsProvider.GOOGLE,\n                \"voice_display_name\": models.AgentVoiceDisplayName.ES_US_NEURAL2_B,\n                \"dtmf_code\": 2,\n            },\n        ],\n        \"skip_current_language_in_message\": True,\n    })\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.voiceGroups.create({\n    name: \"Call Center 1 Languages\",\n    description: \"Languages spoken by operators at Call Center 1\",\n    languageConfigs: [\n      {\n        languageCode: \"en-US\",\n        voiceProvider: \"OpenAI\",\n        voiceDisplayName: \"Alloy\",\n        dtmfCode: 1,\n      },\n      {\n        languageCode: \"es-US\",\n        voiceProvider: \"Google\",\n        voiceDisplayName: \"es-US-Neural2-B\",\n        dtmfCode: 2,\n      },\n    ],\n    skipCurrentLanguageInMessage: true,\n  });\n\n  console.log(result);\n}\n\nrun();"
+    put:
+      tags:
+      - voice_groups
+      summary: Update Voice Group
+      description: Update an existing voice group
+      operationId: voice_groups_update
+      security:
+      - APIKeyHeader: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VoiceGroupUpdateRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoiceGroupResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK, models\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.voice_groups.update(request={\n        \"name\": \"Call Center 1 Languages\",\n        \"description\": \"Languages spoken by operators at Call Center 1\",\n        \"language_configs\": [\n            {\n                \"language_code\": models.LanguageCode.EN_US,\n                \"voice_provider\": models.TtsProvider.OPEN_AI,\n                \"voice_display_name\": models.AgentVoiceDisplayName.ALLOY,\n                \"dtmf_code\": 1,\n            },\n            {\n                \"language_code\": models.LanguageCode.ES_US,\n                \"voice_provider\": models.TtsProvider.GOOGLE,\n                \"voice_display_name\": models.AgentVoiceDisplayName.ES_US_NEURAL2_B,\n                \"dtmf_code\": 2,\n            },\n        ],\n        \"skip_current_language_in_message\": True,\n        \"id\": 1,\n        \"edit_comments\": \"Added Spanish support.\",\n    })\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.voiceGroups.update({\n    name: \"Call Center 1 Languages\",\n    description: \"Languages spoken by operators at Call Center 1\",\n    languageConfigs: [\n      {\n        languageCode: \"en-US\",\n        voiceProvider: \"OpenAI\",\n        voiceDisplayName: \"Alloy\",\n        dtmfCode: 1,\n      },\n      {\n        languageCode: \"es-US\",\n        voiceProvider: \"Google\",\n        voiceDisplayName: \"es-US-Neural2-B\",\n        dtmfCode: 2,\n      },\n    ],\n    skipCurrentLanguageInMessage: true,\n    id: 1,\n    editComments: \"Added Spanish support.\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/voice_groups/{voice_group_id}:
+    get:
+      tags:
+      - voice_groups
+      summary: Get Voice Group
+      description: Fetch a given voice group.
+      operationId: voice_groups_get_by_id
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: voice_group_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Voice Group Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoiceGroupResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.voice_groups.get_by_id(voice_group_id=431245)\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.voiceGroups.getById({\n    voiceGroupId: 431245,\n  });\n\n  console.log(result);\n}\n\nrun();"
+    delete:
+      tags:
+      - voice_groups
+      summary: Delete Voice Group
+      description: Delete a voice group.
+      operationId: voice_groups_delete
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: voice_group_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Voice Group Id
+      - name: reason
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Reason
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.voice_groups.delete(voice_group_id=225046, reason=\"<value>\")\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.voiceGroups.delete({\n    voiceGroupId: 225046,\n    reason: \"<value>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/voice_groups/voices/sample:
+    post:
+      tags:
+      - voice_groups
+      summary: Create Voice Sample
+      description: Generate voice sample.
+      operationId: voice_groups_create_voice_sample
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VoiceSampleCreateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+                title: bytes
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - APIKeyHeader: []
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK, models\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.voice_groups.voice_groups_create_voice_sample(request={\n        \"language_code\": models.LanguageCode.FA_IR,\n        \"voice_provider\": models.TtsProvider.GOOGLE,\n        \"voice_display_name\": models.AgentVoiceDisplayName.VINDEMIATRIX_ENGLISH_,\n        \"voice_speed\": 1,\n        \"voice_pitch\": 0,\n    })\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.voiceGroups.voiceGroupsCreateVoiceSample({\n    languageCode: \"fa-IR\",\n    voiceProvider: \"Google\",\n    voiceDisplayName: \"Vindemiatrix (English)\",\n    voiceSpeed: 1,\n    voicePitch: 0,\n  });\n\n  console.log(result);\n}\n\nrun();"
+components:
+  schemas:
+    VoiceGroupUpdateRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The name of the language group.
+          examples:
+          - Call Center 1 Languages
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the language group.
+          examples:
+          - Languages spoken by operators at Call Center 1
+        language_configs:
+          items:
+            $ref: '#/components/schemas/LanguageConfig'
+          type: array
+          title: Language Configs
+          description: Voice and DTMF configurations for each language in the group.
+          examples:
+          - - dtmf_code: 1
+              language_code: en-US
+              voice_display_name: Alloy
+              voice_provider: OpenAI
+            - dtmf_code: 2
+              language_code: es-US
+              voice_display_name: es-US-Neural2-B
+              voice_provider: Google
+        skip_current_language_in_message:
+          type: boolean
+          title: Skip Current Language In Message
+          description: Whether a custom message using the language group to generate a language DTMF menu should skip the agent's current language in the menu.
+          examples:
+          - true
+        id:
+          type: integer
+          title: Id
+          description: The ID of the language group to update.
+          examples:
+          - 1
+        edit_comments:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Edit Comments
+          description: Comments for the most recent edit to the language group.
+          examples:
+          - Added Spanish support.
+      type: object
+      required:
+      - name
+      - language_configs
+      - skip_current_language_in_message
+      - id
+      title: VoiceGroupUpdateRequest
+      description: Request model to update an existing voice group.
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
+    LanguageGroupAgentInfo:
+      properties:
+        id:
+          type: integer
+          title: Id
+          description: The ID of the agent
+          examples:
+          - 1
+        name:
+          type: string
+          title: Name
+          description: The name of the agent
+          examples:
+          - Test Agent
+      type: object
+      required:
+      - id
+      - name
+      title: LanguageGroupAgentInfo
+      description: Information about an agent linked to a language group.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    VoiceGroupProperties:
+      type: string
+      enum:
+      - name
+      - description
+      - skip_current_language_in_message
+      - updated_at
+      - last_updated_by
+      title: VoiceGroupProperties
+      description: Names of voice group fields supported for filtering/sorting on list endpoint.
+    VoiceGroupCreateRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The name of the language group.
+          examples:
+          - Call Center 1 Languages
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the language group.
+          examples:
+          - Languages spoken by operators at Call Center 1
+        language_configs:
+          items:
+            $ref: '#/components/schemas/LanguageConfig'
+          type: array
+          title: Language Configs
+          description: Voice and DTMF configurations for each language in the group.
+          examples:
+          - - dtmf_code: 1
+              language_code: en-US
+              voice_display_name: Alloy
+              voice_provider: OpenAI
+            - dtmf_code: 2
+              language_code: es-US
+              voice_display_name: es-US-Neural2-B
+              voice_provider: Google
+        skip_current_language_in_message:
+          type: boolean
+          title: Skip Current Language In Message
+          description: Whether a custom message using the language group to generate a language DTMF menu should skip the agent's current language in the menu.
+          examples:
+          - true
+      type: object
+      required:
+      - name
+      - language_configs
+      - skip_current_language_in_message
+      title: VoiceGroupCreateRequest
+      description: Request model to create a voice group.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    VoiceSampleCreateRequest:
+      properties:
+        language_code:
+          $ref: '#/components/schemas/LanguageCode'
+          description: BCP 47 code of the language
+          examples:
+          - en-US
+        voice_provider:
+          $ref: '#/components/schemas/TtsProvider'
+          description: TTS provider of the voice to use for the language
+          examples:
+          - OpenAI
+        voice_display_name:
+          $ref: '#/components/schemas/AgentVoiceDisplayName'
+          description: Display name of the voice to use for the language
+          examples:
+          - Alloy
+        voice_speed:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Voice Speed
+          description: Speed of the voice in the range of 0.25 to 4.0 (OpenAI and Google) or 0.7 to 1.2 (ElevenLabs). Standard speed is 1.0.
+          examples:
+          - 1.0
+        voice_pitch:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Voice Pitch
+          description: Pitch of the voice in the range of -20.0 to 20.0. 20 means increase 20 semitones from the original pitch. -20 means decrease 20 semitones from the original pitch. 0 means use the original pitch. Only supported for Google configs.
+          examples:
+          - 0.0
+        text:
+          type: string
+          title: Text
+          description: Text to generate for this voice.
+          default: ''
+        apply_pronunciation_overrides:
+          type: boolean
+          title: Apply Pronunciation Overrides
+          description: Apply TTS pronunciation fixes.
+          default: false
+      type: object
+      required:
+      - language_code
+      - voice_provider
+      - voice_display_name
+      title: VoiceSampleCreateRequest
+      description: Request model to generate a sample audio file for a given voice and language.
+    AgentVoiceDisplayName:
+      type: string
+      enum:
+      - Achernar (English)
+      - Achernar (Gujarati)
+      - Achernar (Arabic)
+      - Achernar (French)
+      - Achernar (Japanese)
+      - Achernar (Hindi)
+      - Achernar (Korean)
+      - Achernar (Mandarin)
+      - Achernar (Spanish)
+      - Achernar (Thai)
+      - Achernar (Vietnamese)
+      - Alice
+      - Alloy
+      - Aoede (English)
+      - Aoede (Gujarati)
+      - Aoede (Arabic)
+      - Aoede (French)
+      - Aoede (Japanese)
+      - Aoede (Hindi)
+      - Aoede (Korean)
+      - Aoede (Mandarin)
+      - Aoede (Russian)
+      - Aoede (Spanish)
+      - Aoede (Thai)
+      - Aoede (Vietnamese)
+      - Ash
+      - Bill
+      - Brian
+      - Callirrhoe (English)
+      - Callirrhoe (Gujarati)
+      - Callirrhoe (Arabic)
+      - Callirrhoe (French)
+      - Callirrhoe (Japanese)
+      - Callirrhoe (Hindi)
+      - Callirrhoe (Korean)
+      - Callirrhoe (Mandarin)
+      - Callirrhoe (Spanish)
+      - Callirrhoe (Thai)
+      - Callirrhoe (Vietnamese)
+      - Callum
+      - Charlie
+      - Charlotte
+      - Charon (English)
+      - Charon (Gujarati)
+      - Charon (Arabic)
+      - Charon (French)
+      - Charon (Japanese)
+      - Charon (Hindi)
+      - Charon (Korean)
+      - Charon (Mandarin)
+      - Charon (Russian)
+      - Charon (Spanish)
+      - Charon (Thai)
+      - Charon (Vietnamese)
+      - Chris
+      - cmn-TW-Wavenet-A
+      - Coral
+      - Daniel
+      - Echo
+      - en-US-Neural2-D
+      - en-US-Neural2-F
+      - en-US-Neural2-J
+      - en-US-Studio-O
+      - Eric
+      - es-US-Neural2-A
+      - es-US-Neural2-B
+      - Fable
+      - Fenrir (English)
+      - Fenrir (Gujarati)
+      - Fenrir (Arabic)
+      - Fenrir (French)
+      - Fenrir (Japanese)
+      - Fenrir (Hindi)
+      - Fenrir (Korean)
+      - Fenrir (Mandarin)
+      - Fenrir (Russian)
+      - Fenrir (Spanish)
+      - Fenrir (Thai)
+      - Fenrir (Vietnamese)
+      - George
+      - Jessica
+      - ko-KR-Neural2-A
+      - Kore (English)
+      - Kore (Gujarati)
+      - Kore (Arabic)
+      - Kore (French)
+      - Kore (Japanese)
+      - Kore (Hindi)
+      - Kore (Korean)
+      - Kore (Mandarin)
+      - Kore (Russian)
+      - Kore (Spanish)
+      - Kore (Thai)
+      - Kore (Vietnamese)
+      - Laura
+      - Leda (English)
+      - Leda (Gujarati)
+      - Leda (Arabic)
+      - Leda (French)
+      - Leda (Japanese)
+      - Leda (Hindi)
+      - Leda (Korean)
+      - Leda (Mandarin)
+      - Leda (Russian)
+      - Leda (Spanish)
+      - Leda (Thai)
+      - Leda (Vietnamese)
+      - Liam
+      - Lily
+      - Matilda
+      - Nova
+      - Onyx
+      - Orus (English)
+      - Orus (Gujarati)
+      - Orus (Arabic)
+      - Orus (French)
+      - Orus (Japanese)
+      - Orus (Hindi)
+      - Orus (Korean)
+      - Orus (Mandarin)
+      - Orus (Russian)
+      - Orus (Spanish)
+      - Orus (Thai)
+      - Orus (Vietnamese)
+      - Puck (English)
+      - Puck (Gujarati)
+      - Puck (Arabic)
+      - Puck (French)
+      - Puck (Japanese)
+      - Puck (Hindi)
+      - Puck (Korean)
+      - Puck (Mandarin)
+      - Puck (Russian)
+      - Puck (Spanish)
+      - Puck (Thai)
+      - Puck (Vietnamese)
+      - River
+      - Roger
+      - Sarah
+      - Sage
+      - Shimmer
+      - Umbriel (English)
+      - Umbriel (Gujarati)
+      - Umbriel (Arabic)
+      - Umbriel (French)
+      - Umbriel (Japanese)
+      - Umbriel (Hindi)
+      - Umbriel (Korean)
+      - Umbriel (Mandarin)
+      - Umbriel (Spanish)
+      - Umbriel (Thai)
+      - Umbriel (Vietnamese)
+      - Vindemiatrix (English)
+      - Vindemiatrix (Gujarati)
+      - Vindemiatrix (Arabic)
+      - Vindemiatrix (French)
+      - Vindemiatrix (Japanese)
+      - Vindemiatrix (Hindi)
+      - Vindemiatrix (Korean)
+      - Vindemiatrix (Mandarin)
+      - Vindemiatrix (Spanish)
+      - Vindemiatrix (Thai)
+      - Vindemiatrix (Vietnamese)
+      - vi-VN-Neural2-A
+      - Will
+      - yue-HK-Standard-C
+      - Zephyr (English)
+      - Zephyr (Gujarati)
+      - Zephyr (Arabic)
+      - Zephyr (French)
+      - Zephyr (Japanese)
+      - Zephyr (Hindi)
+      - Zephyr (Korean)
+      - Zephyr (Mandarin)
+      - Zephyr (Russian)
+      - Zephyr (Spanish)
+      - Zephyr (Thai)
+      - Zephyr (Vietnamese)
+      title: AgentVoiceDisplayName
+      description: Display names of voices that Syllable supports.
+    LanguageCode:
+      type: string
+      enum:
+      - yue-HK
+      - en-US
+      - ko-KR
+      - zh-CN
+      - fa-IR
+      - es-US
+      - th-TH
+      - vi-VN
+      - bs-BA
+      - sw-KE
+      - ru-RU
+      - hi-IN
+      - gu-IN
+      - ar-XA
+      - fr-FR
+      - ja-JP
+      - ne-NP
+      title: LanguageCode
+      description: BCP 47 codes of languages that Syllable supports.
+    TtsProvider:
+      type: string
+      enum:
+      - OpenAI
+      - ElevenLabs
+      - Google
+      title: TtsProvider
+      description: TTS provider for an agent voice.
+    VoiceGroupResponse:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The name of the language group.
+          examples:
+          - Call Center 1 Languages
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the language group.
+          examples:
+          - Languages spoken by operators at Call Center 1
+        language_configs:
+          items:
+            $ref: '#/components/schemas/LanguageConfig'
+          type: array
+          title: Language Configs
+          description: Voice and DTMF configurations for each language in the group.
+          examples:
+          - - dtmf_code: 1
+              language_code: en-US
+              voice_display_name: Alloy
+              voice_provider: OpenAI
+            - dtmf_code: 2
+              language_code: es-US
+              voice_display_name: es-US-Neural2-B
+              voice_provider: Google
+        skip_current_language_in_message:
+          type: boolean
+          title: Skip Current Language In Message
+          description: Whether a custom message using the language group to generate a language DTMF menu should skip the agent's current language in the menu.
+          examples:
+          - true
+        id:
+          type: integer
+          title: Id
+          description: The ID of the language group to update.
+          examples:
+          - 1
+        edit_comments:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Edit Comments
+          description: Comments for the most recent edit to the language group.
+          examples:
+          - Added Spanish support.
+        agents_info:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/LanguageGroupAgentInfo'
+            type: array
+          - type: 'null'
+          title: Agents Info
+          description: IDs and names of the agents linked to the language group
+          examples:
+          - - id: 1
+              name: Test Agent
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+          description: Timestamp of the last update to the language group.
+          examples:
+          - '2024-01-01T00:00:00Z'
+        last_updated_by:
+          type: string
+          title: Last Updated By
+          description: Email of the user who last updated the language group.
+          examples:
+          - user@mail.com
+      type: object
+      required:
+      - name
+      - language_configs
+      - skip_current_language_in_message
+      - id
+      - updated_at
+      - last_updated_by
+      title: VoiceGroupResponse
+      description: 'Response model for voice group operations.
+
+        A voice group is a collection of language, voice, and DTMF configuration that can be
+
+        linked to an agent to define the languages and voices it supports. For more information, see
+
+        [Console docs](https://docs.syllable.ai/Resources/VoiceGroups).'
+    ListResponse_VoiceGroupResponse_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/VoiceGroupResponse'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[VoiceGroupResponse]
+    LanguageConfig:
+      properties:
+        language_code:
+          $ref: '#/components/schemas/LanguageCode'
+          description: BCP 47 code of the language
+          examples:
+          - en-US
+        voice_provider:
+          $ref: '#/components/schemas/TtsProvider'
+          description: TTS provider of the voice to use for the language
+          examples:
+          - OpenAI
+        voice_display_name:
+          $ref: '#/components/schemas/AgentVoiceDisplayName'
+          description: Display name of the voice to use for the language
+          examples:
+          - Alloy
+        voice_speed:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Voice Speed
+          description: Speed of the voice in the range of 0.25 to 4.0 (OpenAI and Google) or 0.7 to 1.2 (ElevenLabs). Standard speed is 1.0.
+          examples:
+          - 1.0
+        voice_pitch:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Voice Pitch
+          description: Pitch of the voice in the range of -20.0 to 20.0. 20 means increase 20 semitones from the original pitch. -20 means decrease 20 semitones from the original pitch. 0 means use the original pitch. Only supported for Google configs.
+          examples:
+          - 0.0
+        dtmf_code:
+          type: integer
+          title: Dtmf Code
+          description: DTMF code that should be used for the language in the menu generated from the language group.
+          examples:
+          - 1
+      type: object
+      required:
+      - language_code
+      - voice_provider
+      - voice_display_name
+      - dtmf_code
+      title: LanguageConfig
+      description: 'Voice and DTMF configurations for a language in a language group. List of available voices
+
+        and their supported languages can be fetched from `GET /agents/voices/available/`.'
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: Syllable-API-Key
+x-speakeasy-name-override:
+- operationId: .*_list$
+  methodNameOverride: list
+- operationId: .*_create$
+  methodNameOverride: create
+- operationId: .*_update$
+  methodNameOverride: update
+- operationId: .*_upload$
+  methodNameOverride: upload
+- operationId: .*_delete$
+  methodNameOverride: delete
+- operationId: .*_get_by_id$
+  methodNameOverride: get_by_id
+- operationId: .*_get_by_name$
+  methodNameOverride: get_by_name
+- operationId: .*_add$
+  methodNameOverride: add
+- operationId: .*_remove$
+  methodNameOverride: remove
+- operationId: .*_results$
+  methodNameOverride: results
+- operationId: .*_queue_work$
+  methodNameOverride: queue_work
+- operationId: .*_activate$
+  methodNameOverride: activate
+- operationId: .*_inactivate$
+  methodNameOverride: inactivate
+- operationId: .*_list_files$
+  methodNameOverride: list_files
+- operationId: .*_move_files$
+  methodNameOverride: move_files
+- operationId: .*_upload_file$
+  methodNameOverride: upload_file

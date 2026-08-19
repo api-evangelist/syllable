@@ -1,0 +1,696 @@
+openapi: 3.2.0
+info:
+  title: SyllableSDK Bridge Phrases API
+  description: "\n# Syllable Platform SDK\n\nSyllable SDK gives you the power of awesome AI agentry. \U0001F680\n\n## Overview\n\nThe Syllable SDK provides a comprehensive set of tools and APIs to integrate powerful AI\ncapabilities into your communication applications. Whether you're building phone agents, chatbots,\nvirtual assistants, or any other AI-driven solutions, Syllable SDK has got you covered.\n\n## Features\n\n- **Agent Configuration**: Create and manage agents that can interact with users across various \nchannels.\n- **Channel Management**: Configure channels like SMS, web chat, and more to connect agents with \nusers.\n- **Custom Messages**: Set up custom messages that agents can deliver as greetings or responses.\n- **Conversations**: Track and manage conversations between users and agents, including session \nmanagement.\n- **Tools and Workflows**: Leverage tools and workflows to enhance agent capabilities, such as data \nprocessing and API calls.\n- **Data Sources**: Integrate data sources to provide agents with additional context and \ninformation.\n- **Insights and Analytics**: Analyze conversations and sessions to gain insights into user \ninteractions.\n- **Permissions and Security**: Manage permissions to control access to various features and \nfunctionalities.\n- **Language Support**: Define language groups to enable multilingual support for agents.\n- **Outbound Campaigns**: Create and manage outbound communication campaigns to reach users \neffectively.\n- **Session Labels**: Label sessions with evaluations of quality and descriptions of issues \nencountered.\n- **Incident Management**: Track and manage incidents related to agent interactions.\n"
+  version: 0.0.3
+servers:
+- url: https://api.syllable.cloud
+  description: API server
+tags:
+- name: bridge_phrases
+paths:
+  /api/v1/bridge_phrases/:
+    get:
+      tags:
+      - bridge_phrases
+      summary: List Bridge Phrases
+      description: Fetch bridge phrases configs.
+      operationId: bridge_phrases_list
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            minimum: 0
+          - type: 'null'
+          description: The page number from which to start (0-based)
+          examples:
+          - 0
+          default: 0
+          title: Page
+        description: The page number from which to start (0-based)
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: The maximum number of items to return
+          examples:
+          - 25
+          default: 25
+          title: Limit
+        description: The maximum number of items to return
+      - name: search_fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/BridgePhrasesProperties'
+          description: String names of fields to search. Correspond by index to search field values
+          examples:
+          - name
+          default: []
+          title: Search Fields
+        description: String names of fields to search. Correspond by index to search field values
+      - name: search_field_values
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          description: Values of fields to search. Correspond by index to search fields. Unless field name contains "list", an individual search field value cannot be a list
+          examples:
+          - Some Object Name
+          default: []
+          title: Search Field Values
+        description: Values of fields to search. Correspond by index to search fields. Unless field name contains "list", an individual search field value cannot be a list
+      - name: order_by
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/BridgePhrasesProperties'
+          - type: 'null'
+          description: The field whose value should be used to order the results
+          examples:
+          - name
+          title: Order By
+        description: The field whose value should be used to order the results
+      - name: order_by_direction
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/OrderByDirection'
+          - type: 'null'
+          description: The direction in which to order the results
+          title: Order By Direction
+        description: The direction in which to order the results
+      - name: fields
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              $ref: '#/components/schemas/BridgePhrasesProperties'
+          - type: 'null'
+          description: The fields to include in the response
+          default: []
+          title: Fields
+        description: The fields to include in the response
+      - name: start_datetime
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The start datetime for filtering results
+          examples:
+          - '2023-01-01T00:00:00Z'
+          title: Start Datetime
+        description: The start datetime for filtering results
+      - name: end_datetime
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The end datetime for filtering results
+          examples:
+          - '2024-01-01T00:00:00Z'
+          title: End Datetime
+        description: The end datetime for filtering results
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListResponse_BridgePhrasesResponse_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK, models\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.bridge_phrases.list(page=0, limit=25, search_fields=[\n        models.BridgePhrasesProperties.NAME,\n    ], search_field_values=[\n        \"Some Object Name\",\n    ], start_datetime=\"2023-01-01T00:00:00Z\", end_datetime=\"2024-01-01T00:00:00Z\")\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.bridgePhrases.list({\n    page: 0,\n    searchFields: [\n      \"name\",\n    ],\n    searchFieldValues: [\n      \"Some Object Name\",\n    ],\n    startDatetime: \"2023-01-01T00:00:00Z\",\n    endDatetime: \"2024-01-01T00:00:00Z\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+    post:
+      tags:
+      - bridge_phrases
+      summary: Create Bridge Phrases
+      description: Create a new bridge phrases config.
+      operationId: bridge_phrases_create
+      security:
+      - APIKeyHeader: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BridgePhrasesCreateRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BridgePhrasesResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.bridge_phrases.create(request={\n        \"name\": \"Default Bridge Phrases\",\n        \"description\": \"Standard hold phrases for inbound line.\",\n        \"config\": {\n            \"phrases\": {\n                \"messages\": [\n                    \"One moment, please.\",\n                    \"Let me check on that for you.\",\n                ],\n                \"localized\": {\n                    \"es-US\": {\n                        \"messages\": [\n                            \"Un momento, por favor.\",\n                        ],\n                    },\n                    \"fr-FR\": {\n                        \"messages\": [\n                            \"Un instant, je vous en prie.\",\n                        ],\n                    },\n                },\n            },\n            \"tools\": [\n                {\n                    \"tool_name\": \"<value>\",\n                    \"phrases\": {\n                        \"messages\": [\n                            \"One moment, please.\",\n                            \"Let me check on that for you.\",\n                        ],\n                        \"localized\": {\n                            \"es-US\": {\n                                \"messages\": [\n                                    \"Un momento, por favor.\",\n                                ],\n                            },\n                            \"fr-FR\": {\n                                \"messages\": [\n                                    \"Un instant, je vous en prie.\",\n                                ],\n                            },\n                        },\n                    },\n                },\n            ],\n            \"randomize_bridge_phrases\": True,\n        },\n    })\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.bridgePhrases.create({\n    name: \"Default Bridge Phrases\",\n    description: \"Standard hold phrases for inbound line.\",\n    config: {\n      phrases: {\n        messages: [\n          \"One moment, please.\",\n          \"Let me check on that for you.\",\n        ],\n        localized: {\n          \"es-US\": {\n            messages: [\n              \"Un momento, por favor.\",\n            ],\n          },\n          \"fr-FR\": {\n            messages: [\n              \"Un instant, je vous en prie.\",\n            ],\n          },\n        },\n      },\n      tools: [\n        {\n          toolName: \"<value>\",\n          phrases: {\n            messages: [\n              \"One moment, please.\",\n              \"Let me check on that for you.\",\n            ],\n            localized: {\n              \"es-US\": {\n                messages: [\n                  \"Un momento, por favor.\",\n                ],\n              },\n              \"fr-FR\": {\n                messages: [\n                  \"Un instant, je vous en prie.\",\n                ],\n              },\n            },\n          },\n        },\n      ],\n      randomizeBridgePhrases: true,\n    },\n  });\n\n  console.log(result);\n}\n\nrun();"
+    put:
+      tags:
+      - bridge_phrases
+      summary: Update Bridge Phrases
+      description: Update an existing bridge phrases config.
+      operationId: bridge_phrases_update
+      security:
+      - APIKeyHeader: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BridgePhrasesUpdateRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BridgePhrasesResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.bridge_phrases.update(request={\n        \"name\": \"Default Bridge Phrases\",\n        \"description\": \"Standard hold phrases for inbound line.\",\n        \"config\": {\n            \"phrases\": {\n                \"messages\": [\n                    \"One moment, please.\",\n                    \"Let me check on that for you.\",\n                ],\n                \"localized\": {\n                    \"es-US\": {\n                        \"messages\": [\n                            \"Un momento, por favor.\",\n                        ],\n                    },\n                    \"fr-FR\": {\n                        \"messages\": [\n                            \"Un instant, je vous en prie.\",\n                        ],\n                    },\n                },\n            },\n            \"tools\": [\n                {\n                    \"tool_name\": \"<value>\",\n                    \"phrases\": {\n                        \"messages\": [\n                            \"One moment, please.\",\n                            \"Let me check on that for you.\",\n                        ],\n                        \"localized\": {\n                            \"es-US\": {\n                                \"messages\": [\n                                    \"Un momento, por favor.\",\n                                ],\n                            },\n                            \"fr-FR\": {\n                                \"messages\": [\n                                    \"Un instant, je vous en prie.\",\n                                ],\n                            },\n                        },\n                    },\n                },\n            ],\n            \"randomize_bridge_phrases\": True,\n        },\n        \"is_default\": True,\n        \"id\": 1,\n        \"edit_comments\": \"Added Spanish overrides for the transfer tool.\",\n    })\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.bridgePhrases.update({\n    name: \"Default Bridge Phrases\",\n    description: \"Standard hold phrases for inbound line.\",\n    config: {\n      phrases: {\n        messages: [\n          \"One moment, please.\",\n          \"Let me check on that for you.\",\n        ],\n        localized: {\n          \"es-US\": {\n            messages: [\n              \"Un momento, por favor.\",\n            ],\n          },\n          \"fr-FR\": {\n            messages: [\n              \"Un instant, je vous en prie.\",\n            ],\n          },\n        },\n      },\n      tools: [\n        {\n          toolName: \"<value>\",\n          phrases: {\n            messages: [\n              \"One moment, please.\",\n              \"Let me check on that for you.\",\n            ],\n            localized: {\n              \"es-US\": {\n                messages: [\n                  \"Un momento, por favor.\",\n                ],\n              },\n              \"fr-FR\": {\n                messages: [\n                  \"Un instant, je vous en prie.\",\n                ],\n              },\n            },\n          },\n        },\n      ],\n      randomizeBridgePhrases: true,\n    },\n    isDefault: true,\n    id: 1,\n    editComments: \"Added Spanish overrides for the transfer tool.\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/bridge_phrases/{bridge_phrases_id}:
+    get:
+      tags:
+      - bridge_phrases
+      summary: Get Bridge Phrases
+      description: Fetch a given bridge phrases config.
+      operationId: bridge_phrases_get_by_id
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: bridge_phrases_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Bridge Phrases Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BridgePhrasesResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.bridge_phrases.get_by_id(bridge_phrases_id=627472)\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.bridgePhrases.getById({\n    bridgePhrasesId: 627472,\n  });\n\n  console.log(result);\n}\n\nrun();"
+    delete:
+      tags:
+      - bridge_phrases
+      summary: Delete Bridge Phrases
+      description: Delete a bridge phrases config.
+      operationId: bridge_phrases_delete
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: bridge_phrases_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Bridge Phrases Id
+      - name: reason
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Reason
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.bridge_phrases.delete(bridge_phrases_id=722051, reason=\"<value>\")\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.bridgePhrases.delete({\n    bridgePhrasesId: 722051,\n    reason: \"<value>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+components:
+  schemas:
+    BridgePhrasesCreateRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The name of the bridge phrases config.
+          examples:
+          - Default Bridge Phrases
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the bridge phrases config.
+          examples:
+          - Standard hold phrases for inbound line.
+        config:
+          $ref: '#/components/schemas/BridgePhrasesConfigPayload'
+          description: Default phrases plus per-tool overrides.
+        is_default:
+          type: boolean
+          title: Is Default
+          description: Whether this config should be marked as the default for its suborg. At most one non-deleted config per suborg may be the default; the API returns a 400 if a second default is requested while another is already set.
+          default: false
+          examples:
+          - false
+      type: object
+      required:
+      - name
+      title: BridgePhrasesCreateRequest
+      description: Request model to create a bridge phrases config.
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    BridgePhrasesResponse:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The name of the bridge phrases config.
+          examples:
+          - Default Bridge Phrases
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the bridge phrases config.
+          examples:
+          - Standard hold phrases for inbound line.
+        config:
+          $ref: '#/components/schemas/BridgePhrasesConfigPayload'
+          description: Default phrases plus per-tool overrides.
+        is_default:
+          type: boolean
+          title: Is Default
+          description: Whether this config is currently marked as the default for its suborg.
+          default: false
+          examples:
+          - false
+        id:
+          type: integer
+          title: Id
+          description: The ID of the bridge phrases config to update.
+          examples:
+          - 1
+        edit_comments:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Edit Comments
+          description: Comments for the most recent edit.
+          examples:
+          - Added Spanish overrides for the transfer tool.
+        agents_info:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/BridgePhrasesAgentInfo'
+            type: array
+          - type: 'null'
+          title: Agents Info
+          description: IDs and names of the agents linked to this bridge phrases config.
+          examples:
+          - - id: 1
+              name: Test Agent
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+          description: Timestamp of the last update.
+          examples:
+          - '2026-07-02T00:00:00Z'
+        last_updated_by:
+          type: string
+          title: Last Updated By
+          description: Email of the user who last updated this config.
+          examples:
+          - user@mail.com
+      type: object
+      required:
+      - name
+      - id
+      - updated_at
+      - last_updated_by
+      title: BridgePhrasesResponse
+      description: 'Response model for bridge phrases operations.
+
+
+        A bridge phrases config is a named, sub-org-scoped collection of default bridge
+
+        phrases plus optional per-tool and per-language overrides that can be linked to an
+
+        agent. For more information, see
+
+        [Console docs](https://docs.syllable.ai/Resources/BridgePhrases).'
+    BridgePhrasesUpdateRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The name of the bridge phrases config.
+          examples:
+          - Default Bridge Phrases
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the bridge phrases config.
+          examples:
+          - Standard hold phrases for inbound line.
+        config:
+          $ref: '#/components/schemas/BridgePhrasesConfigPayload'
+          description: Default phrases plus per-tool overrides.
+        is_default:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Default
+          description: Whether this config should be marked as the default for its suborg. Omit (null) to preserve the existing value; pass true/false to set or unset it. At most one non-deleted config per suborg may be the default; the API returns a 400 if a second default is requested while another is already set.
+          examples:
+          - true
+        id:
+          type: integer
+          title: Id
+          description: The ID of the bridge phrases config to update.
+          examples:
+          - 1
+        edit_comments:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Edit Comments
+          description: Comments for the most recent edit.
+          examples:
+          - Added Spanish overrides for the transfer tool.
+      type: object
+      required:
+      - name
+      - id
+      title: BridgePhrasesUpdateRequest
+      description: Request model to update an existing bridge phrases config.
+    ListResponse_BridgePhrasesResponse_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/BridgePhrasesResponse'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[BridgePhrasesResponse]
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    BridgePhrasesConfigPayload:
+      properties:
+        phrases:
+          $ref: '#/components/schemas/lib__database__dao__organization__bridge_phrases_dao__BridgePhraseMessages'
+          description: Default bridge phrases (used when no tool-specific entry matches).
+        tools:
+          items:
+            $ref: '#/components/schemas/ToolBridgePhraseConfig'
+          type: array
+          title: Tools
+          description: Per-tool phrase overrides.
+        smart_turn_timeout_seconds:
+          anyOf:
+          - type: number
+            maximum: 30
+            minimum: 0.25
+          - type: 'null'
+          title: Smart Turn Timeout Seconds
+          description: Seconds of caller silence before injecting the first bridge phrase. Defaults to 2.75s when omitted on write.
+          default: 2.75
+        randomize_bridge_phrases:
+          type: boolean
+          title: Randomize Bridge Phrases
+          description: Whether to randomize the order of bridge phrases. When true, the order of the bridge phrases is randomized for each call.
+          default: false
+          examples:
+          - true
+      type: object
+      title: BridgePhrasesConfigPayload
+      description: 'The `config` JSONB payload stored on a bridge_phrases row.
+
+
+        Holds the default phrases plus an inline list of per-tool overrides, each with
+
+        optional per-language (`localized`) overrides. Mirrors the shape documented in
+
+        docs/bridge-phrases-table-migration.md §5.2.'
+    BridgePhrasesAgentInfo:
+      properties:
+        id:
+          type: integer
+          title: Id
+          description: The ID of the agent.
+          examples:
+          - 1
+        name:
+          type: string
+          title: Name
+          description: The name of the agent.
+          examples:
+          - Test Agent
+      type: object
+      required:
+      - id
+      - name
+      title: BridgePhrasesAgentInfo
+      description: Information about an agent linked to a bridge phrases config.
+    BridgePhrasesProperties:
+      type: string
+      enum:
+      - name
+      - description
+      - updated_at
+      - last_updated_by
+      title: BridgePhrasesProperties
+      description: Names of bridge phrases fields supported for filtering/sorting on list endpoint.
+    LocalizedBridgePhrases:
+      properties:
+        messages:
+          items:
+            type: string
+          type: array
+          title: Messages
+          description: Bridge phrases for this language.
+          examples:
+          - - Un momento, por favor.
+      type: object
+      title: LocalizedBridgePhrases
+      description: Per-language bridge phrase overrides (no further nesting).
+    ToolBridgePhraseConfig:
+      properties:
+        tool_name:
+          type: string
+          title: Tool Name
+          description: Name of the tool these phrases override.
+        phrases:
+          $ref: '#/components/schemas/lib__database__dao__organization__bridge_phrases_dao__BridgePhraseMessages'
+          description: Phrase messages for this tool.
+      type: object
+      required:
+      - tool_name
+      - phrases
+      title: ToolBridgePhraseConfig
+      description: Per-tool bridge phrase override entry.
+    lib__database__dao__organization__bridge_phrases_dao__BridgePhraseMessages:
+      properties:
+        messages:
+          items:
+            type: string
+          type: array
+          title: Messages
+          description: Ordered bridge phrases for this scope.
+          examples:
+          - - One moment, please.
+            - Let me check on that for you.
+        localized:
+          additionalProperties:
+            $ref: '#/components/schemas/LocalizedBridgePhrases'
+          type: object
+          title: Localized
+          description: Per-language overrides keyed by BCP-47 tag (e.g. "es-US").
+          example:
+            es-US:
+              messages:
+              - Un momento, por favor.
+            fr-FR:
+              messages:
+              - Un instant, je vous en prie.
+      type: object
+      title: BridgePhraseMessages
+      description: Bridge phrase messages for a single scope (default or one tool).
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: Syllable-API-Key
+x-speakeasy-name-override:
+- operationId: .*_list$
+  methodNameOverride: list
+- operationId: .*_create$
+  methodNameOverride: create
+- operationId: .*_update$
+  methodNameOverride: update
+- operationId: .*_upload$
+  methodNameOverride: upload
+- operationId: .*_delete$
+  methodNameOverride: delete
+- operationId: .*_get_by_id$
+  methodNameOverride: get_by_id
+- operationId: .*_get_by_name$
+  methodNameOverride: get_by_name
+- operationId: .*_add$
+  methodNameOverride: add
+- operationId: .*_remove$
+  methodNameOverride: remove
+- operationId: .*_results$
+  methodNameOverride: results
+- operationId: .*_queue_work$
+  methodNameOverride: queue_work
+- operationId: .*_activate$
+  methodNameOverride: activate
+- operationId: .*_inactivate$
+  methodNameOverride: inactivate
+- operationId: .*_list_files$
+  methodNameOverride: list_files
+- operationId: .*_move_files$
+  methodNameOverride: move_files
+- operationId: .*_upload_file$
+  methodNameOverride: upload_file

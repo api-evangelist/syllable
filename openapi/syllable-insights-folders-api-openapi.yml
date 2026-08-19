@@ -1,0 +1,1081 @@
+openapi: 3.2.0
+info:
+  title: SyllableSDK Insights.folders API
+  description: "\n# Syllable Platform SDK\n\nSyllable SDK gives you the power of awesome AI agentry. \U0001F680\n\n## Overview\n\nThe Syllable SDK provides a comprehensive set of tools and APIs to integrate powerful AI\ncapabilities into your communication applications. Whether you're building phone agents, chatbots,\nvirtual assistants, or any other AI-driven solutions, Syllable SDK has got you covered.\n\n## Features\n\n- **Agent Configuration**: Create and manage agents that can interact with users across various \nchannels.\n- **Channel Management**: Configure channels like SMS, web chat, and more to connect agents with \nusers.\n- **Custom Messages**: Set up custom messages that agents can deliver as greetings or responses.\n- **Conversations**: Track and manage conversations between users and agents, including session \nmanagement.\n- **Tools and Workflows**: Leverage tools and workflows to enhance agent capabilities, such as data \nprocessing and API calls.\n- **Data Sources**: Integrate data sources to provide agents with additional context and \ninformation.\n- **Insights and Analytics**: Analyze conversations and sessions to gain insights into user \ninteractions.\n- **Permissions and Security**: Manage permissions to control access to various features and \nfunctionalities.\n- **Language Support**: Define language groups to enable multilingual support for agents.\n- **Outbound Campaigns**: Create and manage outbound communication campaigns to reach users \neffectively.\n- **Session Labels**: Label sessions with evaluations of quality and descriptions of issues \nencountered.\n- **Incident Management**: Track and manage incidents related to agent interactions.\n"
+  version: 0.0.3
+servers:
+- url: https://api.syllable.cloud
+  description: API server
+tags:
+- name: insights.folders
+  description: Operations related to insights upload folders. An insight folder is used          to upload call recordings for insight workflow analysis.
+paths:
+  /api/v1/insights/folders/:
+    get:
+      tags:
+      - insights.folders
+      summary: List Insights Upload Folders
+      operationId: insights_folder_list
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            minimum: 0
+          - type: 'null'
+          description: The page number from which to start (0-based)
+          examples:
+          - 0
+          default: 0
+          title: Page
+        description: The page number from which to start (0-based)
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: The maximum number of items to return
+          examples:
+          - 25
+          default: 25
+          title: Limit
+        description: The maximum number of items to return
+      - name: search_fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/InsightsFolderProperties'
+          description: String names of fields to search. Correspond by index to search field values
+          examples:
+          - name
+          default: []
+          title: Search Fields
+        description: String names of fields to search. Correspond by index to search field values
+      - name: search_field_values
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          description: Values of fields to search. Correspond by index to search fields. Unless field name contains "list", an individual search field value cannot be a list
+          examples:
+          - Some Object Name
+          default: []
+          title: Search Field Values
+        description: Values of fields to search. Correspond by index to search fields. Unless field name contains "list", an individual search field value cannot be a list
+      - name: order_by
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/InsightsFolderProperties'
+          - type: 'null'
+          description: The field whose value should be used to order the results
+          examples:
+          - name
+          title: Order By
+        description: The field whose value should be used to order the results
+      - name: order_by_direction
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/OrderByDirection'
+          - type: 'null'
+          description: The direction in which to order the results
+          title: Order By Direction
+        description: The direction in which to order the results
+      - name: fields
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              $ref: '#/components/schemas/InsightsFolderProperties'
+          - type: 'null'
+          description: The fields to include in the response
+          default: []
+          title: Fields
+        description: The fields to include in the response
+      - name: start_datetime
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The start datetime for filtering results
+          examples:
+          - '2023-01-01T00:00:00Z'
+          title: Start Datetime
+        description: The start datetime for filtering results
+      - name: end_datetime
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The end datetime for filtering results
+          examples:
+          - '2024-01-01T00:00:00Z'
+          title: End Datetime
+        description: The end datetime for filtering results
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListResponse_InsightsFolder_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK, models\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.insights.folders.list(page=0, limit=25, search_fields=[\n        models.InsightsFolderProperties.NAME,\n    ], search_field_values=[\n        \"Some Object Name\",\n    ], start_datetime=\"2023-01-01T00:00:00Z\", end_datetime=\"2024-01-01T00:00:00Z\")\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.insights.folders.list({\n    page: 0,\n    searchFields: [\n      \"name\",\n    ],\n    searchFieldValues: [\n      \"Some Object Name\",\n    ],\n    startDatetime: \"2023-01-01T00:00:00Z\",\n    endDatetime: \"2024-01-01T00:00:00Z\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+    post:
+      tags:
+      - insights.folders
+      summary: Create Insights Upload Folder
+      operationId: insights_folder_create
+      security:
+      - APIKeyHeader: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InsightsFolderInput'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                anyOf:
+                - $ref: '#/components/schemas/InsightsFolder'
+                - type: 'null'
+                title: Response Insights Folder Create
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.insights.folders.create(request={\n        \"name\": \"customer-complaints\",\n        \"label\": \"support\",\n        \"description\": \"Call recordings related to customer complaints\",\n    })\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.insights.folders.create({\n    name: \"customer-complaints\",\n    label: \"support\",\n    description: \"Call recordings related to customer complaints\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/insights/folders/{folder_id}:
+    get:
+      tags:
+      - insights.folders
+      summary: Get Insights Folder Details
+      operationId: insights_folder_get_by_id
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: folder_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Folder Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderDetails'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.insights.folders.get_by_id(folder_id=982079)\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.insights.folders.getById({\n    folderId: 982079,\n  });\n\n  console.log(result);\n}\n\nrun();"
+    delete:
+      tags:
+      - insights.folders
+      summary: Delete Insights Folder
+      operationId: insights_folder_delete
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: folder_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Folder Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: boolean
+                title: Response Insights Folder Delete
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.insights.folders.delete(folder_id=410792)\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.insights.folders.delete({\n    folderId: 410792,\n  });\n\n  console.log(result);\n}\n\nrun();"
+    put:
+      tags:
+      - insights.folders
+      summary: Update Insights Folder
+      operationId: insights_folder_update
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: folder_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Folder Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InsightsFolderInput'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsightsFolder'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.insights.folders.update(folder_id=567518, insights_folder_input={\n        \"name\": \"customer-complaints\",\n        \"label\": \"support\",\n        \"description\": \"Call recordings related to customer complaints\",\n    })\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.insights.folders.update({\n    folderId: 567518,\n    insightsFolderInput: {\n      name: \"customer-complaints\",\n      label: \"support\",\n      description: \"Call recordings related to customer complaints\",\n    },\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/insights/folders/{folder_id}/upload-file:
+    post:
+      tags:
+      - insights.folders
+      summary: Upload Insights  Upload Folder
+      operationId: insights_folder_upload_file
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: folder_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Folder Id
+      - name: call_id
+        in: query
+        required: true
+        schema:
+          type: string
+          description: A unique identifier for the call
+          title: Call Id
+        description: A unique identifier for the call
+      - name: agent_number
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The phone number or ID of the agent involved.
+          title: Agent Number
+        description: The phone number or ID of the agent involved.
+      - name: customer_number
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The phone number or ID of the customer.
+          title: Customer Number
+        description: The phone number or ID of the customer.
+      - name: start_time
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          description: The timestamp of the call's beginning
+          title: Start Time
+        description: The timestamp of the call's beginning
+      - name: end_time
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          description: The timestamp of the call's end.
+          title: End Time
+        description: The timestamp of the call's end.
+      - name: duration
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: number
+          - type: 'null'
+          description: The call duration in seconds.
+          title: Duration
+        description: The call duration in seconds.
+      - name: metadata
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metadata
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_insights_folder_upload_file'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InsightsUploadFile'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.insights.folders.upload_file(folder_id=444923, call_id=\"<id>\")\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.insights.folders.uploadFile({\n    folderId: 444923,\n    callId: \"<id>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/insights/folders/{folder_id}/files:
+    get:
+      tags:
+      - insights.folders
+      summary: Fetch Insights Upload Files
+      operationId: insights_upload_list_files
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: folder_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Folder Id
+      - name: page
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            minimum: 0
+          - type: 'null'
+          description: The page number from which to start (0-based)
+          examples:
+          - 0
+          default: 0
+          title: Page
+        description: The page number from which to start (0-based)
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: The maximum number of items to return
+          examples:
+          - 25
+          default: 25
+          title: Limit
+        description: The maximum number of items to return
+      - name: search_fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/InsightsUploadFileProperties'
+          description: String names of fields to search. Correspond by index to search field values
+          examples:
+          - name
+          default: []
+          title: Search Fields
+        description: String names of fields to search. Correspond by index to search field values
+      - name: search_field_values
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          description: Values of fields to search. Correspond by index to search fields. Unless field name contains "list", an individual search field value cannot be a list
+          examples:
+          - Some Object Name
+          default: []
+          title: Search Field Values
+        description: Values of fields to search. Correspond by index to search fields. Unless field name contains "list", an individual search field value cannot be a list
+      - name: order_by
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/InsightsUploadFileProperties'
+          - type: 'null'
+          description: The field whose value should be used to order the results
+          examples:
+          - name
+          title: Order By
+        description: The field whose value should be used to order the results
+      - name: order_by_direction
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/OrderByDirection'
+          - type: 'null'
+          description: The direction in which to order the results
+          title: Order By Direction
+        description: The direction in which to order the results
+      - name: fields
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              $ref: '#/components/schemas/InsightsUploadFileProperties'
+          - type: 'null'
+          description: The fields to include in the response
+          default: []
+          title: Fields
+        description: The fields to include in the response
+      - name: start_datetime
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The start datetime for filtering results
+          examples:
+          - '2023-01-01T00:00:00Z'
+          title: Start Datetime
+        description: The start datetime for filtering results
+      - name: end_datetime
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The end datetime for filtering results
+          examples:
+          - '2024-01-01T00:00:00Z'
+          title: End Datetime
+        description: The end datetime for filtering results
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListResponse_InsightsUploadFile_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK, models\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.insights.folders.list_files(folder_id=55293, page=0, limit=25, search_fields=[\n        models.InsightsUploadFileProperties.FILENAME,\n    ], search_field_values=[\n        \"Some Object Name\",\n    ], start_datetime=\"2023-01-01T00:00:00Z\", end_datetime=\"2024-01-01T00:00:00Z\")\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.insights.folders.listFiles({\n    folderId: 55293,\n    page: 0,\n    searchFields: [\n      \"customer_number\",\n    ],\n    searchFieldValues: [\n      \"Some Object Name\",\n    ],\n    startDatetime: \"2023-01-01T00:00:00Z\",\n    endDatetime: \"2024-01-01T00:00:00Z\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/insights/folders/{folder_id}/move-files:
+    post:
+      tags:
+      - insights.folders
+      summary: Move Insights Upload Files
+      operationId: insights_upload_move_files
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: folder_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Folder Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InsightsFolderFileMove'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InsightsUploadFile'
+                title: Response Insights Upload Move Files
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.insights.folders.move_files(folder_id=815114, insights_folder_file_move={\n        \"destination_folder_id\": 182764,\n        \"file_id_list\": [\n            12334,\n            23445,\n            34556,\n        ],\n    })\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.insights.folders.moveFiles({\n    folderId: 815114,\n    insightsFolderFileMove: {\n      destinationFolderId: 182764,\n      fileIdList: [\n        12334,\n        23445,\n        34556,\n      ],\n    },\n  });\n\n  console.log(result);\n}\n\nrun();"
+components:
+  schemas:
+    InsightsFolder:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Human-readable name of insight folder
+          examples:
+          - customer-complaints
+        label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label
+          description: optional label assigned to insight folder
+          examples:
+          - support
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Text description of insight upload folder
+          examples:
+          - Call recordings related to customer complaints
+        id:
+          type: integer
+          title: Id
+          description: System-assign folder ID
+          examples:
+          - 182764
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: Timestamp at which insight upload folder was created
+          examples:
+          - '2026-08-04T00:00:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+          description: Timestamp at which insight upload folder was last updated
+          examples:
+          - '2026-08-05T00:00:00Z'
+        last_updated_by:
+          type: string
+          title: Last Updated By
+          description: Email of user who last updated upload folder
+          examples:
+          - user@email.com
+      type: object
+      required:
+      - name
+      - id
+      - last_updated_by
+      title: InsightsFolder
+      description: Response model for an insight upload folder.
+    ListResponse_InsightsUploadFile_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/InsightsUploadFile'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[InsightsUploadFile]
+    InsightsFolderInput:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Human-readable name of insight folder
+          examples:
+          - customer-complaints
+        label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label
+          description: optional label assigned to insight folder
+          examples:
+          - support
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Text description of insight upload folder
+          examples:
+          - Call recordings related to customer complaints
+      type: object
+      required:
+      - name
+      title: InsightsFolderInput
+      description: Request model to create/update an insight upload folder.
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Body_insights_folder_upload_file:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+      type: object
+      title: Body_insights_folder_upload_file
+    InsightsUploadFileProperties:
+      type: string
+      enum:
+      - filename
+      - filename_exact
+      - call_id
+      - agent_number
+      - customer_number
+      - duration
+      - start_time
+      - end_time
+      - created_at
+      title: InsightsUploadFileProperties
+    InsightsUploadFile:
+      properties:
+        id:
+          type: integer
+          title: Id
+          description: System-assigned ID for the upload file
+          examples:
+          - 182764
+        folder_id:
+          type: integer
+          title: Folder Id
+          description: System-assigned ID for the folder to which the file belongs
+          examples:
+          - 182764
+        filename:
+          type: string
+          title: Filename
+          description: Name of the uploaded file
+          examples:
+          - customer-complaints.wav
+        object_key:
+          type: string
+          title: Object Key
+          description: Object-store key of the uploaded file
+          examples:
+          - UPLOAD_CALL_ID/recording/2025/04/22/15/00/ce7d212e-80b0-4f0b-9e01-74322f146611.mp3
+        call_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Call Id
+          description: Unique identifier for the call associated with the uploaded file
+          examples:
+          - '12345'
+        agent_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Number
+          description: Agent number associated with the uploaded file
+          examples:
+          - '1234567890'
+        customer_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Customer Number
+          description: Customer number associated with the uploaded file
+          examples:
+          - 0987654321
+        duration:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Duration
+          description: Length in seconds of the uploaded recording
+          examples:
+          - 305.5
+        start_time:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Start Time
+          description: Start time of the uploaded file
+          examples:
+          - '2026-08-04T00:00:00Z'
+        end_time:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: End Time
+          description: End time of the uploaded file
+          examples:
+          - '2026-08-05T00:00:00Z'
+        error_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Message
+          description: Error message associated with the uploaded file
+          examples:
+          - File not found
+        metadata:
+          anyOf:
+          - additionalProperties:
+              anyOf:
+              - type: string
+              - type: integer
+              - type: number
+            type: object
+          - type: 'null'
+          title: Metadata
+          description: Meta-data associated with the uploaded file
+          examples:
+          - duration: 00:10:00
+            size: 10MB
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: Timestamp at which insight upload file was created
+          examples:
+          - '2026-08-04T00:00:00Z'
+      type: object
+      required:
+      - id
+      - folder_id
+      - filename
+      - object_key
+      title: InsightsUploadFile
+      description: Response model for an insight upload file.
+    InsightsFolderFileMove:
+      properties:
+        destination_folder_id:
+          type: integer
+          title: Destination Folder Id
+          description: System-assign folder ID
+          examples:
+          - 182764
+        file_id_list:
+          items:
+            type: integer
+          type: array
+          title: File Id List
+          description: List of system-assigned IDs for the files to be moved
+          examples:
+          - '[12334,23445,34556]'
+      type: object
+      required:
+      - destination_folder_id
+      - file_id_list
+      title: InsightsFolderFileMove
+      description: Request model to move files between insight upload folders.
+    ListResponse_InsightsFolder_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/InsightsFolder'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[InsightsFolder]
+    InsightsFolderProperties:
+      type: string
+      enum:
+      - id
+      - name
+      - name_exact
+      - label
+      - updated_at
+      title: InsightsFolderProperties
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    FolderDetails:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Human-readable name of insight folder
+          examples:
+          - customer-complaints
+        label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label
+          description: optional label assigned to insight folder
+          examples:
+          - support
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Text description of insight upload folder
+          examples:
+          - Call recordings related to customer complaints
+        id:
+          type: integer
+          title: Id
+          description: System-assign folder ID
+          examples:
+          - 182764
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: Timestamp at which insight upload folder was created
+          examples:
+          - '2026-08-04T00:00:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+          description: Timestamp at which insight upload folder was last updated
+          examples:
+          - '2026-08-05T00:00:00Z'
+        last_updated_by:
+          type: string
+          title: Last Updated By
+          description: Email of user who last updated upload folder
+          examples:
+          - user@email.com
+        folder_stats:
+          additionalProperties:
+            anyOf:
+            - type: string
+            - type: integer
+            - type: number
+          type: object
+          title: Folder Stats
+          description: Meta-data of insight upload files associated with the folder
+          examples:
+          - count: 10
+            total_duration: '10:00:00'
+            total_size: 213MB
+      type: object
+      required:
+      - name
+      - id
+      - last_updated_by
+      - folder_stats
+      title: FolderDetails
+      description: Response model for an insight upload folder details.
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: Syllable-API-Key
+x-speakeasy-name-override:
+- operationId: .*_list$
+  methodNameOverride: list
+- operationId: .*_create$
+  methodNameOverride: create
+- operationId: .*_update$
+  methodNameOverride: update
+- operationId: .*_upload$
+  methodNameOverride: upload
+- operationId: .*_delete$
+  methodNameOverride: delete
+- operationId: .*_get_by_id$
+  methodNameOverride: get_by_id
+- operationId: .*_get_by_name$
+  methodNameOverride: get_by_name
+- operationId: .*_add$
+  methodNameOverride: add
+- operationId: .*_remove$
+  methodNameOverride: remove
+- operationId: .*_results$
+  methodNameOverride: results
+- operationId: .*_queue_work$
+  methodNameOverride: queue_work
+- operationId: .*_activate$
+  methodNameOverride: activate
+- operationId: .*_inactivate$
+  methodNameOverride: inactivate
+- operationId: .*_list_files$
+  methodNameOverride: list_files
+- operationId: .*_move_files$
+  methodNameOverride: move_files
+- operationId: .*_upload_file$
+  methodNameOverride: upload_file

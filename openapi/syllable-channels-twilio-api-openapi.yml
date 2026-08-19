@@ -1,0 +1,531 @@
+openapi: 3.2.0
+info:
+  title: SyllableSDK Channels.twilio API
+  description: "\n# Syllable Platform SDK\n\nSyllable SDK gives you the power of awesome AI agentry. \U0001F680\n\n## Overview\n\nThe Syllable SDK provides a comprehensive set of tools and APIs to integrate powerful AI\ncapabilities into your communication applications. Whether you're building phone agents, chatbots,\nvirtual assistants, or any other AI-driven solutions, Syllable SDK has got you covered.\n\n## Features\n\n- **Agent Configuration**: Create and manage agents that can interact with users across various \nchannels.\n- **Channel Management**: Configure channels like SMS, web chat, and more to connect agents with \nusers.\n- **Custom Messages**: Set up custom messages that agents can deliver as greetings or responses.\n- **Conversations**: Track and manage conversations between users and agents, including session \nmanagement.\n- **Tools and Workflows**: Leverage tools and workflows to enhance agent capabilities, such as data \nprocessing and API calls.\n- **Data Sources**: Integrate data sources to provide agents with additional context and \ninformation.\n- **Insights and Analytics**: Analyze conversations and sessions to gain insights into user \ninteractions.\n- **Permissions and Security**: Manage permissions to control access to various features and \nfunctionalities.\n- **Language Support**: Define language groups to enable multilingual support for agents.\n- **Outbound Campaigns**: Create and manage outbound communication campaigns to reach users \neffectively.\n- **Session Labels**: Label sessions with evaluations of quality and descriptions of issues \nencountered.\n- **Incident Management**: Track and manage incidents related to agent interactions.\n"
+  version: 0.0.3
+servers:
+- url: https://api.syllable.cloud
+  description: API server
+tags:
+- name: channels.twilio
+  description: Operations related to Twilio channel configuration.
+paths:
+  /api/v1/channels/twilio/{channel_id}:
+    get:
+      tags:
+      - channels.twilio
+      summary: Get Twilio Channel By Id
+      operationId: channels_twilio_get_by_id
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: channel_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Channel Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Channel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.channels.twilio.get_by_id(channel_id=627671)\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.channels.twilio.getById({\n    channelId: 627671,\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/channels/twilio/:
+    put:
+      tags:
+      - channels.twilio
+      summary: Update Twilio Channel
+      operationId: channels_twilio_update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TwilioChannelUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Channel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      deprecated: true
+      security:
+      - APIKeyHeader: []
+    post:
+      tags:
+      - channels.twilio
+      summary: Create Twilio Channel
+      operationId: channels_twilio_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TwilioChannelCreateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Channel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      deprecated: true
+      security:
+      - APIKeyHeader: []
+components:
+  schemas:
+    TwilioChannelCreateRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The channel name
+          examples:
+          - syllable-webchat
+        config:
+          $ref: '#/components/schemas/TwilioChannelConfigCreate'
+          description: The configuration of the channel
+      type: object
+      required:
+      - name
+      - config
+      title: TwilioChannelCreateRequest
+      description: Request model for creating a Twilio channel.
+    TwilioChannelUpdateRequest:
+      properties:
+        id:
+          type: integer
+          title: Id
+          description: The internal ID of the channel
+          examples:
+          - 1
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: The name of the channel
+          examples:
+          - syllable-webchat
+        config:
+          anyOf:
+          - $ref: '#/components/schemas/TwilioChannelConfigUpdate'
+          - type: 'null'
+          description: The configuration of the channel
+      type: object
+      required:
+      - id
+      title: TwilioChannelUpdateRequest
+      description: Request model for updating a Twilio channel.
+    TelephonyConfigurations:
+      properties:
+        pre_input_timeout:
+          anyOf:
+          - type: number
+            maximum: 10
+            minimum: 0
+          - type: 'null'
+          title: Pre Input Timeout
+          description: Pre input silence threshold
+        post_speech_input_timeout:
+          anyOf:
+          - type: number
+            maximum: 10
+            minimum: 0
+          - type: 'null'
+          title: Post Speech Input Timeout
+          description: Post speech silence timeout to determine input as ended.
+        post_dtmf_input_timeout:
+          anyOf:
+          - type: number
+            maximum: 10
+            minimum: 0
+          - type: 'null'
+          title: Post Dtmf Input Timeout
+          description: Post dtmf silence timeout to determine input as ended.
+        overall_input_timeout:
+          anyOf:
+          - type: number
+            maximum: 300
+            minimum: 0
+          - type: 'null'
+          title: Overall Input Timeout
+          description: Total input timeout
+        output_padding:
+          anyOf:
+          - type: number
+            maximum: 5
+            minimum: -5
+          - type: 'null'
+          title: Output Padding
+          description: Number of seconds to start listening to user input before assistant speech ends
+        interruptibility:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Interruptibility
+          description: 'Interruptibility setting for user input.Valid values: none, dtmf_only, speech_only, all'
+        passive_speech_input_enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Passive Speech Input Enabled
+          description: Whether passive speech input is enabled (input while assistant is speaking)
+        passive_input_start:
+          anyOf:
+          - type: number
+            maximum: 5
+            minimum: 0
+          - type: 'null'
+          title: Passive Input Start
+          description: Waiting time to start passive input (in seconds) after start of assistant speech
+        async_enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Async Enabled
+          description: Whether asynchronous mode is enabled for the conversation
+        transfer_leg_voicemail_detection_enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Transfer Leg Voicemail Detection Enabled
+          description: Whether transfer leg voicemail detection is enabled
+        sip_configuration:
+          anyOf:
+          - $ref: '#/components/schemas/SipConfiguration'
+          - type: 'null'
+          description: SIP routing configuration applied when transferring calls on this channel
+      type: object
+      title: TelephonyConfigurations
+    SipConfiguration:
+      properties:
+        sip_transfer_mode:
+          anyOf:
+          - $ref: '#/components/schemas/SipTransferMode'
+          - type: 'null'
+          description: How to perform the SIP transfer, INVITE or REFER.
+          examples:
+          - refer
+        sip_endpoints:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/SipEndpoint'
+            type: array
+          - type: 'null'
+          title: Sip Endpoints
+          description: List of SIP endpoints to attempt for the transfer.
+          examples:
+          - - host: 10.0.0.1
+              port: '5060'
+              transport: tcp
+            - host: pbx.example.com
+              port: '5071'
+              transport: tls
+        call_info_placement:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Call Info Placement
+          description: Where to place call information during a transfer. Supported values are `uri_parameters`, `to_parameters`, `from_parameters`, or `sip_header:<header-name>`.
+          examples:
+          - uri_parameters
+          - sip_header:P-Asserted-Identity
+      type: object
+      title: SipConfiguration
+      description: 'SIP routing configuration for transferring a call to a destination.
+
+
+        This is internal telephony/routing configuration used to direct a transfer to specific
+
+        SIP endpoints.'
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SipEndpoint:
+      properties:
+        host:
+          type: string
+          title: Host
+          description: SIP endpoint host (IP address or hostname).
+          examples:
+          - 10.0.0.1
+          - pbx.example.com
+        port:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Port
+          description: SIP endpoint port.
+          examples:
+          - '5060'
+          - '5071'
+        transport:
+          anyOf:
+          - $ref: '#/components/schemas/SipTransport'
+          - type: 'null'
+          description: SIP transport protocol, e.g. `tcp`, `tls` or `udp`.
+          examples:
+          - tcp
+          - tls
+          - udp
+      type: object
+      required:
+      - host
+      title: SipEndpoint
+      description: A single SIP endpoint to attempt for a transfer.
+    ChannelConfigView:
+      properties:
+        telephony:
+          anyOf:
+          - $ref: '#/components/schemas/TelephonyConfigurations'
+          - type: 'null'
+          description: Telephony configurations to be applied to targets belonging to the channel.       Only applies to voice supported channels.
+          examples:
+          - interruptibility: dtmf_only
+            overall_input_timeout: 20.0
+            passive_input_start: 0.5
+            passive_speech_input_enabled: true
+            pre_input_timeout: 1.2
+        email:
+          anyOf:
+          - $ref: '#/components/schemas/EmailConfigurations'
+          - type: 'null'
+          description: Email configurations for email channels. Only applies to email channels.
+          examples:
+          - sending_domain: mail.example.com
+        credentials:
+          anyOf:
+          - additionalProperties:
+              type: string
+            type: object
+          - type: 'null'
+          title: Credentials
+          description: Exposed credentials for the channel - currently just account_sid_last_four for Twilio channels
+          examples:
+          - account_sid_last_four: '1234'
+      type: object
+      title: ChannelConfigView
+    Channel:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The channel name
+          examples:
+          - syllable-webchat
+        channel_service:
+          $ref: '#/components/schemas/ChannelServices'
+          description: The service that facilitates communication on the channel
+          examples:
+          - webchat
+        supported_modes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Supported Modes
+          description: The comma-delimited list of supported modes for the channel, which defines the       possible communication methods for channel targets linked to it.
+          examples:
+          - chat,voice
+        is_system_channel:
+          type: boolean
+          title: Is System Channel
+          description: Whether the channel is a built-in system channel (i.e., is not customizable)
+          default: true
+          examples:
+          - false
+        id:
+          type: integer
+          title: Id
+          description: The channel ID
+        config:
+          anyOf:
+          - $ref: '#/components/schemas/ChannelConfigView'
+          - type: 'null'
+          description: Configuration for the channel
+          examples:
+          - telephony:
+              interruptibility: dtmf_only
+              overall_input_timeout: 20.0
+              passive_input_start: 0.5
+              passive_speech_input_enabled: true
+              pre_input_timeout: 1.2
+      type: object
+      required:
+      - name
+      - channel_service
+      - id
+      title: Channel
+    SipTransport:
+      type: string
+      enum:
+      - tls
+      - tcp
+      - udp
+      title: SipTransport
+      description: The transport protocol to use for the SIP endpoint.
+    TwilioChannelConfigUpdate:
+      properties:
+        account_sid:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Account Sid
+          description: SID of the Twilio account
+          examples:
+          - AC123...
+        auth_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Auth Token
+          description: The Twilio auth token
+          examples:
+          - sometoken
+      type: object
+      title: TwilioChannelConfigUpdate
+      description: Twilio channel config information. If a field is passed as None, it will not be updated.
+    ChannelServices:
+      type: string
+      enum:
+      - sip
+      - twilio
+      - email
+      - webchat
+      - africastalking
+      - whatsapp
+      title: ChannelServices
+      description: The communication service for a channel.
+    SipTransferMode:
+      type: string
+      enum:
+      - refer
+      - invite
+      title: SipTransferMode
+      description: How a call should be transferred to a SIP endpoint.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    EmailConfigurations:
+      properties:
+        sending_domain:
+          type: string
+          title: Sending Domain
+          description: The domain to use for sending emails. Must be authenticated in SendGrid.
+          examples:
+          - mail.example.com
+      type: object
+      required:
+      - sending_domain
+      title: EmailConfigurations
+      description: Email channel configurations.
+    TwilioChannelConfigCreate:
+      properties:
+        account_sid:
+          type: string
+          title: Account Sid
+          description: SID of the Twilio account
+          examples:
+          - AC123...
+        auth_token:
+          type: string
+          title: Auth Token
+          description: The Twilio auth token
+          examples:
+          - sometoken
+      type: object
+      required:
+      - account_sid
+      - auth_token
+      title: TwilioChannelConfigCreate
+      description: Twilio channel config information.
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: Syllable-API-Key
+x-speakeasy-name-override:
+- operationId: .*_list$
+  methodNameOverride: list
+- operationId: .*_create$
+  methodNameOverride: create
+- operationId: .*_update$
+  methodNameOverride: update
+- operationId: .*_upload$
+  methodNameOverride: upload
+- operationId: .*_delete$
+  methodNameOverride: delete
+- operationId: .*_get_by_id$
+  methodNameOverride: get_by_id
+- operationId: .*_get_by_name$
+  methodNameOverride: get_by_name
+- operationId: .*_add$
+  methodNameOverride: add
+- operationId: .*_remove$
+  methodNameOverride: remove
+- operationId: .*_results$
+  methodNameOverride: results
+- operationId: .*_queue_work$
+  methodNameOverride: queue_work
+- operationId: .*_activate$
+  methodNameOverride: activate
+- operationId: .*_inactivate$
+  methodNameOverride: inactivate
+- operationId: .*_list_files$
+  methodNameOverride: list_files
+- operationId: .*_move_files$
+  methodNameOverride: move_files
+- operationId: .*_upload_file$
+  methodNameOverride: upload_file

@@ -1,0 +1,1614 @@
+{
+  "item": [
+    {
+      "id": "09f3b9e6-41c5-4c1f-a405-080b53013edd",
+      "name": "agents",
+      "description": {
+        "content": "Operations related to agent configuration. When a user interacts with the           Syllable system, they do so by communicating with an agent.           An agent is linked to a prompt, a custom message, and one or more channel targets to           define its behavior and capabilities. For more information, see           [Console docs](https://docs.syllable.ai/workspaces/Agents).",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "51d4ed90-8941-4e2b-a5ae-6b79641afb5f",
+          "name": "Agent List",
+          "request": {
+            "name": "Agent List",
+            "description": {
+              "content": "List the existing agents",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "agents",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "The page number from which to start (0-based)"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "25",
+                  "description": "The maximum number of items to return"
+                },
+                {
+                  "disabled": false,
+                  "key": "order_by",
+                  "value": "<string>",
+                  "description": "The field whose value should be used to order the results"
+                },
+                {
+                  "disabled": false,
+                  "key": "order_by_direction",
+                  "value": "<string>",
+                  "description": "The direction in which to order the results"
+                },
+                {
+                  "disabled": false,
+                  "key": "fields",
+                  "value": "<string>",
+                  "description": "The fields to include in the response"
+                },
+                {
+                  "disabled": false,
+                  "key": "fields",
+                  "value": "<string>",
+                  "description": "The fields to include in the response"
+                },
+                {
+                  "disabled": false,
+                  "key": "start_datetime",
+                  "value": "<string>",
+                  "description": "The start datetime for filtering results"
+                },
+                {
+                  "disabled": false,
+                  "key": "end_datetime",
+                  "value": "<string>",
+                  "description": "The end datetime for filtering results"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Syllable-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "304beb5a-48d4-4e64-a58b-4da2820bb68d",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "agents",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "25"
+                    },
+                    {
+                      "key": "order_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order_by_direction",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_datetime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "end_datetime",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"name\": \"string\",\n      \"type\": \"string\",\n      \"prompt_id\": 7207,\n      \"timezone\": \"string\",\n      \"variables\": {\n        \"key_0\": \"string\"\n      },\n      \"tool_headers\": {\n        \"key_0\": \"string\"\n      },\n      \"id\": 2832,\n      \"updated_at\": \"1952-10-03T15:39:16.209Z\",\n      \"last_updated_by\": \"string\",\n      \"description\": \"string\",\n      \"label\": \"string\",\n      \"labels\": [\n        \"string\",\n        \"string\"\n      ],\n      \"prompt_version_number\": 781,\n      \"custom_message_id\": 5091,\n      \"language_group_id\": 8271,\n      \"bridge_phrases_id\": 423,\n      \"prompt_tool_defaults\": [\n        {\n          \"tool_name\": \"string\",\n          \"default_values\": [\n            {\n              \"field_name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"default_value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"field_name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"default_value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        {\n          \"tool_name\": \"string\",\n          \"default_values\": [\n            {\n              \"field_name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"default_value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"field_name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"default_value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        }\n      ],\n      \"languages\": [\n        \"string\",\n        \"string\"\n      ],\n      \"agent_initiated\": false,\n      \"stt_provider\": \"string\",\n      \"wait_sound\": \"string\",\n      \"enable_verbal_language_change\": false,\n      \"prompt\": {\n        \"name\": \"string\",\n        \"type\": \"string\",\n        \"llm_config\": {\n          \"provider\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"model\": \"gpt-4o\",\n          \"version\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"api_version\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"temperature\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"seed\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"id\": 2737,\n        \"last_updated\": \"string\",\n        \"description\": \"string\",\n        \"context\": \"string\",\n        \"session_end_enabled\": false,\n        \"session_end_tool_id\": 8368,\n        \"edit_comments\": \"string\",\n        \"last_updated_by\": \"string\",\n        \"session_end_tool\": {\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"definition\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"service_id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"last_updated\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"last_updated_by\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"version_number\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"last_updated_comments\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"service_name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"prompts_info\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"agents_info\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"agent_count\": 6629,\n        \"version_number\": 515,\n        \"tools_full\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"custom_message\": {\n        \"name\": \"string\",\n        \"text\": \"string\",\n        \"repeat_after_language_change\": false,\n        \"id\": 8256,\n        \"updated_at\": \"1965-08-31T14:51:38.403Z\",\n        \"last_updated_by\": \"string\",\n        \"type\": \"greeting\",\n        \"preamble\": \"string\",\n        \"subject\": \"string\",\n        \"label\": \"string\",\n        \"agent_count\": 9877\n      },\n      \"channel_targets\": [\n        {\n          \"agent_id\": 6807,\n          \"channel_id\": 5989,\n          \"target\": \"string\",\n          \"target_mode\": \"voice\",\n          \"id\": 6262,\n          \"channel_name\": \"string\",\n          \"updated_at\": \"1947-06-08T02:17:50.626Z\",\n          \"last_updated_by\": \"string\",\n          \"fallback_target\": \"string\",\n          \"is_test\": false,\n          \"agent\": {\n            \"value\": \"<Circular reference to #/components/schemas/AgentResponse detected>\"\n          },\n          \"a2p_verified\": true\n        },\n        {\n          \"agent_id\": 2929,\n          \"channel_id\": 2812,\n          \"target\": \"string\",\n          \"target_mode\": \"whatsapp\",\n          \"id\": 5726,\n          \"channel_name\": \"string\",\n          \"updated_at\": \"1994-08-29T06:56:01.915Z\",\n          \"last_updated_by\": \"string\",\n          \"fallback_target\": \"string\",\n          \"is_test\": false,\n          \"agent\": {\n            \"value\": \"<Circular reference to #/components/schemas/AgentResponse detected>\"\n          },\n          \"a2p_verified\": true\n        }\n      ],\n      \"tools\": [\n        {\n          \"name\": \"string\",\n          \"definition\": {\n            \"tool\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"endpoint\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"context\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"defaults\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"static_parameters\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"result\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"options\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"service_id\": 761,\n          \"id\": 7586,\n          \"last_updated\": \"1964-05-05T19:44:47.337Z\",\n          \"last_updated_by\": \"string\",\n          \"version_number\": 9861,\n          \"last_updated_comments\": \"string\",\n          \"service_name\": \"string\",\n          \"prompts_info\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"agents_info\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"validation_issues\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        {\n          \"name\": \"string\",\n          \"definition\": {\n            \"tool\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"endpoint\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"context\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"defaults\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"static_parameters\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"result\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"options\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"service_id\": 2211,\n          \"id\": 1188,\n          \"last_updated\": \"1948-05-04T22:37:17.209Z\",\n          \"last_updated_by\": \"string\",\n          \"version_number\": 1631,\n          \"last_updated_comments\": \"string\",\n          \"service_name\": \"string\",\n          \"prompts_info\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"agents_info\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"validation_issues\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      ],\n      \"language_group\": {\n        \"name\": \"string\",\n        \"language_configs\": [\n          {\n            \"language_code\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"voice_provider\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"voice_display_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"dtmf_code\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"voice_speed\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"voice_pitch\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"language_code\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"voice_provider\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"voice_display_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"dtmf_code\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"voice_speed\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"voice_pitch\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"skip_current_language_in_message\": true,\n        \"id\": 9229,\n        \"updated_at\": \"1967-03-31T05:35:54.141Z\",\n        \"last_updated_by\": \"string\",\n        \"description\": \"string\",\n        \"edit_comments\": \"string\",\n        \"agents_info\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      }\n    },\n    {\n      \"name\": \"string\",\n      \"type\": \"string\",\n      \"prompt_id\": 4257,\n      \"timezone\": \"string\",\n      \"variables\": {\n        \"key_0\": \"string\"\n      },\n      \"tool_headers\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\"\n      },\n      \"id\": 6044,\n      \"updated_at\": \"1981-03-20T09:07:27.643Z\",\n      \"last_updated_by\": \"string\",\n      \"description\": \"string\",\n      \"label\": \"string\",\n      \"labels\": [\n        \"string\",\n        \"string\"\n      ],\n      \"prompt_version_number\": 5321,\n      \"custom_message_id\": 8292,\n      \"language_group_id\": 1054,\n      \"bridge_phrases_id\": 3094,\n      \"prompt_tool_defaults\": [\n        {\n          \"tool_name\": \"string\",\n          \"default_values\": [\n            {\n              \"field_name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"default_value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"field_name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"default_value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        },\n        {\n          \"tool_name\": \"string\",\n          \"default_values\": [\n            {\n              \"field_name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"default_value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            {\n              \"field_name\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"default_value\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          ]\n        }\n      ],\n      \"languages\": [\n        \"string\",\n        \"string\"\n      ],\n      \"agent_initiated\": false,\n      \"stt_provider\": \"string\",\n      \"wait_sound\": \"string\",\n      \"enable_verbal_language_change\": false,\n      \"prompt\": {\n        \"name\": \"string\",\n        \"type\": \"string\",\n        \"llm_config\": {\n          \"provider\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"model\": \"gpt-4o\",\n          \"version\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"api_version\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"temperature\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"seed\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"id\": 7681,\n        \"last_updated\": \"string\",\n        \"description\": \"string\",\n        \"context\": \"string\",\n        \"session_end_enabled\": false,\n        \"session_end_tool_id\": 5580,\n        \"edit_comments\": \"string\",\n        \"last_updated_by\": \"string\",\n        \"session_end_tool\": {\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"definition\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"service_id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"last_updated\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"last_updated_by\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"version_number\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"last_updated_comments\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"service_name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"prompts_info\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"agents_info\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"agent_count\": 518,\n        \"version_number\": 1845,\n        \"tools_full\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"custom_message\": {\n        \"name\": \"string\",\n        \"text\": \"string\",\n        \"repeat_after_language_change\": false,\n        \"id\": 2937,\n        \"updated_at\": \"1947-04-08T15:54:31.925Z\",\n        \"last_updated_by\": \"string\",\n        \"type\": \"email_template\",\n        \"preamble\": \"string\",\n        \"subject\": \"string\",\n        \"label\": \"string\",\n        \"agent_count\": 6198\n      },\n      \"channel_targets\": [\n        {\n          \"agent_id\": 9461,\n          \"channel_id\": 8984,\n          \"target\": \"string\",\n          \"target_mode\": \"voice\",\n          \"id\": 5876,\n          \"channel_name\": \"string\",\n          \"updated_at\": \"1972-03-24T03:22:12.315Z\",\n          \"last_updated_by\": \"string\",\n          \"fallback_target\": \"string\",\n          \"is_test\": false,\n          \"agent\": {\n            \"value\": \"<Circular reference to #/components/schemas/AgentResponse detected>\"\n          },\n          \"a2p_verified\": true\n        },\n        {\n          \"agent_id\": 5642,\n          \"channel_id\": 1357,\n          \"target\": \"string\",\n          \"target_mode\": \"chat\",\n          \"id\": 7694,\n          \"channel_name\": \"string\",\n          \"updated_at\": \"1963-11-28T11:39:07.120Z\",\n          \"last_updated_by\": \"string\",\n          \"fallback_target\": \"string\",\n          \"is_test\": false,\n          \"agent\": {\n            \"value\": \"<Circular reference to #/components/schemas/AgentResponse detected>\"\n          },\n          \"a2p_verified\": true\n        }\n      ],\n      \"tools\": [\n        {\n          \"name\": \"string\",\n          \"definition\": {\n            \"tool\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"endpoint\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"context\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"defaults\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"static_parameters\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"result\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"options\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"service_id\": 1353,\n          \"id\": 8736,\n          \"last_updated\": \"1960-04-09T16:30:20.149Z\",\n          \"last_updated_by\": \"string\",\n          \"version_number\": 7020,\n          \"last_updated_comments\": \"string\",\n          \"service_name\": \"string\",\n          \"prompts_info\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"agents_info\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"validation_issues\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        {\n          \"name\": \"string\",\n          \"definition\": {\n            \"tool\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"endpoint\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"context\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"defaults\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"static_parameters\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"result\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"options\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"service_id\": 7591,\n          \"id\": 8907,\n          \"last_updated\": \"1971-07-15T01:34:14.399Z\",\n          \"last_updated_by\": \"string\",\n          \"version_number\": 484,\n          \"last_updated_comments\": \"string\",\n          \"service_name\": \"string\",\n          \"prompts_info\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"agents_info\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"validation_issues\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      ],\n      \"language_group\": {\n        \"name\": \"string\",\n        \"language_configs\": [\n          {\n            \"language_code\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"voice_provider\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"voice_display_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"dtmf_code\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"voice_speed\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"voice_pitch\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          {\n            \"language_code\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"voice_provider\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"voice_display_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"dtmf_code\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"voice_speed\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"voice_pitch\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"skip_current_language_in_message\": false,\n        \"id\": 8773,\n        \"updated_at\": \"2001-10-13T18:56:16.012Z\",\n        \"last_updated_by\": \"string\",\n        \"description\": \"string\",\n        \"edit_comments\": \"string\",\n        \"agents_info\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      }\n    }\n  ],\n  \"page\": 9059,\n  \"page_size\": 8646,\n  \"total_pages\": 6646,\n  \"total_count\": 8532\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2bb53f54-2f67-42a1-8f0d-1ac31a102143",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "agents",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "25"
+                    },
+                    {
+                      "key": "order_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "order_by_direction",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "fields",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_datetime",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "end_datetime",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "34187f6b-2d08-4251-9637-4ff36dbbad06",
+          "name": "Create Agent",
+          "request": {
+            "name": "Create Agent",
+            "description": {
+              "content": "Create a new agent",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "agents",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Syllable-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"prompt_id\": \"<integer>\",\n  \"timezone\": \"<string>\",\n  \"variables\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  },\n  \"tool_headers\": {\n    \"key_0\": \"<string>\"\n  },\n  \"description\": \"<string>\",\n  \"label\": \"<string>\",\n  \"labels\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"prompt_version_number\": \"<integer>\",\n  \"custom_message_id\": \"<integer>\",\n  \"language_group_id\": \"<integer>\",\n  \"bridge_phrases_id\": \"<integer>\",\n  \"prompt_tool_defaults\": [\n    {\n      \"tool_name\": \"<string>\",\n      \"default_values\": [\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        },\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        }\n      ]\n    },\n    {\n      \"tool_name\": \"<string>\",\n      \"default_values\": [\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        },\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        }\n      ]\n    }\n  ],\n  \"languages\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"agent_initiated\": false,\n  \"stt_provider\": \"<string>\",\n  \"wait_sound\": \"<string>\",\n  \"enable_verbal_language_change\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "343a5208-f045-4408-ad24-4cc9f2cacc40",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "agents",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"prompt_id\": \"<integer>\",\n  \"timezone\": \"<string>\",\n  \"variables\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  },\n  \"tool_headers\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\",\n    \"key_3\": \"<string>\"\n  },\n  \"description\": \"<string>\",\n  \"label\": \"<string>\",\n  \"labels\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"prompt_version_number\": \"<integer>\",\n  \"custom_message_id\": \"<integer>\",\n  \"language_group_id\": \"<integer>\",\n  \"bridge_phrases_id\": \"<integer>\",\n  \"prompt_tool_defaults\": [\n    {\n      \"tool_name\": \"<string>\",\n      \"default_values\": [\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        },\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        }\n      ]\n    },\n    {\n      \"tool_name\": \"<string>\",\n      \"default_values\": [\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        },\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        }\n      ]\n    }\n  ],\n  \"languages\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"agent_initiated\": false,\n  \"stt_provider\": \"<string>\",\n  \"wait_sound\": \"<string>\",\n  \"enable_verbal_language_change\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"type\": \"string\",\n  \"prompt_id\": 5307,\n  \"timezone\": \"string\",\n  \"variables\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\",\n    \"key_2\": \"string\",\n    \"key_3\": \"string\"\n  },\n  \"tool_headers\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\"\n  },\n  \"id\": 2846,\n  \"updated_at\": \"1989-07-27T22:12:00.223Z\",\n  \"last_updated_by\": \"string\",\n  \"description\": \"string\",\n  \"label\": \"string\",\n  \"labels\": [\n    \"string\",\n    \"string\"\n  ],\n  \"prompt_version_number\": 3057,\n  \"custom_message_id\": 3662,\n  \"language_group_id\": 1927,\n  \"bridge_phrases_id\": 8435,\n  \"prompt_tool_defaults\": [\n    {\n      \"tool_name\": \"<string>\",\n      \"default_values\": [\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        },\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        }\n      ]\n    },\n    {\n      \"tool_name\": \"<string>\",\n      \"default_values\": [\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        },\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        }\n      ]\n    }\n  ],\n  \"languages\": [\n    \"string\",\n    \"string\"\n  ],\n  \"agent_initiated\": false,\n  \"stt_provider\": \"string\",\n  \"wait_sound\": \"string\",\n  \"enable_verbal_language_change\": false,\n  \"prompt\": {\n    \"name\": \"string\",\n    \"type\": \"string\",\n    \"llm_config\": {\n      \"provider\": \"azure_openai\",\n      \"model\": \"gpt-4o\",\n      \"version\": \"string\",\n      \"api_version\": \"string\",\n      \"temperature\": 1360.3268868760554,\n      \"seed\": 7862\n    },\n    \"id\": 4343,\n    \"last_updated\": \"string\",\n    \"description\": \"string\",\n    \"context\": \"string\",\n    \"session_end_enabled\": false,\n    \"session_end_tool_id\": 1028,\n    \"edit_comments\": \"string\",\n    \"last_updated_by\": \"string\",\n    \"session_end_tool\": {\n      \"name\": \"string\",\n      \"definition\": {\n        \"tool\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"type\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"endpoint\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"context\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"defaults\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"static_parameters\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"result\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"options\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"service_id\": 9491,\n      \"id\": 9607,\n      \"last_updated\": \"1952-10-30T19:35:09.974Z\",\n      \"last_updated_by\": \"string\",\n      \"version_number\": 9819,\n      \"last_updated_comments\": \"string\",\n      \"service_name\": \"string\",\n      \"prompts_info\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ],\n      \"agents_info\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ]\n    },\n    \"agent_count\": 8142,\n    \"version_number\": 5276,\n    \"tools_full\": [\n      {\n        \"name\": \"string\",\n        \"definition\": {\n          \"tool\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"endpoint\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"context\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"defaults\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"static_parameters\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"result\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"options\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"service_id\": 2000,\n        \"id\": 2908,\n        \"last_updated\": \"2003-10-11T16:28:08.388Z\",\n        \"last_updated_by\": \"string\",\n        \"version_number\": 3210,\n        \"last_updated_comments\": \"string\",\n        \"service_name\": \"string\",\n        \"prompts_info\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"agents_info\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"validation_issues\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      {\n        \"name\": \"string\",\n        \"definition\": {\n          \"tool\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"endpoint\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"context\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"defaults\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"static_parameters\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"result\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"options\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"service_id\": 6281,\n        \"id\": 7241,\n        \"last_updated\": \"1980-01-25T16:59:12.716Z\",\n        \"last_updated_by\": \"string\",\n        \"version_number\": 6510,\n        \"last_updated_comments\": \"string\",\n        \"service_name\": \"string\",\n        \"prompts_info\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"agents_info\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"validation_issues\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      }\n    ]\n  },\n  \"custom_message\": {\n    \"name\": \"string\",\n    \"text\": \"string\",\n    \"repeat_after_language_change\": false,\n    \"id\": 1972,\n    \"updated_at\": \"1989-06-02T09:10:23.069Z\",\n    \"last_updated_by\": \"string\",\n    \"type\": \"greeting\",\n    \"preamble\": \"string\",\n    \"subject\": \"string\",\n    \"label\": \"string\",\n    \"agent_count\": 7761\n  },\n  \"channel_targets\": [\n    {\n      \"agent_id\": 9388,\n      \"channel_id\": 6274,\n      \"target\": \"string\",\n      \"target_mode\": \"email\",\n      \"id\": 4629,\n      \"channel_name\": \"string\",\n      \"updated_at\": \"1973-08-06T18:58:58.398Z\",\n      \"last_updated_by\": \"string\",\n      \"fallback_target\": \"string\",\n      \"is_test\": false,\n      \"agent\": {\n        \"name\": \"string\",\n        \"type\": \"string\",\n        \"prompt_id\": 246,\n        \"timezone\": \"string\",\n        \"variables\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        },\n        \"tool_headers\": {\n          \"key_0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"id\": 352,\n        \"updated_at\": \"1989-10-02T08:00:18.796Z\",\n        \"last_updated_by\": \"string\",\n        \"description\": \"string\",\n        \"label\": \"string\",\n        \"labels\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"prompt_version_number\": 7968,\n        \"custom_message_id\": 999,\n        \"language_group_id\": 587,\n        \"bridge_phrases_id\": 9187,\n        \"prompt_tool_defaults\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"languages\": [\n          \"string\",\n          \"string\"\n        ],\n        \"agent_initiated\": false,\n        \"stt_provider\": \"string\",\n        \"wait_sound\": \"string\",\n        \"enable_verbal_language_change\": false,\n        \"prompt\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"custom_message\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"channel_targets\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"tools\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"language_group\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"a2p_verified\": true\n    },\n    {\n      \"agent_id\": 9962,\n      \"channel_id\": 2101,\n      \"target\": \"string\",\n      \"target_mode\": \"sms\",\n      \"id\": 6782,\n      \"channel_name\": \"string\",\n      \"updated_at\": \"1959-03-12T23:54:21.298Z\",\n      \"last_updated_by\": \"string\",\n      \"fallback_target\": \"string\",\n      \"is_test\": false,\n      \"agent\": {\n        \"name\": \"string\",\n        \"type\": \"string\",\n        \"prompt_id\": 4850,\n        \"timezone\": \"string\",\n        \"variables\": {\n          \"key_0\": \"string\"\n        },\n        \"tool_headers\": {\n          \"key_0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"key_1\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"key_2\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"id\": 2339,\n        \"updated_at\": \"1948-10-05T19:58:35.974Z\",\n        \"last_updated_by\": \"string\",\n        \"description\": \"string\",\n        \"label\": \"string\",\n        \"labels\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"prompt_version_number\": 6586,\n        \"custom_message_id\": 2216,\n        \"language_group_id\": 7326,\n        \"bridge_phrases_id\": 1257,\n        \"prompt_tool_defaults\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"languages\": [\n          \"string\",\n          \"string\"\n        ],\n        \"agent_initiated\": false,\n        \"stt_provider\": \"string\",\n        \"wait_sound\": \"string\",\n        \"enable_verbal_language_change\": false,\n        \"prompt\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"custom_message\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"channel_targets\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"tools\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"language_group\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"a2p_verified\": true\n    }\n  ],\n  \"tools\": [\n    {\n      \"name\": \"string\",\n      \"definition\": {\n        \"tool\": {\n          \"function\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": \"function\"\n        },\n        \"type\": \"context\",\n        \"endpoint\": {\n          \"url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"method\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"argument_location\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"timeout\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"context\": {\n          \"task\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"defaults\": {},\n        \"static_parameters\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"result\": {},\n        \"options\": {\n          \"propagate_tool_result\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"service_id\": 9604,\n      \"id\": 7659,\n      \"last_updated\": \"1955-07-09T12:57:50.964Z\",\n      \"last_updated_by\": \"string\",\n      \"version_number\": 9720,\n      \"last_updated_comments\": \"string\",\n      \"service_name\": \"string\",\n      \"prompts_info\": [\n        {\n          \"id\": 8049,\n          \"name\": \"string\"\n        },\n        {\n          \"id\": 5823,\n          \"name\": \"string\"\n        }\n      ],\n      \"agents_info\": [\n        {\n          \"id\": 5416,\n          \"name\": \"string\"\n        },\n        {\n          \"id\": 4152,\n          \"name\": \"string\"\n        }\n      ],\n      \"validation_issues\": [\n        {\n          \"id\": \"string\",\n          \"message\": \"string\",\n          \"severity\": \"error\",\n          \"path\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": \"string\",\n          \"message\": \"string\",\n          \"severity\": \"error\",\n          \"path\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ]\n    },\n    {\n      \"name\": \"string\",\n      \"definition\": {\n        \"tool\": {\n          \"function\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": \"function\"\n        },\n        \"type\": \"endpoint\",\n        \"endpoint\": {\n          \"url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"method\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"argument_location\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"timeout\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"context\": {\n          \"task\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"defaults\": {},\n        \"static_parameters\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"result\": {},\n        \"options\": {\n          \"propagate_tool_result\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"service_id\": 9979,\n      \"id\": 6498,\n      \"last_updated\": \"1960-11-19T01:59:33.264Z\",\n      \"last_updated_by\": \"string\",\n      \"version_number\": 5547,\n      \"last_updated_comments\": \"string\",\n      \"service_name\": \"string\",\n      \"prompts_info\": [\n        {\n          \"id\": 2989,\n          \"name\": \"string\"\n        },\n        {\n          \"id\": 4582,\n          \"name\": \"string\"\n        }\n      ],\n      \"agents_info\": [\n        {\n          \"id\": 373,\n          \"name\": \"string\"\n        },\n        {\n          \"id\": 4620,\n          \"name\": \"string\"\n        }\n      ],\n      \"validation_issues\": [\n        {\n          \"id\": \"string\",\n          \"message\": \"string\",\n          \"severity\": \"error\",\n          \"path\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": \"string\",\n          \"message\": \"string\",\n          \"severity\": \"error\",\n          \"path\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ]\n    }\n  ],\n  \"language_group\": {\n    \"name\": \"string\",\n    \"language_configs\": [\n      {\n        \"language_code\": \"zh-CN\",\n        \"voice_provider\": \"OpenAI\",\n        \"voice_display_name\": \"Umbriel (Korean)\",\n        \"dtmf_code\": 2174,\n        \"voice_speed\": 8363.650014600906,\n        \"voice_pitch\": 1597.748838171552\n      },\n      {\n        \"language_code\": \"gu-IN\",\n        \"voice_provider\": \"Google\",\n        \"voice_display_name\": \"yue-HK-Standard-C\",\n        \"dtmf_code\": 9550,\n        \"voice_speed\": 2636.726783960044,\n        \"voice_pitch\": 1190.9663118069402\n      }\n    ],\n    \"skip_current_language_in_message\": false,\n    \"id\": 7846,\n    \"updated_at\": \"1996-09-10T14:34:56.699Z\",\n    \"last_updated_by\": \"string\",\n    \"description\": \"string\",\n    \"edit_comments\": \"string\",\n    \"agents_info\": [\n      {\n        \"id\": 7549,\n        \"name\": \"string\"\n      },\n      {\n        \"id\": 8351,\n        \"name\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ec3d6268-f19e-49bb-b861-cd76352c4b07",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "agents",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"prompt_id\": \"<integer>\",\n  \"timezone\": \"<string>\",\n  \"variables\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  },\n  \"tool_headers\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\",\n    \"key_3\": \"<string>\"\n  },\n  \"description\": \"<string>\",\n  \"label\": \"<string>\",\n  \"labels\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"prompt_version_number\": \"<integer>\",\n  \"custom_message_id\": \"<integer>\",\n  \"language_group_id\": \"<integer>\",\n  \"bridge_phrases_id\": \"<integer>\",\n  \"prompt_tool_defaults\": [\n    {\n      \"tool_name\": \"<string>\",\n      \"default_values\": [\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        },\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        }\n      ]\n    },\n    {\n      \"tool_name\": \"<string>\",\n      \"default_values\": [\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        },\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        }\n      ]\n    }\n  ],\n  \"languages\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"agent_initiated\": false,\n  \"stt_provider\": \"<string>\",\n  \"wait_sound\": \"<string>\",\n  \"enable_verbal_language_change\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6475753d-9fa1-4ea2-b825-c0df624d0000",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "agents",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"prompt_id\": \"<integer>\",\n  \"timezone\": \"<string>\",\n  \"variables\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  },\n  \"tool_headers\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\",\n    \"key_3\": \"<string>\"\n  },\n  \"description\": \"<string>\",\n  \"label\": \"<string>\",\n  \"labels\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"prompt_version_number\": \"<integer>\",\n  \"custom_message_id\": \"<integer>\",\n  \"language_group_id\": \"<integer>\",\n  \"bridge_phrases_id\": \"<integer>\",\n  \"prompt_tool_defaults\": [\n    {\n      \"tool_name\": \"<string>\",\n      \"default_values\": [\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        },\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        }\n      ]\n    },\n    {\n      \"tool_name\": \"<string>\",\n      \"default_values\": [\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        },\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        }\n      ]\n    }\n  ],\n  \"languages\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"agent_initiated\": false,\n  \"stt_provider\": \"<string>\",\n  \"wait_sound\": \"<string>\",\n  \"enable_verbal_language_change\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e00a5c74-dc1e-478e-8ae3-1fdd28010d21",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "agents",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"prompt_id\": \"<integer>\",\n  \"timezone\": \"<string>\",\n  \"variables\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  },\n  \"tool_headers\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\",\n    \"key_3\": \"<string>\"\n  },\n  \"description\": \"<string>\",\n  \"label\": \"<string>\",\n  \"labels\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"prompt_version_number\": \"<integer>\",\n  \"custom_message_id\": \"<integer>\",\n  \"language_group_id\": \"<integer>\",\n  \"bridge_phrases_id\": \"<integer>\",\n  \"prompt_tool_defaults\": [\n    {\n      \"tool_name\": \"<string>\",\n      \"default_values\": [\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        },\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        }\n      ]\n    },\n    {\n      \"tool_name\": \"<string>\",\n      \"default_values\": [\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        },\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        }\n      ]\n    }\n  ],\n  \"languages\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"agent_initiated\": false,\n  \"stt_provider\": \"<string>\",\n  \"wait_sound\": \"<string>\",\n  \"enable_verbal_language_change\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "aedaf2af-0e51-4254-843a-8d2233d9e814",
+          "name": "Update Agent",
+          "request": {
+            "name": "Update Agent",
+            "description": {
+              "content": "Update an existing agent",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "agents",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Syllable-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"prompt_id\": \"<integer>\",\n  \"timezone\": \"<string>\",\n  \"variables\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"tool_headers\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  },\n  \"id\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"label\": \"<string>\",\n  \"labels\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"prompt_version_number\": \"<integer>\",\n  \"custom_message_id\": \"<integer>\",\n  \"language_group_id\": \"<integer>\",\n  \"bridge_phrases_id\": \"<integer>\",\n  \"prompt_tool_defaults\": [\n    {\n      \"tool_name\": \"<string>\",\n      \"default_values\": [\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        },\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        }\n      ]\n    },\n    {\n      \"tool_name\": \"<string>\",\n      \"default_values\": [\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        },\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        }\n      ]\n    }\n  ],\n  \"languages\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"agent_initiated\": false,\n  \"stt_provider\": \"<string>\",\n  \"wait_sound\": \"<string>\",\n  \"enable_verbal_language_change\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "227cb3cd-aa62-4f82-b53f-6073d78988a0",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "agents",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"prompt_id\": \"<integer>\",\n  \"timezone\": \"<string>\",\n  \"variables\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"tool_headers\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  },\n  \"id\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"label\": \"<string>\",\n  \"labels\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"prompt_version_number\": \"<integer>\",\n  \"custom_message_id\": \"<integer>\",\n  \"language_group_id\": \"<integer>\",\n  \"bridge_phrases_id\": \"<integer>\",\n  \"prompt_tool_defaults\": [\n    {\n      \"tool_name\": \"<string>\",\n      \"default_values\": [\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        },\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        }\n      ]\n    },\n    {\n      \"tool_name\": \"<string>\",\n      \"default_values\": [\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        },\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        }\n      ]\n    }\n  ],\n  \"languages\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"agent_initiated\": false,\n  \"stt_provider\": \"<string>\",\n  \"wait_sound\": \"<string>\",\n  \"enable_verbal_language_change\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"type\": \"string\",\n  \"prompt_id\": 2034,\n  \"timezone\": \"string\",\n  \"variables\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\"\n  },\n  \"tool_headers\": {\n    \"key_0\": \"string\"\n  },\n  \"id\": 6271,\n  \"updated_at\": \"2013-10-26T08:07:41.602Z\",\n  \"last_updated_by\": \"string\",\n  \"description\": \"string\",\n  \"label\": \"string\",\n  \"labels\": [\n    \"string\",\n    \"string\"\n  ],\n  \"prompt_version_number\": 1272,\n  \"custom_message_id\": 4327,\n  \"language_group_id\": 1131,\n  \"bridge_phrases_id\": 8299,\n  \"prompt_tool_defaults\": [\n    {\n      \"tool_name\": \"<string>\",\n      \"default_values\": [\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        },\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        }\n      ]\n    },\n    {\n      \"tool_name\": \"<string>\",\n      \"default_values\": [\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        },\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        }\n      ]\n    }\n  ],\n  \"languages\": [\n    \"string\",\n    \"string\"\n  ],\n  \"agent_initiated\": false,\n  \"stt_provider\": \"string\",\n  \"wait_sound\": \"string\",\n  \"enable_verbal_language_change\": false,\n  \"prompt\": {\n    \"name\": \"string\",\n    \"type\": \"string\",\n    \"llm_config\": {\n      \"provider\": \"azure_openai\",\n      \"model\": \"gpt-4o\",\n      \"version\": \"string\",\n      \"api_version\": \"string\",\n      \"temperature\": 4565.860736081697,\n      \"seed\": 9746\n    },\n    \"id\": 111,\n    \"last_updated\": \"string\",\n    \"description\": \"string\",\n    \"context\": \"string\",\n    \"session_end_enabled\": false,\n    \"session_end_tool_id\": 6525,\n    \"edit_comments\": \"string\",\n    \"last_updated_by\": \"string\",\n    \"session_end_tool\": {\n      \"name\": \"string\",\n      \"definition\": {\n        \"tool\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"type\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"endpoint\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"context\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"defaults\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"static_parameters\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"result\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"options\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"service_id\": 3392,\n      \"id\": 5081,\n      \"last_updated\": \"2012-11-21T21:23:31.781Z\",\n      \"last_updated_by\": \"string\",\n      \"version_number\": 4866,\n      \"last_updated_comments\": \"string\",\n      \"service_name\": \"string\",\n      \"prompts_info\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ],\n      \"agents_info\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ]\n    },\n    \"agent_count\": 2963,\n    \"version_number\": 4182,\n    \"tools_full\": [\n      {\n        \"name\": \"string\",\n        \"definition\": {\n          \"tool\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"endpoint\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"context\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"defaults\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"static_parameters\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"result\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"options\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"service_id\": 5400,\n        \"id\": 81,\n        \"last_updated\": \"1959-11-22T16:41:02.492Z\",\n        \"last_updated_by\": \"string\",\n        \"version_number\": 3398,\n        \"last_updated_comments\": \"string\",\n        \"service_name\": \"string\",\n        \"prompts_info\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"agents_info\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"validation_issues\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      {\n        \"name\": \"string\",\n        \"definition\": {\n          \"tool\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"endpoint\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"context\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"defaults\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"static_parameters\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"result\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"options\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"service_id\": 9106,\n        \"id\": 7485,\n        \"last_updated\": \"1952-06-04T16:09:02.282Z\",\n        \"last_updated_by\": \"string\",\n        \"version_number\": 2286,\n        \"last_updated_comments\": \"string\",\n        \"service_name\": \"string\",\n        \"prompts_info\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"agents_info\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"validation_issues\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      }\n    ]\n  },\n  \"custom_message\": {\n    \"name\": \"string\",\n    \"text\": \"string\",\n    \"repeat_after_language_change\": false,\n    \"id\": 7251,\n    \"updated_at\": \"1979-07-12T05:25:41.753Z\",\n    \"last_updated_by\": \"string\",\n    \"type\": \"email_template\",\n    \"preamble\": \"string\",\n    \"subject\": \"string\",\n    \"label\": \"string\",\n    \"agent_count\": 4301\n  },\n  \"channel_targets\": [\n    {\n      \"agent_id\": 7497,\n      \"channel_id\": 191,\n      \"target\": \"string\",\n      \"target_mode\": \"chat\",\n      \"id\": 2124,\n      \"channel_name\": \"string\",\n      \"updated_at\": \"1982-12-11T15:36:07.091Z\",\n      \"last_updated_by\": \"string\",\n      \"fallback_target\": \"string\",\n      \"is_test\": false,\n      \"agent\": {\n        \"name\": \"string\",\n        \"type\": \"string\",\n        \"prompt_id\": 690,\n        \"timezone\": \"string\",\n        \"variables\": {\n          \"key_0\": \"string\"\n        },\n        \"tool_headers\": {\n          \"key_0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"id\": 5710,\n        \"updated_at\": \"1986-05-30T20:30:49.293Z\",\n        \"last_updated_by\": \"string\",\n        \"description\": \"string\",\n        \"label\": \"string\",\n        \"labels\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"prompt_version_number\": 8679,\n        \"custom_message_id\": 1381,\n        \"language_group_id\": 8490,\n        \"bridge_phrases_id\": 9809,\n        \"prompt_tool_defaults\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"languages\": [\n          \"string\",\n          \"string\"\n        ],\n        \"agent_initiated\": false,\n        \"stt_provider\": \"string\",\n        \"wait_sound\": \"string\",\n        \"enable_verbal_language_change\": false,\n        \"prompt\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"custom_message\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"channel_targets\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"tools\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"language_group\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"a2p_verified\": false\n    },\n    {\n      \"agent_id\": 3357,\n      \"channel_id\": 2675,\n      \"target\": \"string\",\n      \"target_mode\": \"whatsapp\",\n      \"id\": 6670,\n      \"channel_name\": \"string\",\n      \"updated_at\": \"1963-09-06T15:39:03.994Z\",\n      \"last_updated_by\": \"string\",\n      \"fallback_target\": \"string\",\n      \"is_test\": false,\n      \"agent\": {\n        \"name\": \"string\",\n        \"type\": \"string\",\n        \"prompt_id\": 6790,\n        \"timezone\": \"string\",\n        \"variables\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        },\n        \"tool_headers\": {\n          \"key_0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"key_1\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"id\": 2435,\n        \"updated_at\": \"1998-08-02T04:21:06.736Z\",\n        \"last_updated_by\": \"string\",\n        \"description\": \"string\",\n        \"label\": \"string\",\n        \"labels\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"prompt_version_number\": 5086,\n        \"custom_message_id\": 7634,\n        \"language_group_id\": 9462,\n        \"bridge_phrases_id\": 8208,\n        \"prompt_tool_defaults\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"languages\": [\n          \"string\",\n          \"string\"\n        ],\n        \"agent_initiated\": false,\n        \"stt_provider\": \"string\",\n        \"wait_sound\": \"string\",\n        \"enable_verbal_language_change\": false,\n        \"prompt\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"custom_message\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"channel_targets\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"tools\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"language_group\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"a2p_verified\": true\n    }\n  ],\n  \"tools\": [\n    {\n      \"name\": \"string\",\n      \"definition\": {\n        \"tool\": {\n          \"function\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": \"function\"\n        },\n        \"type\": \"endpoint\",\n        \"endpoint\": {\n          \"url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"method\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"argument_location\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"timeout\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"context\": {\n          \"task\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"defaults\": {},\n        \"static_parameters\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"result\": {},\n        \"options\": {\n          \"propagate_tool_result\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"service_id\": 315,\n      \"id\": 7560,\n      \"last_updated\": \"1997-06-20T08:08:31.394Z\",\n      \"last_updated_by\": \"string\",\n      \"version_number\": 5078,\n      \"last_updated_comments\": \"string\",\n      \"service_name\": \"string\",\n      \"prompts_info\": [\n        {\n          \"id\": 283,\n          \"name\": \"string\"\n        },\n        {\n          \"id\": 6692,\n          \"name\": \"string\"\n        }\n      ],\n      \"agents_info\": [\n        {\n          \"id\": 6896,\n          \"name\": \"string\"\n        },\n        {\n          \"id\": 4,\n          \"name\": \"string\"\n        }\n      ],\n      \"validation_issues\": [\n        {\n          \"id\": \"string\",\n          \"message\": \"string\",\n          \"severity\": \"error\",\n          \"path\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": \"string\",\n          \"message\": \"string\",\n          \"severity\": \"error\",\n          \"path\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ]\n    },\n    {\n      \"name\": \"string\",\n      \"definition\": {\n        \"tool\": {\n          \"function\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": \"function\"\n        },\n        \"type\": \"context\",\n        \"endpoint\": {\n          \"url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"method\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"argument_location\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"timeout\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"context\": {\n          \"task\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"defaults\": {},\n        \"static_parameters\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"result\": {},\n        \"options\": {\n          \"propagate_tool_result\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"service_id\": 6401,\n      \"id\": 6148,\n      \"last_updated\": \"1959-09-26T08:14:45.428Z\",\n      \"last_updated_by\": \"string\",\n      \"version_number\": 48,\n      \"last_updated_comments\": \"string\",\n      \"service_name\": \"string\",\n      \"prompts_info\": [\n        {\n          \"id\": 2416,\n          \"name\": \"string\"\n        },\n        {\n          \"id\": 2638,\n          \"name\": \"string\"\n        }\n      ],\n      \"agents_info\": [\n        {\n          \"id\": 9520,\n          \"name\": \"string\"\n        },\n        {\n          \"id\": 1001,\n          \"name\": \"string\"\n        }\n      ],\n      \"validation_issues\": [\n        {\n          \"id\": \"string\",\n          \"message\": \"string\",\n          \"severity\": \"error\",\n          \"path\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": \"string\",\n          \"message\": \"string\",\n          \"severity\": \"error\",\n          \"path\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ]\n    }\n  ],\n  \"language_group\": {\n    \"name\": \"string\",\n    \"language_configs\": [\n      {\n        \"language_code\": \"fr-FR\",\n        \"voice_provider\": \"OpenAI\",\n        \"voice_display_name\": \"Kore (Arabic)\",\n        \"dtmf_code\": 1959,\n        \"voice_speed\": 7475.526512713993,\n        \"voice_pitch\": 5679.780011602579\n      },\n      {\n        \"language_code\": \"bs-BA\",\n        \"voice_provider\": \"OpenAI\",\n        \"voice_display_name\": \"Callirrhoe (English)\",\n        \"dtmf_code\": 7751,\n        \"voice_speed\": 2359.09896796751,\n        \"voice_pitch\": 9690.624611299701\n      }\n    ],\n    \"skip_current_language_in_message\": true,\n    \"id\": 7994,\n    \"updated_at\": \"1985-04-30T16:07:04.114Z\",\n    \"last_updated_by\": \"string\",\n    \"description\": \"string\",\n    \"edit_comments\": \"string\",\n    \"agents_info\": [\n      {\n        \"id\": 8337,\n        \"name\": \"string\"\n      },\n      {\n        \"id\": 1711,\n        \"name\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "988ee663-831c-4a29-88fe-6cc9c000073f",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "agents",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"prompt_id\": \"<integer>\",\n  \"timezone\": \"<string>\",\n  \"variables\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"tool_headers\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  },\n  \"id\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"label\": \"<string>\",\n  \"labels\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"prompt_version_number\": \"<integer>\",\n  \"custom_message_id\": \"<integer>\",\n  \"language_group_id\": \"<integer>\",\n  \"bridge_phrases_id\": \"<integer>\",\n  \"prompt_tool_defaults\": [\n    {\n      \"tool_name\": \"<string>\",\n      \"default_values\": [\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        },\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        }\n      ]\n    },\n    {\n      \"tool_name\": \"<string>\",\n      \"default_values\": [\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        },\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        }\n      ]\n    }\n  ],\n  \"languages\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"agent_initiated\": false,\n  \"stt_provider\": \"<string>\",\n  \"wait_sound\": \"<string>\",\n  \"enable_verbal_language_change\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8bfb3830-dabc-446c-ae96-8f8895def902",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "agents",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"prompt_id\": \"<integer>\",\n  \"timezone\": \"<string>\",\n  \"variables\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"tool_headers\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  },\n  \"id\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"label\": \"<string>\",\n  \"labels\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"prompt_version_number\": \"<integer>\",\n  \"custom_message_id\": \"<integer>\",\n  \"language_group_id\": \"<integer>\",\n  \"bridge_phrases_id\": \"<integer>\",\n  \"prompt_tool_defaults\": [\n    {\n      \"tool_name\": \"<string>\",\n      \"default_values\": [\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        },\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        }\n      ]\n    },\n    {\n      \"tool_name\": \"<string>\",\n      \"default_values\": [\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        },\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        }\n      ]\n    }\n  ],\n  \"languages\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"agent_initiated\": false,\n  \"stt_provider\": \"<string>\",\n  \"wait_sound\": \"<string>\",\n  \"enable_verbal_language_change\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a0e5aa36-e0cf-4459-a40e-ef4bd6b1931a",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "agents",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"prompt_id\": \"<integer>\",\n  \"timezone\": \"<string>\",\n  \"variables\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"tool_headers\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  },\n  \"id\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"label\": \"<string>\",\n  \"labels\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"prompt_version_number\": \"<integer>\",\n  \"custom_message_id\": \"<integer>\",\n  \"language_group_id\": \"<integer>\",\n  \"bridge_phrases_id\": \"<integer>\",\n  \"prompt_tool_defaults\": [\n    {\n      \"tool_name\": \"<string>\",\n      \"default_values\": [\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        },\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        }\n      ]\n    },\n    {\n      \"tool_name\": \"<string>\",\n      \"default_values\": [\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        },\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        }\n      ]\n    }\n  ],\n  \"languages\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"agent_initiated\": false,\n  \"stt_provider\": \"<string>\",\n  \"wait_sound\": \"<string>\",\n  \"enable_verbal_language_change\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8ad6e133-89c0-43da-9a91-5d90aff590af",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "agents",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"prompt_id\": \"<integer>\",\n  \"timezone\": \"<string>\",\n  \"variables\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"tool_headers\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  },\n  \"id\": \"<integer>\",\n  \"description\": \"<string>\",\n  \"label\": \"<string>\",\n  \"labels\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"prompt_version_number\": \"<integer>\",\n  \"custom_message_id\": \"<integer>\",\n  \"language_group_id\": \"<integer>\",\n  \"bridge_phrases_id\": \"<integer>\",\n  \"prompt_tool_defaults\": [\n    {\n      \"tool_name\": \"<string>\",\n      \"default_values\": [\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        },\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        }\n      ]\n    },\n    {\n      \"tool_name\": \"<string>\",\n      \"default_values\": [\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        },\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        }\n      ]\n    }\n  ],\n  \"languages\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"agent_initiated\": false,\n  \"stt_provider\": \"<string>\",\n  \"wait_sound\": \"<string>\",\n  \"enable_verbal_language_change\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6c34e8cb-f4e1-492e-a1ee-769f476d8891",
+          "name": "List Active Agent Labels",
+          "request": {
+            "name": "List Active Agent Labels",
+            "description": {
+              "content": "List all distinct labels in use across active agents.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "agents",
+                "labels"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Syllable-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "9dded417-4b8a-46aa-a9e3-9cd6282d13ee",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "agents",
+                    "labels"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  \"string\",\n  \"string\"\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5abf8cbc-576b-45fe-ab87-6cb1e64c6fb2",
+          "name": "Get Agent By Id",
+          "request": {
+            "name": "Get Agent By Id",
+            "description": {
+              "content": "Get an agent by ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "agents",
+                ":agent_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "agent_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Syllable-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "a0d3d2c6-2960-4bcf-b071-092030987630",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "agents",
+                    ":agent_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "agent_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"type\": \"string\",\n  \"prompt_id\": 2034,\n  \"timezone\": \"string\",\n  \"variables\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\"\n  },\n  \"tool_headers\": {\n    \"key_0\": \"string\"\n  },\n  \"id\": 6271,\n  \"updated_at\": \"2013-10-26T08:07:41.602Z\",\n  \"last_updated_by\": \"string\",\n  \"description\": \"string\",\n  \"label\": \"string\",\n  \"labels\": [\n    \"string\",\n    \"string\"\n  ],\n  \"prompt_version_number\": 1272,\n  \"custom_message_id\": 4327,\n  \"language_group_id\": 1131,\n  \"bridge_phrases_id\": 8299,\n  \"prompt_tool_defaults\": [\n    {\n      \"tool_name\": \"<string>\",\n      \"default_values\": [\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        },\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        }\n      ]\n    },\n    {\n      \"tool_name\": \"<string>\",\n      \"default_values\": [\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        },\n        {\n          \"field_name\": \"<string>\",\n          \"default_value\": {}\n        }\n      ]\n    }\n  ],\n  \"languages\": [\n    \"string\",\n    \"string\"\n  ],\n  \"agent_initiated\": false,\n  \"stt_provider\": \"string\",\n  \"wait_sound\": \"string\",\n  \"enable_verbal_language_change\": false,\n  \"prompt\": {\n    \"name\": \"string\",\n    \"type\": \"string\",\n    \"llm_config\": {\n      \"provider\": \"azure_openai\",\n      \"model\": \"gpt-4o\",\n      \"version\": \"string\",\n      \"api_version\": \"string\",\n      \"temperature\": 4565.860736081697,\n      \"seed\": 9746\n    },\n    \"id\": 111,\n    \"last_updated\": \"string\",\n    \"description\": \"string\",\n    \"context\": \"string\",\n    \"session_end_enabled\": false,\n    \"session_end_tool_id\": 6525,\n    \"edit_comments\": \"string\",\n    \"last_updated_by\": \"string\",\n    \"session_end_tool\": {\n      \"name\": \"string\",\n      \"definition\": {\n        \"tool\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"type\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"endpoint\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"context\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"defaults\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"static_parameters\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"result\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"options\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"service_id\": 3392,\n      \"id\": 5081,\n      \"last_updated\": \"2012-11-21T21:23:31.781Z\",\n      \"last_updated_by\": \"string\",\n      \"version_number\": 4866,\n      \"last_updated_comments\": \"string\",\n      \"service_name\": \"string\",\n      \"prompts_info\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ],\n      \"agents_info\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ]\n    },\n    \"agent_count\": 2963,\n    \"version_number\": 4182,\n    \"tools_full\": [\n      {\n        \"name\": \"string\",\n        \"definition\": {\n          \"tool\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"endpoint\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"context\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"defaults\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"static_parameters\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"result\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"options\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"service_id\": 5400,\n        \"id\": 81,\n        \"last_updated\": \"1959-11-22T16:41:02.492Z\",\n        \"last_updated_by\": \"string\",\n        \"version_number\": 3398,\n        \"last_updated_comments\": \"string\",\n        \"service_name\": \"string\",\n        \"prompts_info\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"agents_info\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"validation_issues\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      {\n        \"name\": \"string\",\n        \"definition\": {\n          \"tool\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"endpoint\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"context\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"defaults\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"static_parameters\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"result\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"options\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"service_id\": 9106,\n        \"id\": 7485,\n        \"last_updated\": \"1952-06-04T16:09:02.282Z\",\n        \"last_updated_by\": \"string\",\n        \"version_number\": 2286,\n        \"last_updated_comments\": \"string\",\n        \"service_name\": \"string\",\n        \"prompts_info\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"agents_info\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"validation_issues\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      }\n    ]\n  },\n  \"custom_message\": {\n    \"name\": \"string\",\n    \"text\": \"string\",\n    \"repeat_after_language_change\": false,\n    \"id\": 7251,\n    \"updated_at\": \"1979-07-12T05:25:41.753Z\",\n    \"last_updated_by\": \"string\",\n    \"type\": \"email_template\",\n    \"preamble\": \"string\",\n    \"subject\": \"string\",\n    \"label\": \"string\",\n    \"agent_count\": 4301\n  },\n  \"channel_targets\": [\n    {\n      \"agent_id\": 7497,\n      \"channel_id\": 191,\n      \"target\": \"string\",\n      \"target_mode\": \"chat\",\n      \"id\": 2124,\n      \"channel_name\": \"string\",\n      \"updated_at\": \"1982-12-11T15:36:07.091Z\",\n      \"last_updated_by\": \"string\",\n      \"fallback_target\": \"string\",\n      \"is_test\": false,\n      \"agent\": {\n        \"name\": \"string\",\n        \"type\": \"string\",\n        \"prompt_id\": 690,\n        \"timezone\": \"string\",\n        \"variables\": {\n          \"key_0\": \"string\"\n        },\n        \"tool_headers\": {\n          \"key_0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"id\": 5710,\n        \"updated_at\": \"1986-05-30T20:30:49.293Z\",\n        \"last_updated_by\": \"string\",\n        \"description\": \"string\",\n        \"label\": \"string\",\n        \"labels\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"prompt_version_number\": 8679,\n        \"custom_message_id\": 1381,\n        \"language_group_id\": 8490,\n        \"bridge_phrases_id\": 9809,\n        \"prompt_tool_defaults\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"languages\": [\n          \"string\",\n          \"string\"\n        ],\n        \"agent_initiated\": false,\n        \"stt_provider\": \"string\",\n        \"wait_sound\": \"string\",\n        \"enable_verbal_language_change\": false,\n        \"prompt\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"custom_message\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"channel_targets\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"tools\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"language_group\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"a2p_verified\": false\n    },\n    {\n      \"agent_id\": 3357,\n      \"channel_id\": 2675,\n      \"target\": \"string\",\n      \"target_mode\": \"whatsapp\",\n      \"id\": 6670,\n      \"channel_name\": \"string\",\n      \"updated_at\": \"1963-09-06T15:39:03.994Z\",\n      \"last_updated_by\": \"string\",\n      \"fallback_target\": \"string\",\n      \"is_test\": false,\n      \"agent\": {\n        \"name\": \"string\",\n        \"type\": \"string\",\n        \"prompt_id\": 6790,\n        \"timezone\": \"string\",\n        \"variables\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        },\n        \"tool_headers\": {\n          \"key_0\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"key_1\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"id\": 2435,\n        \"updated_at\": \"1998-08-02T04:21:06.736Z\",\n        \"last_updated_by\": \"string\",\n        \"description\": \"string\",\n        \"label\": \"string\",\n        \"labels\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"prompt_version_number\": 5086,\n        \"custom_message_id\": 7634,\n        \"language_group_id\": 9462,\n        \"bridge_phrases_id\": 8208,\n        \"prompt_tool_defaults\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"languages\": [\n          \"string\",\n          \"string\"\n        ],\n        \"agent_initiated\": false,\n        \"stt_provider\": \"string\",\n        \"wait_sound\": \"string\",\n        \"enable_verbal_language_change\": false,\n        \"prompt\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"custom_message\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"channel_targets\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"tools\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"language_group\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"a2p_verified\": true\n    }\n  ],\n  \"tools\": [\n    {\n      \"name\": \"string\",\n      \"definition\": {\n        \"tool\": {\n          \"function\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": \"function\"\n        },\n        \"type\": \"endpoint\",\n        \"endpoint\": {\n          \"url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"method\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"argument_location\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"timeout\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"context\": {\n          \"task\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"defaults\": {},\n        \"static_parameters\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"result\": {},\n        \"options\": {\n          \"propagate_tool_result\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"service_id\": 315,\n      \"id\": 7560,\n      \"last_updated\": \"1997-06-20T08:08:31.394Z\",\n      \"last_updated_by\": \"string\",\n      \"version_number\": 5078,\n      \"last_updated_comments\": \"string\",\n      \"service_name\": \"string\",\n      \"prompts_info\": [\n        {\n          \"id\": 283,\n          \"name\": \"string\"\n        },\n        {\n          \"id\": 6692,\n          \"name\": \"string\"\n        }\n      ],\n      \"agents_info\": [\n        {\n          \"id\": 6896,\n          \"name\": \"string\"\n        },\n        {\n          \"id\": 4,\n          \"name\": \"string\"\n        }\n      ],\n      \"validation_issues\": [\n        {\n          \"id\": \"string\",\n          \"message\": \"string\",\n          \"severity\": \"error\",\n          \"path\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": \"string\",\n          \"message\": \"string\",\n          \"severity\": \"error\",\n          \"path\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ]\n    },\n    {\n      \"name\": \"string\",\n      \"definition\": {\n        \"tool\": {\n          \"function\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"type\": \"function\"\n        },\n        \"type\": \"context\",\n        \"endpoint\": {\n          \"url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"method\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"argument_location\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"timeout\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"context\": {\n          \"task\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"defaults\": {},\n        \"static_parameters\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"result\": {},\n        \"options\": {\n          \"propagate_tool_result\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"service_id\": 6401,\n      \"id\": 6148,\n      \"last_updated\": \"1959-09-26T08:14:45.428Z\",\n      \"last_updated_by\": \"string\",\n      \"version_number\": 48,\n      \"last_updated_comments\": \"string\",\n      \"service_name\": \"string\",\n      \"prompts_info\": [\n        {\n          \"id\": 2416,\n          \"name\": \"string\"\n        },\n        {\n          \"id\": 2638,\n          \"name\": \"string\"\n        }\n      ],\n      \"agents_info\": [\n        {\n          \"id\": 9520,\n          \"name\": \"string\"\n        },\n        {\n          \"id\": 1001,\n          \"name\": \"string\"\n        }\n      ],\n      \"validation_issues\": [\n        {\n          \"id\": \"string\",\n          \"message\": \"string\",\n          \"severity\": \"error\",\n          \"path\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": \"string\",\n          \"message\": \"string\",\n          \"severity\": \"error\",\n          \"path\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ]\n    }\n  ],\n  \"language_group\": {\n    \"name\": \"string\",\n    \"language_configs\": [\n      {\n        \"language_code\": \"fr-FR\",\n        \"voice_provider\": \"OpenAI\",\n        \"voice_display_name\": \"Kore (Arabic)\",\n        \"dtmf_code\": 1959,\n        \"voice_speed\": 7475.526512713993,\n        \"voice_pitch\": 5679.780011602579\n      },\n      {\n        \"language_code\": \"bs-BA\",\n        \"voice_provider\": \"OpenAI\",\n        \"voice_display_name\": \"Callirrhoe (English)\",\n        \"dtmf_code\": 7751,\n        \"voice_speed\": 2359.09896796751,\n        \"voice_pitch\": 9690.624611299701\n      }\n    ],\n    \"skip_current_language_in_message\": true,\n    \"id\": 7994,\n    \"updated_at\": \"1985-04-30T16:07:04.114Z\",\n    \"last_updated_by\": \"string\",\n    \"description\": \"string\",\n    \"edit_comments\": \"string\",\n    \"agents_info\": [\n      {\n        \"id\": 8337,\n        \"name\": \"string\"\n      },\n      {\n        \"id\": 1711,\n        \"name\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "53063af3-cfd0-415e-a8ce-5ec14828c567",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "agents",
+                    ":agent_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "agent_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e7c8ba94-0101-4146-98fa-8b28e5d204b4",
+          "name": "Delete Agent",
+          "request": {
+            "name": "Delete Agent",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "agents",
+                ":agent_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "reason",
+                  "value": "<string>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "agent_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Syllable-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "8d438d48-9294-4e6f-92aa-897658d99ed0",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "agents",
+                    ":agent_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "reason",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "agent_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2304e3f6-7f9f-4350-98c8-c96fd47b83fa",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "agents",
+                    ":agent_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "reason",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "agent_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1960de17-77df-4aa3-894d-215a58e347bc",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "agents",
+                    ":agent_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "reason",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "agent_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "05a763d6-ce53-49c3-ba65-080018f15ad6",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "agents",
+                    ":agent_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "reason",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "agent_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6c45cfbb-83c3-4d4d-925e-7985140d6856",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "agents",
+                    ":agent_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "reason",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "agent_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "938b1083-2e14-4377-9fc4-523834c4ca12",
+          "name": "Get Available Agent Voices",
+          "request": {
+            "name": "Get Available Agent Voices",
+            "description": {
+              "content": "Get available agent voices.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "agents",
+                "voices",
+                "available"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Syllable-API-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "e10bd20c-e2f7-4656-8c36-0c7570714da9",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "agents",
+                    "voices",
+                    "available"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Syllable-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"provider\": \"Google\",\n    \"display_name\": \"Achernar (Mandarin)\",\n    \"var_name\": \"wavenet:female/fr-FR-Chirp3-HD-Kore\",\n    \"gender\": \"female\",\n    \"model\": \"WaveNet\",\n    \"supported_languages\": [\n      {\n        \"name\": \"string\",\n        \"code\": \"th-TH\"\n      },\n      {\n        \"name\": \"string\",\n        \"code\": \"bs-BA\"\n      }\n    ],\n    \"deprecated\": false\n  },\n  {\n    \"provider\": \"OpenAI\",\n    \"display_name\": \"Puck (Spanish)\",\n    \"var_name\": \"wavenet:female/vi-VN-Neural2-A\",\n    \"gender\": \"male\",\n    \"model\": \"WaveNet\",\n    \"supported_languages\": [\n      {\n        \"name\": \"string\",\n        \"code\": \"en-US\"\n      },\n      {\n        \"name\": \"string\",\n        \"code\": \"vi-VN\"\n      }\n    ],\n    \"deprecated\": true\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.syllable.cloud",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "f6944266-c1d2-4b9b-ad1a-6d01a447c9ca",
+    "name": "SyllableSDK Agents API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "\n# Syllable Platform SDK\n\nSyllable SDK gives you the power of awesome AI agentry. 🚀\n\n## Overview\n\nThe Syllable SDK provides a comprehensive set of tools and APIs to integrate powerful AI\ncapabilities into your communication applications. Whether you're building phone agents, chatbots,\nvirtual assistants, or any other AI-driven solutions, Syllable SDK has got you covered.\n\n## Features\n\n- **Agent Configuration**: Create and manage agents that can interact with users across various \nchannels.\n- **Channel Management**: Configure channels like SMS, web chat, and more to connect agents with \nusers.\n- **Custom Messages**: Set up custom messages that agents can deliver as greetings or responses.\n- **Conversations**: Track and manage conversations between users and agents, including session \nmanagement.\n- **Tools and Workflows**: Leverage tools and workflows to enhance agent capabilities, such as data \nprocessing and API calls.\n- **Data Sources**: Integrate data sources to provide agents with additional context and \ninformation.\n- **Insights and Analytics**: Analyze conversations and sessions to gain insights into user \ninteractions.\n- **Permissions and Security**: Manage permissions to control access to various features and \nfunctionalities.\n- **Language Support**: Define language groups to enable multilingual support for agents.\n- **Outbound Campaigns**: Create and manage outbound communication campaigns to reach users \neffectively.\n- **Session Labels**: Label sessions with evaluations of quality and descriptions of issues \nencountered.\n- **Incident Management**: Track and manage incidents related to agent interactions.\n",
+      "type": "text/plain"
+    }
+  }
+}

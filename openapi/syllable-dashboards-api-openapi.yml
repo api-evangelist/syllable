@@ -1,0 +1,548 @@
+openapi: 3.2.0
+info:
+  title: SyllableSDK Dashboards API
+  description: "\n# Syllable Platform SDK\n\nSyllable SDK gives you the power of awesome AI agentry. \U0001F680\n\n## Overview\n\nThe Syllable SDK provides a comprehensive set of tools and APIs to integrate powerful AI\ncapabilities into your communication applications. Whether you're building phone agents, chatbots,\nvirtual assistants, or any other AI-driven solutions, Syllable SDK has got you covered.\n\n## Features\n\n- **Agent Configuration**: Create and manage agents that can interact with users across various \nchannels.\n- **Channel Management**: Configure channels like SMS, web chat, and more to connect agents with \nusers.\n- **Custom Messages**: Set up custom messages that agents can deliver as greetings or responses.\n- **Conversations**: Track and manage conversations between users and agents, including session \nmanagement.\n- **Tools and Workflows**: Leverage tools and workflows to enhance agent capabilities, such as data \nprocessing and API calls.\n- **Data Sources**: Integrate data sources to provide agents with additional context and \ninformation.\n- **Insights and Analytics**: Analyze conversations and sessions to gain insights into user \ninteractions.\n- **Permissions and Security**: Manage permissions to control access to various features and \nfunctionalities.\n- **Language Support**: Define language groups to enable multilingual support for agents.\n- **Outbound Campaigns**: Create and manage outbound communication campaigns to reach users \neffectively.\n- **Session Labels**: Label sessions with evaluations of quality and descriptions of issues \nencountered.\n- **Incident Management**: Track and manage incidents related to agent interactions.\n"
+  version: 0.0.3
+servers:
+- url: https://api.syllable.cloud
+  description: API server
+tags:
+- name: dashboards
+  description: Operations related to dashboards. Currently the API/SDK           only supports fetching basic information about dashboards.
+paths:
+  /api/v1/dashboards/list:
+    post:
+      tags:
+      - dashboards
+      summary: Post List Dashboards
+      description: 'METHOD: POST
+
+        URL: /dashboard/list
+
+        ARGUMENTS: None
+
+        RETURNS: List of dashboards'
+      operationId: post_list_dashboard
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            minimum: 0
+          - type: 'null'
+          description: The page number from which to start (0-based)
+          examples:
+          - 0
+          default: 0
+          title: Page
+        description: The page number from which to start (0-based)
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: The maximum number of items to return
+          examples:
+          - 25
+          default: 25
+          title: Limit
+        description: The maximum number of items to return
+      - name: search_fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/DashboardProperties'
+          description: String names of fields to search. Correspond by index to search field values
+          examples:
+          - name
+          default: []
+          title: Search Fields
+        description: String names of fields to search. Correspond by index to search field values
+      - name: search_field_values
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          description: Values of fields to search. Correspond by index to search fields. Unless field name contains "list", an individual search field value cannot be a list
+          examples:
+          - Some Object Name
+          default: []
+          title: Search Field Values
+        description: Values of fields to search. Correspond by index to search fields. Unless field name contains "list", an individual search field value cannot be a list
+      - name: order_by
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/DashboardProperties'
+          - type: 'null'
+          description: The field whose value should be used to order the results
+          examples:
+          - name
+          title: Order By
+        description: The field whose value should be used to order the results
+      - name: order_by_direction
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/OrderByDirection'
+          - type: 'null'
+          description: The direction in which to order the results
+          title: Order By Direction
+        description: The direction in which to order the results
+      - name: fields
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              $ref: '#/components/schemas/DashboardProperties'
+          - type: 'null'
+          description: The fields to include in the response
+          default: []
+          title: Fields
+        description: The fields to include in the response
+      - name: start_datetime
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The start datetime for filtering results
+          examples:
+          - '2023-01-01T00:00:00Z'
+          title: Start Datetime
+        description: The start datetime for filtering results
+      - name: end_datetime
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The end datetime for filtering results
+          examples:
+          - '2024-01-01T00:00:00Z'
+          title: End Datetime
+        description: The end datetime for filtering results
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListResponse_DashboardResponse_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK, models\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.dashboards.post_list_dashboard(page=0, limit=25, search_fields=[\n        models.DashboardProperties.NAME,\n    ], search_field_values=[\n        \"Some Object Name\",\n    ], start_datetime=\"2023-01-01T00:00:00Z\", end_datetime=\"2024-01-01T00:00:00Z\")\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.dashboards.postListDashboard({\n    page: 0,\n    searchFields: [\n      \"name\",\n    ],\n    searchFieldValues: [\n      \"Some Object Name\",\n    ],\n    startDatetime: \"2023-01-01T00:00:00Z\",\n    endDatetime: \"2024-01-01T00:00:00Z\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/dashboards/fetch_info:
+    post:
+      tags:
+      - dashboards
+      summary: Post Fetch Info
+      description: 'METHOD: POST
+
+        URL: /dashboard/fetch_info
+
+        ARGUMENTS: None
+
+        RETURNS: Dashboard info for embedding'
+      operationId: post_get_dashboard
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: dashboard_name
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Dashboard Name
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardTokenResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.dashboards.post_get_dashboard(dashboard_name=\"<value>\")\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.dashboards.postGetDashboard({\n    dashboardName: \"<value>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/dashboards/session_events:
+    post:
+      tags:
+      - dashboards
+      summary: Post Session Events
+      description: 'METHOD: POST
+
+        URL: /dashboard/session_events
+
+        ARGUMENTS: None
+
+        RETURNS: Dashboard info for embedding
+
+        DEPRECATED: This endpoint is deprecated. Please use /dashboard/list instead'
+      operationId: post_session_events_dashboard
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dashboard'
+      deprecated: true
+      security:
+      - APIKeyHeader: []
+  /api/v1/dashboards/session_summary:
+    post:
+      tags:
+      - dashboards
+      summary: Post Session Summary
+      description: 'METHOD: POST
+
+        URL: /dashboard/session_summary
+
+        ARGUMENTS: None
+
+        RETURNS: Dashboard info for embedding
+
+        DEPRECATED: This endpoint is deprecated. Please use /dashboard/list instead'
+      operationId: post_session_summary_dashboard
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dashboard'
+      deprecated: true
+      security:
+      - APIKeyHeader: []
+  /api/v1/dashboards/session_transfers:
+    post:
+      tags:
+      - dashboards
+      summary: Post Session Transfers
+      description: 'METHOD: POST
+
+        URL: /dashboard/session_transfers
+
+        ARGUMENTS: None
+
+        RETURNS: Dashboard info for embedding
+
+        DEPRECATED: This endpoint is deprecated. Please use /dashboard/list instead'
+      operationId: post_session_transfers_dashboard
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dashboard'
+      deprecated: true
+      security:
+      - APIKeyHeader: []
+  /api/v1/dashboards/sessions:
+    post:
+      tags:
+      - dashboards
+      summary: Post Sessions
+      description: 'METHOD: POST
+
+        URL: /dashboard/sessions
+
+        ARGUMENTS: None
+
+        RETURNS: Dashboard info for embedding
+
+        DEPRECATED: This endpoint is deprecated. Please use /dashboard/list instead'
+      operationId: post_sessions_dashboard
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dashboard'
+      deprecated: true
+      security:
+      - APIKeyHeader: []
+components:
+  schemas:
+    DashboardResponse:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Name of the dashboard
+          examples:
+          - session_summary
+        display_name:
+          type: string
+          title: Display Name
+          description: Display name of the dashboard
+          examples:
+          - Session Summary
+        rank:
+          type: integer
+          title: Rank
+          description: Dashboard importance (0 is the highest)
+          examples:
+          - 0
+        label:
+          type: string
+          title: Label
+          description: Dashboard label. Typically "report" or "dashboard"
+          examples:
+          - dashboard
+      type: object
+      required:
+      - name
+      - display_name
+      - rank
+      - label
+      title: DashboardResponse
+      description: Basic information about a dashboard with a description.
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    DashboardTokenResponse:
+      properties:
+        embedded_id:
+          type: string
+          title: Embedded Id
+          description: Superset embedded ID of the dashboard
+          examples:
+          - 976ef486-d1ea-49c7-ba81-18e955d80286
+        guest_token:
+          type: string
+          title: Guest Token
+          description: Superset guest token of the dashboard
+          examples:
+          - some-guest-token
+        name:
+          type: string
+          title: Name
+          description: Name of the dashboard
+          examples:
+          - session_summary
+        display_name:
+          type: string
+          title: Display Name
+          description: Display name of the dashboard
+          examples:
+          - Session Summary
+        superset_url:
+          type: string
+          title: Superset Url
+          description: Base Superset URL of the dashboard
+          examples:
+          - https://somesuperseturl.com
+        rank:
+          type: integer
+          title: Rank
+          description: Dashboard importance (0 is the highest)
+          examples:
+          - 0
+        label:
+          type: string
+          title: Label
+          description: Dashboard label. Typically "report" or "dashboard"
+          examples:
+          - dashboard
+      type: object
+      required:
+      - embedded_id
+      - guest_token
+      - name
+      - display_name
+      - superset_url
+      - rank
+      - label
+      title: DashboardTokenResponse
+      description: Basic information about a dashboard.
+    Dashboard:
+      properties:
+        embedded_id:
+          type: string
+          title: Embedded Id
+          description: Superset embedded ID of the dashboard
+        guest_token:
+          type: string
+          title: Guest Token
+          description: Superset guest token of the dashboard
+        name:
+          type: string
+          title: Name
+          description: Name of the dashboard
+        superset_url:
+          type: string
+          title: Superset Url
+          description: Superset URL of the dashboard
+      type: object
+      required:
+      - embedded_id
+      - guest_token
+      - name
+      - superset_url
+      title: Dashboard
+      description: 'Deprecated.  Please update to use DashboardTokenResponse.
+
+        Basic information about a dashboard.'
+    ListResponse_DashboardResponse_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/DashboardResponse'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[DashboardResponse]
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    DashboardProperties:
+      type: string
+      enum:
+      - id
+      - name
+      - display_name
+      - rank
+      - label
+      title: DashboardProperties
+      description: Names of dashboard fields supported for filtering/sorting on list endpoint.
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: Syllable-API-Key
+x-speakeasy-name-override:
+- operationId: .*_list$
+  methodNameOverride: list
+- operationId: .*_create$
+  methodNameOverride: create
+- operationId: .*_update$
+  methodNameOverride: update
+- operationId: .*_upload$
+  methodNameOverride: upload
+- operationId: .*_delete$
+  methodNameOverride: delete
+- operationId: .*_get_by_id$
+  methodNameOverride: get_by_id
+- operationId: .*_get_by_name$
+  methodNameOverride: get_by_name
+- operationId: .*_add$
+  methodNameOverride: add
+- operationId: .*_remove$
+  methodNameOverride: remove
+- operationId: .*_results$
+  methodNameOverride: results
+- operationId: .*_queue_work$
+  methodNameOverride: queue_work
+- operationId: .*_activate$
+  methodNameOverride: activate
+- operationId: .*_inactivate$
+  methodNameOverride: inactivate
+- operationId: .*_list_files$
+  methodNameOverride: list_files
+- operationId: .*_move_files$
+  methodNameOverride: move_files
+- operationId: .*_upload_file$
+  methodNameOverride: upload_file

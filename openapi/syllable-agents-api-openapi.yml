@@ -1,0 +1,4195 @@
+openapi: 3.2.0
+info:
+  title: SyllableSDK Agents API
+  description: "\n# Syllable Platform SDK\n\nSyllable SDK gives you the power of awesome AI agentry. \U0001F680\n\n## Overview\n\nThe Syllable SDK provides a comprehensive set of tools and APIs to integrate powerful AI\ncapabilities into your communication applications. Whether you're building phone agents, chatbots,\nvirtual assistants, or any other AI-driven solutions, Syllable SDK has got you covered.\n\n## Features\n\n- **Agent Configuration**: Create and manage agents that can interact with users across various \nchannels.\n- **Channel Management**: Configure channels like SMS, web chat, and more to connect agents with \nusers.\n- **Custom Messages**: Set up custom messages that agents can deliver as greetings or responses.\n- **Conversations**: Track and manage conversations between users and agents, including session \nmanagement.\n- **Tools and Workflows**: Leverage tools and workflows to enhance agent capabilities, such as data \nprocessing and API calls.\n- **Data Sources**: Integrate data sources to provide agents with additional context and \ninformation.\n- **Insights and Analytics**: Analyze conversations and sessions to gain insights into user \ninteractions.\n- **Permissions and Security**: Manage permissions to control access to various features and \nfunctionalities.\n- **Language Support**: Define language groups to enable multilingual support for agents.\n- **Outbound Campaigns**: Create and manage outbound communication campaigns to reach users \neffectively.\n- **Session Labels**: Label sessions with evaluations of quality and descriptions of issues \nencountered.\n- **Incident Management**: Track and manage incidents related to agent interactions.\n"
+  version: 0.0.3
+servers:
+- url: https://api.syllable.cloud
+  description: API server
+tags:
+- name: agents
+  description: Operations related to agent configuration. When a user interacts with the           Syllable system, they do so by communicating with an agent.           An agent is linked to a prompt, a custom message, and one or more channel targets to           define its behavior and capabilities. For more information, see           [Console docs](https://docs.syllable.ai/workspaces/Agents).
+paths:
+  /api/v1/agents/:
+    get:
+      tags:
+      - agents
+      summary: Agent List
+      description: List the existing agents
+      operationId: agent_list
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            minimum: 0
+          - type: 'null'
+          description: The page number from which to start (0-based)
+          examples:
+          - 0
+          default: 0
+          title: Page
+        description: The page number from which to start (0-based)
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: The maximum number of items to return
+          examples:
+          - 25
+          default: 25
+          title: Limit
+        description: The maximum number of items to return
+      - name: search_fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/AgentProperties'
+          description: String names of fields to search. Correspond by index to search field values
+          examples:
+          - name
+          default: []
+          title: Search Fields
+        description: String names of fields to search. Correspond by index to search field values
+      - name: search_field_values
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          description: Values of fields to search. Correspond by index to search fields. Unless field name contains "list", an individual search field value cannot be a list
+          examples:
+          - Some Object Name
+          default: []
+          title: Search Field Values
+        description: Values of fields to search. Correspond by index to search fields. Unless field name contains "list", an individual search field value cannot be a list
+      - name: order_by
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/AgentProperties'
+          - type: 'null'
+          description: The field whose value should be used to order the results
+          examples:
+          - name
+          title: Order By
+        description: The field whose value should be used to order the results
+      - name: order_by_direction
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/OrderByDirection'
+          - type: 'null'
+          description: The direction in which to order the results
+          title: Order By Direction
+        description: The direction in which to order the results
+      - name: fields
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              $ref: '#/components/schemas/AgentProperties'
+          - type: 'null'
+          description: The fields to include in the response
+          default: []
+          title: Fields
+        description: The fields to include in the response
+      - name: start_datetime
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The start datetime for filtering results
+          examples:
+          - '2023-01-01T00:00:00Z'
+          title: Start Datetime
+        description: The start datetime for filtering results
+      - name: end_datetime
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The end datetime for filtering results
+          examples:
+          - '2024-01-01T00:00:00Z'
+          title: End Datetime
+        description: The end datetime for filtering results
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListResponse_AgentResponse_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK, models\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.agents.list(page=0, limit=25, search_fields=[\n        models.AgentProperties.NAME,\n    ], search_field_values=[\n        \"Some Object Name\",\n    ], start_datetime=\"2023-01-01T00:00:00Z\", end_datetime=\"2024-01-01T00:00:00Z\")\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.agents.list({\n    page: 0,\n    searchFields: [\n      \"name\",\n    ],\n    searchFieldValues: [\n      \"Some Object Name\",\n    ],\n    startDatetime: \"2023-01-01T00:00:00Z\",\n    endDatetime: \"2024-01-01T00:00:00Z\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+    post:
+      tags:
+      - agents
+      summary: Create Agent
+      description: Create a new agent
+      operationId: agent_create
+      security:
+      - APIKeyHeader: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentCreate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentResponse'
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK, models\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.agents.create(request={\n        \"name\": \"Weather agent\",\n        \"description\": \"Agent for answering questions about weather.\",\n        \"labels\": [\n            \"Information\",\n            \"Weather\",\n        ],\n        \"type\": \"ca_v1\",\n        \"prompt_id\": 1,\n        \"prompt_version_number\": 3,\n        \"custom_message_id\": 1,\n        \"language_group_id\": 1,\n        \"bridge_phrases_id\": 1,\n        \"timezone\": \"America/New_York\",\n        \"prompt_tool_defaults\": [\n            {\n                \"tool_name\": \"get_weather\",\n                \"default_values\": [\n                    {\n                        \"field_name\": \"temperature_unit\",\n                        \"default_value\": \"fahrenheit\",\n                    },\n                ],\n            },\n        ],\n        \"variables\": {\n            \"vars.location_name\": \"Main Street Pizza\",\n        },\n        \"tool_headers\": {\n            \"some-header\": \"some-value\",\n        },\n        \"stt_provider\": models.AgentSttProvider.GOOGLE_STT_V2_CHIRP_2_,\n        \"wait_sound\": models.AgentWaitSound.NO_SOUND,\n    })\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.agents.create({\n    name: \"Weather agent\",\n    description: \"Agent for answering questions about weather.\",\n    labels: [\n      \"Information\",\n      \"Weather\",\n    ],\n    type: \"ca_v1\",\n    promptId: 1,\n    promptVersionNumber: 3,\n    customMessageId: 1,\n    languageGroupId: 1,\n    bridgePhrasesId: 1,\n    timezone: \"America/New_York\",\n    promptToolDefaults: [\n      {\n        toolName: \"get_weather\",\n        defaultValues: [\n          {\n            fieldName: \"temperature_unit\",\n            defaultValue: \"fahrenheit\",\n          },\n        ],\n      },\n    ],\n    variables: {\n      \"vars.location_name\": \"Main Street Pizza\",\n    },\n    toolHeaders: {\n      \"some-header\": \"some-value\",\n    },\n    sttProvider: \"Google STT V2 (Chirp 2)\",\n    waitSound: \"No Sound\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+    put:
+      tags:
+      - agents
+      summary: Update Agent
+      description: Update an existing agent
+      operationId: agent_update
+      security:
+      - APIKeyHeader: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentResponse'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK, models\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.agents.update(request={\n        \"name\": \"Weather agent\",\n        \"description\": \"Agent for answering questions about weather.\",\n        \"labels\": [\n            \"Information\",\n            \"Weather\",\n        ],\n        \"type\": \"ca_v1\",\n        \"prompt_id\": 1,\n        \"prompt_version_number\": 3,\n        \"custom_message_id\": 1,\n        \"language_group_id\": 1,\n        \"bridge_phrases_id\": 1,\n        \"timezone\": \"America/New_York\",\n        \"prompt_tool_defaults\": [\n            {\n                \"tool_name\": \"get_weather\",\n                \"default_values\": [\n                    {\n                        \"field_name\": \"temperature_unit\",\n                        \"default_value\": \"fahrenheit\",\n                    },\n                ],\n            },\n        ],\n        \"variables\": {\n            \"vars.location_name\": \"Main Street Pizza\",\n        },\n        \"tool_headers\": {\n            \"some-header\": \"some-value\",\n        },\n        \"stt_provider\": models.AgentSttProvider.GOOGLE_STT_V2_CHIRP_2_,\n        \"wait_sound\": models.AgentWaitSound.NO_SOUND,\n        \"id\": 1,\n    })\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.agents.update({\n    name: \"Weather agent\",\n    description: \"Agent for answering questions about weather.\",\n    labels: [\n      \"Information\",\n      \"Weather\",\n    ],\n    type: \"ca_v1\",\n    promptId: 1,\n    promptVersionNumber: 3,\n    customMessageId: 1,\n    languageGroupId: 1,\n    bridgePhrasesId: 1,\n    timezone: \"America/New_York\",\n    promptToolDefaults: [\n      {\n        toolName: \"get_weather\",\n        defaultValues: [\n          {\n            fieldName: \"temperature_unit\",\n            defaultValue: \"fahrenheit\",\n          },\n        ],\n      },\n    ],\n    variables: {\n      \"vars.location_name\": \"Main Street Pizza\",\n    },\n    toolHeaders: {\n      \"some-header\": \"some-value\",\n    },\n    sttProvider: \"Google STT V2 (Chirp 2)\",\n    waitSound: \"No Sound\",\n    id: 1,\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/agents/labels:
+    get:
+      tags:
+      - agents
+      summary: List Active Agent Labels
+      description: List all distinct labels in use across active agents.
+      operationId: agent_list_active_labels
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+                title: Response Agent List Active Labels
+      security:
+      - APIKeyHeader: []
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.agents.agent_list_active_labels()\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.agents.agentListActiveLabels();\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/agents/{agent_id}:
+    get:
+      tags:
+      - agents
+      summary: Get Agent By Id
+      description: Get an agent by ID.
+      operationId: agent_get_by_id
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Agent Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.agents.get_by_id(agent_id=910445)\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.agents.getById({\n    agentId: 910445,\n  });\n\n  console.log(result);\n}\n\nrun();"
+    delete:
+      tags:
+      - agents
+      summary: Delete Agent
+      operationId: agent_delete
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Agent Id
+      - name: reason
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Reason
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.agents.delete(agent_id=78115, reason=\"<value>\")\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.agents.delete({\n    agentId: 78115,\n    reason: \"<value>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+  /api/v1/agents/voices/available:
+    get:
+      tags:
+      - agents
+      summary: Get Available Agent Voices
+      description: Get available agent voices.
+      operationId: agent_get_available_voices
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/AgentVoice'
+                type: array
+                title: Response Agent Get Available Voices
+      security:
+      - APIKeyHeader: []
+      x-codeSamples:
+      - lang: python
+        label: Python (SDK)
+        source: "import os\nfrom syllable_sdk import SyllableSDK\n\n\nwith SyllableSDK(\n    api_key_header=os.getenv(\"SYLLABLESDK_API_KEY_HEADER\", \"\"),\n) as ss_client:\n\n    res = ss_client.agents.agent_get_available_voices()\n\n    # Handle response\n    print(res)"
+      - lang: typescript
+        label: Typescript (SDK)
+        source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.agents.agentGetAvailableVoices();\n\n  console.log(result);\n}\n\nrun();"
+components:
+  schemas:
+    InputParameter:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The name of the property.
+        type:
+          anyOf:
+          - type: string
+            enum:
+            - string
+            - number
+            - integer
+            - boolean
+            - object
+            - array
+            - 'null'
+          - type: 'null'
+          title: Type
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        format:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Format
+        pattern:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pattern
+        enum:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Enum
+        examples:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/JsonValue'
+            type: array
+          - type: 'null'
+          title: Examples
+        required:
+          type: boolean
+          title: Required
+          default: true
+      type: object
+      required:
+      - name
+      title: InputParameter
+    CallAction:
+      properties:
+        if:
+          anyOf:
+          - oneOf:
+            - $ref: '#/components/schemas/CelExpression'
+            - $ref: '#/components/schemas/JMESPathExpression'
+            discriminator:
+              propertyName: type
+              mapping:
+                cel: '#/components/schemas/CelExpression'
+                jmespath: '#/components/schemas/JMESPathExpression'
+                jp: '#/components/schemas/JMESPathExpression'
+          - $ref: '#/components/schemas/CaseExpression'
+          - type: string
+          - type: 'null'
+          title: If
+          description: 'Condition to decide whether this item executes. Supported expression forms: (1) JMESPath string (default for plain strings), (2) typed JMESPath object {"type":"jp"|"jmespath","expression":"..."}, or (3) typed CEL object {"type":"cel","expression":"..."}. Example JMESPath string: "inputs.can_sign_consent == `true`".'
+          examples:
+          - inputs.can_sign_consent == `true`
+          - expression: inputs.can_sign_consent == `true`
+            type: jp
+          - expression: inputs.can_sign_consent == true
+            type: cel
+        action:
+          type: string
+          const: call
+          title: Action
+          default: call
+        name:
+          type: string
+          title: Name
+          description: The name of the tool to call.
+        arguments:
+          anyOf:
+          - additionalProperties:
+              $ref: '#/components/schemas/JsonValue'
+            type: object
+          - type: 'null'
+          title: Arguments
+          description: Optional arguments to pass to the tool (supports template strings)
+        result:
+          anyOf:
+          - $ref: '#/components/schemas/CallResult'
+          - type: 'null'
+          description: Optional deterministic result-capture configuration. When present, selected fields from the tool response are saved into workflow state, so later transitions/conditions/validations can branch on them without the model re-deriving them from tool call history. Currently applied only when the call is routed in inject mode (arguments already complete); hinted/routed calls are not yet supported.
+      type: object
+      required:
+      - name
+      title: CallAction
+    LanguageGroupAgentInfo:
+      properties:
+        id:
+          type: integer
+          title: Id
+          description: The ID of the agent
+          examples:
+          - 1
+        name:
+          type: string
+          title: Name
+          description: The name of the agent
+          examples:
+          - Test Agent
+      type: object
+      required:
+      - id
+      - name
+      title: LanguageGroupAgentInfo
+      description: Information about an agent linked to a language group.
+    ToolArgumentLocation:
+      type: string
+      enum:
+      - body
+      - form
+      - path
+      - query
+      title: ToolArgumentLocation
+      description: 'The location of the argument in a tool HTTP request.
+
+        ''body'' is used for JSON data in the POST request body.
+
+        ''form'' is used for form data in the POST request body.
+
+        ''path'' is used for URL path parameters.
+
+        ''query'' is used for query parameters in the URL.'
+    NextStep:
+      properties:
+        if:
+          anyOf:
+          - oneOf:
+            - $ref: '#/components/schemas/CelExpression'
+            - $ref: '#/components/schemas/JMESPathExpression'
+            discriminator:
+              propertyName: type
+              mapping:
+                cel: '#/components/schemas/CelExpression'
+                jmespath: '#/components/schemas/JMESPathExpression'
+                jp: '#/components/schemas/JMESPathExpression'
+          - $ref: '#/components/schemas/CaseExpression'
+          - type: string
+          - type: 'null'
+          title: If
+          description: 'Condition to decide whether this item executes. Supported expression forms: (1) JMESPath string (default for plain strings), (2) typed JMESPath object {"type":"jp"|"jmespath","expression":"..."}, or (3) typed CEL object {"type":"cel","expression":"..."}. Example JMESPath string: "inputs.can_sign_consent == `true`".'
+          examples:
+          - inputs.can_sign_consent == `true`
+          - expression: inputs.can_sign_consent == `true`
+            type: jp
+          - expression: inputs.can_sign_consent == true
+            type: cel
+        id:
+          type: string
+          title: Id
+          description: The identifier of the next step.
+        requires:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Requires
+          description: List of input field names required for this transition. Validates that specified inputs are collected before allowing transition.
+      type: object
+      required:
+      - id
+      title: NextStep
+      description: Represents a conditional transition to the next step.
+    ToolParameterDefault:
+      properties:
+        transform:
+          $ref: '#/components/schemas/ToolParameterTransform'
+          description: The transform to apply to the value before using it as the default.
+          examples: []
+      type: object
+      required:
+      - transform
+      title: ToolParameterDefault
+      description: The default value for a parameter of a tool call.
+    ToolParameterTransformCondition:
+      properties:
+        key:
+          type: string
+          title: Key
+          description: The name of the parameter to check.
+          examples:
+          - key
+        value:
+          type: string
+          title: Value
+          description: The value to check against the parameter.
+          examples:
+          - value
+        operator:
+          anyOf:
+          - type: string
+            const: eq
+          - type: 'null'
+          title: Operator
+          description: The operator to use for the comparison. Currently only supports "eq"
+          default: eq
+          examples:
+          - eq
+      type: object
+      required:
+      - key
+      - value
+      title: ToolParameterTransformCondition
+      description: A condition to be met for a transform to be applied to the value of a tool parameter.
+    PromptLlmConfig:
+      properties:
+        provider:
+          $ref: '#/components/schemas/PromptLlmProvider'
+          description: Provider of the LLM model.
+          default: azure_openai
+          examples:
+          - anthropic
+          - azure_openai
+          - google
+          - openai
+        model:
+          type: string
+          title: Model
+          description: Name of the model. Must match the deployment name in Azure AI Studio.
+          default: gpt-4o
+          examples:
+          - gpt-4o
+        version:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Version
+          description: Deprecated model version. This value is ignored and resolved automatically.
+          deprecated: true
+          examples:
+          - '2024-05-13'
+        api_version:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Api Version
+          description: Version of the provider's API.
+          examples:
+          - '2024-06-01'
+        temperature:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Temperature
+          description: Temperature parameter for the model. Determines randomness of responses - higher is more random, lower is more focused. Must be between 0.0 and 2.0, inclusive.
+          examples:
+          - 1.0
+        seed:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Seed
+          description: Controls the reproducibility of the job. The LLM will give the same or similar responses given the same inputs in multiple conversations with the same seed.
+          examples:
+          - 123
+      type: object
+      title: PromptLlmConfig
+      description: LLM configuration for a prompt.
+    AgentLanguage:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Name of the language
+          examples:
+          - English
+        code:
+          $ref: '#/components/schemas/LanguageCode'
+          description: BCP 47 code of the language
+          examples:
+          - en-US
+      type: object
+      required:
+      - name
+      - code
+      title: AgentLanguage
+      description: Language option for an agent.
+    AgentVoice:
+      properties:
+        provider:
+          $ref: '#/components/schemas/TtsProvider'
+          description: The provider for the voice
+          examples:
+          - OpenAI
+        display_name:
+          $ref: '#/components/schemas/AgentVoiceDisplayName'
+          description: The display name of the voice
+          examples:
+          - Alloy
+        var_name:
+          $ref: '#/components/schemas/AgentVoiceVarName'
+          description: The variable name of the voice (used when processing messages)
+          deprecated: true
+          examples:
+          - openai:alloy
+        gender:
+          $ref: '#/components/schemas/AgentVoiceGender'
+          description: The gender of the voice
+          examples:
+          - male
+        model:
+          $ref: '#/components/schemas/AgentVoiceModel'
+          description: The model of the voice
+          examples:
+          - tts-1
+        supported_languages:
+          items:
+            $ref: '#/components/schemas/AgentLanguage'
+          type: array
+          title: Supported Languages
+          description: Languages supported by the voice
+          examples:
+          - code: en-US
+            name: English
+        deprecated:
+          type: boolean
+          title: Deprecated
+          description: Whether the voice is deprecated and should not be used
+          examples:
+          - false
+      type: object
+      required:
+      - provider
+      - display_name
+      - var_name
+      - gender
+      - model
+      - supported_languages
+      - deprecated
+      title: AgentVoice
+      description: Voice option for an agent.
+    ToolParameterTransform:
+      properties:
+        action:
+          type: string
+          enum:
+          - default
+          - override
+          - remove
+          title: Action
+          description: 'The action to perform on the tool parameter value: `default` means only set the value (using the `format` field) if the parameter doesn''t exist or is empty, `override` means always set the value," and `remove` means "remove the parameter value."'
+          default: default
+          examples: []
+        when:
+          anyOf:
+          - $ref: '#/components/schemas/ToolParameterTransformCondition'
+          - type: 'null'
+          description: Only apply the transform if the condition is met.
+          examples: []
+        value:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Value
+          description: The default value to use for the parameter.
+          examples: []
+        format:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Format
+          description: The string value to use for the parameter. The value will be evaluated with the Python `str.format` method, for example, `Hello, {name}!`
+          examples: []
+      type: object
+      title: ToolParameterTransform
+      description: 'A transform to be applied to the value of a tool parameter.
+
+
+        Either `value` or `format` must be set:
+
+        - `value` is any arbitrary value: string, list or dictionary.
+
+        - `format` is a string composed of other parameters or context variables.'
+    AgentToolDefaults:
+      properties:
+        tool_name:
+          type: string
+          title: Tool Name
+          description: The name of the tool
+          examples:
+          - get_weather
+        default_values:
+          items:
+            $ref: '#/components/schemas/AgentToolFieldDefault'
+          type: array
+          title: Default Values
+          description: The default values for fields used in the tool
+          examples:
+          - - default_value: fahrenheit
+              field_name: temperature_unit
+      type: object
+      required:
+      - tool_name
+      - default_values
+      title: AgentToolDefaults
+      description: Agent-level static parameter values for a tool, overriding any tool-level defaults.
+    ToolDefinition:
+      properties:
+        type:
+          anyOf:
+          - type: string
+            enum:
+            - action
+            - endpoint
+            - context
+            - log
+          - type: 'null'
+          title: Type
+          description: The action to take when the LLM calls the tool.
+          examples:
+          - endpoint
+        tool:
+          $ref: '#/components/schemas/InternalTool'
+          description: The tool definition to be used by the OpenAI API.
+          examples: []
+        endpoint:
+          anyOf:
+          - $ref: '#/components/schemas/ToolHttpEndpoint'
+          - type: 'null'
+          description: The configuration for an HTTP API call.
+          examples: []
+        context:
+          anyOf:
+          - $ref: '#/components/schemas/Context'
+          - type: 'null'
+          description: The configuration for a context tool.
+        defaults:
+          anyOf:
+          - {}
+          - additionalProperties:
+              $ref: '#/components/schemas/ToolParameterDefault'
+            type: object
+          - type: 'null'
+          title: Defaults
+          description: The default values for the parameters of the function/tool call.
+          examples: []
+        static_parameters:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/StaticToolParameter'
+            type: array
+          - type: 'null'
+          title: Static Parameters
+          description: Parameters for the tool whose values should be set at config time (i.e., not provided by the LLM).
+          examples:
+          - - default: fahrenheit
+              description: Whether the temperature information should be fetched in Celsius or Fahrenheit
+              name: temperature_unit
+              required: false
+              type: string
+        result:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Result
+          description: The optional result of the tool call.
+          examples: []
+        options:
+          anyOf:
+          - $ref: '#/components/schemas/ToolOptions'
+          - type: 'null'
+          description: The options for the tool. Ie allows to propagate the tool result to the caller via propagate_tool_result flag.
+          examples: []
+      type: object
+      required:
+      - tool
+      title: ToolDefinition
+      description: A tool that can be called from an LLM during the conversation. See https://docs.syllable.ai/Resources/Tools.
+    AgentToolFieldDefault:
+      properties:
+        field_name:
+          type: string
+          title: Field Name
+          description: The name of the field
+          examples:
+          - temperature_unit
+        default_value:
+          title: Default Value
+          description: The default value for the field
+          examples:
+          - fahrenheit
+      type: object
+      required:
+      - field_name
+      - default_value
+      title: AgentToolFieldDefault
+      description: 'Agent-level value for a static parameter on a tool, overriding the tool-level default if one
+
+        exists.'
+    SetValueAction:
+      properties:
+        value:
+          anyOf:
+          - $ref: '#/components/schemas/JsonValue'
+          - type: 'null'
+          description: Initial value of the variable.
+        valueFrom:
+          anyOf:
+          - oneOf:
+            - $ref: '#/components/schemas/CelExpression'
+            - $ref: '#/components/schemas/JMESPathExpression'
+            discriminator:
+              propertyName: type
+              mapping:
+                cel: '#/components/schemas/CelExpression'
+                jmespath: '#/components/schemas/JMESPathExpression'
+                jp: '#/components/schemas/JMESPathExpression'
+          - $ref: '#/components/schemas/CaseExpression'
+          - type: string
+          - type: 'null'
+          title: Valuefrom
+          description: 'Expression that computes the value. Supported expression forms: (1) JMESPath string (default for plain strings), (2) typed JMESPath object {"type":"jp"|"jmespath","expression":"..."}, or (3) typed CEL object {"type":"cel","expression":"..."}. Mutually exclusive with value.'
+          examples:
+          - inputs.provided_dob == patient_dob
+          - expression: inputs.provided_dob == patient_dob
+            type: jmespath
+          - expression: inputs.count + 1
+            type: cel
+        if:
+          anyOf:
+          - oneOf:
+            - $ref: '#/components/schemas/CelExpression'
+            - $ref: '#/components/schemas/JMESPathExpression'
+            discriminator:
+              propertyName: type
+              mapping:
+                cel: '#/components/schemas/CelExpression'
+                jmespath: '#/components/schemas/JMESPathExpression'
+                jp: '#/components/schemas/JMESPathExpression'
+          - $ref: '#/components/schemas/CaseExpression'
+          - type: string
+          - type: 'null'
+          title: If
+          description: 'Condition to decide whether this item executes. Supported expression forms: (1) JMESPath string (default for plain strings), (2) typed JMESPath object {"type":"jp"|"jmespath","expression":"..."}, or (3) typed CEL object {"type":"cel","expression":"..."}. Example JMESPath string: "inputs.can_sign_consent == `true`".'
+          examples:
+          - inputs.can_sign_consent == `true`
+          - expression: inputs.can_sign_consent == `true`
+            type: jp
+          - expression: inputs.can_sign_consent == true
+            type: cel
+        action:
+          type: string
+          const: set
+          title: Action
+          default: set
+        name:
+          type: string
+          title: Name
+          description: Destination path to mutate (e.g. output.foo).
+      type: object
+      required:
+      - name
+      title: SetValueAction
+    ToolHttpEndpoint:
+      properties:
+        url:
+          type: string
+          title: Url
+          description: The endpoint URL of the external service to call.
+          examples:
+          - https://api.example.com
+        method:
+          $ref: '#/components/schemas/ToolHttpMethod'
+          description: The HTTP method to use for the service call.
+          examples:
+          - get
+        argument_location:
+          $ref: '#/components/schemas/ToolArgumentLocation'
+          description: How to pass the arguments to the request.
+          examples:
+          - query
+        timeout:
+          anyOf:
+          - type: number
+            maximum: 120
+            minimum: 1
+          - type: 'null'
+          title: Timeout
+          description: Timeout in seconds for the HTTP request. Default 20 seconds when not set.
+          examples:
+          - 45.0
+      type: object
+      required:
+      - url
+      - method
+      - argument_location
+      title: ToolHttpEndpoint
+      description: The configuration for an HTTP API call by a tool.
+    InternalTool:
+      properties:
+        type:
+          type: string
+          const: function
+          title: Type
+          description: Always `function`.
+          default: function
+          examples:
+          - function
+        function:
+          $ref: '#/components/schemas/ToolFunction'
+          description: The tool function definition, including the JSON Schema of its parameters.
+          examples: []
+      type: object
+      required:
+      - function
+      title: InternalTool
+      description: A tool definition to be used by the OpenAI API.
+    CallResultSaveMapping:
+      properties:
+        from:
+          anyOf:
+          - oneOf:
+            - $ref: '#/components/schemas/CelExpression'
+            - $ref: '#/components/schemas/JMESPathExpression'
+            discriminator:
+              propertyName: type
+              mapping:
+                cel: '#/components/schemas/CelExpression'
+                jmespath: '#/components/schemas/JMESPathExpression'
+                jp: '#/components/schemas/JMESPathExpression'
+          - $ref: '#/components/schemas/CaseExpression'
+          - type: string
+          title: From
+          description: 'Expression evaluated against the parsed tool response body (the JSON the external tool returned). Supported forms: (1) JMESPath string (default for plain strings) — a bare field name for raw passthrough, or a boolean/computed expression for derived values, (2) typed JMESPath object {"type":"jp"|"jmespath","expression":"..."}, or (3) typed CEL object {"type":"cel","expression":"..."}.'
+          examples:
+          - is_valid
+          - readable_phone_number
+          - status == 'valid'
+        to:
+          type: string
+          title: To
+          description: Workflow variable name to store the extracted value under.
+      type: object
+      required:
+      - from
+      - to
+      title: CallResultSaveMapping
+      description: 'One field-extraction mapping applied to a call action''s tool response.
+
+
+        Example: {"from": "is_valid", "to": "is_valid"}
+
+        Example (derived value): {"from": "status == ''valid''", "to": "is_valid"}'
+    AgentSttProvider:
+      type: string
+      enum:
+      - Google STT V2 (Chirp 2)
+      - Deepgram Nova 3 (On-Prem)
+      - Deepgram Nova 3
+      - Google STT V2
+      - Google STT V1
+      - Deepgram Nova 2
+      title: AgentSttProvider
+      description: Speech-to-text providers supported by agents.
+    LanguageCode:
+      type: string
+      enum:
+      - yue-HK
+      - en-US
+      - ko-KR
+      - zh-CN
+      - fa-IR
+      - es-US
+      - th-TH
+      - vi-VN
+      - bs-BA
+      - sw-KE
+      - ru-RU
+      - hi-IN
+      - gu-IN
+      - ar-XA
+      - fr-FR
+      - ja-JP
+      - ne-NP
+      title: LanguageCode
+      description: BCP 47 codes of languages that Syllable supports.
+    SayAction:
+      properties:
+        if:
+          anyOf:
+          - oneOf:
+            - $ref: '#/components/schemas/CelExpression'
+            - $ref: '#/components/schemas/JMESPathExpression'
+            discriminator:
+              propertyName: type
+              mapping:
+                cel: '#/components/schemas/CelExpression'
+                jmespath: '#/components/schemas/JMESPathExpression'
+                jp: '#/components/schemas/JMESPathExpression'
+          - $ref: '#/components/schemas/CaseExpression'
+          - type: string
+          - type: 'null'
+          title: If
+          description: 'Condition to decide whether this item executes. Supported expression forms: (1) JMESPath string (default for plain strings), (2) typed JMESPath object {"type":"jp"|"jmespath","expression":"..."}, or (3) typed CEL object {"type":"cel","expression":"..."}. Example JMESPath string: "inputs.can_sign_consent == `true`".'
+          examples:
+          - inputs.can_sign_consent == `true`
+          - expression: inputs.can_sign_consent == `true`
+            type: jp
+          - expression: inputs.can_sign_consent == true
+            type: cel
+        text:
+          type: string
+          title: Text
+          description: Text to apply if the condition is true.
+        action:
+          type: string
+          const: say
+          title: Action
+          default: say
+        role:
+          type: string
+          enum:
+          - user
+          - assistant
+          title: Role
+          description: The role of the message.
+          default: assistant
+      type: object
+      required:
+      - text
+      title: SayAction
+    GetValueAction:
+      properties:
+        value:
+          anyOf:
+          - $ref: '#/components/schemas/JsonValue'
+          - type: 'null'
+          description: Initial value of the variable.
+        valueFrom:
+          anyOf:
+          - oneOf:
+            - $ref: '#/components/schemas/CelExpression'
+            - $ref: '#/components/schemas/JMESPathExpression'
+            discriminator:
+              propertyName: type
+              mapping:
+                cel: '#/components/schemas/CelExpression'
+                jmespath: '#/components/schemas/JMESPathExpression'
+                jp: '#/components/schemas/JMESPathExpression'
+          - $ref: '#/components/schemas/CaseExpression'
+          - type: string
+          - type: 'null'
+          title: Valuefrom
+          description: 'Expression that computes the value. Supported expression forms: (1) JMESPath string (default for plain strings), (2) typed JMESPath object {"type":"jp"|"jmespath","expression":"..."}, or (3) typed CEL object {"type":"cel","expression":"..."}. Mutually exclusive with value.'
+          examples:
+          - inputs.provided_dob == patient_dob
+          - expression: inputs.provided_dob == patient_dob
+            type: jmespath
+          - expression: inputs.count + 1
+            type: cel
+        if:
+          anyOf:
+          - oneOf:
+            - $ref: '#/components/schemas/CelExpression'
+            - $ref: '#/components/schemas/JMESPathExpression'
+            discriminator:
+              propertyName: type
+              mapping:
+                cel: '#/components/schemas/CelExpression'
+                jmespath: '#/components/schemas/JMESPathExpression'
+                jp: '#/components/schemas/JMESPathExpression'
+          - $ref: '#/components/schemas/CaseExpression'
+          - type: string
+          - type: 'null'
+          title: If
+          description: 'Condition to decide whether this item executes. Supported expression forms: (1) JMESPath string (default for plain strings), (2) typed JMESPath object {"type":"jp"|"jmespath","expression":"..."}, or (3) typed CEL object {"type":"cel","expression":"..."}. Example JMESPath string: "inputs.can_sign_consent == `true`".'
+          examples:
+          - inputs.can_sign_consent == `true`
+          - expression: inputs.can_sign_consent == `true`
+            type: jp
+          - expression: inputs.can_sign_consent == true
+            type: cel
+        action:
+          type: string
+          enum:
+          - get
+          - load
+          title: Action
+          description: Populate default input values.
+          default: get
+        inputs:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Inputs
+          description: Input field names to populate; None populates all step inputs.
+        overwrite:
+          type: boolean
+          title: Overwrite
+          description: If False (default), only populate empty inputs. If True, always overwrite.
+          default: false
+      type: object
+      title: GetValueAction
+    ToolHttpMethod:
+      type: string
+      enum:
+      - get
+      - post
+      - put
+      - delete
+      title: ToolHttpMethod
+      description: The HTTP method to use for a tool HTTP request.
+    CelExpression:
+      properties:
+        expression:
+          type: string
+          title: Expression
+          description: CEL expression string.
+          examples:
+          - inputs.can_sign_consent == true
+        type:
+          type: string
+          const: cel
+          title: Type
+          description: CEL expression language selector. Use with object form {"type":"cel","expression":"..."}.
+          default: cel
+      type: object
+      required:
+      - expression
+      title: CelExpression
+      description: 'Google CEL expression object.
+
+
+        Use this object form when you want CEL syntax:
+
+        {"type": "cel", "expression": "inputs.count + 1"}
+
+        See https://github.com/google/cel-spec/blob/master/doc/langdef.md'
+    TtsProvider:
+      type: string
+      enum:
+      - OpenAI
+      - ElevenLabs
+      - Google
+      title: TtsProvider
+      description: TTS provider for an agent voice.
+    DayOfWeek:
+      type: string
+      enum:
+      - mo
+      - tu
+      - we
+      - th
+      - fr
+      - sa
+      - su
+      title: DayOfWeek
+      description: Available options for day of the week for use in message rules.
+    IncrementAction:
+      properties:
+        if:
+          anyOf:
+          - oneOf:
+            - $ref: '#/components/schemas/CelExpression'
+            - $ref: '#/components/schemas/JMESPathExpression'
+            discriminator:
+              propertyName: type
+              mapping:
+                cel: '#/components/schemas/CelExpression'
+                jmespath: '#/components/schemas/JMESPathExpression'
+                jp: '#/components/schemas/JMESPathExpression'
+          - $ref: '#/components/schemas/CaseExpression'
+          - type: string
+          - type: 'null'
+          title: If
+          description: 'Condition to decide whether this item executes. Supported expression forms: (1) JMESPath string (default for plain strings), (2) typed JMESPath object {"type":"jp"|"jmespath","expression":"..."}, or (3) typed CEL object {"type":"cel","expression":"..."}. Example JMESPath string: "inputs.can_sign_consent == `true`".'
+          examples:
+          - inputs.can_sign_consent == `true`
+          - expression: inputs.can_sign_consent == `true`
+            type: jp
+          - expression: inputs.can_sign_consent == true
+            type: cel
+        action:
+          type: string
+          const: inc
+          title: Action
+          default: inc
+        name:
+          type: string
+          title: Name
+          description: Numeric destination path to increment.
+        by:
+          type: integer
+          title: By
+          description: Increment amount (defaults to 1).
+          default: 1
+      type: object
+      required:
+      - name
+      title: IncrementAction
+    CustomMessageType:
+      type: string
+      enum:
+      - greeting
+      - email_template
+      title: CustomMessageType
+      description: Type of custom message. Greeting is for voice; email_template is for email (subject + body).
+    EventTask:
+      properties:
+        id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Id
+          description: A unique identifier for the task.
+        config:
+          anyOf:
+          - additionalProperties:
+              $ref: '#/components/schemas/JsonValue'
+            type: object
+          - type: 'null'
+          title: Config
+        variables:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/Variable'
+            type: array
+          - type: 'null'
+          title: Variables
+        metadata:
+          anyOf:
+          - $ref: '#/components/schemas/ContextTaskMetadata'
+          - type: 'null'
+        tool:
+          anyOf:
+          - $ref: '#/components/schemas/ContextToolInfo'
+          - type: 'null'
+        type:
+          type: string
+          const: event
+          title: Type
+          default: event
+        version:
+          type: string
+          const: v1alpha
+          title: Version
+          default: v1alpha
+        true:
+          $ref: '#/components/schemas/EventTaskEvents'
+          description: Actions to execute when the configured events occur.
+      type: object
+      title: EventTask
+    JMESPathExpression:
+      properties:
+        expression:
+          type: string
+          title: Expression
+          description: JMESPath expression string.
+          examples:
+          - inputs.can_sign_consent == `true`
+        type:
+          type: string
+          enum:
+          - jp
+          - jmespath
+          title: Type
+          description: JMESPath expression language selector. Use with object form {"type":"jp"|"jmespath","expression":"..."}.
+          default: jp
+      type: object
+      required:
+      - expression
+      title: JMESPathExpression
+      description: 'JMESPath expression object.
+
+
+        Use this object form to explicitly mark JMESPath syntax:
+
+        {"type": "jp", "expression": "inputs.can_sign_consent == `true`"}
+
+        See https://jmespath.org/specification.html#grammar'
+    StaticToolParameter:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The name of the parameter - must be unique within the tool.
+          examples:
+          - temperature_unit
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: The description of the parameter.
+          examples:
+          - Whether the temperature information should be fetched in celsius or fahrenheit.
+        required:
+          type: boolean
+          title: Required
+          description: Whether the parameter is required to have a value assigned.
+          examples:
+          - true
+        type:
+          $ref: '#/components/schemas/StaticToolParameterType'
+          description: The expected type for the parameter.
+          examples:
+          - string
+        default:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Default
+          description: The default value for the parameter. If `type` is string, must be a string. If `type` is int, must be an int. If `type` is boolean, must be a boolean. If `type` is data_source_list, must be a list of strings (data source names).
+          examples:
+          - fahrenheit
+      type: object
+      required:
+      - name
+      - required
+      - type
+      title: StaticToolParameter
+      description: A parameter for the tool whose value should be set at config time.
+    AgentProperties:
+      type: string
+      enum:
+      - id
+      - name
+      - name_exact
+      - description
+      - label
+      - labels
+      - name_description
+      - type
+      - timezone
+      - prompt_id
+      - prompt_id_list
+      - custom_message_id
+      - languages
+      - variables
+      - prompt_tool_defaults
+      - tool_headers
+      - updated_at
+      - last_updated_by
+      title: AgentProperties
+      description: Names of agent fields supported for filtering/sorting on list endpoint.
+    AgentCreate:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The agent name
+          examples:
+          - Weather agent
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: The agent description
+          examples:
+          - Agent for answering questions about weather.
+        label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label
+          description: The agent label (DEPRECATED - use labels instead.)
+          deprecated: true
+          examples:
+          - Information
+        labels:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Labels
+          description: The agent labels
+          examples:
+          - - Information
+            - Weather
+        type:
+          type: string
+          title: Type
+          description: The agent type. Must be "ca_v1" currently.
+          examples:
+          - ca_v1
+        prompt_id:
+          type: integer
+          title: Prompt Id
+          description: ID of the prompt associated with the agent
+          examples:
+          - 1
+        prompt_version_number:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Prompt Version Number
+          description: Optional pin to a specific version of the prompt (prompt history version number). When omitted or null, the agent tracks the latest/current version of the prompt. When set, the agent runs that specific prompt version. Must reference an existing version of the agent's prompt.
+          examples:
+          - 3
+        custom_message_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Custom Message Id
+          description: Internal ID of the custom message that should be delivered at the beginning of a conversation with the agent
+          examples:
+          - 1
+        language_group_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Language Group Id
+          description: Internal ID of the language group associated with the agent
+          examples:
+          - 1
+        bridge_phrases_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Bridge Phrases Id
+          description: Internal ID of the bridge phrases config associated with the agent
+          examples:
+          - 1
+        timezone:
+          type: string
+          title: Timezone
+          description: The time zone in which the agent operates
+          examples:
+          - America/New_York
+          - America/Chicago
+        prompt_tool_defaults:
+          items:
+            $ref: '#/components/schemas/AgentToolDefaults'
+          type: array
+          title: Prompt Tool Defaults
+          description: Agent-level static parameter values for the agent's tools, overriding any tool-level defaults
+          examples:
+          - - default_values:
+              - default_value: fahrenheit
+                field_name: temperature_unit
+              tool_name: get_weather
+        languages:
+          items:
+            type: string
+          type: array
+          title: Languages
+          description: BCP 47 codes of languages the agent supports. (DEPRECATED - pass an empty list here and use language group ID to link agent to a language group instead.)
+          deprecated: true
+          examples:
+          - - en-US
+            - es-US
+        variables:
+          additionalProperties:
+            type: string
+          type: object
+          title: Variables
+          description: Custom context variables for the conversation session. Keys should be prefixed with "vars.".
+          examples:
+          - vars.location_name: Main Street Pizza
+        tool_headers:
+          anyOf:
+          - additionalProperties:
+              type: string
+            type: object
+          - type: 'null'
+          title: Tool Headers
+          description: Optional headers to include in tool calls for agent. (It is discouraged to use this field for "Authorization" headers, as values here are not encrypted. Instead, set up a service with either basic, bearer, or custom header auth; attach the appropriate tools to that service, and the attached tools will automatically use the auth configured on the service.)
+          examples:
+          - some-header: some-value
+        agent_initiated:
+          type: boolean
+          title: Agent Initiated
+          description: Whether the agent initiates conversation with a user after the custom message is delivered
+          default: false
+          examples:
+          - false
+        stt_provider:
+          anyOf:
+          - $ref: '#/components/schemas/AgentSttProvider'
+          - type: 'null'
+          description: Speech-to-text provider for the agent.
+          examples:
+          - Google STT V2 (Chirp 2)
+          - Deepgram Nova 3 (On-Prem)
+          - Deepgram Nova 3
+          - Google STT V2
+          - Google STT V1
+          - Deepgram Nova 2
+        wait_sound:
+          anyOf:
+          - $ref: '#/components/schemas/AgentWaitSound'
+          - type: 'null'
+          description: Sound to play while waiting for a response from the LLM.
+          examples:
+          - No Sound
+          - Keyboard 1
+          - Keyboard 2
+          - Call Center
+        enable_verbal_language_change:
+          type: boolean
+          title: Enable Verbal Language Change
+          description: Enables Dynamic Language Switching - when true and a voice group is configured, callers may switch among group languages by speaking at any point in the conversation (in addition to DTMF in response to the language menu).
+          default: false
+          examples:
+          - false
+      type: object
+      required:
+      - name
+      - type
+      - prompt_id
+      - timezone
+      - variables
+      - tool_headers
+      title: AgentCreate
+      description: Request model to create an agent.
+    Step:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: The unique identifier of the step.
+        goal:
+          type: string
+          title: Goal
+          description: The goal of the step.
+        instructions:
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/ConditionalText'
+            - type: string
+          type: array
+          title: Instructions
+          description: The instructions for the step.
+        tools:
+          $ref: '#/components/schemas/StepTools'
+          description: The tools configuration for the step.
+        inputs:
+          items:
+            $ref: '#/components/schemas/InputParameter'
+          type: array
+          title: Inputs
+          description: The inputs for the step.
+        true:
+          $ref: '#/components/schemas/StepEventActions'
+          description: The events that trigger the actions to be executed.
+        next:
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/NextStep'
+            - type: string
+          type: array
+          title: Next
+          description: The next steps to execute.
+      type: object
+      required:
+      - id
+      - goal
+      title: Step
+    ExpressionTask:
+      properties:
+        id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Id
+          description: A unique identifier for the task.
+        config:
+          anyOf:
+          - additionalProperties:
+              $ref: '#/components/schemas/JsonValue'
+            type: object
+          - type: 'null'
+          title: Config
+        variables:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/Variable'
+            type: array
+          - type: 'null'
+          title: Variables
+        metadata:
+          anyOf:
+          - $ref: '#/components/schemas/ContextTaskMetadata'
+          - type: 'null'
+        tool:
+          anyOf:
+          - $ref: '#/components/schemas/ContextToolInfo'
+          - type: 'null'
+        type:
+          type: string
+          const: expression
+          title: Type
+          default: expression
+        version:
+          type: string
+          const: v1alpha
+          title: Version
+          default: v1alpha
+        inputs:
+          items:
+            $ref: '#/components/schemas/InputParameter'
+          type: array
+          title: Inputs
+        expression:
+          anyOf:
+          - oneOf:
+            - $ref: '#/components/schemas/CelExpression'
+            - $ref: '#/components/schemas/JMESPathExpression'
+            discriminator:
+              propertyName: type
+              mapping:
+                cel: '#/components/schemas/CelExpression'
+                jmespath: '#/components/schemas/JMESPathExpression'
+                jp: '#/components/schemas/JMESPathExpression'
+          - $ref: '#/components/schemas/CaseExpression'
+          - type: string
+          - type: 'null'
+          title: Expression
+          description: 'Expression for task output/logic. Supported expression forms: (1) JMESPath string (default for plain strings), (2) typed JMESPath object {"type":"jp"|"jmespath","expression":"..."}, or (3) typed CEL object {"type":"cel","expression":"..."}.'
+          examples:
+          - inputs.can_sign_consent == `true`
+          - expression: inputs.can_sign_consent == `true`
+            type: jp
+          - expression: inputs.can_sign_consent == true
+            type: cel
+        output:
+          anyOf:
+          - $ref: '#/components/schemas/JsonValue'
+          - type: 'null'
+        true:
+          $ref: '#/components/schemas/ExpressionTaskEvents'
+          description: Actions to execute when the configured events occur.
+      type: object
+      title: ExpressionTask
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    LanguageConfig:
+      properties:
+        language_code:
+          $ref: '#/components/schemas/LanguageCode'
+          description: BCP 47 code of the language
+          examples:
+          - en-US
+        voice_provider:
+          $ref: '#/components/schemas/TtsProvider'
+          description: TTS provider of the voice to use for the language
+          examples:
+          - OpenAI
+        voice_display_name:
+          $ref: '#/components/schemas/AgentVoiceDisplayName'
+          description: Display name of the voice to use for the language
+          examples:
+          - Alloy
+        voice_speed:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Voice Speed
+          description: Speed of the voice in the range of 0.25 to 4.0 (OpenAI and Google) or 0.7 to 1.2 (ElevenLabs). Standard speed is 1.0.
+          examples:
+          - 1.0
+        voice_pitch:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Voice Pitch
+          description: Pitch of the voice in the range of -20.0 to 20.0. 20 means increase 20 semitones from the original pitch. -20 means decrease 20 semitones from the original pitch. 0 means use the original pitch. Only supported for Google configs.
+          examples:
+          - 0.0
+        dtmf_code:
+          type: integer
+          title: Dtmf Code
+          description: DTMF code that should be used for the language in the menu generated from the language group.
+          examples:
+          - 1
+      type: object
+      required:
+      - language_code
+      - voice_provider
+      - voice_display_name
+      - dtmf_code
+      title: LanguageConfig
+      description: 'Voice and DTMF configurations for a language in a language group. List of available voices
+
+        and their supported languages can be fetched from `GET /agents/voices/available/`.'
+    Variable:
+      properties:
+        value:
+          anyOf:
+          - $ref: '#/components/schemas/JsonValue'
+          - type: 'null'
+          description: Initial value of the variable.
+        valueFrom:
+          anyOf:
+          - oneOf:
+            - $ref: '#/components/schemas/CelExpression'
+            - $ref: '#/components/schemas/JMESPathExpression'
+            discriminator:
+              propertyName: type
+              mapping:
+                cel: '#/components/schemas/CelExpression'
+                jmespath: '#/components/schemas/JMESPathExpression'
+                jp: '#/components/schemas/JMESPathExpression'
+          - $ref: '#/components/schemas/CaseExpression'
+          - type: string
+          - type: 'null'
+          title: Valuefrom
+          description: 'Expression that computes the value. Supported expression forms: (1) JMESPath string (default for plain strings), (2) typed JMESPath object {"type":"jp"|"jmespath","expression":"..."}, or (3) typed CEL object {"type":"cel","expression":"..."}. Mutually exclusive with value.'
+          examples:
+          - inputs.provided_dob == patient_dob
+          - expression: inputs.provided_dob == patient_dob
+            type: jmespath
+          - expression: inputs.count + 1
+            type: cel
+        name:
+          type: string
+          title: Name
+          description: The name of the property.
+        type:
+          anyOf:
+          - type: string
+            enum:
+            - string
+            - number
+            - integer
+            - boolean
+            - object
+            - array
+            - 'null'
+          - type: 'null'
+          title: Type
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        format:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Format
+        pattern:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pattern
+        enum:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Enum
+        examples:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/JsonValue'
+            type: array
+          - type: 'null'
+          title: Examples
+      type: object
+      required:
+      - name
+      title: Variable
+    AgentVoiceModel:
+      type: string
+      enum:
+      - Chirp 3 HD
+      - eleven_flash_v2_5
+      - Neural2
+      - Standard
+      - Studio
+      - WaveNet
+      - tts-1
+      - gpt-4o-mini-tts
+      title: AgentVoiceModel
+      description: Model for an agent voice.
+    ContextToolInfo:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: The name of the generated tool.
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: The description of the tool.
+      type: object
+      title: ContextToolInfo
+    LoadToolFromFileTask:
+      properties:
+        id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Id
+          description: A unique identifier for the task.
+        config:
+          anyOf:
+          - additionalProperties:
+              $ref: '#/components/schemas/JsonValue'
+            type: object
+          - type: 'null'
+          title: Config
+        variables:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/Variable'
+            type: array
+          - type: 'null'
+          title: Variables
+        metadata:
+          anyOf:
+          - $ref: '#/components/schemas/ContextTaskMetadata'
+          - type: 'null'
+        tool:
+          anyOf:
+          - $ref: '#/components/schemas/ContextToolInfo'
+          - type: 'null'
+        type:
+          type: string
+          const: import
+          title: Type
+          default: import
+        version:
+          type: string
+          const: v1alpha
+          title: Version
+          default: v1alpha
+        file:
+          anyOf:
+          - type: string
+          - items:
+              type: string
+            type: array
+          title: File
+          description: The local path of the tool definition JSON file.
+      type: object
+      required:
+      - file
+      title: LoadToolFromFileTask
+      description: Bootstraps a tool from a file (for internal developer use only if ENV.local=True).
+    ChannelTargetResponse:
+      properties:
+        agent_id:
+          type: integer
+          title: Agent Id
+          description: The internal ID of the agent associated with the channel target
+          examples:
+          - 1
+        channel_id:
+          type: integer
+          title: Channel Id
+          description: The internal ID of the channel associated with the channel target
+          examples:
+          - 1
+        target:
+          type: string
+          title: Target
+          description: The name of the channel target. Must correspond to an organization-level target (available targets can be fetched from `/channels/available-targets`).
+          examples:
+          - '+19995551234'
+        target_mode:
+          $ref: '#/components/schemas/TargetModes'
+          description: The mode of the channel target (must match one of the supported modes of the associated channel)
+          examples:
+          - voice
+        fallback_target:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Fallback Target
+          description: The fallback for the channel target (currently only supported for "voice" mode)
+          examples:
+          - '+19995551235'
+        is_test:
+          type: boolean
+          title: Is Test
+          description: Whether the channel target is intended for testing. If true, any sessions created through this target will be labeled as a test session (i.e., will not be included in dashboard data and can easily be filtered out in the Sessions screen in the SyllableConsole).
+          default: false
+          examples:
+          - true
+        id:
+          type: integer
+          title: Id
+          description: The internal ID of the channel target
+          examples:
+          - 1
+        channel_name:
+          type: string
+          title: Channel Name
+          description: The name of the channel associated with the channel target
+          examples:
+          - '+19995551234'
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+          description: Timestamp of the most recent update to the channel target
+          examples:
+          - '2024-01-01T00:00:00Z'
+        last_updated_by:
+          type: string
+          title: Last Updated By
+          description: Email of the user who last updated the channel target
+          examples:
+          - user@email.com
+        agent:
+          anyOf:
+          - $ref: '#/components/schemas/AgentResponse'
+          - type: 'null'
+          description: Definition of the agent with which the channel target is associated.
+          examples: []
+        a2p_verified:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: A2P Verified
+          description: Twilio US A2P messaging-path configuration snapshot from the last explicit verify; null if never checked.
+      type: object
+      required:
+      - agent_id
+      - channel_id
+      - target
+      - target_mode
+      - id
+      - channel_name
+      - updated_at
+      - last_updated_by
+      title: ChannelTargetResponse
+      description: 'Response model for channel target operations.
+
+        A channel target links a channel to an agent, allowing users to communicate with the agent
+
+        through that channel. For more information, see
+
+        [Console docs](https://docs.syllable.ai/Resources/Channels).'
+    AgentUpdate:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The agent name
+          examples:
+          - Weather agent
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: The agent description
+          examples:
+          - Agent for answering questions about weather.
+        label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label
+          description: The agent label (DEPRECATED - use labels instead.)
+          deprecated: true
+          examples:
+          - Information
+        labels:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Labels
+          description: The agent labels
+          examples:
+          - - Information
+            - Weather
+        type:
+          type: string
+          title: Type
+          description: The agent type. Must be "ca_v1" currently.
+          examples:
+          - ca_v1
+        prompt_id:
+          type: integer
+          title: Prompt Id
+          description: ID of the prompt associated with the agent
+          examples:
+          - 1
+        prompt_version_number:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Prompt Version Number
+          description: Optional pin to a specific version of the prompt (prompt history version number). When omitted or null, the agent tracks the latest/current version of the prompt. When set, the agent runs that specific prompt version. Must reference an existing version of the agent's prompt.
+          examples:
+          - 3
+        custom_message_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Custom Message Id
+          description: Internal ID of the custom message that should be delivered at the beginning of a conversation with the agent
+          examples:
+          - 1
+        language_group_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Language Group Id
+          description: Internal ID of the language group associated with the agent
+          examples:
+          - 1
+        bridge_phrases_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Bridge Phrases Id
+          description: Internal ID of the bridge phrases config associated with the agent
+          examples:
+          - 1
+        timezone:
+          type: string
+          title: Timezone
+          description: The time zone in which the agent operates
+          examples:
+          - America/New_York
+          - America/Chicago
+        prompt_tool_defaults:
+          items:
+            $ref: '#/components/schemas/AgentToolDefaults'
+          type: array
+          title: Prompt Tool Defaults
+          description: Agent-level static parameter values for the agent's tools, overriding any tool-level defaults
+          examples:
+          - - default_values:
+              - default_value: fahrenheit
+                field_name: temperature_unit
+              tool_name: get_weather
+        languages:
+          items:
+            type: string
+          type: array
+          title: Languages
+          description: BCP 47 codes of languages the agent supports. (DEPRECATED - pass an empty list here and use language group ID to link agent to a language group instead.)
+          deprecated: true
+          examples:
+          - - en-US
+            - es-US
+        variables:
+          additionalProperties:
+            type: string
+          type: object
+          title: Variables
+          description: Custom context variables for the conversation session. Keys should be prefixed with "vars.".
+          examples:
+          - vars.location_name: Main Street Pizza
+        tool_headers:
+          anyOf:
+          - additionalProperties:
+              type: string
+            type: object
+          - type: 'null'
+          title: Tool Headers
+          description: Optional headers to include in tool calls for agent. (It is discouraged to use this field for "Authorization" headers, as values here are not encrypted. Instead, set up a service with either basic, bearer, or custom header auth; attach the appropriate tools to that service, and the attached tools will automatically use the auth configured on the service.)
+          examples:
+          - some-header: some-value
+        agent_initiated:
+          type: boolean
+          title: Agent Initiated
+          description: Whether the agent initiates conversation with a user after the custom message is delivered
+          default: false
+          examples:
+          - false
+        stt_provider:
+          anyOf:
+          - $ref: '#/components/schemas/AgentSttProvider'
+          - type: 'null'
+          description: Speech-to-text provider for the agent.
+          examples:
+          - Google STT V2 (Chirp 2)
+          - Deepgram Nova 3 (On-Prem)
+          - Deepgram Nova 3
+          - Google STT V2
+          - Google STT V1
+          - Deepgram Nova 2
+        wait_sound:
+          anyOf:
+          - $ref: '#/components/schemas/AgentWaitSound'
+          - type: 'null'
+          description: Sound to play while waiting for a response from the LLM.
+          examples:
+          - No Sound
+          - Keyboard 1
+          - Keyboard 2
+          - Call Center
+        enable_verbal_language_change:
+          type: boolean
+          title: Enable Verbal Language Change
+          description: Enables Dynamic Language Switching - when true and a voice group is configured, callers may switch among group languages by speaking at any point in the conversation (in addition to DTMF in response to the language menu).
+          default: false
+          examples:
+          - false
+        id:
+          type: integer
+          title: Id
+          description: Internal ID of the agent
+          examples:
+          - 1
+      type: object
+      required:
+      - name
+      - type
+      - prompt_id
+      - timezone
+      - variables
+      - tool_headers
+      - id
+      title: AgentUpdate
+      description: Request model to update an existing agent.
+    StepTools:
+      properties:
+        call:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Call
+          description: Whether to force immediate tool call without user interaction.
+        allow:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Allow
+          description: List of allowed tool names for this step.
+        allowGoToStep:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Allowgotostep
+          description: Whether to expose the go_to_step escape hatch to the LLM. Defaults to disabled.
+      type: object
+      title: StepTools
+      description: Configuration for tools available in a step.
+    TargetModes:
+      type: string
+      enum:
+      - voice
+      - chat
+      - sms
+      - email
+      - whatsapp
+      title: TargetModes
+      description: Available modes (communication methods) for channel targets.
+    PromptResponse:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The prompt name
+          examples:
+          - Weather Agent Prompt
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: The description of the prompt
+          examples:
+          - Prompt for a weather agent.
+        type:
+          type: string
+          title: Type
+          description: The type of the prompt
+          examples:
+          - prompt_v1
+        context:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Context
+          description: The prompt text that will be sent to the LLM at the beginning of the conversation
+          examples:
+          - You are a weather agent. Answer the user's questions about weather and nothing else.
+        tools:
+          items:
+            type: string
+          type: array
+          title: Tools
+          description: Names of the tools to which the prompt has access (DEPRECATED - use information from full tools field instead)
+          default: []
+          deprecated: true
+          examples:
+          - hangup
+          - summary
+        llm_config:
+          $ref: '#/components/schemas/PromptLlmConfig'
+          description: The configuration for the LLM that the prompt uses
+          examples:
+          - model: gpt-4o
+            provider: openai
+            version: '2024-08-06'
+        session_end_enabled:
+          type: boolean
+          title: Session End Enabled
+          description: Whether session end functionality is enabled for this prompt
+          default: false
+          examples:
+          - false
+        session_end_tool_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Session End Tool Id
+          description: ID of the optional session end tool associated with the prompt
+          examples:
+          - 1
+        edit_comments:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Edit Comments
+          description: The comments for the most recent edit to the prompt
+          examples:
+          - Updated prompt text to include requirement to not answer questions that aren't about weather.
+        id:
+          type: integer
+          title: Id
+          description: The internal ID of the prompt
+          examples:
+          - 1
+        last_updated:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Updated
+          description: The last updated date of the prompt
+          examples:
+          - '2024-01-01T12:00:00Z'
+        last_updated_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Updated By
+          description: Email address of the user who most recently updated the prompt
+          examples:
+          - user@email.com
+        session_end_tool:
+          anyOf:
+          - $ref: '#/components/schemas/DaoToolResponse'
+          - type: 'null'
+          description: The session end tool associated with the prompt
+          examples: []
+        agent_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Agent Count
+          description: The number of agents using the prompt
+          examples:
+          - 5
+        version_number:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Version Number
+          description: The version number of the current version of the prompt
+          examples:
+          - 1
+        tools_full:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ToolResponse'
+            type: array
+          - type: 'null'
+          title: Tools Full
+          description: Full definitions of tools to which the prompt has access
+          examples: []
+      type: object
+      required:
+      - name
+      - type
+      - llm_config
+      - id
+      - last_updated
+      title: PromptResponse
+      description: 'Response model for prompt operations.
+
+        A prompt defines the behavior of an agent by delivering instructions to the LLM about how the
+
+        agent should behave. A prompt can be linked to one or more agents. A prompt can also be linked to
+
+        tools to allow an agent using it to use those tools. For more information, see
+
+        [Console docs](https://docs.syllable.ai/Resources/Prompts).'
+    PromptLlmProvider:
+      type: string
+      enum:
+      - anthropic
+      - azure_openai
+      - google
+      - openai
+      title: PromptLlmProvider
+      description: LLM API provider.
+    ToolPromptInfo:
+      properties:
+        id:
+          type: integer
+          title: Id
+          description: The ID of the prompt
+          examples:
+          - 1
+        name:
+          type: string
+          title: Name
+          description: The name of the prompt
+          examples:
+          - Test Prompt
+      type: object
+      required:
+      - id
+      - name
+      title: ToolPromptInfo
+      description: Information about a prompt linked to a tool.
+    Context:
+      properties:
+        task:
+          anyOf:
+          - oneOf:
+            - $ref: '#/components/schemas/ExpressionTask'
+            - $ref: '#/components/schemas/LoadToolFromFileTask'
+            - $ref: '#/components/schemas/EventTask'
+            - $ref: '#/components/schemas/StepsTask'
+            discriminator:
+              propertyName: type
+              mapping:
+                event: '#/components/schemas/EventTask'
+                expression: '#/components/schemas/ExpressionTask'
+                import: '#/components/schemas/LoadToolFromFileTask'
+                steps: '#/components/schemas/StepsTask'
+          - items:
+              oneOf:
+              - $ref: '#/components/schemas/ExpressionTask'
+              - $ref: '#/components/schemas/LoadToolFromFileTask'
+              - $ref: '#/components/schemas/EventTask'
+              - $ref: '#/components/schemas/StepsTask'
+              discriminator:
+                propertyName: type
+                mapping:
+                  event: '#/components/schemas/EventTask'
+                  expression: '#/components/schemas/ExpressionTask'
+                  import: '#/components/schemas/LoadToolFromFileTask'
+                  steps: '#/components/schemas/StepsTask'
+            type: array
+          - type: 'null'
+          title: Task
+          description: Task implementation details
+      type: object
+      title: Context
+    EventTaskEvents:
+      properties:
+        start:
+          anyOf:
+          - items:
+              oneOf:
+              - $ref: '#/components/schemas/SetValueAction'
+              - $ref: '#/components/schemas/IncrementAction'
+              - $ref: '#/components/schemas/CallAction'
+              - $ref: '#/components/schemas/SayAction'
+              discriminator:
+                propertyName: action
+                mapping:
+                  call: '#/components/schemas/CallAction'
+                  inc: '#/components/schemas/IncrementAction'
+                  say: '#/components/schemas/SayAction'
+                  set: '#/components/schemas/SetValueAction'
+            type: array
+          - type: 'null'
+          title: Start
+          description: Actions to execute on the first input from the user.
+      type: object
+      title: EventTaskEvents
+    DaoToolResponse:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The name of the tool
+          examples:
+          - Weather Fetcher
+        definition:
+          $ref: '#/components/schemas/ToolDefinition'
+          description: The definition of the tool
+          examples:
+          - endpoint:
+              argument_location: query
+              method: get
+              url: https://api.open-meteo.com/v1/forecast
+            static_parameters:
+            - default: fahrenheit
+              description: Whether the temperature information should be fetched in Celsius or Fahrenheit
+              name: temperature_unit
+              required: false
+              type: string
+            tool:
+              function:
+                description: Get the weather for a city
+                name: get_weather
+                parameters:
+                  properties:
+                    latitude:
+                      description: Latitude of the city
+                      type: number
+                    longitude:
+                      description: Longitude of the city
+                      type: number
+                    current:
+                      default: temperature_2m,relative_humidity_2m,precipitation,rain,showers
+                      description: Information to retrieve from the open-meteo API, comma-separated
+                      type: string
+                  required:
+                  - latitude
+                  - longitude
+                  - current
+                  type: object
+              type: function
+            type: endpoint
+        service_id:
+          type: integer
+          title: Service Id
+          description: Internal ID of the service to which the tool belongs
+          examples:
+          - 1
+        id:
+          type: integer
+          title: Id
+          description: The internal ID of the tool
+          examples:
+          - 1
+        last_updated_comments:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Updated Comments
+          description: Comments for the most recent edit to the tool.
+          examples:
+          - Updated to use new API endpoint
+        service_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Service Name
+          description: The name of the service to which the tool belongs
+        prompts_info:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ToolPromptInfo'
+            type: array
+          - type: 'null'
+          title: Prompts Info
+          description: IDs and names of the prompts linked to the tool
+        agents_info:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ToolAgentInfo'
+            type: array
+          - type: 'null'
+          title: Agents Info
+          description: IDs and names of the agents linked to the tool via a prompt
+        last_updated:
+          type: string
+          format: date-time
+          title: Last Updated
+          description: The timestamp of the most recent update to the tool
+        last_updated_by:
+          type: string
+          title: Last Updated By
+          description: The email of the user who last updated the tool
+          examples:
+          - user@email.com
+        version_number:
+          type: integer
+          title: Version Number
+          description: Highest tools_history snapshot version for this tool; the tools row defaults to 1.
+          examples:
+          - 1
+      type: object
+      required:
+      - name
+      - definition
+      - service_id
+      - id
+      - last_updated
+      - last_updated_by
+      - version_number
+      title: DaoToolResponse
+    StepsTask:
+      properties:
+        id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Id
+          description: A unique identifier for the task.
+        config:
+          anyOf:
+          - additionalProperties:
+              $ref: '#/components/schemas/JsonValue'
+            type: object
+          - type: 'null'
+          title: Config
+        variables:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/Variable'
+            type: array
+          - type: 'null'
+          title: Variables
+        metadata:
+          anyOf:
+          - $ref: '#/components/schemas/ContextTaskMetadata'
+          - type: 'null'
+        tool:
+          anyOf:
+          - $ref: '#/components/schemas/ContextToolInfo'
+          - type: 'null'
+        type:
+          type: string
+          const: steps
+          title: Type
+          default: steps
+        version:
+          type: string
+          const: v1alpha
+          title: Version
+          default: v1alpha
+        start:
+          type: string
+          enum:
+          - auto
+          - manual
+          title: Start
+          description: Controls when the workflow activation lifecycle runs. `auto` activates at session start; `manual` activates on first invocation.
+          default: auto
+        steps:
+          items:
+            $ref: '#/components/schemas/Step'
+          type: array
+          title: Steps
+      type: object
+      title: StepsTask
+    ToolAgentInfo:
+      properties:
+        id:
+          type: integer
+          title: Id
+          description: The internal ID of the agent
+          examples:
+          - 1
+        name:
+          type: string
+          title: Name
+          description: The name of the agent
+          examples:
+          - Test Agent
+      type: object
+      required:
+      - id
+      - name
+      title: ToolAgentInfo
+      description: Information about an agent linked to a tool via a prompt.
+    LanguageGroupResponse:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The name of the language group.
+          examples:
+          - Call Center 1 Languages
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the language group.
+          examples:
+          - Languages spoken by operators at Call Center 1
+        language_configs:
+          items:
+            $ref: '#/components/schemas/LanguageConfig'
+          type: array
+          title: Language Configs
+          description: Voice and DTMF configurations for each language in the group.
+          examples:
+          - - dtmf_code: 1
+              language_code: en-US
+              voice_display_name: Alloy
+              voice_provider: OpenAI
+            - dtmf_code: 2
+              language_code: es-US
+              voice_display_name: es-US-Neural2-B
+              voice_provider: Google
+        skip_current_language_in_message:
+          type: boolean
+          title: Skip Current Language In Message
+          description: Whether a custom message using the language group to generate a language DTMF menu should skip the agent's current language in the menu.
+          examples:
+          - true
+        id:
+          type: integer
+          title: Id
+          description: The ID of the language group to update.
+          examples:
+          - 1
+        edit_comments:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Edit Comments
+          description: Comments for the most recent edit to the language group.
+          examples:
+          - Added Spanish support.
+        agents_info:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/LanguageGroupAgentInfo'
+            type: array
+          - type: 'null'
+          title: Agents Info
+          description: IDs and names of the agents linked to the language group
+          examples:
+          - - id: 1
+              name: Test Agent
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+          description: Timestamp of the last update to the language group.
+          examples:
+          - '2024-01-01T00:00:00Z'
+        last_updated_by:
+          type: string
+          title: Last Updated By
+          description: Email of the user who last updated the language group.
+          examples:
+          - user@mail.com
+      type: object
+      required:
+      - name
+      - language_configs
+      - skip_current_language_in_message
+      - id
+      - updated_at
+      - last_updated_by
+      title: LanguageGroupResponse
+      description: 'Response model for voice group operations.
+
+        A voice group is a collection of language, voice, and DTMF configuration that can be
+
+        linked to an agent to define the languages and voices it supports. For more information, see
+
+        [Console docs](https://docs.syllable.ai/Resources/VoiceGroups).'
+    ConditionalValue:
+      properties:
+        value:
+          anyOf:
+          - $ref: '#/components/schemas/JsonValue'
+          - type: 'null'
+          description: Initial value of the variable.
+        valueFrom:
+          anyOf:
+          - oneOf:
+            - $ref: '#/components/schemas/CelExpression'
+            - $ref: '#/components/schemas/JMESPathExpression'
+            discriminator:
+              propertyName: type
+              mapping:
+                cel: '#/components/schemas/CelExpression'
+                jmespath: '#/components/schemas/JMESPathExpression'
+                jp: '#/components/schemas/JMESPathExpression'
+          - $ref: '#/components/schemas/CaseExpression'
+          - type: string
+          - type: 'null'
+          title: Valuefrom
+          description: 'Expression that computes the value. Supported expression forms: (1) JMESPath string (default for plain strings), (2) typed JMESPath object {"type":"jp"|"jmespath","expression":"..."}, or (3) typed CEL object {"type":"cel","expression":"..."}. Mutually exclusive with value.'
+          examples:
+          - inputs.provided_dob == patient_dob
+          - expression: inputs.provided_dob == patient_dob
+            type: jmespath
+          - expression: inputs.count + 1
+            type: cel
+        if:
+          anyOf:
+          - oneOf:
+            - $ref: '#/components/schemas/CelExpression'
+            - $ref: '#/components/schemas/JMESPathExpression'
+            discriminator:
+              propertyName: type
+              mapping:
+                cel: '#/components/schemas/CelExpression'
+                jmespath: '#/components/schemas/JMESPathExpression'
+                jp: '#/components/schemas/JMESPathExpression'
+          - $ref: '#/components/schemas/CaseExpression'
+          - type: string
+          - type: 'null'
+          title: If
+          description: 'Condition to decide whether this item executes. Supported expression forms: (1) JMESPath string (default for plain strings), (2) typed JMESPath object {"type":"jp"|"jmespath","expression":"..."}, or (3) typed CEL object {"type":"cel","expression":"..."}. Example JMESPath string: "inputs.can_sign_consent == `true`".'
+          examples:
+          - inputs.can_sign_consent == `true`
+          - expression: inputs.can_sign_consent == `true`
+            type: jp
+          - expression: inputs.can_sign_consent == true
+            type: cel
+      type: object
+      title: ConditionalValue
+    StaticToolParameterType:
+      type: string
+      enum:
+      - string
+      - int
+      - boolean
+      - data_source_list
+      title: StaticToolParameterType
+      description: The expected type for a static tool parameter.
+    AgentWaitSound:
+      type: string
+      enum:
+      - No Sound
+      - Keyboard 1
+      - Keyboard 2
+      - Call Center
+      title: AgentWaitSound
+      description: Wait sounds supported by agents.
+    ExpressionTaskEvents:
+      properties:
+        start:
+          anyOf:
+          - items:
+              oneOf:
+              - $ref: '#/components/schemas/SetValueAction'
+              - $ref: '#/components/schemas/IncrementAction'
+              - $ref: '#/components/schemas/CallAction'
+              - $ref: '#/components/schemas/SayAction'
+              discriminator:
+                propertyName: action
+                mapping:
+                  call: '#/components/schemas/CallAction'
+                  inc: '#/components/schemas/IncrementAction'
+                  say: '#/components/schemas/SayAction'
+                  set: '#/components/schemas/SetValueAction'
+            type: array
+          - type: 'null'
+          title: Start
+          description: Actions to execute on the first input from the user.
+        submit:
+          anyOf:
+          - items:
+              oneOf:
+              - $ref: '#/components/schemas/SetValueAction'
+              - $ref: '#/components/schemas/IncrementAction'
+              - $ref: '#/components/schemas/SaveAction'
+              - $ref: '#/components/schemas/CallAction'
+              - $ref: '#/components/schemas/SayAction'
+              discriminator:
+                propertyName: action
+                mapping:
+                  call: '#/components/schemas/CallAction'
+                  inc: '#/components/schemas/IncrementAction'
+                  save: '#/components/schemas/SaveAction'
+                  say: '#/components/schemas/SayAction'
+                  set: '#/components/schemas/SetValueAction'
+            type: array
+          - type: 'null'
+          title: Submit
+          description: Actions to execute when the tool/step is submitted by the LLM.
+      type: object
+      title: ExpressionTaskEvents
+      description: Actions to perform when events occur (start, submit).
+    ToolFunction:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The name of the function/tool call.
+          examples:
+          - get_weather
+        description:
+          type: string
+          title: Description
+          description: The description of the tool.
+          examples:
+          - Get the weather for a city
+        parameters:
+          title: Parameters
+          description: The JSON Schema of parameters of the function/tool call.
+          examples:
+          - {}
+      type: object
+      required:
+      - name
+      - description
+      - parameters
+      title: ToolFunction
+      description: 'A function available to an agent.
+
+
+        See:
+
+        - https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/function-calling'
+    StepEventActions:
+      properties:
+        start:
+          anyOf:
+          - items:
+              oneOf:
+              - $ref: '#/components/schemas/SetValueAction'
+              - $ref: '#/components/schemas/IncrementAction'
+              - $ref: '#/components/schemas/CallAction'
+              - $ref: '#/components/schemas/SayAction'
+              discriminator:
+                propertyName: action
+                mapping:
+                  call: '#/components/schemas/CallAction'
+                  inc: '#/components/schemas/IncrementAction'
+                  say: '#/components/schemas/SayAction'
+                  set: '#/components/schemas/SetValueAction'
+            type: array
+          - type: 'null'
+          title: Start
+          description: Actions to execute on the first input from the user.
+        enter:
+          anyOf:
+          - items:
+              oneOf:
+              - $ref: '#/components/schemas/GetValueAction'
+              - $ref: '#/components/schemas/SetValueAction'
+              - $ref: '#/components/schemas/IncrementAction'
+              - $ref: '#/components/schemas/CallAction'
+              - $ref: '#/components/schemas/SayAction'
+              discriminator:
+                propertyName: action
+                mapping:
+                  call: '#/components/schemas/CallAction'
+                  get: '#/components/schemas/GetValueAction'
+                  inc: '#/components/schemas/IncrementAction'
+                  load: '#/components/schemas/GetValueAction'
+                  say: '#/components/schemas/SayAction'
+                  set: '#/components/schemas/SetValueAction'
+            type: array
+          - type: 'null'
+          title: Enter
+          description: Actions to execute when entering a step (before collecting inputs).
+        presubmit:
+          anyOf:
+          - items:
+              oneOf:
+              - $ref: '#/components/schemas/GetValueAction'
+              - $ref: '#/components/schemas/SetValueAction'
+              - $ref: '#/components/schemas/IncrementAction'
+              - $ref: '#/components/schemas/SaveAction'
+              discriminator:
+                propertyName: action
+                mapping:
+                  get: '#/components/schemas/GetValueAction'
+                  inc: '#/components/schemas/IncrementAction'
+                  load: '#/components/schemas/GetValueAction'
+                  save: '#/components/schemas/SaveAction'
+                  set: '#/components/schemas/SetValueAction'
+            type: array
+          - type: 'null'
+          title: Presubmit
+          description: 'Actions to execute before validation (data-mutation only: set, inc, save). Use this to set default values for required fields that would otherwise fail validation.'
+        submit:
+          anyOf:
+          - items:
+              oneOf:
+              - $ref: '#/components/schemas/SetValueAction'
+              - $ref: '#/components/schemas/IncrementAction'
+              - $ref: '#/components/schemas/SaveAction'
+              - $ref: '#/components/schemas/CallAction'
+              - $ref: '#/components/schemas/SayAction'
+              discriminator:
+                propertyName: action
+                mapping:
+                  call: '#/components/schemas/CallAction'
+                  inc: '#/components/schemas/IncrementAction'
+                  save: '#/components/schemas/SaveAction'
+                  say: '#/components/schemas/SayAction'
+                  set: '#/components/schemas/SetValueAction'
+            type: array
+          - type: 'null'
+          title: Submit
+          description: Actions to execute when the tool/step is submitted by the LLM.
+      type: object
+      title: StepEventActions
+      description: Actions to perform when events occur (enter, presubmit, submit).
+    ToolOptions:
+      properties:
+        propagate_tool_result:
+          type: boolean
+          title: Propagate Tool Result
+          description: Whether the tool call result should be propagated to the caller.
+          default: false
+      type: object
+      title: ToolOptions
+      description: The options for a tool call.
+    CallResult:
+      properties:
+        save:
+          items:
+            $ref: '#/components/schemas/CallResultSaveMapping'
+          type: array
+          title: Save
+          description: Field mappings extracted from the tool response into workflow state.
+      type: object
+      title: CallResult
+      description: Deterministic result-capture configuration for a call action's tool response.
+    CustomMessageResponse:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The name of the custom message
+          examples:
+          - Customer service greeting
+        type:
+          $ref: '#/components/schemas/CustomMessageType'
+          description: 'Type of the custom message: greeting (voice) or email_template.'
+          default: greeting
+          examples:
+          - greeting
+        preamble:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preamble
+          description: An optional preamble that will be delivered before the main message, regardless of whether the current time and date match a rule or the system uses the default message. Cannot contain the "{{ language.mode }}" tag. In the case of a voice conversation, the user will not be able to interrupt the preamble. Can be used for e.g. legal disclaimers that the user must always see/hear.
+          examples:
+          - If this is an emergency, please hang up and call 911.
+        text:
+          type: string
+          title: Text
+          description: The default message that the agent will deliver if no rules are set or no rules match the current timestamp. For email_template, this is the body.
+          examples:
+          - Hello and thank you for calling customer service. How can I help you today?
+        subject:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Subject
+          description: Email subject. Required for email_template (in type_config); ignored otherwise.
+          examples:
+          - Your appointment reminder
+        label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label
+          description: The label of the custom message
+          examples:
+          - Customer service
+        repeat_after_language_change:
+          type: boolean
+          title: Repeat After Language Change
+          description: If true, if the caller changes language using the language menu in the custom message, the message will be repeated in the new language (not including the language menu).
+        rules:
+          items:
+            $ref: '#/components/schemas/CustomMessageRule'
+          type: array
+          title: Rules
+          description: Rules for time-specific message variants
+          default: []
+          examples:
+          - - date: '2025-01-01'
+              description: Closed on New Year's Day
+              invert: false
+              text: Hello, thank you for calling. Sorry, we're closed today.
+              time_range_end: '17:00'
+              time_range_start: 09:00
+            - days_of_week:
+              - sa
+              - su
+              description: Closed on weekends
+              invert: false
+              text: Hello, thank you for calling. Sorry, we're closed on weekends.
+              time_range_end: '17:00'
+              time_range_start: 09:00
+        id:
+          type: integer
+          title: Id
+          description: The ID of the custom message
+          examples:
+          - 1
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+          description: Timestamp of the most recent update to the custom message
+          examples:
+          - '2024-01-01T00:00:00Z'
+        agent_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Agent Count
+          description: The number of agents using the custom message
+          examples:
+          - 1
+        last_updated_by:
+          type: string
+          title: Last Updated By
+          description: The email address of the user who most recently updated the custom message
+          examples:
+          - user@email.com
+      type: object
+      required:
+      - name
+      - text
+      - repeat_after_language_change
+      - id
+      - updated_at
+      - last_updated_by
+      title: CustomMessageResponse
+      description: 'Response model for custom message operations.
+
+        A custom message is a pre-configured message delivered by an agent (e.g. as a greeting at the
+
+        beginning of a conversation, or as an email template with subject and body). Multiple agents can
+
+        use the same custom message. Greeting-type messages may have rules for time-based variants; email
+
+        templates have a subject and body only. For more information, see [Console docs](https://docs.syllable.ai/Resources/Messages).'
+    ConditionalText:
+      properties:
+        if:
+          anyOf:
+          - oneOf:
+            - $ref: '#/components/schemas/CelExpression'
+            - $ref: '#/components/schemas/JMESPathExpression'
+            discriminator:
+              propertyName: type
+              mapping:
+                cel: '#/components/schemas/CelExpression'
+                jmespath: '#/components/schemas/JMESPathExpression'
+                jp: '#/components/schemas/JMESPathExpression'
+          - $ref: '#/components/schemas/CaseExpression'
+          - type: string
+          - type: 'null'
+          title: If
+          description: 'Condition to decide whether this item executes. Supported expression forms: (1) JMESPath string (default for plain strings), (2) typed JMESPath object {"type":"jp"|"jmespath","expression":"..."}, or (3) typed CEL object {"type":"cel","expression":"..."}. Example JMESPath string: "inputs.can_sign_consent == `true`".'
+          examples:
+          - inputs.can_sign_consent == `true`
+          - expression: inputs.can_sign_consent == `true`
+            type: jp
+          - expression: inputs.can_sign_consent == true
+            type: cel
+        text:
+          type: string
+          title: Text
+          description: Text to apply if the condition is true.
+      type: object
+      required:
+      - text
+      title: ConditionalText
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
+    ContextTaskMetadata:
+      properties:
+        priority:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Priority
+      type: object
+      title: ContextTaskMetadata
+    CustomMessageRule:
+      properties:
+        description:
+          type: string
+          title: Description
+          description: The description of the rule
+          examples:
+          - Closed on New Year's Day
+        time_range_start:
+          anyOf:
+          - type: string
+            pattern: ^([01]\d|2[0-3]):[0-5]\d$
+          - type: 'null'
+          title: Time Range Start
+          description: The start of the time range for the rule in 24-hour format hh:mm (should be null for "all day" cases)
+          examples:
+          - 09:00
+        time_range_end:
+          anyOf:
+          - type: string
+            pattern: ^([01]\d|2[0-3]):[0-5]\d$
+          - type: 'null'
+          title: Time Range End
+          description: The end of the time range for the rule in 24-hour format hh:mm (should be null for "all day" cases)
+          examples:
+          - '17:00'
+        date:
+          anyOf:
+          - type: string
+            pattern: \b(19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\b
+          - type: 'null'
+          title: Date
+          description: The date for the rule in YYYY-MM-DD format
+          examples:
+          - '2025-01-01'
+        days_of_week:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/DayOfWeek'
+            type: array
+          - type: 'null'
+          title: Days Of Week
+          description: The days of the week for the rule
+          examples:
+          - - mo
+            - tu
+            - we
+            - th
+            - fr
+        invert:
+          type: boolean
+          title: Invert
+          description: Whether the rule logic should be inverted (i.e. "not")
+          examples:
+          - false
+        text:
+          type: string
+          title: Text
+          description: Message text associated with the rule
+          examples:
+          - Hello, thank you for calling. Sorry, we're closed today.
+      type: object
+      required:
+      - description
+      - invert
+      - text
+      title: CustomMessageRule
+      description: 'A rule used to determine whether a custom message should present a variant message based on
+
+        the current timestamp.'
+    AgentVoiceDisplayName:
+      type: string
+      enum:
+      - Achernar (English)
+      - Achernar (Gujarati)
+      - Achernar (Arabic)
+      - Achernar (French)
+      - Achernar (Japanese)
+      - Achernar (Hindi)
+      - Achernar (Korean)
+      - Achernar (Mandarin)
+      - Achernar (Spanish)
+      - Achernar (Thai)
+      - Achernar (Vietnamese)
+      - Alice
+      - Alloy
+      - Aoede (English)
+      - Aoede (Gujarati)
+      - Aoede (Arabic)
+      - Aoede (French)
+      - Aoede (Japanese)
+      - Aoede (Hindi)
+      - Aoede (Korean)
+      - Aoede (Mandarin)
+      - Aoede (Russian)
+      - Aoede (Spanish)
+      - Aoede (Thai)
+      - Aoede (Vietnamese)
+      - Ash
+      - Bill
+      - Brian
+      - Callirrhoe (English)
+      - Callirrhoe (Gujarati)
+      - Callirrhoe (Arabic)
+      - Callirrhoe (French)
+      - Callirrhoe (Japanese)
+      - Callirrhoe (Hindi)
+      - Callirrhoe (Korean)
+      - Callirrhoe (Mandarin)
+      - Callirrhoe (Spanish)
+      - Callirrhoe (Thai)
+      - Callirrhoe (Vietnamese)
+      - Callum
+      - Charlie
+      - Charlotte
+      - Charon (English)
+      - Charon (Gujarati)
+      - Charon (Arabic)
+      - Charon (French)
+      - Charon (Japanese)
+      - Charon (Hindi)
+      - Charon (Korean)
+      - Charon (Mandarin)
+      - Charon (Russian)
+      - Charon (Spanish)
+      - Charon (Thai)
+      - Charon (Vietnamese)
+      - Chris
+      - cmn-TW-Wavenet-A
+      - Coral
+      - Daniel
+      - Echo
+      - en-US-Neural2-D
+      - en-US-Neural2-F
+      - en-US-Neural2-J
+      - en-US-Studio-O
+      - Eric
+      - es-US-Neural2-A
+      - es-US-Neural2-B
+      - Fable
+      - Fenrir (English)
+      - Fenrir (Gujarati)
+      - Fenrir (Arabic)
+      - Fenrir (French)
+      - Fenrir (Japanese)
+      - Fenrir (Hindi)
+      - Fenrir (Korean)
+      - Fenrir (Mandarin)
+      - Fenrir (Russian)
+      - Fenrir (Spanish)
+      - Fenrir (Thai)
+      - Fenrir (Vietnamese)
+      - George
+      - Jessica
+      - ko-KR-Neural2-A
+      - Kore (English)
+      - Kore (Gujarati)
+      - Kore (Arabic)
+      - Kore (French)
+      - Kore (Japanese)
+      - Kore (Hindi)
+      - Kore (Korean)
+      - Kore (Mandarin)
+      - Kore (Russian)
+      - Kore (Spanish)
+      - Kore (Thai)
+      - Kore (Vietnamese)
+      - Laura
+      - Leda (English)
+      - Leda (Gujarati)
+      - Leda (Arabic)
+      - Leda (French)
+      - Leda (Japanese)
+      - Leda (Hindi)
+      - Leda (Korean)
+      - Leda (Mandarin)
+      - Leda (Russian)
+      - Leda (Spanish)
+      - Leda (Thai)
+      - Leda (Vietnamese)
+      - Liam
+      - Lily
+      - Matilda
+      - Nova
+      - Onyx
+      - Orus (English)
+      - Orus (Gujarati)
+      - Orus (Arabic)
+      - Orus (French)
+      - Orus (Japanese)
+      - Orus (Hindi)
+      - Orus (Korean)
+      - Orus (Mandarin)
+      - Orus (Russian)
+      - Orus (Spanish)
+      - Orus (Thai)
+      - Orus (Vietnamese)
+      - Puck (English)
+      - Puck (Gujarati)
+      - Puck (Arabic)
+      - Puck (French)
+      - Puck (Japanese)
+      - Puck (Hindi)
+      - Puck (Korean)
+      - Puck (Mandarin)
+      - Puck (Russian)
+      - Puck (Spanish)
+      - Puck (Thai)
+      - Puck (Vietnamese)
+      - River
+      - Roger
+      - Sarah
+      - Sage
+      - Shimmer
+      - Umbriel (English)
+      - Umbriel (Gujarati)
+      - Umbriel (Arabic)
+      - Umbriel (French)
+      - Umbriel (Japanese)
+      - Umbriel (Hindi)
+      - Umbriel (Korean)
+      - Umbriel (Mandarin)
+      - Umbriel (Spanish)
+      - Umbriel (Thai)
+      - Umbriel (Vietnamese)
+      - Vindemiatrix (English)
+      - Vindemiatrix (Gujarati)
+      - Vindemiatrix (Arabic)
+      - Vindemiatrix (French)
+      - Vindemiatrix (Japanese)
+      - Vindemiatrix (Hindi)
+      - Vindemiatrix (Korean)
+      - Vindemiatrix (Mandarin)
+      - Vindemiatrix (Spanish)
+      - Vindemiatrix (Thai)
+      - Vindemiatrix (Vietnamese)
+      - vi-VN-Neural2-A
+      - Will
+      - yue-HK-Standard-C
+      - Zephyr (English)
+      - Zephyr (Gujarati)
+      - Zephyr (Arabic)
+      - Zephyr (French)
+      - Zephyr (Japanese)
+      - Zephyr (Hindi)
+      - Zephyr (Korean)
+      - Zephyr (Mandarin)
+      - Zephyr (Russian)
+      - Zephyr (Spanish)
+      - Zephyr (Thai)
+      - Zephyr (Vietnamese)
+      title: AgentVoiceDisplayName
+      description: Display names of voices that Syllable supports.
+    JsonValue: {}
+    AgentResponse:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The agent name
+          examples:
+          - Weather agent
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: The agent description
+          examples:
+          - Agent for answering questions about weather.
+        label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label
+          description: The agent label (DEPRECATED - use labels instead.)
+          deprecated: true
+          examples:
+          - Information
+        labels:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Labels
+          description: The agent labels
+          examples:
+          - - Information
+            - Weather
+        type:
+          type: string
+          title: Type
+          description: The agent type. Must be "ca_v1" currently.
+          examples:
+          - ca_v1
+        prompt_id:
+          type: integer
+          title: Prompt Id
+          description: ID of the prompt associated with the agent
+          examples:
+          - 1
+        prompt_version_number:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Prompt Version Number
+          description: Optional pin to a specific version of the prompt (prompt history version number). When omitted or null, the agent tracks the latest/current version of the prompt. When set, the agent runs that specific prompt version. Must reference an existing version of the agent's prompt.
+          examples:
+          - 3
+        custom_message_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Custom Message Id
+          description: Internal ID of the custom message that should be delivered at the beginning of a conversation with the agent
+          examples:
+          - 1
+        language_group_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Language Group Id
+          description: Internal ID of the language group associated with the agent
+          examples:
+          - 1
+        bridge_phrases_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Bridge Phrases Id
+          description: Internal ID of the bridge phrases config associated with the agent
+          examples:
+          - 1
+        timezone:
+          type: string
+          title: Timezone
+          description: The time zone in which the agent operates
+          examples:
+          - America/New_York
+          - America/Chicago
+        prompt_tool_defaults:
+          items:
+            $ref: '#/components/schemas/AgentToolDefaults'
+          type: array
+          title: Prompt Tool Defaults
+          description: Agent-level static parameter values for the agent's tools, overriding any tool-level defaults
+          examples:
+          - - default_values:
+              - default_value: fahrenheit
+                field_name: temperature_unit
+              tool_name: get_weather
+        languages:
+          items:
+            type: string
+          type: array
+          title: Languages
+          description: BCP 47 codes of languages the agent supports. (DEPRECATED - pass an empty list here and use language group ID to link agent to a language group instead.)
+          deprecated: true
+          examples:
+          - - en-US
+            - es-US
+        variables:
+          additionalProperties:
+            type: string
+          type: object
+          title: Variables
+          description: Custom context variables for the conversation session. Keys should be prefixed with "vars.".
+          examples:
+          - vars.location_name: Main Street Pizza
+        tool_headers:
+          anyOf:
+          - additionalProperties:
+              type: string
+            type: object
+          - type: 'null'
+          title: Tool Headers
+          description: Optional headers to include in tool calls for agent. (It is discouraged to use this field for "Authorization" headers, as values here are not encrypted. Instead, set up a service with either basic, bearer, or custom header auth; attach the appropriate tools to that service, and the attached tools will automatically use the auth configured on the service.)
+          examples:
+          - some-header: some-value
+        agent_initiated:
+          type: boolean
+          title: Agent Initiated
+          description: Whether the agent initiates conversation with a user after the custom_message is delivered
+          default: false
+          examples:
+          - false
+        stt_provider:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Stt Provider
+          description: Speech-to-text provider for the agent.
+          examples:
+          - Google STT V2 (Chirp 2)
+          - Deepgram Nova 3 (On-Prem)
+          - Deepgram Nova 3
+          - Google STT V2
+          - Google STT V1
+          - Deepgram Nova 2
+        wait_sound:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Wait Sound
+          description: Sound to play while waiting for a response from the LLM.
+          examples:
+          - No Sound
+          - Keyboard 1
+          - Keyboard 2
+          - Call Center
+        enable_verbal_language_change:
+          type: boolean
+          title: Enable Verbal Language Change
+          description: Enables Dynamic Language Switching - when true and a voice group is configured, callers may switch among group languages by speaking at any point in the conversation (in addition to DTMF in response to the language menu).
+          default: false
+          examples:
+          - false
+        id:
+          type: integer
+          title: Id
+          description: Internal ID of the agent
+          examples:
+          - 1
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+          description: Timestamp of most recent update
+          examples:
+          - '2024-01-01T00:00:00Z'
+        last_updated_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Updated By
+          description: Email of the user who last updated the agent
+          examples:
+          - user@email.com
+        prompt:
+          anyOf:
+          - $ref: '#/components/schemas/PromptResponse'
+          - type: 'null'
+          description: The prompt associated with the agent.
+          examples: []
+        custom_message:
+          anyOf:
+          - $ref: '#/components/schemas/CustomMessageResponse'
+          - type: 'null'
+          description: The message associated with the agent. Will be delivered as a greeting at the beginning of a conversation.
+          examples: []
+        channel_targets:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ChannelTargetResponse'
+            type: array
+          - type: 'null'
+          title: Channel Targets
+          description: Channel targets associated with the agent
+          examples: []
+        tools:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ToolResponse'
+            type: array
+          - type: 'null'
+          title: Tools
+          description: Tools associated with the agent
+          examples: []
+        language_group:
+          anyOf:
+          - $ref: '#/components/schemas/LanguageGroupResponse'
+          - type: 'null'
+          description: The language group associated with the agent
+          examples: []
+      type: object
+      required:
+      - name
+      - type
+      - prompt_id
+      - timezone
+      - variables
+      - tool_headers
+      - id
+      - updated_at
+      - last_updated_by
+      title: AgentResponse
+      description: 'Response model for agent operations.
+
+        When a user interacts with the Syllable system, they do so by communicating with an agent.
+
+        An agent is linked to a prompt, a custom message, and one or more channel targets to define its
+
+        behavior and capabilities. For more information, see
+
+        [Console docs](https://docs.syllable.ai/workspaces/Agents).'
+    AgentVoiceVarName:
+      type: string
+      enum:
+      - openai:alloy
+      - openai:ash
+      - openai:coral
+      - openai:echo
+      - openai:fable
+      - openai:nova
+      - openai:onyx
+      - openai:sage
+      - openai:shimmer
+      - elevenlabs:Alice
+      - elevenlabs:Bill
+      - elevenlabs:Brian
+      - elevenlabs:Callum
+      - elevenlabs:Charlie
+      - elevenlabs:Charlotte
+      - elevenlabs:Chris
+      - elevenlabs:Daniel
+      - elevenlabs:Eric
+      - elevenlabs:George
+      - elevenlabs:Jessica
+      - elevenlabs:Laura
+      - elevenlabs:Liam
+      - elevenlabs:Lily
+      - elevenlabs:Matilda
+      - elevenlabs:River
+      - elevenlabs:Roger
+      - elevenlabs:Sarah
+      - elevenlabs:Will
+      - wavenet:female/en-US-Chirp3-HD-Achernar
+      - wavenet:female/gu-IN-Chirp3-HD-Achernar
+      - wavenet:female/ar-XA-Chirp3-HD-Achernar
+      - wavenet:female/fr-FR-Chirp3-HD-Achernar
+      - wavenet:female/ja-JP-Chirp3-HD-Achernar
+      - wavenet:female/hi-IN-Chirp3-HD-Achernar
+      - wavenet:female/ko-KR-Chirp3-HD-Achernar
+      - wavenet:female/cmn-CN-Chirp3-HD-Achernar
+      - wavenet:female/es-US-Chirp3-HD-Achernar
+      - wavenet:female/th-TH-Chirp3-HD-Achernar
+      - wavenet:female/vi-VN-Chirp3-HD-Achernar
+      - wavenet:female/en-US-Chirp3-HD-Aoede
+      - wavenet:female/gu-IN-Chirp3-HD-Aoede
+      - wavenet:female/ar-XA-Chirp3-HD-Aoede
+      - wavenet:female/fr-FR-Chirp3-HD-Aoede
+      - wavenet:female/ja-JP-Chirp3-HD-Aoede
+      - wavenet:female/hi-IN-Chirp3-HD-Aoede
+      - wavenet:female/ko-KR-Chirp3-HD-Aoede
+      - wavenet:female/cmn-CN-Chirp3-HD-Aoede
+      - wavenet:female/ru-RU-Chirp3-HD-Aoede
+      - wavenet:female/es-US-Chirp3-HD-Aoede
+      - wavenet:female/th-TH-Chirp3-HD-Aoede
+      - wavenet:female/vi-VN-Chirp3-HD-Aoede
+      - wavenet:male/es-US-Neural2-B
+      - wavenet:female/en-US-Chirp3-HD-Callirrhoe
+      - wavenet:female/gu-IN-Chirp3-HD-Callirrhoe
+      - wavenet:female/ar-XA-Chirp3-HD-Callirrhoe
+      - wavenet:female/fr-FR-Chirp3-HD-Callirrhoe
+      - wavenet:female/ja-JP-Chirp3-HD-Callirrhoe
+      - wavenet:female/hi-IN-Chirp3-HD-Callirrhoe
+      - wavenet:female/ko-KR-Chirp3-HD-Callirrhoe
+      - wavenet:female/cmn-CN-Chirp3-HD-Callirrhoe
+      - wavenet:female/es-US-Chirp3-HD-Callirrhoe
+      - wavenet:female/th-TH-Chirp3-HD-Callirrhoe
+      - wavenet:female/vi-VN-Chirp3-HD-Callirrhoe
+      - wavenet:male/en-US-Chirp3-HD-Charon
+      - wavenet:male/gu-IN-Chirp3-HD-Charon
+      - wavenet:male/ar-XA-Chirp3-HD-Charon
+      - wavenet:male/fr-FR-Chirp3-HD-Charon
+      - wavenet:male/ja-JP-Chirp3-HD-Charon
+      - wavenet:male/hi-IN-Chirp3-HD-Charon
+      - wavenet:male/ko-KR-Chirp3-HD-Charon
+      - wavenet:male/cmn-CN-Chirp3-HD-Charon
+      - wavenet:male/ru-RU-Chirp3-HD-Charon
+      - wavenet:male/es-US-Chirp3-HD-Charon
+      - wavenet:male/th-TH-Chirp3-HD-Charon
+      - wavenet:male/vi-VN-Chirp3-HD-Charon
+      - wavenet:female/en-US-Neural2-F
+      - wavenet:male/en-US-Chirp3-HD-Fenrir
+      - wavenet:male/gu-IN-Chirp3-HD-Fenrir
+      - wavenet:male/ar-XA-Chirp3-HD-Fenrir
+      - wavenet:male/fr-FR-Chirp3-HD-Fenrir
+      - wavenet:male/ja-JP-Chirp3-HD-Fenrir
+      - wavenet:male/hi-IN-Chirp3-HD-Fenrir
+      - wavenet:male/ko-KR-Chirp3-HD-Fenrir
+      - wavenet:male/cmn-CN-Chirp3-HD-Fenrir
+      - wavenet:male/ru-RU-Chirp3-HD-Fenrir
+      - wavenet:male/es-US-Chirp3-HD-Fenrir
+      - wavenet:male/th-TH-Chirp3-HD-Fenrir
+      - wavenet:male/vi-VN-Chirp3-HD-Fenrir
+      - wavenet:female/es-US-Neural2-A
+      - wavenet:male/en-US-Neural2-D
+      - wavenet:female/en-US-Chirp3-HD-Kore
+      - wavenet:female/gu-IN-Chirp3-HD-Kore
+      - wavenet:female/ar-XA-Chirp3-HD-Kore
+      - wavenet:female/fr-FR-Chirp3-HD-Kore
+      - wavenet:female/ja-JP-Chirp3-HD-Kore
+      - wavenet:female/hi-IN-Chirp3-HD-Kore
+      - wavenet:female/ko-KR-Chirp3-HD-Kore
+      - wavenet:female/cmn-CN-Chirp3-HD-Kore
+      - wavenet:female/ru-RU-Chirp3-HD-Kore
+      - wavenet:female/es-US-Chirp3-HD-Kore
+      - wavenet:female/th-TH-Chirp3-HD-Kore
+      - wavenet:female/vi-VN-Chirp3-HD-Kore
+      - wavenet:female/en-US-Chirp3-HD-Leda
+      - wavenet:female/gu-IN-Chirp3-HD-Leda
+      - wavenet:female/ar-XA-Chirp3-HD-Leda
+      - wavenet:female/fr-FR-Chirp3-HD-Leda
+      - wavenet:female/ja-JP-Chirp3-HD-Leda
+      - wavenet:female/hi-IN-Chirp3-HD-Leda
+      - wavenet:female/ko-KR-Chirp3-HD-Leda
+      - wavenet:female/cmn-CN-Chirp3-HD-Leda
+      - wavenet:female/ru-RU-Chirp3-HD-Leda
+      - wavenet:female/es-US-Chirp3-HD-Leda
+      - wavenet:female/th-TH-Chirp3-HD-Leda
+      - wavenet:female/vi-VN-Chirp3-HD-Leda
+      - wavenet:female/cmn-TW-Wavenet-A
+      - wavenet:male/en-US-Neural2-J
+      - wavenet:female/yue-HK-Standard-C
+      - wavenet:female/en-US-Studio-O
+      - wavenet:male/en-US-Chirp3-HD-Orus
+      - wavenet:male/gu-IN-Chirp3-HD-Orus
+      - wavenet:male/ar-XA-Chirp3-HD-Orus
+      - wavenet:male/fr-FR-Chirp3-HD-Orus
+      - wavenet:male/ja-JP-Chirp3-HD-Orus
+      - wavenet:male/hi-IN-Chirp3-HD-Orus
+      - wavenet:male/ko-KR-Chirp3-HD-Orus
+      - wavenet:male/cmn-CN-Chirp3-HD-Orus
+      - wavenet:male/ru-RU-Chirp3-HD-Orus
+      - wavenet:male/es-US-Chirp3-HD-Orus
+      - wavenet:male/th-TH-Chirp3-HD-Orus
+      - wavenet:male/vi-VN-Chirp3-HD-Orus
+      - wavenet:male/en-US-Chirp3-HD-Puck
+      - wavenet:male/gu-IN-Chirp3-HD-Puck
+      - wavenet:male/ar-XA-Chirp3-HD-Puck
+      - wavenet:male/fr-FR-Chirp3-HD-Puck
+      - wavenet:male/ja-JP-Chirp3-HD-Puck
+      - wavenet:male/hi-IN-Chirp3-HD-Puck
+      - wavenet:male/ko-KR-Chirp3-HD-Puck
+      - wavenet:male/cmn-CN-Chirp3-HD-Puck
+      - wavenet:male/ru-RU-Chirp3-HD-Puck
+      - wavenet:male/es-US-Chirp3-HD-Puck
+      - wavenet:male/th-TH-Chirp3-HD-Puck
+      - wavenet:male/vi-VN-Chirp3-HD-Puck
+      - wavenet:female/ko-KR-Neural2-A
+      - wavenet:female/vi-VN-Neural2-A
+      - wavenet:male/en-US-Chirp3-HD-Umbriel
+      - wavenet:male/gu-IN-Chirp3-HD-Umbriel
+      - wavenet:male/ar-XA-Chirp3-HD-Umbriel
+      - wavenet:male/fr-FR-Chirp3-HD-Umbriel
+      - wavenet:male/ja-JP-Chirp3-HD-Umbriel
+      - wavenet:male/hi-IN-Chirp3-HD-Umbriel
+      - wavenet:male/ko-KR-Chirp3-HD-Umbriel
+      - wavenet:male/cmn-CN-Chirp3-HD-Umbriel
+      - wavenet:male/es-US-Chirp3-HD-Umbriel
+      - wavenet:male/th-TH-Chirp3-HD-Umbriel
+      - wavenet:male/vi-VN-Chirp3-HD-Umbriel
+      - wavenet:female/en-US-Chirp3-HD-Vindemiatrix
+      - wavenet:female/gu-IN-Chirp3-HD-Vindemiatrix
+      - wavenet:female/ar-XA-Chirp3-HD-Vindemiatrix
+      - wavenet:female/fr-FR-Chirp3-HD-Vindemiatrix
+      - wavenet:female/ja-JP-Chirp3-HD-Vindemiatrix
+      - wavenet:female/hi-IN-Chirp3-HD-Vindemiatrix
+      - wavenet:female/ko-KR-Chirp3-HD-Vindemiatrix
+      - wavenet:female/cmn-CN-Chirp3-HD-Vindemiatrix
+      - wavenet:female/es-US-Chirp3-HD-Vindemiatrix
+      - wavenet:female/th-TH-Chirp3-HD-Vindemiatrix
+      - wavenet:female/vi-VN-Chirp3-HD-Vindemiatrix
+      - wavenet:female/en-US-Chirp3-HD-Zephyr
+      - wavenet:female/gu-IN-Chirp3-HD-Zephyr
+      - wavenet:female/ar-XA-Chirp3-HD-Zephyr
+      - wavenet:female/fr-FR-Chirp3-HD-Zephyr
+      - wavenet:female/ja-JP-Chirp3-HD-Zephyr
+      - wavenet:female/hi-IN-Chirp3-HD-Zephyr
+      - wavenet:female/ko-KR-Chirp3-HD-Zephyr
+      - wavenet:female/cmn-CN-Chirp3-HD-Zephyr
+      - wavenet:female/ru-RU-Chirp3-HD-Zephyr
+      - wavenet:female/es-US-Chirp3-HD-Zephyr
+      - wavenet:female/th-TH-Chirp3-HD-Zephyr
+      - wavenet:female/vi-VN-Chirp3-HD-Zephyr
+      title: AgentVoiceVarName
+      description: The variable name of an agent voice (used when processing messages).
+    CaseExpression:
+      properties:
+        case:
+          items:
+            $ref: '#/components/schemas/ConditionalValue'
+          type: array
+          title: Case
+          description: Ordered conditional branches (reserved for future runtime support).
+      type: object
+      required:
+      - case
+      title: CaseExpression
+      description: 'Conditional branch expression.
+
+
+        Note: CaseExpression is currently reserved and not yet executed at runtime.'
+    SaveAction:
+      properties:
+        if:
+          anyOf:
+          - oneOf:
+            - $ref: '#/components/schemas/CelExpression'
+            - $ref: '#/components/schemas/JMESPathExpression'
+            discriminator:
+              propertyName: type
+              mapping:
+                cel: '#/components/schemas/CelExpression'
+                jmespath: '#/components/schemas/JMESPathExpression'
+                jp: '#/components/schemas/JMESPathExpression'
+          - $ref: '#/components/schemas/CaseExpression'
+          - type: string
+          - type: 'null'
+          title: If
+          description: 'Condition to decide whether this item executes. Supported expression forms: (1) JMESPath string (default for plain strings), (2) typed JMESPath object {"type":"jp"|"jmespath","expression":"..."}, or (3) typed CEL object {"type":"cel","expression":"..."}. Example JMESPath string: "inputs.can_sign_consent == `true`".'
+          examples:
+          - inputs.can_sign_consent == `true`
+          - expression: inputs.can_sign_consent == `true`
+            type: jp
+          - expression: inputs.can_sign_consent == true
+            type: cel
+        action:
+          type: string
+          const: save
+          title: Action
+          default: save
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: Target name to save (defaults to global variable).
+        inputs:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Inputs
+          description: Input field names to persist; None saves all collected inputs.
+      type: object
+      title: SaveAction
+    ValidationIssue:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: Stable machine-readable identifier (kebab-case)
+        severity:
+          type: string
+          enum:
+          - info
+          - warning
+          - error
+          title: Severity
+          default: error
+        message:
+          type: string
+          title: Message
+          description: Human-readable description
+        path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Path
+          description: JSONPath-style location (e.g. $.context.task.steps[2])
+        value:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Value
+          description: The offending value, when it adds clarity
+      type: object
+      required:
+      - id
+      - message
+      title: ValidationIssue
+      description: A single validation finding with severity, location, and description.
+    ListResponse_AgentResponse_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/AgentResponse'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[AgentResponse]
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    AgentVoiceGender:
+      type: string
+      enum:
+      - female
+      - male
+      title: AgentVoiceGender
+      description: Gender for an agent voice.
+    ToolResponse:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The name of the tool
+          examples:
+          - Weather Fetcher
+        definition:
+          $ref: '#/components/schemas/ToolDefinition'
+          description: The definition of the tool
+          examples:
+          - endpoint:
+              argument_location: query
+              method: get
+              url: https://api.open-meteo.com/v1/forecast
+            static_parameters:
+            - default: fahrenheit
+              description: Whether the temperature information should be fetched in Celsius or Fahrenheit
+              name: temperature_unit
+              required: false
+              type: string
+            tool:
+              function:
+                description: Get the weather for a city
+                name: get_weather
+                parameters:
+                  properties:
+                    latitude:
+                      description: Latitude of the city
+                      type: number
+                    longitude:
+                      description: Longitude of the city
+                      type: number
+                    current:
+                      default: temperature_2m,relative_humidity_2m,precipitation,rain,showers
+                      description: Information to retrieve from the open-meteo API, comma-separated
+                      type: string
+                  required:
+                  - latitude
+                  - longitude
+                  - current
+                  type: object
+              type: function
+            type: endpoint
+        service_id:
+          type: integer
+          title: Service Id
+          description: Internal ID of the service to which the tool belongs
+          examples:
+          - 1
+        id:
+          type: integer
+          title: Id
+          description: The internal ID of the tool
+          examples:
+          - 1
+        last_updated_comments:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Updated Comments
+          description: Comments for the most recent edit to the tool.
+          examples:
+          - Updated to use new API endpoint
+        service_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Service Name
+          description: The name of the service to which the tool belongs
+        prompts_info:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ToolPromptInfo'
+            type: array
+          - type: 'null'
+          title: Prompts Info
+          description: IDs and names of the prompts linked to the tool
+        agents_info:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ToolAgentInfo'
+            type: array
+          - type: 'null'
+          title: Agents Info
+          description: IDs and names of the agents linked to the tool via a prompt
+        last_updated:
+          type: string
+          format: date-time
+          title: Last Updated
+          description: The timestamp of the most recent update to the tool
+        last_updated_by:
+          type: string
+          title: Last Updated By
+          description: The email of the user who last updated the tool
+          examples:
+          - user@email.com
+        version_number:
+          type: integer
+          title: Version Number
+          description: Highest tools_history snapshot version for this tool; the tools row defaults to 1.
+          examples:
+          - 1
+        validation_issues:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ValidationIssue'
+            type: array
+          - type: 'null'
+          title: Validation Issues
+          description: Validation issues found in the tool definition. Warnings and infos are informational; errors block the save.
+      type: object
+      required:
+      - name
+      - definition
+      - service_id
+      - id
+      - last_updated
+      - last_updated_by
+      - version_number
+      title: ToolResponse
+      description: 'Response model for tool operations.
+
+        A tool is a function that an agent can call to perform actions like accessing databases,
+
+        making API calls, or processing data. For an agent to have access to a tool, the prompt
+
+        associated with that agent should be linked to the tool and include instructions to use it.
+
+        For more information, see [Console docs](https://docs.syllable.ai/Resources/Tools).'
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: Syllable-API-Key
+x-speakeasy-name-override:
+- operationId: .*_list$
+  methodNameOverride: list
+- operationId: .*_create$
+  methodNameOverride: create
+- operationId: .*_update$
+  methodNameOverride: update
+- operationId: .*_upload$
+  methodNameOverride: upload
+- operationId: .*_delete$
+  methodNameOverride: delete
+- operationId: .*_get_by_id$
+  methodNameOverride: get_by_id
+- operationId: .*_get_by_name$
+  methodNameOverride: get_by_name
+- operationId: .*_add$
+  methodNameOverride: add
+- operationId: .*_remove$
+  methodNameOverride: remove
+- operationId: .*_results$
+  methodNameOverride: results
+- operationId: .*_queue_work$
+  methodNameOverride: queue_work
+- operationId: .*_activate$
+  methodNameOverride: activate
+- operationId: .*_inactivate$
+  methodNameOverride: inactivate
+- operationId: .*_list_files$
+  methodNameOverride: list_files
+- operationId: .*_move_files$
+  methodNameOverride: move_files
+- operationId: .*_upload_file$
+  methodNameOverride: upload_file
