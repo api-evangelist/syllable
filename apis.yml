@@ -8,6 +8,18 @@ description: Syllable is a Mountain View, California company (founded 2017) that
   dashboards, incidents, organizations, roles, permissions and users. First-party TypeScript and Python
   SDKs, a Go CLI, a documentation MCP server and a published A2A agent card make it an unusually agent-forward
   developer surface.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://syllable.ai/figma/assets/syllable-social-share.png
 url: https://raw.githubusercontent.com/api-evangelist/syllable/refs/heads/main/apis.yml
 x-type: company
