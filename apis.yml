@@ -237,8 +237,7 @@ apis:
     responses. For more information, see           [Console docs](https://docs.syllable.ai/Resources/DataSources).
   humanURL: https://docs.syllable.ai/
   baseURL: https://api.syllable.cloud
-  tags:
-  - Data Sources
+  tags: []
   tags_raw:
   - data_sources
   properties:
@@ -492,7 +491,7 @@ apis:
   humanURL: https://docs.syllable.ai/
   baseURL: https://api.syllable.cloud
   tags:
-  - Pronunciations
+  - pronunciations
   tags_raw:
   - pronunciations
   properties:
