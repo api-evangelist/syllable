@@ -1,0 +1,31 @@
+# Front Door AI Index — syllable — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: syllable
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: syllable.ai
+  final_host: syllable.ai
+  ownership: own
+  owner: syllable
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 43
+  host_score: 43
+  density: 46.44
+  words: 926
+  tiers:
+    agentic: 22
+    core: 21
+    model: 0
+  ambiguous: 36
+  top_terms:
+    agent: 35
+    AI: 21
+    AI agent: 15
+    agentic: 4
+    copilot: 2
+    automation: 1
+    prompts: 1
