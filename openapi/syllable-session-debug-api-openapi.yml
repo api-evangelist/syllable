@@ -131,37 +131,6 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.sessionDebug.getSessionToolCallResultById({\n    sessionId: 832133,\n    toolCallId: \"<id>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
-    SessionMessage:
-      properties:
-        role:
-          $ref: '#/components/schemas/DialogRole'
-          description: Dialog role
-          examples:
-          - agent
-          - user
-        dialog:
-          $ref: '#/components/schemas/DialogMessage'
-          description: Dialog message
-        tool_calls:
-          items:
-            $ref: '#/components/schemas/DialogToolCall'
-          type: array
-          title: Tool Calls
-          description: Tool calls
-        timestamp:
-          type: string
-          format: date-time
-          title: Timestamp
-          description: Message timestamp
-          examples:
-          - '2024-06-19T00:00:00'
-      type: object
-      required:
-      - role
-      - dialog
-      - tool_calls
-      - timestamp
-      title: SessionMessage
     ToolResultData:
       properties:
         tool_name:
@@ -180,60 +149,6 @@ components:
       - tool_name
       - tool_result
       title: ToolResultData
-    DialogMessage:
-      properties:
-        text:
-          type: string
-          title: Text
-          description: Dialog message text
-          examples:
-          - Tell me about Syllable.ai!
-      type: object
-      required:
-      - text
-      title: DialogMessage
-    DialogToolCall:
-      properties:
-        tool_call_id:
-          type: string
-          title: Tool Call Id
-          description: Tool call ID
-          examples:
-          - call_arbitrary_id
-        tool_name:
-          type: string
-          title: Tool Name
-          description: Tool name
-          examples:
-          - general_information_web
-        tool_arguments:
-          title: Tool Arguments
-          description: Tool arguments
-          examples:
-          - question: Tell me about Syllable.ai!
-        tool_result:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Tool Result
-          description: Tool result data (only included if tool has propagate_tool_result=true)
-          examples:
-          - answer: Syllable is a platform for building and managing AI voice agents...
-        timestamp:
-          type: string
-          format: date-time
-          title: Timestamp
-          description: Tool call timestamp
-          examples:
-          - '2024-06-19T00:00:00'
-      type: object
-      required:
-      - tool_call_id
-      - tool_name
-      - tool_arguments
-      - tool_result
-      - timestamp
-      title: DialogToolCall
     SessionData:
       properties:
         session_id:
@@ -295,6 +210,67 @@ components:
       - msg
       - type
       title: ValidationError
+    DialogMessage:
+      properties:
+        text:
+          type: string
+          title: Text
+          description: Dialog message text
+          examples:
+          - Tell me about Syllable.ai!
+      type: object
+      required:
+      - text
+      title: DialogMessage
+    DialogToolCall:
+      properties:
+        tool_call_id:
+          type: string
+          title: Tool Call Id
+          description: Tool call ID
+          examples:
+          - call_arbitrary_id
+        tool_name:
+          type: string
+          title: Tool Name
+          description: Tool name
+          examples:
+          - general_information_web
+        tool_arguments:
+          title: Tool Arguments
+          description: Tool arguments
+          examples:
+          - question: Tell me about Syllable.ai!
+        tool_result:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Tool Result
+          description: Tool result data (only included if tool has propagate_tool_result=true)
+          examples:
+          - answer: Syllable is a platform for building and managing AI voice agents...
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+          description: Tool call timestamp
+          examples:
+          - '2024-06-19T00:00:00'
+      type: object
+      required:
+      - tool_call_id
+      - tool_name
+      - tool_arguments
+      - tool_result
+      - timestamp
+      title: DialogToolCall
+    DialogRole:
+      type: string
+      enum:
+      - agent
+      - user
+      title: DialogRole
+      description: Role of dialog
     HTTPValidationError:
       properties:
         detail:
@@ -304,13 +280,37 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    DialogRole:
-      type: string
-      enum:
-      - agent
-      - user
-      title: DialogRole
-      description: Role of dialog
+    SessionMessage:
+      properties:
+        role:
+          $ref: '#/components/schemas/DialogRole'
+          description: Dialog role
+          examples:
+          - agent
+          - user
+        dialog:
+          $ref: '#/components/schemas/DialogMessage'
+          description: Dialog message
+        tool_calls:
+          items:
+            $ref: '#/components/schemas/DialogToolCall'
+          type: array
+          title: Tool Calls
+          description: Tool calls
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+          description: Message timestamp
+          examples:
+          - '2024-06-19T00:00:00'
+      type: object
+      required:
+      - role
+      - dialog
+      - tool_calls
+      - timestamp
+      title: SessionMessage
   securitySchemes:
     APIKeyHeader:
       type: apiKey

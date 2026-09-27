@@ -49,70 +49,6 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.sessions.transcript.getById({\n    sessionId: \"<id>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
-    SessionTranscriptionResponse:
-      properties:
-        session_id:
-          type: string
-          title: Session Id
-          description: Internal ID of the session
-        transcription:
-          items:
-            $ref: '#/components/schemas/SessionText'
-          type: array
-          title: Transcription
-          description: Transcriptions of all messages in the session
-        actions:
-          items:
-            $ref: '#/components/schemas/SessionAction'
-          type: array
-          title: Actions
-          description: Tool invocations that occurred during the session
-      type: object
-      required:
-      - session_id
-      - transcription
-      - actions
-      title: SessionTranscriptionResponse
-      description: 'Text transcript of a given session. For more information, see
-
-        [Console docs](https://docs.syllable.ai/workspaces/Sessions).'
-    SessionText:
-      properties:
-        timestamp:
-          type: string
-          format: date-time
-          title: Timestamp
-          description: Timestamp of the message
-        lang:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Lang
-          description: ISO 639 code of the language used for the message (may appear as "unset" if was not conclusively determined)
-          examples:
-          - en-US
-          - es-US
-          - unset
-        source:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Source
-          description: Whether the user or agent sent the message
-          examples:
-          - user
-          - agent
-        text:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Text
-          description: Content of the message
-      type: object
-      required:
-      - timestamp
-      title: SessionText
-      description: Information about a given message from a user to an agent or vice-versa.
     SessionAction:
       properties:
         timestamp:
@@ -155,6 +91,33 @@ components:
       - timestamp
       title: SessionAction
       description: Information about a given tool invocation as part of a session.
+    SessionTranscriptionResponse:
+      properties:
+        session_id:
+          type: string
+          title: Session Id
+          description: Internal ID of the session
+        transcription:
+          items:
+            $ref: '#/components/schemas/SessionText'
+          type: array
+          title: Transcription
+          description: Transcriptions of all messages in the session
+        actions:
+          items:
+            $ref: '#/components/schemas/SessionAction'
+          type: array
+          title: Actions
+          description: Tool invocations that occurred during the session
+      type: object
+      required:
+      - session_id
+      - transcription
+      - actions
+      title: SessionTranscriptionResponse
+      description: 'Text transcript of a given session. For more information, see
+
+        [Console docs](https://docs.syllable.ai/workspaces/Sessions).'
     ValidationError:
       properties:
         loc:
@@ -185,6 +148,43 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    SessionText:
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+          description: Timestamp of the message
+        lang:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Lang
+          description: ISO 639 code of the language used for the message (may appear as "unset" if was not conclusively determined)
+          examples:
+          - en-US
+          - es-US
+          - unset
+        source:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source
+          description: Whether the user or agent sent the message
+          examples:
+          - user
+          - agent
+        text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Text
+          description: Content of the message
+      type: object
+      required:
+      - timestamp
+      title: SessionText
+      description: Information about a given message from a user to an agent or vice-versa.
   securitySchemes:
     APIKeyHeader:
       type: apiKey

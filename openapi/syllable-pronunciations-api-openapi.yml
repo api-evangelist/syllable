@@ -132,43 +132,6 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  await syllableSDK.pronunciations.pronunciationsDeleteCsv();\n\n\n}\n\nrun();"
 components:
   schemas:
-    PronunciationOverridesDictionary:
-      properties:
-        type:
-          type: string
-          pattern: ^pronunciations_v\d+$
-          title: Type
-          default: pronunciations_v1
-        pronunciations:
-          items:
-            $ref: '#/components/schemas/PronunciationOverride'
-          type: array
-          title: Pronunciations
-        voices:
-          additionalProperties:
-            $ref: '#/components/schemas/VoiceDisplayInfo'
-          type: object
-          title: Voices
-        metadata:
-          $ref: '#/components/schemas/DictionaryMetadata'
-      additionalProperties: false
-      type: object
-      required:
-      - pronunciations
-      - metadata
-      title: PronunciationOverridesDictionary
-      description: "Container for all TTS pronunciation overrides belonging to the sub-organisation.\n\nStored in the `config_values` table via ConfigDao. The Syllable API persists uploaded CSV\npronunciation rules, and Bubblegum's PronunciationOverridesPlugin reads them to apply text\nreplacements before TTS processing.\n\nExample:\n    dao = ConfigDao(db_session)\n    await dao.register_model('tts.pronunciations', PronunciationOverridesDictionary)\n\n    pod = PronunciationOverridesDictionary(\n        pronunciations=[...],\n        metadata=DictionaryMetadata(entries=10, hash='sha256:...'),\n    )\n    result = await dao.upsert('pronunciations_v1', pod)\n\n    record = await dao.get('pronunciations_v1', PronunciationOverridesDictionary)\n    if record:\n        pronunciations = record.value.pronunciations"
-    Body_pronunciations_upload_csv:
-      properties:
-        file:
-          type: string
-          format: binary
-          title: File
-          description: CSV file containing pronunciation overrides
-      type: object
-      required:
-      - file
-      title: Body_pronunciations_upload_csv
     PronunciationsCsvUploadResponse:
       properties:
         revision:
@@ -195,6 +158,72 @@ components:
       - uploaded_by
       title: PronunciationsCsvUploadResponse
       description: Placeholder response returned after accepting a pronunciations CSV upload.
+    VoiceDisplayInfo:
+      properties:
+        display_name:
+          type: string
+          title: Display Name
+        provider:
+          type: string
+          title: Provider
+      additionalProperties: false
+      type: object
+      required:
+      - display_name
+      - provider
+      title: VoiceDisplayInfo
+      description: Display metadata for a canonical voice identifier.
+    Body_pronunciations_upload_csv:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+          description: CSV file containing pronunciation overrides
+      type: object
+      required:
+      - file
+      title: Body_pronunciations_upload_csv
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    DictionaryMetadata:
+      properties:
+        entries:
+          type: integer
+          title: Entries
+        hash:
+          type: string
+          title: Hash
+        source:
+          type: string
+          title: Source
+          default: ''
+      additionalProperties: false
+      type: object
+      required:
+      - entries
+      - hash
+      title: DictionaryMetadata
+      description: Audit metadata associated with a dictionary.
     PronunciationOverride:
       properties:
         text:
@@ -241,27 +270,32 @@ components:
       - replacement
       title: PronunciationOverride
       description: A single text replacement rule.
-    ValidationError:
+    PronunciationOverridesDictionary:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
         type:
           type: string
-          title: Error Type
+          pattern: ^pronunciations_v\d+$
+          title: Type
+          default: pronunciations_v1
+        pronunciations:
+          items:
+            $ref: '#/components/schemas/PronunciationOverride'
+          type: array
+          title: Pronunciations
+        voices:
+          additionalProperties:
+            $ref: '#/components/schemas/VoiceDisplayInfo'
+          type: object
+          title: Voices
+        metadata:
+          $ref: '#/components/schemas/DictionaryMetadata'
+      additionalProperties: false
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - pronunciations
+      - metadata
+      title: PronunciationOverridesDictionary
+      description: "Container for all TTS pronunciation overrides belonging to the sub-organisation.\n\nStored in the `config_values` table via ConfigDao. The Syllable API persists uploaded CSV\npronunciation rules, and Bubblegum's PronunciationOverridesPlugin reads them to apply text\nreplacements before TTS processing.\n\nExample:\n    dao = ConfigDao(db_session)\n    await dao.register_model('tts.pronunciations', PronunciationOverridesDictionary)\n\n    pod = PronunciationOverridesDictionary(\n        pronunciations=[...],\n        metadata=DictionaryMetadata(entries=10, hash='sha256:...'),\n    )\n    result = await dao.upsert('pronunciations_v1', pod)\n\n    record = await dao.get('pronunciations_v1', PronunciationOverridesDictionary)\n    if record:\n        pronunciations = record.value.pronunciations"
     HTTPValidationError:
       properties:
         detail:
@@ -278,40 +312,6 @@ components:
       - substring
       title: MatchType
       description: Matching strategy for override text.
-    VoiceDisplayInfo:
-      properties:
-        display_name:
-          type: string
-          title: Display Name
-        provider:
-          type: string
-          title: Provider
-      additionalProperties: false
-      type: object
-      required:
-      - display_name
-      - provider
-      title: VoiceDisplayInfo
-      description: Display metadata for a canonical voice identifier.
-    DictionaryMetadata:
-      properties:
-        entries:
-          type: integer
-          title: Entries
-        hash:
-          type: string
-          title: Hash
-        source:
-          type: string
-          title: Source
-          default: ''
-      additionalProperties: false
-      type: object
-      required:
-      - entries
-      - hash
-      title: DictionaryMetadata
-      description: Audit metadata associated with a dictionary.
   securitySchemes:
     APIKeyHeader:
       type: apiKey

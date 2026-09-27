@@ -262,6 +262,101 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.sessions.sessionRecordingStream({\n    token: \"<value>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
+    ListResponse_Session_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Session'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[Session]
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SessionRecordingResponse:
+      properties:
+        session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Session Id
+          description: The internal ID of the session
+          examples:
+          - 1
+        recordings:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Recordings
+          description: List of recording URLs
+          examples:
+          - - https://example.com/recording1.mp3
+            - https://example.com/recording2.mp3
+      type: object
+      title: SessionRecordingResponse
+      description: Recording URLs for a given session.
     Session:
       properties:
         timestamp:
@@ -444,70 +539,6 @@ components:
       - is_test
       title: SessionProperties
       description: Names of session fields supported for filtering/sorting on list endpoint.
-    ListResponse_Session_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/Session'
-          type: array
-          title: Items
-          description: List of items returned from the query
-          examples: []
-        page:
-          type: integer
-          title: Page
-          description: The page number of the results (0-based)
-          examples:
-          - 0
-        page_size:
-          type: integer
-          title: Page Size
-          description: The number of items returned per page
-          examples:
-          - 25
-        total_pages:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Pages
-          description: The total number of pages of results given the indicated page size
-          examples:
-          - 4
-        total_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Count
-          description: The total number of items returned from the query
-          examples:
-          - 100
-      type: object
-      required:
-      - items
-      - page
-      - page_size
-      title: ListResponse[Session]
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     HTTPValidationError:
       properties:
         detail:
@@ -517,37 +548,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    SessionRecordingResponse:
-      properties:
-        session_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Session Id
-          description: The internal ID of the session
-          examples:
-          - 1
-        recordings:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Recordings
-          description: List of recording URLs
-          examples:
-          - - https://example.com/recording1.mp3
-            - https://example.com/recording2.mp3
-      type: object
-      title: SessionRecordingResponse
-      description: Recording URLs for a given session.
-    OrderByDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
   securitySchemes:
     APIKeyHeader:
       type: apiKey

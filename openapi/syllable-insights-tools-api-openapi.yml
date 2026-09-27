@@ -387,49 +387,35 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.insights.tools.insightToolGetDefinitions();\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
-    ListResponse_InsightToolOutput_:
+    InsightToolTestInput:
       properties:
-        items:
-          items:
-            $ref: '#/components/schemas/InsightToolOutput'
-          type: array
-          title: Items
-          description: List of items returned from the query
-          examples: []
-        page:
-          type: integer
-          title: Page
-          description: The page number of the results (0-based)
+        tool_name:
+          type: string
+          title: Tool Name
+          description: Human readable name of insight tool configuration
           examples:
-          - 0
-        page_size:
-          type: integer
-          title: Page Size
-          description: The number of items returned per page
-          examples:
-          - 25
-        total_pages:
+          - summary-tool
+        session_id:
           anyOf:
           - type: integer
           - type: 'null'
-          title: Total Pages
-          description: The total number of pages of results given the indicated page size
+          title: Session Id
+          description: The session ID of the session against which to run the tool
           examples:
-          - 4
-        total_count:
+          - '283467'
+        upload_file_id:
           anyOf:
           - type: integer
           - type: 'null'
-          title: Total Count
-          description: The total number of items returned from the query
+          title: Upload File Id
+          description: The file ID of the uploaded file against which to run the tool
           examples:
-          - 100
+          - '283467'
       type: object
       required:
-      - items
-      - page
-      - page_size
-      title: ListResponse[InsightToolOutput]
+      - tool_name
+      title: InsightToolTestInput
+      description: Request model to test an insight tool.
     InsightToolOutput:
       properties:
         name:
@@ -510,35 +496,17 @@ components:
       - desc
       title: OrderByDirection
       description: The direction in which to order list results, either ascending or descending.
-    InsightToolTestInput:
-      properties:
-        tool_name:
-          type: string
-          title: Tool Name
-          description: Human readable name of insight tool configuration
-          examples:
-          - summary-tool
-        session_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Session Id
-          description: The session ID of the session against which to run the tool
-          examples:
-          - '283467'
-        upload_file_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Upload File Id
-          description: The file ID of the uploaded file against which to run the tool
-          examples:
-          - '283467'
-      type: object
-      required:
-      - tool_name
-      title: InsightToolTestInput
-      description: Request model to test an insight tool.
+    InsightToolProperties:
+      type: string
+      enum:
+      - id
+      - name
+      - name_exact
+      - description
+      - tool_arguments
+      - insight_tool_definition_id
+      - updated_at
+      title: InsightToolProperties
     ValidationError:
       properties:
         loc:
@@ -560,26 +528,6 @@ components:
       - msg
       - type
       title: ValidationError
-    InsightToolProperties:
-      type: string
-      enum:
-      - id
-      - name
-      - name_exact
-      - description
-      - tool_arguments
-      - insight_tool_definition_id
-      - updated_at
-      title: InsightToolProperties
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     InsightToolDefinition:
       properties:
         id:
@@ -666,6 +614,58 @@ components:
       - insight_tool_definition_id
       title: InsightToolInput
       description: Request model to create/update an insight tool configuration.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ListResponse_InsightToolOutput_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/InsightToolOutput'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[InsightToolOutput]
   securitySchemes:
     APIKeyHeader:
       type: apiKey

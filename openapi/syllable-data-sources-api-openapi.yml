@@ -300,6 +300,46 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.dataSources.delete({\n    dataSourceId: 509584,\n    reason: \"<value>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
+    DataSourceProperties:
+      type: string
+      enum:
+      - name
+      - description
+      - labels
+      - chunk
+      - chunk_delimiter
+      - updated_at
+      - last_updated_by
+      title: DataSourceProperties
+      description: Names of data source fields supported for filtering/sorting on list endpoint.
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     DataSourceDetailResponse:
       properties:
         name:
@@ -386,67 +426,49 @@ components:
         generating its responses. For more information, see
 
         [Console docs](https://docs.syllable.ai/Resources/DataSources).'
-    DataSourceCreateRequest:
+    ListResponse_DataSourceMetadataResponse_:
       properties:
-        name:
-          type: string
-          title: Name
-          description: The data source name. Must be unique within suborg. Cannot contain whitespace.
-          examples:
-          - Rain
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: The description of the data source.
-          examples:
-          - Information about rain.
-        labels:
+        items:
           items:
-            type: string
+            $ref: '#/components/schemas/DataSourceMetadataResponse'
           type: array
-          title: Labels
-          description: Searchable labels for the data source. Can be included in agent.prompt_tool_defaults for a given tool to give the agent access to data sources with those labels when calling that tool.
-          default: []
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
           examples:
-          - - Weather Info
-        chunk:
-          type: boolean
-          title: Chunk
-          description: Whether the content should be split into smaller chunks. (This feature is coming in the future - currently this value will always be treated as False.)
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
           examples:
-          - false
-        chunk_delimiter:
+          - 25
+        total_pages:
           anyOf:
-          - type: string
+          - type: integer
           - type: 'null'
-          title: Chunk Delimiter
-          description: String that should be treated as delimiter between intended chunks. (This feature is coming in the future - currently this value will always be treated as None.)
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
           examples:
-          - ''
-        text:
-          type: string
-          title: Text
-          description: Information that the data source will provide to the agent accessing it. It is recommended to include a sentence at the beginning providing context to the LLM for the information in the data source.
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
           examples:
-          - 'The following are names and addresses of pizza shops.
-
-
-            Cool Pizza, 123 Main St.
-
-
-            Really Good Pizza, 456 Water St.
-
-
-            The Best Pizza, 789 Circle Dr.'
+          - 100
       type: object
       required:
-      - name
-      - chunk
-      - text
-      title: DataSourceCreateRequest
-      description: Request model to create a data source.
+      - items
+      - page
+      - page_size
+      title: ListResponse[DataSourceMetadataResponse]
     DataSourceMetadataResponse:
       properties:
         name:
@@ -528,91 +550,67 @@ components:
         generating its responses. For more information, see
 
         [Console docs](https://docs.syllable.ai/Resources/DataSources).'
-    ListResponse_DataSourceMetadataResponse_:
+    DataSourceCreateRequest:
       properties:
-        items:
+        name:
+          type: string
+          title: Name
+          description: The data source name. Must be unique within suborg. Cannot contain whitespace.
+          examples:
+          - Rain
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: The description of the data source.
+          examples:
+          - Information about rain.
+        labels:
           items:
-            $ref: '#/components/schemas/DataSourceMetadataResponse'
+            type: string
           type: array
-          title: Items
-          description: List of items returned from the query
-          examples: []
-        page:
-          type: integer
-          title: Page
-          description: The page number of the results (0-based)
+          title: Labels
+          description: Searchable labels for the data source. Can be included in agent.prompt_tool_defaults for a given tool to give the agent access to data sources with those labels when calling that tool.
+          default: []
           examples:
-          - 0
-        page_size:
-          type: integer
-          title: Page Size
-          description: The number of items returned per page
+          - - Weather Info
+        chunk:
+          type: boolean
+          title: Chunk
+          description: Whether the content should be split into smaller chunks. (This feature is coming in the future - currently this value will always be treated as False.)
           examples:
-          - 25
-        total_pages:
+          - false
+        chunk_delimiter:
           anyOf:
-          - type: integer
+          - type: string
           - type: 'null'
-          title: Total Pages
-          description: The total number of pages of results given the indicated page size
+          title: Chunk Delimiter
+          description: String that should be treated as delimiter between intended chunks. (This feature is coming in the future - currently this value will always be treated as None.)
           examples:
-          - 4
-        total_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Count
-          description: The total number of items returned from the query
+          - ''
+        text:
+          type: string
+          title: Text
+          description: Information that the data source will provide to the agent accessing it. It is recommended to include a sentence at the beginning providing context to the LLM for the information in the data source.
           examples:
-          - 100
+          - 'The following are names and addresses of pizza shops.
+
+
+            Cool Pizza, 123 Main St.
+
+
+            Really Good Pizza, 456 Water St.
+
+
+            The Best Pizza, 789 Circle Dr.'
       type: object
       required:
-      - items
-      - page
-      - page_size
-      title: ListResponse[DataSourceMetadataResponse]
-    DataSourceProperties:
-      type: string
-      enum:
       - name
-      - description
-      - labels
       - chunk
-      - chunk_delimiter
-      - updated_at
-      - last_updated_by
-      title: DataSourceProperties
-      description: Names of data source fields supported for filtering/sorting on list endpoint.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+      - text
+      title: DataSourceCreateRequest
+      description: Request model to create a data source.
     DataSourceUpdateRequest:
       properties:
         name:
@@ -689,13 +687,15 @@ components:
       - text
       title: DataSourceUpdateRequest
       description: Request model to update an existing data source.
-    OrderByDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     APIKeyHeader:
       type: apiKey

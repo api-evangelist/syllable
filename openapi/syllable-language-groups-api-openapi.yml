@@ -301,6 +301,256 @@ paths:
       - APIKeyHeader: []
 components:
   schemas:
+    LanguageGroupUpdateRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The name of the language group.
+          examples:
+          - Call Center 1 Languages
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the language group.
+          examples:
+          - Languages spoken by operators at Call Center 1
+        language_configs:
+          items:
+            $ref: '#/components/schemas/LanguageConfig'
+          type: array
+          title: Language Configs
+          description: Voice and DTMF configurations for each language in the group.
+          examples:
+          - - dtmf_code: 1
+              language_code: en-US
+              voice_display_name: Alloy
+              voice_provider: OpenAI
+            - dtmf_code: 2
+              language_code: es-US
+              voice_display_name: es-US-Neural2-B
+              voice_provider: Google
+        skip_current_language_in_message:
+          type: boolean
+          title: Skip Current Language In Message
+          description: Whether a custom message using the language group to generate a language DTMF menu should skip the agent's current language in the menu.
+          examples:
+          - true
+        id:
+          type: integer
+          title: Id
+          description: The ID of the language group to update.
+          examples:
+          - 1
+        edit_comments:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Edit Comments
+          description: Comments for the most recent edit to the language group.
+          examples:
+          - Added Spanish support.
+      type: object
+      required:
+      - name
+      - language_configs
+      - skip_current_language_in_message
+      - id
+      title: LanguageGroupUpdateRequest
+      description: Request model to update an existing voice group.
+    LanguageGroupAgentInfo:
+      properties:
+        id:
+          type: integer
+          title: Id
+          description: The ID of the agent
+          examples:
+          - 1
+        name:
+          type: string
+          title: Name
+          description: The name of the agent
+          examples:
+          - Test Agent
+      type: object
+      required:
+      - id
+      - name
+      title: LanguageGroupAgentInfo
+      description: Information about an agent linked to a language group.
+    LanguageConfig:
+      properties:
+        language_code:
+          $ref: '#/components/schemas/LanguageCode'
+          description: BCP 47 code of the language
+          examples:
+          - en-US
+        voice_provider:
+          $ref: '#/components/schemas/TtsProvider'
+          description: TTS provider of the voice to use for the language
+          examples:
+          - OpenAI
+        voice_display_name:
+          $ref: '#/components/schemas/AgentVoiceDisplayName'
+          description: Display name of the voice to use for the language
+          examples:
+          - Alloy
+        voice_speed:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Voice Speed
+          description: Speed of the voice in the range of 0.25 to 4.0 (OpenAI and Google) or 0.7 to 1.2 (ElevenLabs). Standard speed is 1.0.
+          examples:
+          - 1.0
+        voice_pitch:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Voice Pitch
+          description: Pitch of the voice in the range of -20.0 to 20.0. 20 means increase 20 semitones from the original pitch. -20 means decrease 20 semitones from the original pitch. 0 means use the original pitch. Only supported for Google configs.
+          examples:
+          - 0.0
+        dtmf_code:
+          type: integer
+          title: Dtmf Code
+          description: DTMF code that should be used for the language in the menu generated from the language group.
+          examples:
+          - 1
+      type: object
+      required:
+      - language_code
+      - voice_provider
+      - voice_display_name
+      - dtmf_code
+      title: LanguageConfig
+      description: 'Voice and DTMF configurations for a language in a language group. List of available voices
+
+        and their supported languages can be fetched from `GET /agents/voices/available/`.'
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
+    LanguageSampleCreateRequest:
+      properties:
+        language_code:
+          $ref: '#/components/schemas/LanguageCode'
+          description: BCP 47 code of the language
+          examples:
+          - en-US
+        voice_provider:
+          $ref: '#/components/schemas/TtsProvider'
+          description: TTS provider of the voice to use for the language
+          examples:
+          - OpenAI
+        voice_display_name:
+          $ref: '#/components/schemas/AgentVoiceDisplayName'
+          description: Display name of the voice to use for the language
+          examples:
+          - Alloy
+        voice_speed:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Voice Speed
+          description: Speed of the voice in the range of 0.25 to 4.0 (OpenAI and Google) or 0.7 to 1.2 (ElevenLabs). Standard speed is 1.0.
+          examples:
+          - 1.0
+        voice_pitch:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Voice Pitch
+          description: Pitch of the voice in the range of -20.0 to 20.0. 20 means increase 20 semitones from the original pitch. -20 means decrease 20 semitones from the original pitch. 0 means use the original pitch. Only supported for Google configs.
+          examples:
+          - 0.0
+        text:
+          type: string
+          title: Text
+          description: Text to generate for this voice.
+          default: ''
+        apply_pronunciation_overrides:
+          type: boolean
+          title: Apply Pronunciation Overrides
+          description: Apply TTS pronunciation fixes.
+          default: false
+      type: object
+      required:
+      - language_code
+      - voice_provider
+      - voice_display_name
+      title: LanguageSampleCreateRequest
+      description: Request model to generate a sample audio file for a given voice and language.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    LanguageGroupCreateRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The name of the language group.
+          examples:
+          - Call Center 1 Languages
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the language group.
+          examples:
+          - Languages spoken by operators at Call Center 1
+        language_configs:
+          items:
+            $ref: '#/components/schemas/LanguageConfig'
+          type: array
+          title: Language Configs
+          description: Voice and DTMF configurations for each language in the group.
+          examples:
+          - - dtmf_code: 1
+              language_code: en-US
+              voice_display_name: Alloy
+              voice_provider: OpenAI
+            - dtmf_code: 2
+              language_code: es-US
+              voice_display_name: es-US-Neural2-B
+              voice_provider: Google
+        skip_current_language_in_message:
+          type: boolean
+          title: Skip Current Language In Message
+          description: Whether a custom message using the language group to generate a language DTMF menu should skip the agent's current language in the menu.
+          examples:
+          - true
+      type: object
+      required:
+      - name
+      - language_configs
+      - skip_current_language_in_message
+      title: LanguageGroupCreateRequest
+      description: Request model to create a voice group.
     LanguageGroupProperties:
       type: string
       enum:
@@ -311,6 +561,15 @@ components:
       - last_updated_by
       title: LanguageGroupProperties
       description: Deprecated enum mirroring `VoiceGroupProperties` values.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     AgentVoiceDisplayName:
       type: string
       enum:
@@ -494,184 +753,6 @@ components:
       - Zephyr (Vietnamese)
       title: AgentVoiceDisplayName
       description: Display names of voices that Syllable supports.
-    LanguageGroupAgentInfo:
-      properties:
-        id:
-          type: integer
-          title: Id
-          description: The ID of the agent
-          examples:
-          - 1
-        name:
-          type: string
-          title: Name
-          description: The name of the agent
-          examples:
-          - Test Agent
-      type: object
-      required:
-      - id
-      - name
-      title: LanguageGroupAgentInfo
-      description: Information about an agent linked to a language group.
-    LanguageConfig:
-      properties:
-        language_code:
-          $ref: '#/components/schemas/LanguageCode'
-          description: BCP 47 code of the language
-          examples:
-          - en-US
-        voice_provider:
-          $ref: '#/components/schemas/TtsProvider'
-          description: TTS provider of the voice to use for the language
-          examples:
-          - OpenAI
-        voice_display_name:
-          $ref: '#/components/schemas/AgentVoiceDisplayName'
-          description: Display name of the voice to use for the language
-          examples:
-          - Alloy
-        voice_speed:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Voice Speed
-          description: Speed of the voice in the range of 0.25 to 4.0 (OpenAI and Google) or 0.7 to 1.2 (ElevenLabs). Standard speed is 1.0.
-          examples:
-          - 1.0
-        voice_pitch:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Voice Pitch
-          description: Pitch of the voice in the range of -20.0 to 20.0. 20 means increase 20 semitones from the original pitch. -20 means decrease 20 semitones from the original pitch. 0 means use the original pitch. Only supported for Google configs.
-          examples:
-          - 0.0
-        dtmf_code:
-          type: integer
-          title: Dtmf Code
-          description: DTMF code that should be used for the language in the menu generated from the language group.
-          examples:
-          - 1
-      type: object
-      required:
-      - language_code
-      - voice_provider
-      - voice_display_name
-      - dtmf_code
-      title: LanguageConfig
-      description: 'Voice and DTMF configurations for a language in a language group. List of available voices
-
-        and their supported languages can be fetched from `GET /agents/voices/available/`.'
-    LanguageGroupUpdateRequest:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: The name of the language group.
-          examples:
-          - Call Center 1 Languages
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: Description of the language group.
-          examples:
-          - Languages spoken by operators at Call Center 1
-        language_configs:
-          items:
-            $ref: '#/components/schemas/LanguageConfig'
-          type: array
-          title: Language Configs
-          description: Voice and DTMF configurations for each language in the group.
-          examples:
-          - - dtmf_code: 1
-              language_code: en-US
-              voice_display_name: Alloy
-              voice_provider: OpenAI
-            - dtmf_code: 2
-              language_code: es-US
-              voice_display_name: es-US-Neural2-B
-              voice_provider: Google
-        skip_current_language_in_message:
-          type: boolean
-          title: Skip Current Language In Message
-          description: Whether a custom message using the language group to generate a language DTMF menu should skip the agent's current language in the menu.
-          examples:
-          - true
-        id:
-          type: integer
-          title: Id
-          description: The ID of the language group to update.
-          examples:
-          - 1
-        edit_comments:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Edit Comments
-          description: Comments for the most recent edit to the language group.
-          examples:
-          - Added Spanish support.
-      type: object
-      required:
-      - name
-      - language_configs
-      - skip_current_language_in_message
-      - id
-      title: LanguageGroupUpdateRequest
-      description: Request model to update an existing voice group.
-    LanguageSampleCreateRequest:
-      properties:
-        language_code:
-          $ref: '#/components/schemas/LanguageCode'
-          description: BCP 47 code of the language
-          examples:
-          - en-US
-        voice_provider:
-          $ref: '#/components/schemas/TtsProvider'
-          description: TTS provider of the voice to use for the language
-          examples:
-          - OpenAI
-        voice_display_name:
-          $ref: '#/components/schemas/AgentVoiceDisplayName'
-          description: Display name of the voice to use for the language
-          examples:
-          - Alloy
-        voice_speed:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Voice Speed
-          description: Speed of the voice in the range of 0.25 to 4.0 (OpenAI and Google) or 0.7 to 1.2 (ElevenLabs). Standard speed is 1.0.
-          examples:
-          - 1.0
-        voice_pitch:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Voice Pitch
-          description: Pitch of the voice in the range of -20.0 to 20.0. 20 means increase 20 semitones from the original pitch. -20 means decrease 20 semitones from the original pitch. 0 means use the original pitch. Only supported for Google configs.
-          examples:
-          - 0.0
-        text:
-          type: string
-          title: Text
-          description: Text to generate for this voice.
-          default: ''
-        apply_pronunciation_overrides:
-          type: boolean
-          title: Apply Pronunciation Overrides
-          description: Apply TTS pronunciation fixes.
-          default: false
-      type: object
-      required:
-      - language_code
-      - voice_provider
-      - voice_display_name
-      title: LanguageSampleCreateRequest
-      description: Request model to generate a sample audio file for a given voice and language.
     TtsProvider:
       type: string
       enum:
@@ -680,123 +761,6 @@ components:
       - Google
       title: TtsProvider
       description: TTS provider for an agent voice.
-    LanguageGroupCreateRequest:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: The name of the language group.
-          examples:
-          - Call Center 1 Languages
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: Description of the language group.
-          examples:
-          - Languages spoken by operators at Call Center 1
-        language_configs:
-          items:
-            $ref: '#/components/schemas/LanguageConfig'
-          type: array
-          title: Language Configs
-          description: Voice and DTMF configurations for each language in the group.
-          examples:
-          - - dtmf_code: 1
-              language_code: en-US
-              voice_display_name: Alloy
-              voice_provider: OpenAI
-            - dtmf_code: 2
-              language_code: es-US
-              voice_display_name: es-US-Neural2-B
-              voice_provider: Google
-        skip_current_language_in_message:
-          type: boolean
-          title: Skip Current Language In Message
-          description: Whether a custom message using the language group to generate a language DTMF menu should skip the agent's current language in the menu.
-          examples:
-          - true
-      type: object
-      required:
-      - name
-      - language_configs
-      - skip_current_language_in_message
-      title: LanguageGroupCreateRequest
-      description: Request model to create a voice group.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ListResponse_LanguageGroupResponse_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/LanguageGroupResponse'
-          type: array
-          title: Items
-          description: List of items returned from the query
-          examples: []
-        page:
-          type: integer
-          title: Page
-          description: The page number of the results (0-based)
-          examples:
-          - 0
-        page_size:
-          type: integer
-          title: Page Size
-          description: The number of items returned per page
-          examples:
-          - 25
-        total_pages:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Pages
-          description: The total number of pages of results given the indicated page size
-          examples:
-          - 4
-        total_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Count
-          description: The total number of items returned from the query
-          examples:
-          - 100
-      type: object
-      required:
-      - items
-      - page
-      - page_size
-      title: ListResponse[LanguageGroupResponse]
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     LanguageCode:
       type: string
       enum:
@@ -910,13 +874,49 @@ components:
         linked to an agent to define the languages and voices it supports. For more information, see
 
         [Console docs](https://docs.syllable.ai/Resources/VoiceGroups).'
-    OrderByDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
+    ListResponse_LanguageGroupResponse_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/LanguageGroupResponse'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[LanguageGroupResponse]
   securitySchemes:
     APIKeyHeader:
       type: apiKey

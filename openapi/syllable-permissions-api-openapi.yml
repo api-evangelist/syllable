@@ -41,33 +41,6 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.permissions.list();\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
-    PermissionGroupResponse:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Name of the permission group
-          examples:
-          - Agents
-        description:
-          type: string
-          title: Description
-          description: Description of the permission group
-          examples:
-          - View agents, create and edit agent configurations, and delete agents.
-        permissions:
-          items:
-            $ref: '#/components/schemas/PermissionResponse'
-          type: array
-          title: Permissions
-          description: Permissions in the group
-      type: object
-      required:
-      - name
-      - description
-      - permissions
-      title: PermissionGroupResponse
-      description: Information about a group of permissions related to the same feature.
     PermissionResponse:
       properties:
         name:
@@ -96,6 +69,33 @@ components:
       - display_name
       title: PermissionResponse
       description: Information about a permission.
+    PermissionGroupResponse:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Name of the permission group
+          examples:
+          - Agents
+        description:
+          type: string
+          title: Description
+          description: Description of the permission group
+          examples:
+          - View agents, create and edit agent configurations, and delete agents.
+        permissions:
+          items:
+            $ref: '#/components/schemas/PermissionResponse'
+          type: array
+          title: Permissions
+          description: Permissions in the group
+      type: object
+      required:
+      - name
+      - description
+      - permissions
+      title: PermissionGroupResponse
+      description: Information about a group of permissions related to the same feature.
   securitySchemes:
     APIKeyHeader:
       type: apiKey

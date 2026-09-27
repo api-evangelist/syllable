@@ -489,181 +489,6 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.outbound.batches.remove({\n    batchId: \"<id>\",\n    requestBody: [\n      \"<value 1>\",\n      \"<value 2>\",\n    ],\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
-    CommunicationBatch:
-      properties:
-        batch_id:
-          type: string
-          title: Batch Id
-          description: Unique ID for conversation batch
-          examples:
-          - '20260805.9'
-        campaign_id:
-          type: integer
-          title: Campaign Id
-          description: Unique ID for campaign
-          examples:
-          - 1
-        expires_on:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Expires On
-          description: Timestamp of batch expiration
-          examples:
-          - '2026-08-06T00:00:00Z'
-        paused:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Paused
-          description: Whether the batch is on HOLD. When on HOLD, no outreach will be made.
-          examples:
-          - true
-          - false
-        status:
-          $ref: '#/components/schemas/BatchStatus'
-          description: Status of batch
-          default: PENDING
-          examples:
-          - PENDING
-          - ACTIVE
-          - PAUSED
-          - FAILED
-          - CANCELED
-          - EXPIRED
-        upload_filename:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Upload Filename
-          description: Name of file used to create batch
-          examples:
-          - LATE_PAYMENTS_20250401.csv
-        dispatch_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Dispatch Id
-          description: A unique identifier for dipatched job
-          examples:
-          - 5ac42327fbd7e03b441650b79ae91ae1
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-          description: Timestamp of batch creation
-          examples:
-          - '2026-08-05T00:00:00Z'
-        deleted_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Deleted At
-          description: Timestamp of batch deletion
-          examples:
-          - '2026-08-05T00:00:00Z'
-        deleted_reason:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Deleted Reason
-          description: Reason for batch deletion
-          examples:
-          - User request
-        last_updated_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Last Updated At
-          description: Timestamp of last change to batch
-          examples:
-          - '2026-08-05T00:00:00Z'
-        last_updated_by:
-          type: string
-          title: Last Updated By
-          description: Email of user who last updated campaign
-          examples:
-          - user@email.com
-        error_message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Error Message
-          description: Error message if batch upload failed
-          examples:
-          - Invalid file format
-          - Missing required fields
-      type: object
-      required:
-      - batch_id
-      - campaign_id
-      - last_updated_by
-      title: CommunicationBatch
-    Body_outbound_batch_upload:
-      properties:
-        file:
-          type: string
-          format: binary
-          title: File
-      type: object
-      title: Body_outbound_batch_upload
-    BatchStatus:
-      type: string
-      enum:
-      - PENDING
-      - ACTIVE
-      - PAUSED
-      - FAILED
-      - CANCELED
-      - EXPIRED
-      title: BatchStatus
-      description: Status of a communication batch.
-    ListResponse_CommunicationBatch_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/CommunicationBatch'
-          type: array
-          title: Items
-          description: List of items returned from the query
-          examples: []
-        page:
-          type: integer
-          title: Page
-          description: The page number of the results (0-based)
-          examples:
-          - 0
-        page_size:
-          type: integer
-          title: Page Size
-          description: The number of items returned per page
-          examples:
-          - 25
-        total_pages:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Pages
-          description: The total number of pages of results given the indicated page size
-          examples:
-          - 4
-        total_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Count
-          description: The total number of items returned from the query
-          examples:
-          - 100
-      type: object
-      required:
-      - items
-      - page
-      - page_size
-      title: ListResponse[CommunicationBatch]
     BatchDetails:
       properties:
         batch_id:
@@ -813,13 +638,6 @@ components:
       - campaign_id
       - last_updated_by
       title: BatchDetails
-    OrderByDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
     CommunicationRequestResult:
       properties:
         reference_id:
@@ -965,63 +783,13 @@ components:
       - target
       - request_variables
       title: CommunicationRequestResult
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    CommunicationRequest:
-      properties:
-        reference_id:
-          type: string
-          title: Reference Id
-          description: ID for target outreach (unique within batch)
-          examples:
-          - '12345'
-        target:
-          type: string
-          title: Target
-          description: Target phone number
-          examples:
-          - 512-555-1234
-          - '+15125551234'
-        request_variables:
-          additionalProperties:
-            type: string
-          type: object
-          title: Request Variables
-          description: Variables for request
-      type: object
-      required:
-      - reference_id
-      - target
-      - request_variables
-      title: CommunicationRequest
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
     CommunicationBatchInput:
       properties:
         batch_id:
@@ -1059,6 +827,203 @@ components:
       - batch_id
       - campaign_id
       title: CommunicationBatchInput
+    CommunicationBatch:
+      properties:
+        batch_id:
+          type: string
+          title: Batch Id
+          description: Unique ID for conversation batch
+          examples:
+          - '20260805.9'
+        campaign_id:
+          type: integer
+          title: Campaign Id
+          description: Unique ID for campaign
+          examples:
+          - 1
+        expires_on:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Expires On
+          description: Timestamp of batch expiration
+          examples:
+          - '2026-08-06T00:00:00Z'
+        paused:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Paused
+          description: Whether the batch is on HOLD. When on HOLD, no outreach will be made.
+          examples:
+          - true
+          - false
+        status:
+          $ref: '#/components/schemas/BatchStatus'
+          description: Status of batch
+          default: PENDING
+          examples:
+          - PENDING
+          - ACTIVE
+          - PAUSED
+          - FAILED
+          - CANCELED
+          - EXPIRED
+        upload_filename:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Upload Filename
+          description: Name of file used to create batch
+          examples:
+          - LATE_PAYMENTS_20250401.csv
+        dispatch_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dispatch Id
+          description: A unique identifier for dipatched job
+          examples:
+          - 5ac42327fbd7e03b441650b79ae91ae1
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: Timestamp of batch creation
+          examples:
+          - '2026-08-05T00:00:00Z'
+        deleted_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Deleted At
+          description: Timestamp of batch deletion
+          examples:
+          - '2026-08-05T00:00:00Z'
+        deleted_reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Deleted Reason
+          description: Reason for batch deletion
+          examples:
+          - User request
+        last_updated_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Last Updated At
+          description: Timestamp of last change to batch
+          examples:
+          - '2026-08-05T00:00:00Z'
+        last_updated_by:
+          type: string
+          title: Last Updated By
+          description: Email of user who last updated campaign
+          examples:
+          - user@email.com
+        error_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Message
+          description: Error message if batch upload failed
+          examples:
+          - Invalid file format
+          - Missing required fields
+      type: object
+      required:
+      - batch_id
+      - campaign_id
+      - last_updated_by
+      title: CommunicationBatch
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    BatchStatus:
+      type: string
+      enum:
+      - PENDING
+      - ACTIVE
+      - PAUSED
+      - FAILED
+      - CANCELED
+      - EXPIRED
+      title: BatchStatus
+      description: Status of a communication batch.
+    ListResponse_CommunicationBatch_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/CommunicationBatch'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[CommunicationBatch]
+    BatchProperties:
+      type: string
+      enum:
+      - batch_id
+      - campaign_id
+      - status
+      - expires_on
+      - last_updated_at
+      title: BatchProperties
     RequestStatus:
       type: string
       enum:
@@ -1096,24 +1061,6 @@ components:
       - total_count
       title: RequestStatusBreakdown
       description: Per-request_status breakdown with total count and optional channel_manager_status counts.
-    BatchProperties:
-      type: string
-      enum:
-      - batch_id
-      - campaign_id
-      - status
-      - expires_on
-      - last_updated_at
-      title: BatchProperties
-    Body_outbound_batch_delete:
-      properties:
-        delete_reason:
-          type: string
-          title: Delete Reason
-      type: object
-      required:
-      - delete_reason
-      title: Body_outbound_batch_delete
     CommunicationBatchUpdate:
       properties:
         paused:
@@ -1136,6 +1083,59 @@ components:
           - '2027-01-01T06:00:00Z'
       type: object
       title: CommunicationBatchUpdate
+    Body_outbound_batch_delete:
+      properties:
+        delete_reason:
+          type: string
+          title: Delete Reason
+      type: object
+      required:
+      - delete_reason
+      title: Body_outbound_batch_delete
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Body_outbound_batch_upload:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+      type: object
+      title: Body_outbound_batch_upload
+    CommunicationRequest:
+      properties:
+        reference_id:
+          type: string
+          title: Reference Id
+          description: ID for target outreach (unique within batch)
+          examples:
+          - '12345'
+        target:
+          type: string
+          title: Target
+          description: Target phone number
+          examples:
+          - 512-555-1234
+          - '+15125551234'
+        request_variables:
+          additionalProperties:
+            type: string
+          type: object
+          title: Request Variables
+          description: Variables for request
+      type: object
+      required:
+      - reference_id
+      - target
+      - request_variables
+      title: CommunicationRequest
   securitySchemes:
     APIKeyHeader:
       type: apiKey

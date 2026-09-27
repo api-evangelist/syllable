@@ -441,6 +441,430 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.insights.workflows.queueWork({\n    workflowName: \"summary-workflow\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
+    InsightsWorkflowQueueSession:
+      properties:
+        workflow_name:
+          type: string
+          title: Workflow Name
+          description: Unique name for workflow
+          examples:
+          - summary-workflow
+        session_id_list:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Session Id List
+          description: List of session identifiers
+          examples:
+          - '[12334,23445,34556]'
+        file_id_list:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: File Id List
+          description: List of file IDs to be processed. This is only applicable for upload folders
+          examples:
+          - '[1234,1678,2224]'
+      type: object
+      required:
+      - workflow_name
+      title: InsightsWorkflowQueueSession
+      description: Session identifier for workflow queue.
+    InsightToolOutput:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Human readable name of insight tool
+          examples:
+          - summary-tool
+        description:
+          type: string
+          title: Description
+          description: Text description of insight tool configuration
+          examples:
+          - This tool uses GPT4.1 to generate a summary of the call
+        version:
+          type: integer
+          title: Version
+          description: Version of insight tool
+          examples:
+          - 1
+        tool_arguments:
+          title: Tool Arguments
+          description: Arguments for calling the insight tool
+          examples:
+          - prompt: Provide a concise, accurate summary of the conversation's key points, focusing on the user's goal and how the agent responded
+        insight_tool_definition_id:
+          type: integer
+          title: Insight Tool Definition Id
+          description: Unique ID for insight tool definition used by this tool configuration
+          examples:
+          - 1
+        id:
+          type: integer
+          title: Id
+          description: Unique ID for insight tool
+          examples:
+          - 1
+        insight_tool_definition:
+          anyOf:
+          - $ref: '#/components/schemas/InsightToolDefinition'
+          - type: 'null'
+          description: Insight Tool Definition
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: Timestamp of at which insight tool configuration was created
+          examples:
+          - '2026-08-04T00:00:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+          description: Timestamp at which insight tool configuration was last updated
+          examples:
+          - '2026-08-05T00:00:00Z'
+        last_updated_by:
+          type: string
+          title: Last Updated By
+          description: Email of user who last updated insight tool configuration
+          examples:
+          - user@email.com
+      type: object
+      required:
+      - name
+      - description
+      - version
+      - tool_arguments
+      - insight_tool_definition_id
+      - id
+      - last_updated_by
+      title: InsightToolOutput
+      description: Response model for an insight tool configuration.
+    InsightWorkflowCondition:
+      properties:
+        min_duration:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Min Duration
+          description: Minimum duration of the calls in seconds
+          examples:
+          - 120
+        max_duration:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Duration
+          description: Maximum duration of the calls in seconds
+          examples:
+          - 600
+        sample_rate:
+          anyOf:
+          - type: integer
+          - type: number
+          - type: 'null'
+          title: Sample Rate
+          description: Sample rate as a percentage of calls
+          examples:
+          - 0.1
+          - 10
+        agent_list:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Agent List
+          description: List of agents
+          examples:
+          - - 866324
+            - 826325
+          - - Agnes.Wangeci
+            - Dorice.Otaaba
+        prompt_list:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Prompt List
+          description: List of prompts
+          examples:
+          - - '123324'
+        folder_list:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Folder List
+          description: List of folder IDs
+          examples:
+          - - 16754
+            - 67535
+        sheet_info:
+          anyOf:
+          - additionalProperties:
+              type: string
+            type: object
+          - type: 'null'
+          title: Sheet Info
+          description: Information about the sheet to be used for the workflow
+          examples:
+          - sheet_id: 1AGOCYz05AZYYOMzow2EYlgdDXSXaWIhyA3-zCxBm4go
+            sheet_name: Q1 Sales Data
+      type: object
+      title: InsightWorkflowCondition
+      description: Model for the conditions that trigger an insight workflow.
+    InsightWorkflowEstimate:
+      properties:
+        backfill_count:
+          type: integer
+          title: Backfill Count
+          description: Number of extant calls that will be processed by the workflow
+          examples:
+          - 100
+        backfill_duration:
+          type: number
+          title: Backfill Duration
+          description: Estimated duration of the calls that will be processed by the workflow
+          examples:
+          - 1000.0
+        estimated_daily_count:
+          type: integer
+          title: Estimated Daily Count
+          description: Estimated number of calls that will be processed by the workflow daily
+          examples:
+          - 10
+        estimated_daily_duration:
+          type: number
+          title: Estimated Daily Duration
+          description: Estimated duration of the calls that will be processed by the workflow daily
+          examples:
+          - '3674.11'
+        estimated_daily_cost:
+          type: number
+          title: Estimated Daily Cost
+          description: Estimated cost of the calls that will be processed by the workflow daily
+          examples:
+          - '45.25'
+        estimated_backfill_cost:
+          type: number
+          title: Estimated Backfill Cost
+          description: Estimated cost of the backfill of the calls that will be processed by the workflow
+          examples:
+          - '4561.00'
+      type: object
+      required:
+      - backfill_count
+      - backfill_duration
+      - estimated_daily_count
+      - estimated_daily_duration
+      - estimated_daily_cost
+      - estimated_backfill_cost
+      title: InsightWorkflowEstimate
+      description: Response model for an insight workflow.
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    InsightWorkflowProperties:
+      type: string
+      enum:
+      - id
+      - name
+      - name_exact
+      - description
+      - status
+      - conditions
+      - insight_tool_ids
+      - updated_at
+      title: InsightWorkflowProperties
+    ListResponse_InsightWorkflowOutput_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/InsightWorkflowOutput'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[InsightWorkflowOutput]
+    InsightWorkflowInput:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Human-readable name of insight workflow
+          examples:
+          - summary-workflow
+        source:
+          type: string
+          title: Source
+          description: Source of the workflow
+          examples:
+          - agent
+          - transfer
+          - upload
+          - sheet
+          - manual
+        description:
+          type: string
+          title: Description
+          description: Text description of workflow
+          examples:
+          - Default workflow - generates a summary of the call
+        insight_tool_ids:
+          items:
+            type: integer
+          type: array
+          title: Insight Tool Ids
+          description: Ordered list of IDs of tool configurations to be executed in the workflow
+          examples:
+          - - 1
+        conditions:
+          $ref: '#/components/schemas/InsightWorkflowCondition'
+          description: Conditions (filters) on which a workflow should be triggered.
+        start_datetime:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Start Datetime
+          description: Target session timestamp the workflow (backfill) should start. An empty value indicates start on activation - live sessions only
+          examples:
+          - '2026-08-04T00:00:00Z'
+        end_datetime:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: End Datetime
+          description: Target session timestamp the workflow (backfill) should end. An empty value indicates no end, i.e., include live sessions until deactivation
+          examples:
+          - '2026-08-05T00:00:00Z'
+      type: object
+      required:
+      - name
+      - source
+      - description
+      - insight_tool_ids
+      - conditions
+      title: InsightWorkflowInput
+      description: Request model to create/update an insight workflow.
+    InsightToolDefinition:
+      properties:
+        id:
+          type: integer
+          title: Id
+          description: Unique ID for insight tool definition
+          examples:
+          - 1
+        name:
+          type: string
+          title: Name
+          description: Human-readable name of insight tool definition
+          examples:
+          - llm_tool
+        type:
+          type: string
+          title: Type
+          description: Type of insight tool definition
+        description:
+          type: string
+          title: Description
+          description: Text description of insight tool definition
+          examples:
+          - An LLM tool evaluates a transcript with a given prompt
+        tool_parameters:
+          title: Tool Parameters
+          description: Parameters for tools that use this definition and their associated types
+          examples:
+          - prompt: string
+        tool_result_set:
+          title: Tool Result Set
+          description: Result key/types for insight tool definition
+          examples:
+          - summary: string
+      type: object
+      required:
+      - id
+      - name
+      - type
+      - description
+      - tool_parameters
+      - tool_result_set
+      title: InsightToolDefinition
+      description: 'Model for an insight tool definition. This is a template that can be used by multiple insight
+
+        tool configurations, each providing their own parameter values.'
     InsightWorkflowOutput:
       properties:
         name:
@@ -566,389 +990,6 @@ components:
       - last_updated_by
       title: InsightWorkflowOutput
       description: Response model for an insight workflow.
-    InsightWorkflowCondition:
-      properties:
-        min_duration:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Min Duration
-          description: Minimum duration of the calls in seconds
-          examples:
-          - 120
-        max_duration:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Max Duration
-          description: Maximum duration of the calls in seconds
-          examples:
-          - 600
-        sample_rate:
-          anyOf:
-          - type: integer
-          - type: number
-          - type: 'null'
-          title: Sample Rate
-          description: Sample rate as a percentage of calls
-          examples:
-          - 0.1
-          - 10
-        agent_list:
-          anyOf:
-          - items:
-              type: integer
-            type: array
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Agent List
-          description: List of agents
-          examples:
-          - - 866324
-            - 826325
-          - - Agnes.Wangeci
-            - Dorice.Otaaba
-        prompt_list:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Prompt List
-          description: List of prompts
-          examples:
-          - - '123324'
-        folder_list:
-          anyOf:
-          - items:
-              type: integer
-            type: array
-          - type: 'null'
-          title: Folder List
-          description: List of folder IDs
-          examples:
-          - - 16754
-            - 67535
-        sheet_info:
-          anyOf:
-          - additionalProperties:
-              type: string
-            type: object
-          - type: 'null'
-          title: Sheet Info
-          description: Information about the sheet to be used for the workflow
-          examples:
-          - sheet_id: 1AGOCYz05AZYYOMzow2EYlgdDXSXaWIhyA3-zCxBm4go
-            sheet_name: Q1 Sales Data
-      type: object
-      title: InsightWorkflowCondition
-      description: Model for the conditions that trigger an insight workflow.
-    InsightToolOutput:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Human readable name of insight tool
-          examples:
-          - summary-tool
-        description:
-          type: string
-          title: Description
-          description: Text description of insight tool configuration
-          examples:
-          - This tool uses GPT4.1 to generate a summary of the call
-        version:
-          type: integer
-          title: Version
-          description: Version of insight tool
-          examples:
-          - 1
-        tool_arguments:
-          title: Tool Arguments
-          description: Arguments for calling the insight tool
-          examples:
-          - prompt: Provide a concise, accurate summary of the conversation's key points, focusing on the user's goal and how the agent responded
-        insight_tool_definition_id:
-          type: integer
-          title: Insight Tool Definition Id
-          description: Unique ID for insight tool definition used by this tool configuration
-          examples:
-          - 1
-        id:
-          type: integer
-          title: Id
-          description: Unique ID for insight tool
-          examples:
-          - 1
-        insight_tool_definition:
-          anyOf:
-          - $ref: '#/components/schemas/InsightToolDefinition'
-          - type: 'null'
-          description: Insight Tool Definition
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-          description: Timestamp of at which insight tool configuration was created
-          examples:
-          - '2026-08-04T00:00:00Z'
-        updated_at:
-          type: string
-          format: date-time
-          title: Updated At
-          description: Timestamp at which insight tool configuration was last updated
-          examples:
-          - '2026-08-05T00:00:00Z'
-        last_updated_by:
-          type: string
-          title: Last Updated By
-          description: Email of user who last updated insight tool configuration
-          examples:
-          - user@email.com
-      type: object
-      required:
-      - name
-      - description
-      - version
-      - tool_arguments
-      - insight_tool_definition_id
-      - id
-      - last_updated_by
-      title: InsightToolOutput
-      description: Response model for an insight tool configuration.
-    InsightWorkflowProperties:
-      type: string
-      enum:
-      - id
-      - name
-      - name_exact
-      - description
-      - status
-      - conditions
-      - insight_tool_ids
-      - updated_at
-      title: InsightWorkflowProperties
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    InsightsWorkflowQueueSession:
-      properties:
-        workflow_name:
-          type: string
-          title: Workflow Name
-          description: Unique name for workflow
-          examples:
-          - summary-workflow
-        session_id_list:
-          anyOf:
-          - items:
-              type: integer
-            type: array
-          - type: 'null'
-          title: Session Id List
-          description: List of session identifiers
-          examples:
-          - '[12334,23445,34556]'
-        file_id_list:
-          anyOf:
-          - items:
-              type: integer
-            type: array
-          - type: 'null'
-          title: File Id List
-          description: List of file IDs to be processed. This is only applicable for upload folders
-          examples:
-          - '[1234,1678,2224]'
-      type: object
-      required:
-      - workflow_name
-      title: InsightsWorkflowQueueSession
-      description: Session identifier for workflow queue.
-    InsightWorkflowInput:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Human-readable name of insight workflow
-          examples:
-          - summary-workflow
-        source:
-          type: string
-          title: Source
-          description: Source of the workflow
-          examples:
-          - agent
-          - transfer
-          - upload
-          - sheet
-          - manual
-        description:
-          type: string
-          title: Description
-          description: Text description of workflow
-          examples:
-          - Default workflow - generates a summary of the call
-        insight_tool_ids:
-          items:
-            type: integer
-          type: array
-          title: Insight Tool Ids
-          description: Ordered list of IDs of tool configurations to be executed in the workflow
-          examples:
-          - - 1
-        conditions:
-          $ref: '#/components/schemas/InsightWorkflowCondition'
-          description: Conditions (filters) on which a workflow should be triggered.
-        start_datetime:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Start Datetime
-          description: Target session timestamp the workflow (backfill) should start. An empty value indicates start on activation - live sessions only
-          examples:
-          - '2026-08-04T00:00:00Z'
-        end_datetime:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: End Datetime
-          description: Target session timestamp the workflow (backfill) should end. An empty value indicates no end, i.e., include live sessions until deactivation
-          examples:
-          - '2026-08-05T00:00:00Z'
-      type: object
-      required:
-      - name
-      - source
-      - description
-      - insight_tool_ids
-      - conditions
-      title: InsightWorkflowInput
-      description: Request model to create/update an insight workflow.
-    InsightWorkflowEstimate:
-      properties:
-        backfill_count:
-          type: integer
-          title: Backfill Count
-          description: Number of extant calls that will be processed by the workflow
-          examples:
-          - 100
-        backfill_duration:
-          type: number
-          title: Backfill Duration
-          description: Estimated duration of the calls that will be processed by the workflow
-          examples:
-          - 1000.0
-        estimated_daily_count:
-          type: integer
-          title: Estimated Daily Count
-          description: Estimated number of calls that will be processed by the workflow daily
-          examples:
-          - 10
-        estimated_daily_duration:
-          type: number
-          title: Estimated Daily Duration
-          description: Estimated duration of the calls that will be processed by the workflow daily
-          examples:
-          - '3674.11'
-        estimated_daily_cost:
-          type: number
-          title: Estimated Daily Cost
-          description: Estimated cost of the calls that will be processed by the workflow daily
-          examples:
-          - '45.25'
-        estimated_backfill_cost:
-          type: number
-          title: Estimated Backfill Cost
-          description: Estimated cost of the backfill of the calls that will be processed by the workflow
-          examples:
-          - '4561.00'
-      type: object
-      required:
-      - backfill_count
-      - backfill_duration
-      - estimated_daily_count
-      - estimated_daily_duration
-      - estimated_daily_cost
-      - estimated_backfill_cost
-      title: InsightWorkflowEstimate
-      description: Response model for an insight workflow.
-    InsightToolDefinition:
-      properties:
-        id:
-          type: integer
-          title: Id
-          description: Unique ID for insight tool definition
-          examples:
-          - 1
-        name:
-          type: string
-          title: Name
-          description: Human-readable name of insight tool definition
-          examples:
-          - llm_tool
-        type:
-          type: string
-          title: Type
-          description: Type of insight tool definition
-        description:
-          type: string
-          title: Description
-          description: Text description of insight tool definition
-          examples:
-          - An LLM tool evaluates a transcript with a given prompt
-        tool_parameters:
-          title: Tool Parameters
-          description: Parameters for tools that use this definition and their associated types
-          examples:
-          - prompt: string
-        tool_result_set:
-          title: Tool Result Set
-          description: Result key/types for insight tool definition
-          examples:
-          - summary: string
-      type: object
-      required:
-      - id
-      - name
-      - type
-      - description
-      - tool_parameters
-      - tool_result_set
-      title: InsightToolDefinition
-      description: 'Model for an insight tool definition. This is a template that can be used by multiple insight
-
-        tool configurations, each providing their own parameter values.'
     InsightWorkflowActivate:
       properties:
         is_acknowledged:
@@ -966,56 +1007,15 @@ components:
       - estimate
       title: InsightWorkflowActivate
       description: Request model to activate an insight workflow.
-    ListResponse_InsightWorkflowOutput_:
+    HTTPValidationError:
       properties:
-        items:
+        detail:
           items:
-            $ref: '#/components/schemas/InsightWorkflowOutput'
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Items
-          description: List of items returned from the query
-          examples: []
-        page:
-          type: integer
-          title: Page
-          description: The page number of the results (0-based)
-          examples:
-          - 0
-        page_size:
-          type: integer
-          title: Page Size
-          description: The number of items returned per page
-          examples:
-          - 25
-        total_pages:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Pages
-          description: The total number of pages of results given the indicated page size
-          examples:
-          - 4
-        total_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Count
-          description: The total number of items returned from the query
-          examples:
-          - 100
+          title: Detail
       type: object
-      required:
-      - items
-      - page
-      - page_size
-      title: ListResponse[InsightWorkflowOutput]
-    OrderByDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
+      title: HTTPValidationError
   securitySchemes:
     APIKeyHeader:
       type: apiKey

@@ -145,6 +145,20 @@ components:
       - msg
       - type
       title: ValidationError
+    CreateTakeoutResponse:
+      properties:
+        job_id:
+          type: string
+          title: Job Id
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - job_id
+      - created_at
+      title: CreateTakeoutResponse
     HTTPValidationError:
       properties:
         detail:
@@ -178,20 +192,6 @@ components:
       - status
       - updated_at
       title: TakeoutStatusResponse
-    CreateTakeoutResponse:
-      properties:
-        job_id:
-          type: string
-          title: Job Id
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-      type: object
-      required:
-      - job_id
-      - created_at
-      title: CreateTakeoutResponse
   securitySchemes:
     APIKeyHeader:
       type: apiKey

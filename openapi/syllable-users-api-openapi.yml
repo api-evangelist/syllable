@@ -400,49 +400,6 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.v1.usersDeleteAccount();\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
-    ListResponse_UserResponse_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/UserResponse'
-          type: array
-          title: Items
-          description: List of items returned from the query
-          examples: []
-        page:
-          type: integer
-          title: Page
-          description: The page number of the results (0-based)
-          examples:
-          - 0
-        page_size:
-          type: integer
-          title: Page Size
-          description: The number of items returned per page
-          examples:
-          - 25
-        total_pages:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Pages
-          description: The total number of pages of results given the indicated page size
-          examples:
-          - 4
-        total_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Count
-          description: The total number of items returned from the query
-          examples:
-          - 100
-      type: object
-      required:
-      - items
-      - page
-      - page_size
-      title: ListResponse[UserResponse]
     DaoUtm:
       properties:
         utm_source:
@@ -477,55 +434,41 @@ components:
           title: Utm Content
       type: object
       title: DaoUtm
-    UserUpdateRequest:
+    UserActivityStatus:
+      type: string
+      enum:
+      - not_invited
+      - invited
+      - active
+      title: UserActivityStatus
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
+    ValidationError:
       properties:
-        email:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          title: Email
-          description: Email address of the user
-          examples:
-          - user@syllable.ai
-        first_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: First Name
-          description: First name of the user
-          examples:
-          - Jane
-        last_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Last Name
-          description: Last name of the user
-          examples:
-          - Smith
-        role_id:
-          type: integer
-          title: Role Id
-          description: ID of the role assigned to the user
-          examples:
-          - 1
-        utm:
-          anyOf:
-          - $ref: '#/components/schemas/DaoUtm'
-          - type: 'null'
-          description: Optional UTM campaign attribution to record in user_metadata.
-        last_updated_comments:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Last Updated Comments
-          description: Comments for the most recent edit to the user.
-          examples:
-          - Updated to change which role was assigned
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
       required:
-      - email
-      - role_id
-      title: UserUpdateRequest
-      description: Request model to update an existing user.
+      - loc
+      - msg
+      - type
+      title: ValidationError
     UserCreateRequest:
       properties:
         email:
@@ -579,60 +522,56 @@ components:
       - role_id
       title: UserCreateRequest
       description: Request model to create a user.
-    UserDeleteRequest:
+    ListResponse_UserResponse_:
       properties:
-        email:
-          type: string
-          title: Email
-          description: The email address of the user to delete
+        items:
+          items:
+            $ref: '#/components/schemas/UserResponse'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
           examples:
-          - user@syllable.ai
-        reason:
-          type: string
-          title: Reason
-          description: The reason for deleting the user
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
           examples:
-          - User left the organization
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
       type: object
       required:
-      - email
-      - reason
-      title: UserDeleteRequest
-      description: Request model to delete a user.
-    UserProperties:
+      - items
+      - page
+      - page_size
+      title: ListResponse[UserResponse]
+    LoginType:
       type: string
       enum:
-      - email
-      - first_name
-      - last_name
-      - role_id
-      - role_name
-      - email_first_name_last_name
-      - activity_status
-      - last_updated
-      title: UserProperties
-      description: Names of user fields supported for filtering/sorting on list endpoint.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - google
+      - username_and_password
+      title: LoginType
+      description: The type of login to use for the user.
     UserResponse:
       properties:
         email:
@@ -732,6 +671,75 @@ components:
       - last_updated
       title: UserResponse
       description: Information about a user.
+    UserDeleteRequest:
+      properties:
+        email:
+          type: string
+          title: Email
+          description: The email address of the user to delete
+          examples:
+          - user@syllable.ai
+        reason:
+          type: string
+          title: Reason
+          description: The reason for deleting the user
+          examples:
+          - User left the organization
+      type: object
+      required:
+      - email
+      - reason
+      title: UserDeleteRequest
+      description: Request model to delete a user.
+    UserUpdateRequest:
+      properties:
+        email:
+          type: string
+          title: Email
+          description: Email address of the user
+          examples:
+          - user@syllable.ai
+        first_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: First Name
+          description: First name of the user
+          examples:
+          - Jane
+        last_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Name
+          description: Last name of the user
+          examples:
+          - Smith
+        role_id:
+          type: integer
+          title: Role Id
+          description: ID of the role assigned to the user
+          examples:
+          - 1
+        utm:
+          anyOf:
+          - $ref: '#/components/schemas/DaoUtm'
+          - type: 'null'
+          description: Optional UTM campaign attribution to record in user_metadata.
+        last_updated_comments:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Updated Comments
+          description: Comments for the most recent edit to the user.
+          examples:
+          - Updated to change which role was assigned
+      type: object
+      required:
+      - email
+      - role_id
+      title: UserUpdateRequest
+      description: Request model to update an existing user.
     HTTPValidationError:
       properties:
         detail:
@@ -741,27 +749,19 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    UserActivityStatus:
+    UserProperties:
       type: string
       enum:
-      - not_invited
-      - invited
-      - active
-      title: UserActivityStatus
-    LoginType:
-      type: string
-      enum:
-      - google
-      - username_and_password
-      title: LoginType
-      description: The type of login to use for the user.
-    OrderByDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
+      - email
+      - first_name
+      - last_name
+      - role_id
+      - role_name
+      - email_first_name_last_name
+      - activity_status
+      - last_updated
+      title: UserProperties
+      description: Names of user fields supported for filtering/sorting on list endpoint.
   securitySchemes:
     APIKeyHeader:
       type: apiKey

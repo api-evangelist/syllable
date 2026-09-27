@@ -52,6 +52,7 @@ tags:
 - Telephony
 - SMS
 - Customer Experience
+- A2A
 apis:
 - aid: syllable:syllable-agents-api
   name: Syllable Agents API
@@ -708,22 +709,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/syllable-users-api-openapi.yml
-  - type: Documentation
-    url: https://docs.syllable.ai/
-  - type: APIReference
-    url: https://docs.syllable.ai/api-reference/agents/agent-list
-- aid: syllable:syllable-v1-api
-  name: Syllable V1 API
-  description: The V1 API from Syllable — 4 operation(s) for v1.
-  humanURL: https://docs.syllable.ai/
-  baseURL: https://api.syllable.cloud
-  tags:
-  - v1
-  tags_raw:
-  - V1
-  properties:
-  - type: OpenAPI
-    url: openapi/syllable-v1-api-openapi.yml
   - type: Documentation
     url: https://docs.syllable.ai/
   - type: APIReference

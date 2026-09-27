@@ -262,6 +262,118 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.channels.delete({\n    channelId: \"<id>\",\n    targetId: \"<id>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
+    SipEndpoint:
+      properties:
+        host:
+          type: string
+          title: Host
+          description: SIP endpoint host (IP address or hostname).
+          examples:
+          - 10.0.0.1
+          - pbx.example.com
+        port:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Port
+          description: SIP endpoint port.
+          examples:
+          - '5060'
+          - '5071'
+        transport:
+          anyOf:
+          - $ref: '#/components/schemas/SipTransport'
+          - type: 'null'
+          description: SIP transport protocol, e.g. `tcp`, `tls` or `udp`.
+          examples:
+          - tcp
+          - tls
+          - udp
+      type: object
+      required:
+      - host
+      title: SipEndpoint
+      description: A single SIP endpoint to attempt for a transfer.
+    ChannelConfigView:
+      properties:
+        telephony:
+          anyOf:
+          - $ref: '#/components/schemas/TelephonyConfigurations'
+          - type: 'null'
+          description: Telephony configurations to be applied to targets belonging to the channel.       Only applies to voice supported channels.
+          examples:
+          - interruptibility: dtmf_only
+            overall_input_timeout: 20.0
+            passive_input_start: 0.5
+            passive_speech_input_enabled: true
+            pre_input_timeout: 1.2
+        email:
+          anyOf:
+          - $ref: '#/components/schemas/EmailConfigurations'
+          - type: 'null'
+          description: Email configurations for email channels. Only applies to email channels.
+          examples:
+          - sending_domain: mail.example.com
+        credentials:
+          anyOf:
+          - additionalProperties:
+              type: string
+            type: object
+          - type: 'null'
+          title: Credentials
+          description: Exposed credentials for the channel - currently just account_sid_last_four for Twilio channels
+          examples:
+          - account_sid_last_four: '1234'
+      type: object
+      title: ChannelConfigView
+    SipConfiguration:
+      properties:
+        sip_transfer_mode:
+          anyOf:
+          - $ref: '#/components/schemas/SipTransferMode'
+          - type: 'null'
+          description: How to perform the SIP transfer, INVITE or REFER.
+          examples:
+          - refer
+        sip_endpoints:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/SipEndpoint'
+            type: array
+          - type: 'null'
+          title: Sip Endpoints
+          description: List of SIP endpoints to attempt for the transfer.
+          examples:
+          - - host: 10.0.0.1
+              port: '5060'
+              transport: tcp
+            - host: pbx.example.com
+              port: '5071'
+              transport: tls
+        call_info_placement:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Call Info Placement
+          description: Where to place call information during a transfer. Supported values are `uri_parameters`, `to_parameters`, `from_parameters`, or `sip_header:<header-name>`.
+          examples:
+          - uri_parameters
+          - sip_header:P-Asserted-Identity
+      type: object
+      title: SipConfiguration
+      description: 'SIP routing configuration for transferring a call to a destination.
+
+
+        This is internal telephony/routing configuration used to direct a transfer to specific
+
+        SIP endpoints.'
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
     TelephonyConfigurations:
       properties:
         pre_input_timeout:
@@ -343,25 +455,27 @@ components:
           description: SIP routing configuration applied when transferring calls on this channel
       type: object
       title: TelephonyConfigurations
-    ChannelServices:
-      type: string
-      enum:
-      - sip
-      - twilio
-      - email
-      - webchat
-      - africastalking
-      - whatsapp
-      title: ChannelServices
-      description: The communication service for a channel.
-    SipTransport:
-      type: string
-      enum:
-      - tls
-      - tcp
-      - udp
-      title: SipTransport
-      description: The transport protocol to use for the SIP endpoint.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     Channel:
       properties:
         name:
@@ -412,54 +526,62 @@ components:
       - channel_service
       - id
       title: Channel
-    SipTransferMode:
-      type: string
-      enum:
-      - refer
-      - invite
-      title: SipTransferMode
-      description: How a call should be transferred to a SIP endpoint.
-    SipConfiguration:
+    ListResponse_Channel_:
       properties:
-        sip_transfer_mode:
-          anyOf:
-          - $ref: '#/components/schemas/SipTransferMode'
-          - type: 'null'
-          description: How to perform the SIP transfer, INVITE or REFER.
+        items:
+          items:
+            $ref: '#/components/schemas/Channel'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
           examples:
-          - refer
-        sip_endpoints:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/SipEndpoint'
-            type: array
-          - type: 'null'
-          title: Sip Endpoints
-          description: List of SIP endpoints to attempt for the transfer.
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
           examples:
-          - - host: 10.0.0.1
-              port: '5060'
-              transport: tcp
-            - host: pbx.example.com
-              port: '5071'
-              transport: tls
-        call_info_placement:
+          - 25
+        total_pages:
           anyOf:
-          - type: string
+          - type: integer
           - type: 'null'
-          title: Call Info Placement
-          description: Where to place call information during a transfer. Supported values are `uri_parameters`, `to_parameters`, `from_parameters`, or `sip_header:<header-name>`.
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
           examples:
-          - uri_parameters
-          - sip_header:P-Asserted-Identity
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
       type: object
-      title: SipConfiguration
-      description: 'SIP routing configuration for transferring a call to a destination.
-
-
-        This is internal telephony/routing configuration used to direct a transfer to specific
-
-        SIP endpoints.'
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[Channel]
+    EmailConfigurations:
+      properties:
+        sending_domain:
+          type: string
+          title: Sending Domain
+          description: The domain to use for sending emails. Must be authenticated in SendGrid.
+          examples:
+          - mail.example.com
+      type: object
+      required:
+      - sending_domain
+      title: EmailConfigurations
+      description: Email channel configurations.
     OrganizationChannelCreateRequest:
       properties:
         name:
@@ -514,156 +636,32 @@ components:
       - config
       title: OrganizationChannelCreateRequest
       description: Request model to create a channel through the organizations API
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    EmailConfigurations:
-      properties:
-        sending_domain:
-          type: string
-          title: Sending Domain
-          description: The domain to use for sending emails. Must be authenticated in SendGrid.
-          examples:
-          - mail.example.com
-      type: object
-      required:
-      - sending_domain
-      title: EmailConfigurations
-      description: Email channel configurations.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    SipEndpoint:
-      properties:
-        host:
-          type: string
-          title: Host
-          description: SIP endpoint host (IP address or hostname).
-          examples:
-          - 10.0.0.1
-          - pbx.example.com
-        port:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Port
-          description: SIP endpoint port.
-          examples:
-          - '5060'
-          - '5071'
-        transport:
-          anyOf:
-          - $ref: '#/components/schemas/SipTransport'
-          - type: 'null'
-          description: SIP transport protocol, e.g. `tcp`, `tls` or `udp`.
-          examples:
-          - tcp
-          - tls
-          - udp
-      type: object
-      required:
-      - host
-      title: SipEndpoint
-      description: A single SIP endpoint to attempt for a transfer.
-    ListResponse_Channel_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/Channel'
-          type: array
-          title: Items
-          description: List of items returned from the query
-          examples: []
-        page:
-          type: integer
-          title: Page
-          description: The page number of the results (0-based)
-          examples:
-          - 0
-        page_size:
-          type: integer
-          title: Page Size
-          description: The number of items returned per page
-          examples:
-          - 25
-        total_pages:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Pages
-          description: The total number of pages of results given the indicated page size
-          examples:
-          - 4
-        total_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Count
-          description: The total number of items returned from the query
-          examples:
-          - 100
-      type: object
-      required:
-      - items
-      - page
-      - page_size
-      title: ListResponse[Channel]
-    ChannelConfigView:
-      properties:
-        telephony:
-          anyOf:
-          - $ref: '#/components/schemas/TelephonyConfigurations'
-          - type: 'null'
-          description: Telephony configurations to be applied to targets belonging to the channel.       Only applies to voice supported channels.
-          examples:
-          - interruptibility: dtmf_only
-            overall_input_timeout: 20.0
-            passive_input_start: 0.5
-            passive_speech_input_enabled: true
-            pre_input_timeout: 1.2
-        email:
-          anyOf:
-          - $ref: '#/components/schemas/EmailConfigurations'
-          - type: 'null'
-          description: Email configurations for email channels. Only applies to email channels.
-          examples:
-          - sending_domain: mail.example.com
-        credentials:
-          anyOf:
-          - additionalProperties:
-              type: string
-            type: object
-          - type: 'null'
-          title: Credentials
-          description: Exposed credentials for the channel - currently just account_sid_last_four for Twilio channels
-          examples:
-          - account_sid_last_four: '1234'
-      type: object
-      title: ChannelConfigView
+    SipTransferMode:
+      type: string
+      enum:
+      - refer
+      - invite
+      title: SipTransferMode
+      description: How a call should be transferred to a SIP endpoint.
+    ChannelProperties:
+      type: string
+      enum:
+      - id
+      - name
+      - name_exact
+      - channel_service
+      - supported_modes
+      - config
+      title: ChannelProperties
+      description: Names of channel fields supported for filtering/sorting on list endpoint.
+    SipTransport:
+      type: string
+      enum:
+      - tls
+      - tcp
+      - udp
+      title: SipTransport
+      description: The transport protocol to use for the SIP endpoint.
     OrganizationChannelUpdateRequest:
       properties:
         name:
@@ -725,17 +723,26 @@ components:
       - id
       title: OrganizationChannelUpdateRequest
       description: Request model to update a channel through the organizations API
-    ChannelProperties:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ChannelServices:
       type: string
       enum:
-      - id
-      - name
-      - name_exact
-      - channel_service
-      - supported_modes
-      - config
-      title: ChannelProperties
-      description: Names of channel fields supported for filtering/sorting on list endpoint.
+      - sip
+      - twilio
+      - email
+      - webchat
+      - africastalking
+      - whatsapp
+      title: ChannelServices
+      description: The communication service for a channel.
     OrganizationChannelConfig:
       properties:
         account_sid:
@@ -786,13 +793,6 @@ components:
       type: object
       title: OrganizationChannelConfig
       description: Channel config information for creates / updates through the organizations API
-    OrderByDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
   securitySchemes:
     APIKeyHeader:
       type: apiKey

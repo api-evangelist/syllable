@@ -50,6 +50,13 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.sessions.timeline.getById({\n    sessionId: \"<id>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
+    TimelineEventKind:
+      type: string
+      enum:
+      - transcript
+      - tool
+      - latency
+      title: TimelineEventKind
     TimelineEvent:
       properties:
         kind:
@@ -150,6 +157,27 @@ components:
       - offset
       title: TimelineEvent
       description: A single normalized event on the consolidated session timeline.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     SessionTimelineResponse:
       properties:
         session_id:
@@ -175,34 +203,6 @@ components:
       - events
       title: SessionTimelineResponse
       description: Consolidated, time-ordered timeline of a session's events.
-    TimelineEventKind:
-      type: string
-      enum:
-      - transcript
-      - tool
-      - latency
-      title: TimelineEventKind
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     HTTPValidationError:
       properties:
         detail:

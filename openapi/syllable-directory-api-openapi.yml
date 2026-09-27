@@ -617,6 +617,271 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.directory.directoryMemberDownload({});\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
+    DirectoryMemberRestore:
+      properties:
+        comments:
+          type: string
+          title: Comments
+          description: Comment stored in version history for this restore
+          default: Restored
+          examples:
+          - Restored
+      type: object
+      title: DirectoryMemberRestore
+      description: Request model to restore directory member.
+    DirectoryMemberUpdate:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Name of the directory member
+          examples:
+          - Jane Doe
+        type:
+          type: string
+          title: Type
+          description: Type of the directory member
+          examples:
+          - Operator
+        extensions:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/DirectoryExtension'
+            type: array
+          - type: 'null'
+          title: Extensions
+          description: List of extensions for the directory member
+          examples:
+          - - name: work
+              numbers:
+              - number: '+1234567890'
+                rules:
+                - language: en
+        contact_tags:
+          anyOf:
+          - additionalProperties:
+              items:
+                type: string
+              type: array
+            type: object
+          - type: 'null'
+          title: Contact Tags
+          description: Tags for the directory member
+          examples:
+          - tag1:
+            - value1
+            tag2:
+            - value2
+        comments:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Comments
+          description: The comments for the most recent edit to the directory member
+          examples:
+          - Updated to add new extension
+        id:
+          type: integer
+          title: Id
+          description: Internal ID of the directory member
+          examples:
+          - 1
+      type: object
+      required:
+      - name
+      - type
+      - id
+      title: DirectoryMemberUpdate
+      description: Request model to update a directory member.
+    DirectoryResponseFormat:
+      type: string
+      enum:
+      - normalized
+      - raw
+      title: DirectoryResponseFormat
+      description: Response shape selector for directory member APIs.
+    DirectoryMemberProperties:
+      type: string
+      enum:
+      - id
+      - name
+      - name_exact
+      - type
+      - extensions
+      - contact_tags
+      - created_at
+      - updated_at
+      - deleted_at
+      - created_by
+      title: DirectoryMemberProperties
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
+    DirectoryExtensionNumber:
+      properties:
+        number:
+          type: string
+          title: Number
+          description: Phone number or SIP URI
+          examples:
+          - '+1234567890'
+          - sip:1234567890@example.com
+        rules:
+          anyOf:
+          - items:
+              additionalProperties:
+                type: string
+              type: object
+            type: array
+          - type: 'null'
+          title: Rules
+          description: Directory extension number rules. To include a language rule, use key "language" with a language code value.
+          examples:
+          - - language: en
+      type: object
+      required:
+      - number
+      title: DirectoryExtensionNumber
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    DirectoryExtension:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Directory extension name
+          examples:
+          - work
+        numbers:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/DirectoryExtensionNumber'
+            type: array
+          - type: 'null'
+          title: Numbers
+          description: Directory extension numbers.
+      type: object
+      required:
+      - name
+      title: DirectoryExtension
+    DirectoryMemberHistoryResponse:
+      properties:
+        directory_member_id:
+          type: integer
+          title: Directory Member Id
+          description: ID of the directory member
+          examples:
+          - 1
+        version:
+          type: integer
+          title: Version
+          description: 1-based ordinal in the history list (1 = oldest)
+          examples:
+          - 1
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+          description: When this version was recorded
+          examples:
+          - '2024-01-01T12:00:00Z'
+        name:
+          type: string
+          title: Name
+          description: Name at this version
+          examples:
+          - Jane Doe
+        type:
+          type: string
+          title: Type
+          description: Type at this version
+          examples:
+          - Department
+        extensions:
+          items:
+            $ref: '#/components/schemas/DirectoryExtension'
+          type: array
+          title: Extensions
+          description: Extensions at this version
+          examples:
+          - []
+        contact_tags:
+          additionalProperties:
+            items:
+              type: string
+            type: array
+          type: object
+          title: Contact Tags
+          description: Contact tags at this version
+          examples:
+          - tag1:
+            - value1
+            tag2:
+            - value2
+        user_email:
+          type: string
+          title: User Email
+          description: User who made the change
+          examples:
+          - user@email.com
+        comments:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Comments
+          description: Optional comment for this version
+          examples:
+          - Updated phone number
+        operation:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Operation
+          description: 'What produced this row: create, update, delete, restore, bulk_load. Null for rows created before this field existed.'
+          examples:
+          - update
+      type: object
+      required:
+      - directory_member_id
+      - version
+      - timestamp
+      - name
+      - type
+      - user_email
+      title: DirectoryMemberHistoryResponse
+      description: API response for one version in a directory member's history (GET /{member_id}/history).
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ListResponse_DirectoryMember_:
       properties:
         items:
@@ -660,6 +925,28 @@ components:
       - page
       - page_size
       title: ListResponse[DirectoryMember]
+    LanguageCode:
+      type: string
+      enum:
+      - yue-HK
+      - en-US
+      - ko-KR
+      - zh-CN
+      - fa-IR
+      - es-US
+      - th-TH
+      - vi-VN
+      - bs-BA
+      - sw-KE
+      - ru-RU
+      - hi-IN
+      - gu-IN
+      - ar-XA
+      - fr-FR
+      - ja-JP
+      - ne-NP
+      title: LanguageCode
+      description: BCP 47 codes of languages that Syllable supports.
     Body_directory_member_bulk_load:
       properties:
         file:
@@ -670,25 +957,6 @@ components:
       required:
       - file
       title: Body_directory_member_bulk_load
-    DirectoryResponseFormat:
-      type: string
-      enum:
-      - normalized
-      - raw
-      title: DirectoryResponseFormat
-      description: Response shape selector for directory member APIs.
-    DirectoryMemberRestore:
-      properties:
-        comments:
-          type: string
-          title: Comments
-          description: Comment stored in version history for this restore
-          default: Restored
-          examples:
-          - Restored
-      type: object
-      title: DirectoryMemberRestore
-      description: Request model to restore directory member.
     ListResponse_DirectoryMemberHistoryResponse_:
       properties:
         items:
@@ -837,43 +1105,6 @@ components:
       - updated_at
       title: DirectoryMember
       description: Model for a directory member (i.e. a contact).
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    DirectoryMemberTestResponse:
-      properties:
-        extension:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Extension
-          description: Extension to which the user will be transferred if they call at the provided timestamp in the given language, or a status message if no rules match
-        status:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Status
-          description: Status message if no rules match
-      type: object
-      title: DirectoryMemberTestResponse
     DirectoryMemberCreate:
       properties:
         name:
@@ -931,253 +1162,22 @@ components:
       - type
       title: DirectoryMemberCreate
       description: Request model to create a directory member.
-    LanguageCode:
-      type: string
-      enum:
-      - yue-HK
-      - en-US
-      - ko-KR
-      - zh-CN
-      - fa-IR
-      - es-US
-      - th-TH
-      - vi-VN
-      - bs-BA
-      - sw-KE
-      - ru-RU
-      - hi-IN
-      - gu-IN
-      - ar-XA
-      - fr-FR
-      - ja-JP
-      - ne-NP
-      title: LanguageCode
-      description: BCP 47 codes of languages that Syllable supports.
-    DirectoryExtensionNumber:
+    DirectoryMemberTestResponse:
       properties:
-        number:
-          type: string
-          title: Number
-          description: Phone number or SIP URI
-          examples:
-          - '+1234567890'
-          - sip:1234567890@example.com
-        rules:
-          anyOf:
-          - items:
-              additionalProperties:
-                type: string
-              type: object
-            type: array
-          - type: 'null'
-          title: Rules
-          description: Directory extension number rules. To include a language rule, use key "language" with a language code value.
-          examples:
-          - - language: en
-      type: object
-      required:
-      - number
-      title: DirectoryExtensionNumber
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    DirectoryMemberProperties:
-      type: string
-      enum:
-      - id
-      - name
-      - name_exact
-      - type
-      - extensions
-      - contact_tags
-      - created_at
-      - updated_at
-      - deleted_at
-      - created_by
-      title: DirectoryMemberProperties
-    DirectoryMemberHistoryResponse:
-      properties:
-        directory_member_id:
-          type: integer
-          title: Directory Member Id
-          description: ID of the directory member
-          examples:
-          - 1
-        version:
-          type: integer
-          title: Version
-          description: 1-based ordinal in the history list (1 = oldest)
-          examples:
-          - 1
-        timestamp:
-          type: string
-          format: date-time
-          title: Timestamp
-          description: When this version was recorded
-          examples:
-          - '2024-01-01T12:00:00Z'
-        name:
-          type: string
-          title: Name
-          description: Name at this version
-          examples:
-          - Jane Doe
-        type:
-          type: string
-          title: Type
-          description: Type at this version
-          examples:
-          - Department
-        extensions:
-          items:
-            $ref: '#/components/schemas/DirectoryExtension'
-          type: array
-          title: Extensions
-          description: Extensions at this version
-          examples:
-          - []
-        contact_tags:
-          additionalProperties:
-            items:
-              type: string
-            type: array
-          type: object
-          title: Contact Tags
-          description: Contact tags at this version
-          examples:
-          - tag1:
-            - value1
-            tag2:
-            - value2
-        user_email:
-          type: string
-          title: User Email
-          description: User who made the change
-          examples:
-          - user@email.com
-        comments:
+        extension:
           anyOf:
           - type: string
           - type: 'null'
-          title: Comments
-          description: Optional comment for this version
-          examples:
-          - Updated phone number
-        operation:
+          title: Extension
+          description: Extension to which the user will be transferred if they call at the provided timestamp in the given language, or a status message if no rules match
+        status:
           anyOf:
           - type: string
           - type: 'null'
-          title: Operation
-          description: 'What produced this row: create, update, delete, restore, bulk_load. Null for rows created before this field existed.'
-          examples:
-          - update
+          title: Status
+          description: Status message if no rules match
       type: object
-      required:
-      - directory_member_id
-      - version
-      - timestamp
-      - name
-      - type
-      - user_email
-      title: DirectoryMemberHistoryResponse
-      description: API response for one version in a directory member's history (GET /{member_id}/history).
-    DirectoryMemberUpdate:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Name of the directory member
-          examples:
-          - Jane Doe
-        type:
-          type: string
-          title: Type
-          description: Type of the directory member
-          examples:
-          - Operator
-        extensions:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/DirectoryExtension'
-            type: array
-          - type: 'null'
-          title: Extensions
-          description: List of extensions for the directory member
-          examples:
-          - - name: work
-              numbers:
-              - number: '+1234567890'
-                rules:
-                - language: en
-        contact_tags:
-          anyOf:
-          - additionalProperties:
-              items:
-                type: string
-              type: array
-            type: object
-          - type: 'null'
-          title: Contact Tags
-          description: Tags for the directory member
-          examples:
-          - tag1:
-            - value1
-            tag2:
-            - value2
-        comments:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Comments
-          description: The comments for the most recent edit to the directory member
-          examples:
-          - Updated to add new extension
-        id:
-          type: integer
-          title: Id
-          description: Internal ID of the directory member
-          examples:
-          - 1
-      type: object
-      required:
-      - name
-      - type
-      - id
-      title: DirectoryMemberUpdate
-      description: Request model to update a directory member.
-    DirectoryExtension:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Directory extension name
-          examples:
-          - work
-        numbers:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/DirectoryExtensionNumber'
-            type: array
-          - type: 'null'
-          title: Numbers
-          description: Directory extension numbers.
-      type: object
-      required:
-      - name
-      title: DirectoryExtension
-    OrderByDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
+      title: DirectoryMemberTestResponse
   securitySchemes:
     APIKeyHeader:
       type: apiKey

@@ -310,6 +310,42 @@ components:
       - last_updated_by
       title: ServiceProperties
       description: Names of service fields supported for filtering/sorting on list endpoint.
+    ServiceCreateRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The name of the service
+          examples:
+          - Weather tools
+        description:
+          type: string
+          title: Description
+          description: The description of the service
+          examples:
+          - Service containing tools for fetching weather information
+        auth_type:
+          anyOf:
+          - $ref: '#/components/schemas/ToolAuthType'
+          - type: 'null'
+          description: The type of authentication to use for the service's tools
+          examples:
+          - basic
+        auth_values:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Auth Values
+          description: The values to use for the authentication, as a dict. Should contain "username" and "password" keys if auth type is basic, "token" key if auth type is bearer, arbitrary header keys if auth type is custom_headers. or "client_id", "client_secret", and "auth_url" keys if auth type is oauth2. On an update, leave a value for a given key null and the value in the database will not be updated. (If a key is omitted entirely, any existing value for that key will be removed.)
+          examples:
+          - password: my-password
+            username: my-username
+      type: object
+      required:
+      - name
+      - description
+      title: ServiceCreateRequest
+      description: Request model to create a service.
     ServiceUpdateRequest:
       properties:
         name:
@@ -361,14 +397,13 @@ components:
       - id
       title: ServiceUpdateRequest
       description: Request model to update an existing service.
-    ToolAuthType:
+    OrderByDirection:
       type: string
       enum:
-      - basic
-      - bearer
-      - custom_headers
-      - oauth2
-      title: ToolAuthType
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
     ValidationError:
       properties:
         loc:
@@ -390,15 +425,14 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+    ToolAuthType:
+      type: string
+      enum:
+      - basic
+      - bearer
+      - custom_headers
+      - oauth2
+      title: ToolAuthType
     ServiceResponse:
       properties:
         id:
@@ -477,6 +511,15 @@ components:
       - tools
       title: ServiceResponse
       description: Response model for service operations. A service is a collection of tools.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ListResponse_ServiceResponse_:
       properties:
         items:
@@ -520,49 +563,6 @@ components:
       - page
       - page_size
       title: ListResponse[ServiceResponse]
-    ServiceCreateRequest:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: The name of the service
-          examples:
-          - Weather tools
-        description:
-          type: string
-          title: Description
-          description: The description of the service
-          examples:
-          - Service containing tools for fetching weather information
-        auth_type:
-          anyOf:
-          - $ref: '#/components/schemas/ToolAuthType'
-          - type: 'null'
-          description: The type of authentication to use for the service's tools
-          examples:
-          - basic
-        auth_values:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Auth Values
-          description: The values to use for the authentication, as a dict. Should contain "username" and "password" keys if auth type is basic, "token" key if auth type is bearer, arbitrary header keys if auth type is custom_headers. or "client_id", "client_secret", and "auth_url" keys if auth type is oauth2. On an update, leave a value for a given key null and the value in the database will not be updated. (If a key is omitted entirely, any existing value for that key will be removed.)
-          examples:
-          - password: my-password
-            username: my-username
-      type: object
-      required:
-      - name
-      - description
-      title: ServiceCreateRequest
-      description: Request model to create a service.
-    OrderByDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
   securitySchemes:
     APIKeyHeader:
       type: apiKey

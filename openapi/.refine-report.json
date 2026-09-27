@@ -4,7 +4,6 @@
     "_original/syllable-sdk-openapi-original.yml"
   ],
   "outputs": [
-    "syllable-v1-api-openapi.yml",
     "syllable-agents-api-openapi.yml",
     "syllable-agents-test-api-openapi.yml",
     "syllable-bridge-phrases-api-openapi.yml",
@@ -46,13 +45,14 @@
     "syllable-users-api-openapi.yml",
     "syllable-voice-groups-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "deleted 1 superseded output(s) from the previous generation"
+  ],
   "errors": [],
   "warnings": [],
   "notes": [
     "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "syllable-sdk-openapi-original.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "syllable-sdk-openapi-original.yml: declared missing tag: V1",
     "syllable-sdk-openapi-original.yml: declared missing tag: bridge_phrases",
     "syllable-sdk-openapi-original.yml: declared missing tag: conversation-config",
     "syllable-sdk-openapi-original.yml: declared missing tag: organizations.sip_ip_ranges",
@@ -65,7 +65,8 @@
     "syllable-sdk-openapi-original.yml: declared missing tag: takeouts",
     "syllable-sdk-openapi-original.yml: declared missing tag: users",
     "syllable-sdk-openapi-original.yml: declared missing tag: voice_groups",
-    "apis.yml register: already-registered"
+    "superseded outputs removed: syllable-v1-api-openapi.yml",
+    "apis.yml register: written (+0 apis, 40 total)"
   ],
   "skipped": [
     "syllable-agents-api-openapi.yml: previously refined output, superseded by openapi/_original/",

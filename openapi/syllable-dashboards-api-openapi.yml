@@ -304,6 +304,62 @@ paths:
       - APIKeyHeader: []
 components:
   schemas:
+    Dashboard:
+      properties:
+        embedded_id:
+          type: string
+          title: Embedded Id
+          description: Superset embedded ID of the dashboard
+        guest_token:
+          type: string
+          title: Guest Token
+          description: Superset guest token of the dashboard
+        name:
+          type: string
+          title: Name
+          description: Name of the dashboard
+        superset_url:
+          type: string
+          title: Superset Url
+          description: Superset URL of the dashboard
+      type: object
+      required:
+      - embedded_id
+      - guest_token
+      - name
+      - superset_url
+      title: Dashboard
+      description: 'Deprecated.  Please update to use DashboardTokenResponse.
+
+        Basic information about a dashboard.'
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     DashboardProperties:
       type: string
       enum:
@@ -314,61 +370,6 @@ components:
       - label
       title: DashboardProperties
       description: Names of dashboard fields supported for filtering/sorting on list endpoint.
-    DashboardTokenResponse:
-      properties:
-        embedded_id:
-          type: string
-          title: Embedded Id
-          description: Superset embedded ID of the dashboard
-          examples:
-          - 976ef486-d1ea-49c7-ba81-18e955d80286
-        guest_token:
-          type: string
-          title: Guest Token
-          description: Superset guest token of the dashboard
-          examples:
-          - some-guest-token
-        name:
-          type: string
-          title: Name
-          description: Name of the dashboard
-          examples:
-          - session_summary
-        display_name:
-          type: string
-          title: Display Name
-          description: Display name of the dashboard
-          examples:
-          - Session Summary
-        superset_url:
-          type: string
-          title: Superset Url
-          description: Base Superset URL of the dashboard
-          examples:
-          - https://somesuperseturl.com
-        rank:
-          type: integer
-          title: Rank
-          description: Dashboard importance (0 is the highest)
-          examples:
-          - 0
-        label:
-          type: string
-          title: Label
-          description: Dashboard label. Typically "report" or "dashboard"
-          examples:
-          - dashboard
-      type: object
-      required:
-      - embedded_id
-      - guest_token
-      - name
-      - display_name
-      - superset_url
-      - rank
-      - label
-      title: DashboardTokenResponse
-      description: Basic information about a dashboard.
     ListResponse_DashboardResponse_:
       properties:
         items:
@@ -446,27 +447,61 @@ components:
       - label
       title: DashboardResponse
       description: Basic information about a dashboard with a description.
-    ValidationError:
+    DashboardTokenResponse:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        embedded_id:
           type: string
-          title: Message
-        type:
+          title: Embedded Id
+          description: Superset embedded ID of the dashboard
+          examples:
+          - 976ef486-d1ea-49c7-ba81-18e955d80286
+        guest_token:
           type: string
-          title: Error Type
+          title: Guest Token
+          description: Superset guest token of the dashboard
+          examples:
+          - some-guest-token
+        name:
+          type: string
+          title: Name
+          description: Name of the dashboard
+          examples:
+          - session_summary
+        display_name:
+          type: string
+          title: Display Name
+          description: Display name of the dashboard
+          examples:
+          - Session Summary
+        superset_url:
+          type: string
+          title: Superset Url
+          description: Base Superset URL of the dashboard
+          examples:
+          - https://somesuperseturl.com
+        rank:
+          type: integer
+          title: Rank
+          description: Dashboard importance (0 is the highest)
+          examples:
+          - 0
+        label:
+          type: string
+          title: Label
+          description: Dashboard label. Typically "report" or "dashboard"
+          examples:
+          - dashboard
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - embedded_id
+      - guest_token
+      - name
+      - display_name
+      - superset_url
+      - rank
+      - label
+      title: DashboardTokenResponse
+      description: Basic information about a dashboard.
     HTTPValidationError:
       properties:
         detail:
@@ -476,41 +511,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    Dashboard:
-      properties:
-        embedded_id:
-          type: string
-          title: Embedded Id
-          description: Superset embedded ID of the dashboard
-        guest_token:
-          type: string
-          title: Guest Token
-          description: Superset guest token of the dashboard
-        name:
-          type: string
-          title: Name
-          description: Name of the dashboard
-        superset_url:
-          type: string
-          title: Superset Url
-          description: Superset URL of the dashboard
-      type: object
-      required:
-      - embedded_id
-      - guest_token
-      - name
-      - superset_url
-      title: Dashboard
-      description: 'Deprecated.  Please update to use DashboardTokenResponse.
-
-        Basic information about a dashboard.'
-    OrderByDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
   securitySchemes:
     APIKeyHeader:
       type: apiKey
