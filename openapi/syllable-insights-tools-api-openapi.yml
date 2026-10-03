@@ -387,6 +387,81 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.insights.tools.insightToolGetDefinitions();\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ListResponse_InsightToolOutput_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/InsightToolOutput'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[InsightToolOutput]
+    InsightToolProperties:
+      type: string
+      enum:
+      - id
+      - name
+      - name_exact
+      - description
+      - tool_arguments
+      - insight_tool_definition_id
+      - updated_at
+      title: InsightToolProperties
     InsightToolTestInput:
       properties:
         tool_name:
@@ -416,6 +491,15 @@ components:
       - tool_name
       title: InsightToolTestInput
       description: Request model to test an insight tool.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     InsightToolOutput:
       properties:
         name:
@@ -489,45 +573,6 @@ components:
       - last_updated_by
       title: InsightToolOutput
       description: Response model for an insight tool configuration.
-    OrderByDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
-    InsightToolProperties:
-      type: string
-      enum:
-      - id
-      - name
-      - name_exact
-      - description
-      - tool_arguments
-      - insight_tool_definition_id
-      - updated_at
-      title: InsightToolProperties
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     InsightToolDefinition:
       properties:
         id:
@@ -574,6 +619,13 @@ components:
       description: 'Model for an insight tool definition. This is a template that can be used by multiple insight
 
         tool configurations, each providing their own parameter values.'
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
     InsightToolInput:
       properties:
         name:
@@ -614,58 +666,6 @@ components:
       - insight_tool_definition_id
       title: InsightToolInput
       description: Request model to create/update an insight tool configuration.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ListResponse_InsightToolOutput_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/InsightToolOutput'
-          type: array
-          title: Items
-          description: List of items returned from the query
-          examples: []
-        page:
-          type: integer
-          title: Page
-          description: The page number of the results (0-based)
-          examples:
-          - 0
-        page_size:
-          type: integer
-          title: Page Size
-          description: The number of items returned per page
-          examples:
-          - 25
-        total_pages:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Pages
-          description: The total number of pages of results given the indicated page size
-          examples:
-          - 4
-        total_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Count
-          description: The total number of items returned from the query
-          examples:
-          - 100
-      type: object
-      required:
-      - items
-      - page
-      - page_size
-      title: ListResponse[InsightToolOutput]
   securitySchemes:
     APIKeyHeader:
       type: apiKey

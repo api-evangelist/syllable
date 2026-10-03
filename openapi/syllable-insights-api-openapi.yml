@@ -156,24 +156,27 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.insights.list({\n    page: 0,\n    searchFields: [\n      \"upload_file_id\",\n    ],\n    searchFieldValues: [\n      \"Some Object Name\",\n    ],\n    startDatetime: \"2023-01-01T00:00:00Z\",\n    endDatetime: \"2024-01-01T00:00:00Z\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
-    OrderByDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
-    InsightsProperties:
-      type: string
-      enum:
-      - id
-      - session_id
-      - upload_file_id
-      - workflow_id
-      - upload_folder_id
-      - insight_key
-      - insight_tool_id
-      title: InsightsProperties
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     InsightsOutput:
       properties:
         id:
@@ -282,27 +285,22 @@ components:
       - json_value
       title: InsightsOutput
       description: Response model for an insight tool.
-    ValidationError:
+    HTTPValidationError:
       properties:
-        loc:
+        detail:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Detail
       type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      title: HTTPValidationError
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
     ListResponse_InsightsOutput_:
       properties:
         items:
@@ -346,15 +344,17 @@ components:
       - page
       - page_size
       title: ListResponse[InsightsOutput]
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+    InsightsProperties:
+      type: string
+      enum:
+      - id
+      - session_id
+      - upload_file_id
+      - workflow_id
+      - upload_folder_id
+      - insight_key
+      - insight_tool_id
+      title: InsightsProperties
   securitySchemes:
     APIKeyHeader:
       type: apiKey

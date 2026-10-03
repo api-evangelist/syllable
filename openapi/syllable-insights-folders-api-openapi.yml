@@ -599,13 +599,76 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.insights.folders.moveFiles({\n    folderId: 815114,\n    insightsFolderFileMove: {\n      destinationFolderId: 182764,\n      fileIdList: [\n        12334,\n        23445,\n        34556,\n      ],\n    },\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
-    OrderByDirection:
+    InsightsUploadFileProperties:
       type: string
       enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
+      - filename
+      - filename_exact
+      - call_id
+      - agent_number
+      - customer_number
+      - duration
+      - start_time
+      - end_time
+      - created_at
+      title: InsightsUploadFileProperties
+    InsightsFolder:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Human-readable name of insight folder
+          examples:
+          - customer-complaints
+        label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label
+          description: optional label assigned to insight folder
+          examples:
+          - support
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Text description of insight upload folder
+          examples:
+          - Call recordings related to customer complaints
+        id:
+          type: integer
+          title: Id
+          description: System-assign folder ID
+          examples:
+          - 182764
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: Timestamp at which insight upload folder was created
+          examples:
+          - '2026-08-04T00:00:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+          description: Timestamp at which insight upload folder was last updated
+          examples:
+          - '2026-08-05T00:00:00Z'
+        last_updated_by:
+          type: string
+          title: Last Updated By
+          description: Email of user who last updated upload folder
+          examples:
+          - user@email.com
+      type: object
+      required:
+      - name
+      - id
+      - last_updated_by
+      title: InsightsFolder
+      description: Response model for an insight upload folder.
     ValidationError:
       properties:
         loc:
@@ -627,6 +690,167 @@ components:
       - msg
       - type
       title: ValidationError
+    InsightsFolderProperties:
+      type: string
+      enum:
+      - id
+      - name
+      - name_exact
+      - label
+      - updated_at
+      title: InsightsFolderProperties
+    InsightsFolderFileMove:
+      properties:
+        destination_folder_id:
+          type: integer
+          title: Destination Folder Id
+          description: System-assign folder ID
+          examples:
+          - 182764
+        file_id_list:
+          items:
+            type: integer
+          type: array
+          title: File Id List
+          description: List of system-assigned IDs for the files to be moved
+          examples:
+          - '[12334,23445,34556]'
+      type: object
+      required:
+      - destination_folder_id
+      - file_id_list
+      title: InsightsFolderFileMove
+      description: Request model to move files between insight upload folders.
+    FolderDetails:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Human-readable name of insight folder
+          examples:
+          - customer-complaints
+        label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label
+          description: optional label assigned to insight folder
+          examples:
+          - support
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Text description of insight upload folder
+          examples:
+          - Call recordings related to customer complaints
+        id:
+          type: integer
+          title: Id
+          description: System-assign folder ID
+          examples:
+          - 182764
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: Timestamp at which insight upload folder was created
+          examples:
+          - '2026-08-04T00:00:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+          description: Timestamp at which insight upload folder was last updated
+          examples:
+          - '2026-08-05T00:00:00Z'
+        last_updated_by:
+          type: string
+          title: Last Updated By
+          description: Email of user who last updated upload folder
+          examples:
+          - user@email.com
+        folder_stats:
+          additionalProperties:
+            anyOf:
+            - type: string
+            - type: integer
+            - type: number
+          type: object
+          title: Folder Stats
+          description: Meta-data of insight upload files associated with the folder
+          examples:
+          - count: 10
+            total_duration: '10:00:00'
+            total_size: 213MB
+      type: object
+      required:
+      - name
+      - id
+      - last_updated_by
+      - folder_stats
+      title: FolderDetails
+      description: Response model for an insight upload folder details.
+    ListResponse_InsightsUploadFile_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/InsightsUploadFile'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[InsightsUploadFile]
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
     InsightsUploadFile:
       properties:
         id:
@@ -740,166 +964,6 @@ components:
       - object_key
       title: InsightsUploadFile
       description: Response model for an insight upload file.
-    InsightsFolder:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Human-readable name of insight folder
-          examples:
-          - customer-complaints
-        label:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Label
-          description: optional label assigned to insight folder
-          examples:
-          - support
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: Text description of insight upload folder
-          examples:
-          - Call recordings related to customer complaints
-        id:
-          type: integer
-          title: Id
-          description: System-assign folder ID
-          examples:
-          - 182764
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-          description: Timestamp at which insight upload folder was created
-          examples:
-          - '2026-08-04T00:00:00Z'
-        updated_at:
-          type: string
-          format: date-time
-          title: Updated At
-          description: Timestamp at which insight upload folder was last updated
-          examples:
-          - '2026-08-05T00:00:00Z'
-        last_updated_by:
-          type: string
-          title: Last Updated By
-          description: Email of user who last updated upload folder
-          examples:
-          - user@email.com
-      type: object
-      required:
-      - name
-      - id
-      - last_updated_by
-      title: InsightsFolder
-      description: Response model for an insight upload folder.
-    InsightsFolderInput:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Human-readable name of insight folder
-          examples:
-          - customer-complaints
-        label:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Label
-          description: optional label assigned to insight folder
-          examples:
-          - support
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: Text description of insight upload folder
-          examples:
-          - Call recordings related to customer complaints
-      type: object
-      required:
-      - name
-      title: InsightsFolderInput
-      description: Request model to create/update an insight upload folder.
-    InsightsFolderFileMove:
-      properties:
-        destination_folder_id:
-          type: integer
-          title: Destination Folder Id
-          description: System-assign folder ID
-          examples:
-          - 182764
-        file_id_list:
-          items:
-            type: integer
-          type: array
-          title: File Id List
-          description: List of system-assigned IDs for the files to be moved
-          examples:
-          - '[12334,23445,34556]'
-      type: object
-      required:
-      - destination_folder_id
-      - file_id_list
-      title: InsightsFolderFileMove
-      description: Request model to move files between insight upload folders.
-    ListResponse_InsightsUploadFile_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/InsightsUploadFile'
-          type: array
-          title: Items
-          description: List of items returned from the query
-          examples: []
-        page:
-          type: integer
-          title: Page
-          description: The page number of the results (0-based)
-          examples:
-          - 0
-        page_size:
-          type: integer
-          title: Page Size
-          description: The number of items returned per page
-          examples:
-          - 25
-        total_pages:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Pages
-          description: The total number of pages of results given the indicated page size
-          examples:
-          - 4
-        total_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Count
-          description: The total number of items returned from the query
-          examples:
-          - 100
-      type: object
-      required:
-      - items
-      - page
-      - page_size
-      title: ListResponse[InsightsUploadFile]
-    InsightsFolderProperties:
-      type: string
-      enum:
-      - id
-      - name
-      - name_exact
-      - label
-      - updated_at
-      title: InsightsFolderProperties
     ListResponse_InsightsFolder_:
       properties:
         items:
@@ -943,7 +1007,7 @@ components:
       - page
       - page_size
       title: ListResponse[InsightsFolder]
-    FolderDetails:
+    InsightsFolderInput:
       properties:
         name:
           type: string
@@ -967,75 +1031,11 @@ components:
           description: Text description of insight upload folder
           examples:
           - Call recordings related to customer complaints
-        id:
-          type: integer
-          title: Id
-          description: System-assign folder ID
-          examples:
-          - 182764
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-          description: Timestamp at which insight upload folder was created
-          examples:
-          - '2026-08-04T00:00:00Z'
-        updated_at:
-          type: string
-          format: date-time
-          title: Updated At
-          description: Timestamp at which insight upload folder was last updated
-          examples:
-          - '2026-08-05T00:00:00Z'
-        last_updated_by:
-          type: string
-          title: Last Updated By
-          description: Email of user who last updated upload folder
-          examples:
-          - user@email.com
-        folder_stats:
-          additionalProperties:
-            anyOf:
-            - type: string
-            - type: integer
-            - type: number
-          type: object
-          title: Folder Stats
-          description: Meta-data of insight upload files associated with the folder
-          examples:
-          - count: 10
-            total_duration: '10:00:00'
-            total_size: 213MB
       type: object
       required:
       - name
-      - id
-      - last_updated_by
-      - folder_stats
-      title: FolderDetails
-      description: Response model for an insight upload folder details.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    InsightsUploadFileProperties:
-      type: string
-      enum:
-      - filename
-      - filename_exact
-      - call_id
-      - agent_number
-      - customer_number
-      - duration
-      - start_time
-      - end_time
-      - created_at
-      title: InsightsUploadFileProperties
+      title: InsightsFolderInput
+      description: Request model to create/update an insight upload folder.
     Body_insights_folder_upload_file:
       properties:
         file:

@@ -50,13 +50,6 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.sessions.timeline.getById({\n    sessionId: \"<id>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
-    TimelineEventKind:
-      type: string
-      enum:
-      - transcript
-      - tool
-      - latency
-      title: TimelineEventKind
     TimelineEvent:
       properties:
         kind:
@@ -212,6 +205,13 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    TimelineEventKind:
+      type: string
+      enum:
+      - transcript
+      - tool
+      - latency
+      title: TimelineEventKind
   securitySchemes:
     APIKeyHeader:
       type: apiKey

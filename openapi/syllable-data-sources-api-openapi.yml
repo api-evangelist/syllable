@@ -300,46 +300,6 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.dataSources.delete({\n    dataSourceId: 509584,\n    reason: \"<value>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
-    DataSourceProperties:
-      type: string
-      enum:
-      - name
-      - description
-      - labels
-      - chunk
-      - chunk_delimiter
-      - updated_at
-      - last_updated_by
-      title: DataSourceProperties
-      description: Names of data source fields supported for filtering/sorting on list endpoint.
-    OrderByDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     DataSourceDetailResponse:
       properties:
         name:
@@ -469,6 +429,27 @@ components:
       - page
       - page_size
       title: ListResponse[DataSourceMetadataResponse]
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     DataSourceMetadataResponse:
       properties:
         name:
@@ -550,6 +531,18 @@ components:
         generating its responses. For more information, see
 
         [Console docs](https://docs.syllable.ai/Resources/DataSources).'
+    DataSourceProperties:
+      type: string
+      enum:
+      - name
+      - description
+      - labels
+      - chunk
+      - chunk_delimiter
+      - updated_at
+      - last_updated_by
+      title: DataSourceProperties
+      description: Names of data source fields supported for filtering/sorting on list endpoint.
     DataSourceCreateRequest:
       properties:
         name:
@@ -611,6 +604,15 @@ components:
       - text
       title: DataSourceCreateRequest
       description: Request model to create a data source.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     DataSourceUpdateRequest:
       properties:
         name:
@@ -687,15 +689,13 @@ components:
       - text
       title: DataSourceUpdateRequest
       description: Request model to update an existing data source.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
   securitySchemes:
     APIKeyHeader:
       type: apiKey

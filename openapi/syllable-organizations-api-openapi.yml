@@ -138,15 +138,34 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.organizations.delete({\n    deleteComments: \"Deleted the organization because it was no longer needed\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
-    Body_organizations_update:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Body_organizations_create:
       properties:
         logo:
-          anyOf:
-          - type: string
-            format: binary
-          - type: 'null'
+          type: string
+          format: binary
           title: Logo
-          description: The organization logo image file to upload. Must be a PNG file and 120x120 pixels. If not provided, the logo will not be updated.
+          description: The organization logo image file to upload. Must be a PNG file and 120x120 pixels.
         display_name:
           type: string
           title: Display Name
@@ -177,18 +196,11 @@ components:
           description: SAML provider ID for user authentication
           examples:
           - saml.syllablesso
-        update_comments:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Update Comments
-          description: Comments about the update
-          examples:
-          - Updated the organization to add a new domain
       type: object
       required:
+      - logo
       - display_name
-      title: Body_organizations_update
+      title: Body_organizations_create
     OrganizationResponse:
       properties:
         display_name:
@@ -273,34 +285,24 @@ components:
       - name
       - last_updated
       title: OrganizationResponse
-    ValidationError:
+    HTTPValidationError:
       properties:
-        loc:
+        detail:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Detail
       type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    Body_organizations_create:
+      title: HTTPValidationError
+    Body_organizations_update:
       properties:
         logo:
-          type: string
-          format: binary
+          anyOf:
+          - type: string
+            format: binary
+          - type: 'null'
           title: Logo
-          description: The organization logo image file to upload. Must be a PNG file and 120x120 pixels.
+          description: The organization logo image file to upload. Must be a PNG file and 120x120 pixels. If not provided, the logo will not be updated.
         display_name:
           type: string
           title: Display Name
@@ -331,20 +333,18 @@ components:
           description: SAML provider ID for user authentication
           examples:
           - saml.syllablesso
+        update_comments:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Update Comments
+          description: Comments about the update
+          examples:
+          - Updated the organization to add a new domain
       type: object
       required:
-      - logo
       - display_name
-      title: Body_organizations_create
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+      title: Body_organizations_update
     Body_organizations_delete:
       properties:
         delete_comments:

@@ -45,9 +45,7 @@
     "syllable-users-api-openapi.yml",
     "syllable-voice-groups-api-openapi.yml"
   ],
-  "archived": [
-    "deleted 1 superseded output(s) from the previous generation"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
@@ -65,8 +63,7 @@
     "syllable-sdk-openapi-original.yml: declared missing tag: takeouts",
     "syllable-sdk-openapi-original.yml: declared missing tag: users",
     "syllable-sdk-openapi-original.yml: declared missing tag: voice_groups",
-    "superseded outputs removed: syllable-v1-api-openapi.yml",
-    "apis.yml register: written (+0 apis, 40 total)"
+    "apis.yml register: already-registered"
   ],
   "skipped": [
     "syllable-agents-api-openapi.yml: previously refined output, superseded by openapi/_original/",
@@ -108,7 +105,6 @@
     "syllable-takeouts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "syllable-tools-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "syllable-users-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "syllable-v1-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "syllable-voice-groups-api-openapi.yml: previously refined output, superseded by openapi/_original/"
   ]
 }

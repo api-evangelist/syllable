@@ -175,6 +175,65 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.channels.twilio.numbers.list({\n    channelId: 739627,\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TwilioNumberAddRequest:
+      properties:
+        friendly_name:
+          type: string
+          title: Friendly Name
+          description: Friendly name for the Twilio number
+          examples:
+          - Support Line
+        area_code:
+          type: string
+          title: Area Code
+          description: Area code for the Twilio number
+          examples:
+          - '804'
+      type: object
+      required:
+      - friendly_name
+      - area_code
+      title: TwilioNumberAddRequest
+      description: Request model for purchasing a Twilio number and associating it with a channel.
+    TwilioListNumbersResponse:
+      properties:
+        phone_numbers:
+          items:
+            $ref: '#/components/schemas/TwilioPhoneNumber'
+          type: array
+          title: Phone Numbers
+          description: List of phone numbers.
+          examples:
+          - - friendly_name: Test number
+              phone_number: '+19876543210'
+              sid: PN123
+              trunk_sid: TK123
+      type: object
+      required:
+      - phone_numbers
+      title: TwilioListNumbersResponse
+      description: Response model for a list of Twilio phone numbers
     A2pMessagingPathCheckResponse:
       properties:
         a2p_approved:
@@ -191,6 +250,41 @@ components:
         Reflects Twilio configuration (Messaging Service + Brand + Campaign records); it is not
 
         carrier per-number REGISTERED state or legal/content compliance.'
+    A2pMessagingPathCheckRequest:
+      properties:
+        phone:
+          type: string
+          title: Phone
+          description: E.164 phone number exactly as Twilio stores it for this incoming number.
+          examples:
+          - '+18042221111'
+      type: object
+      required:
+      - phone
+      title: A2pMessagingPathCheckRequest
+      description: Body to check US A2P / Messaging Service setup for one number on the Twilio channel.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    TwilioNumberAddResponse:
+      properties:
+        phone_number:
+          type: string
+          title: Phone Number
+          description: The purchased Twilio phone number
+          examples:
+          - '+18042221111'
+      type: object
+      required:
+      - phone_number
+      title: TwilioNumberAddResponse
+      description: Response model for purchasing a Twilio number and associating it with a channel.
     TwilioPhoneNumber:
       properties:
         sid:
@@ -216,78 +310,6 @@ components:
       - friendly_name
       - trunk_sid
       title: TwilioPhoneNumber
-    TwilioNumberAddRequest:
-      properties:
-        friendly_name:
-          type: string
-          title: Friendly Name
-          description: Friendly name for the Twilio number
-          examples:
-          - Support Line
-        area_code:
-          type: string
-          title: Area Code
-          description: Area code for the Twilio number
-          examples:
-          - '804'
-      type: object
-      required:
-      - friendly_name
-      - area_code
-      title: TwilioNumberAddRequest
-      description: Request model for purchasing a Twilio number and associating it with a channel.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    A2pMessagingPathCheckRequest:
-      properties:
-        phone:
-          type: string
-          title: Phone
-          description: E.164 phone number exactly as Twilio stores it for this incoming number.
-          examples:
-          - '+18042221111'
-      type: object
-      required:
-      - phone
-      title: A2pMessagingPathCheckRequest
-      description: Body to check US A2P / Messaging Service setup for one number on the Twilio channel.
-    TwilioListNumbersResponse:
-      properties:
-        phone_numbers:
-          items:
-            $ref: '#/components/schemas/TwilioPhoneNumber'
-          type: array
-          title: Phone Numbers
-          description: List of phone numbers.
-          examples:
-          - - friendly_name: Test number
-              phone_number: '+19876543210'
-              sid: PN123
-              trunk_sid: TK123
-      type: object
-      required:
-      - phone_numbers
-      title: TwilioListNumbersResponse
-      description: Response model for a list of Twilio phone numbers
     TwilioNumberUpdateResponse:
       properties:
         phone_number:
@@ -301,28 +323,6 @@ components:
       - phone_number
       title: TwilioNumberUpdateResponse
       description: Response model for updating a Twilio number and associating it with a channel.
-    TwilioNumberAddResponse:
-      properties:
-        phone_number:
-          type: string
-          title: Phone Number
-          description: The purchased Twilio phone number
-          examples:
-          - '+18042221111'
-      type: object
-      required:
-      - phone_number
-      title: TwilioNumberAddResponse
-      description: Response model for purchasing a Twilio number and associating it with a channel.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     TwilioNumberUpdateRequest:
       properties:
         friendly_name:

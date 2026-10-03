@@ -131,6 +131,37 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.sessionDebug.getSessionToolCallResultById({\n    sessionId: 832133,\n    toolCallId: \"<id>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
+    SessionMessage:
+      properties:
+        role:
+          $ref: '#/components/schemas/DialogRole'
+          description: Dialog role
+          examples:
+          - agent
+          - user
+        dialog:
+          $ref: '#/components/schemas/DialogMessage'
+          description: Dialog message
+        tool_calls:
+          items:
+            $ref: '#/components/schemas/DialogToolCall'
+          type: array
+          title: Tool Calls
+          description: Tool calls
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+          description: Message timestamp
+          examples:
+          - '2024-06-19T00:00:00'
+      type: object
+      required:
+      - role
+      - dialog
+      - tool_calls
+      - timestamp
+      title: SessionMessage
     ToolResultData:
       properties:
         tool_name:
@@ -210,18 +241,6 @@ components:
       - msg
       - type
       title: ValidationError
-    DialogMessage:
-      properties:
-        text:
-          type: string
-          title: Text
-          description: Dialog message text
-          examples:
-          - Tell me about Syllable.ai!
-      type: object
-      required:
-      - text
-      title: DialogMessage
     DialogToolCall:
       properties:
         tool_call_id:
@@ -264,13 +283,6 @@ components:
       - tool_result
       - timestamp
       title: DialogToolCall
-    DialogRole:
-      type: string
-      enum:
-      - agent
-      - user
-      title: DialogRole
-      description: Role of dialog
     HTTPValidationError:
       properties:
         detail:
@@ -280,37 +292,25 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    SessionMessage:
+    DialogMessage:
       properties:
-        role:
-          $ref: '#/components/schemas/DialogRole'
-          description: Dialog role
-          examples:
-          - agent
-          - user
-        dialog:
-          $ref: '#/components/schemas/DialogMessage'
-          description: Dialog message
-        tool_calls:
-          items:
-            $ref: '#/components/schemas/DialogToolCall'
-          type: array
-          title: Tool Calls
-          description: Tool calls
-        timestamp:
+        text:
           type: string
-          format: date-time
-          title: Timestamp
-          description: Message timestamp
+          title: Text
+          description: Dialog message text
           examples:
-          - '2024-06-19T00:00:00'
+          - Tell me about Syllable.ai!
       type: object
       required:
-      - role
-      - dialog
-      - tool_calls
-      - timestamp
-      title: SessionMessage
+      - text
+      title: DialogMessage
+    DialogRole:
+      type: string
+      enum:
+      - agent
+      - user
+      title: DialogRole
+      description: Role of dialog
   securitySchemes:
     APIKeyHeader:
       type: apiKey

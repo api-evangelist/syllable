@@ -147,6 +147,71 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  await syllableSDK.organizations.sipIpRanges.delete({\n    sipIpRangeId: 394521,\n  });\n\n\n}\n\nrun();"
 components:
   schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    OrganizationSipIpRangeType:
+      type: string
+      enum:
+      - signaling
+      - media
+      title: OrganizationSipIpRangeType
+      description: 'The type of SIP IP range. Signaling IP ranges are used for SIP signaling traffic (e.g. SIP INVITE,
+
+        SIP REFER, SIP OPTIONS, etc.), while media IP ranges are used for SIP media traffic
+
+        (audio and video).'
+    OrganizationSipIpRangeUpdate:
+      properties:
+        type:
+          anyOf:
+          - $ref: '#/components/schemas/OrganizationSipIpRangeType'
+          - type: 'null'
+          description: The SIP IP range type
+          examples:
+          - signaling
+          - media
+        ip_range:
+          anyOf:
+          - type: string
+            format: ipv4network
+          - type: string
+            format: ipv6network
+          - type: 'null'
+          title: Ip Range
+          description: The SIP IP range in CIDR notation
+          examples:
+          - 192.168.1.0/24
+      type: object
+      title: OrganizationSipIpRangeUpdate
+      description: The request body for updating a SIP IP range.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     OrganizationSipIpRange:
       properties:
         type:
@@ -207,62 +272,6 @@ components:
       - verified
       title: OrganizationSipIpRange
       description: SIP IP range object.
-    OrganizationSipIpRangeUpdate:
-      properties:
-        type:
-          anyOf:
-          - $ref: '#/components/schemas/OrganizationSipIpRangeType'
-          - type: 'null'
-          description: The SIP IP range type
-          examples:
-          - signaling
-          - media
-        ip_range:
-          anyOf:
-          - type: string
-            format: ipv4network
-          - type: string
-            format: ipv6network
-          - type: 'null'
-          title: Ip Range
-          description: The SIP IP range in CIDR notation
-          examples:
-          - 192.168.1.0/24
-      type: object
-      title: OrganizationSipIpRangeUpdate
-      description: The request body for updating a SIP IP range.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    OrganizationSipIpRangeType:
-      type: string
-      enum:
-      - signaling
-      - media
-      title: OrganizationSipIpRangeType
-      description: 'The type of SIP IP range. Signaling IP ranges are used for SIP signaling traffic (e.g. SIP INVITE,
-
-        SIP REFER, SIP OPTIONS, etc.), while media IP ranges are used for SIP media traffic
-
-        (audio and video).'
     OrganizationSipIpRangeCreate:
       properties:
         type:
@@ -287,15 +296,6 @@ components:
       - ip_range
       title: OrganizationSipIpRangeCreate
       description: The request body for creating a new SIP IP range.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     APIKeyHeader:
       type: apiKey

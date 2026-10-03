@@ -267,13 +267,6 @@ components:
       - page
       - page_size
       title: ListResponse[SessionLabel]
-    OrderByDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
     ValidationError:
       properties:
         loc:
@@ -295,72 +288,6 @@ components:
       - msg
       - type
       title: ValidationError
-    SessionLabelCreate:
-      properties:
-        session_id:
-          type: integer
-          title: Session Id
-          description: The internal ID of the session (see Session.session_id)
-          examples:
-          - 1
-        type:
-          type: string
-          title: Type
-          description: The type of the label (either "auto-rating" or "human-rating")
-          examples:
-          - auto-rating
-          - human-rating
-        code:
-          type: string
-          title: Code
-          description: A code describing the quality of the labeled session (either "GOOD", "OK", "BAD", or "N/A")
-          examples:
-          - GOOD
-          - OK
-          - BAD
-          - N/A
-        user_email:
-          type: string
-          title: User Email
-          description: The email of the user who created the label
-          examples:
-          - user@email.com
-        comments:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Comments
-          description: Comment string describing additional details about the session
-        issue_categories:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Issue Categories
-          description: Descriptions of issues occurring in the labeled call
-          default: []
-          examples:
-          - - Silent treatment
-          - - Speech transcription (STT)
-      type: object
-      required:
-      - session_id
-      - type
-      - code
-      - user_email
-      title: SessionLabelCreate
-    SessionLabelProperties:
-      type: string
-      enum:
-      - timestamp
-      - session_id
-      - type
-      - code
-      - user_email
-      - issue_categories
-      - session_id_list
-      title: SessionLabelProperties
     SessionLabel:
       properties:
         session_id:
@@ -435,6 +362,72 @@ components:
         A session label is associated with a given session and contains an evaluation of quality and
 
         descriptions of issues the user encountered in that session or other details.'
+    SessionLabelCreate:
+      properties:
+        session_id:
+          type: integer
+          title: Session Id
+          description: The internal ID of the session (see Session.session_id)
+          examples:
+          - 1
+        type:
+          type: string
+          title: Type
+          description: The type of the label (either "auto-rating" or "human-rating")
+          examples:
+          - auto-rating
+          - human-rating
+        code:
+          type: string
+          title: Code
+          description: A code describing the quality of the labeled session (either "GOOD", "OK", "BAD", or "N/A")
+          examples:
+          - GOOD
+          - OK
+          - BAD
+          - N/A
+        user_email:
+          type: string
+          title: User Email
+          description: The email of the user who created the label
+          examples:
+          - user@email.com
+        comments:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Comments
+          description: Comment string describing additional details about the session
+        issue_categories:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Issue Categories
+          description: Descriptions of issues occurring in the labeled call
+          default: []
+          examples:
+          - - Silent treatment
+          - - Speech transcription (STT)
+      type: object
+      required:
+      - session_id
+      - type
+      - code
+      - user_email
+      title: SessionLabelCreate
+    SessionLabelProperties:
+      type: string
+      enum:
+      - timestamp
+      - session_id
+      - type
+      - code
+      - user_email
+      - issue_categories
+      - session_id_list
+      title: SessionLabelProperties
     HTTPValidationError:
       properties:
         detail:
@@ -444,6 +437,13 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
   securitySchemes:
     APIKeyHeader:
       type: apiKey

@@ -58,27 +58,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    SessionSummaryResponse:
-      properties:
-        summary:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Summary
-          description: The AI summary of the session
-          examples:
-          - The customer service agent successfully assisted the caller with their inquiry and the call ended positively.
-        rating:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Rating
-          description: The AI rating of the session
-          examples:
-          - Good
-      type: object
-      title: SessionSummaryResponse
-      description: AI summary information for a given session.
     ValidationError:
       properties:
         loc:
@@ -100,6 +79,27 @@ components:
       - msg
       - type
       title: ValidationError
+    SessionSummaryResponse:
+      properties:
+        summary:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Summary
+          description: The AI summary of the session
+          examples:
+          - The customer service agent successfully assisted the caller with their inquiry and the call ended positively.
+        rating:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Rating
+          description: The AI rating of the session
+          examples:
+          - Good
+      type: object
+      title: SessionSummaryResponse
+      description: AI summary information for a given session.
   securitySchemes:
     APIKeyHeader:
       type: apiKey

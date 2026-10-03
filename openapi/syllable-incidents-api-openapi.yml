@@ -326,122 +326,6 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.incidents.delete({\n    incidentId: 400877,\n    reason: \"<value>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
-    IncidentResponse:
-      properties:
-        description:
-          type: string
-          title: Description
-          description: Description of the service incident
-          examples:
-          - Service outage in region X
-        start_datetime:
-          type: string
-          format: date-time
-          title: Start Datetime
-          description: Start time of the incident
-          examples:
-          - '2023-10-01T08:00:00Z'
-        resolution_datetime:
-          type: string
-          format: date-time
-          title: Resolution Datetime
-          description: Resolution time of the incident
-          examples:
-          - '2023-10-01T12:00:00Z'
-        impact_category:
-          type: string
-          title: Impact Category
-          description: Category of the impact
-          examples:
-          - High
-        sessions_impacted:
-          type: integer
-          title: Sessions Impacted
-          description: Number of sessions impacted
-          examples:
-          - 1500
-        markdown:
-          type: string
-          title: Markdown
-          description: Detailed markdown description of the incident
-          examples:
-          - '**Incident Details**'
-        organization_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Organization Id
-          description: The ID of the organization
-          examples:
-          - 123
-        sub_organization_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Sub Organization Id
-          description: The ID of the sub-organization
-          examples:
-          - 456
-        sub_organization:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sub Organization
-          description: The name of the sub-organization (DEPRECATED)
-          deprecated: true
-          examples:
-          - SubOrg A
-        id:
-          type: integer
-          title: Id
-          description: The ID of the incident to update
-          examples:
-          - 1
-        created_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Created At
-          description: Creation time of the incident
-          examples:
-          - '2023-10-01T08:00:00Z'
-        updated_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Updated At
-          description: Last update time of the incident
-          examples:
-          - '2023-10-01T08:00:00Z'
-        last_updated_by:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Last Updated By
-          description: The email of the user who last updated the incident
-          examples:
-          - user@mail.com
-      type: object
-      required:
-      - description
-      - start_datetime
-      - resolution_datetime
-      - impact_category
-      - sessions_impacted
-      - markdown
-      - id
-      - last_updated_by
-      title: IncidentResponse
-      description: Response model for service incident operations.
-    OrderByDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
     ValidationError:
       properties:
         loc:
@@ -463,6 +347,23 @@ components:
       - msg
       - type
       title: ValidationError
+    IncidentProperties:
+      type: string
+      enum:
+      - id
+      - description
+      - impact_category
+      - sessions_impacted
+      - markdown
+      - created_at
+      - updated_at
+      - organization_id
+      - sub_organization_id
+      - start_datetime
+      - end_datetime
+      - resolution_datetime
+      title: IncidentProperties
+      description: Names of agent fields supported for filtering/sorting on list endpoint.
     IncidentCreateRequest:
       properties:
         description:
@@ -689,23 +590,122 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    IncidentProperties:
-      type: string
-      enum:
-      - id
+    IncidentResponse:
+      properties:
+        description:
+          type: string
+          title: Description
+          description: Description of the service incident
+          examples:
+          - Service outage in region X
+        start_datetime:
+          type: string
+          format: date-time
+          title: Start Datetime
+          description: Start time of the incident
+          examples:
+          - '2023-10-01T08:00:00Z'
+        resolution_datetime:
+          type: string
+          format: date-time
+          title: Resolution Datetime
+          description: Resolution time of the incident
+          examples:
+          - '2023-10-01T12:00:00Z'
+        impact_category:
+          type: string
+          title: Impact Category
+          description: Category of the impact
+          examples:
+          - High
+        sessions_impacted:
+          type: integer
+          title: Sessions Impacted
+          description: Number of sessions impacted
+          examples:
+          - 1500
+        markdown:
+          type: string
+          title: Markdown
+          description: Detailed markdown description of the incident
+          examples:
+          - '**Incident Details**'
+        organization_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Organization Id
+          description: The ID of the organization
+          examples:
+          - 123
+        sub_organization_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Sub Organization Id
+          description: The ID of the sub-organization
+          examples:
+          - 456
+        sub_organization:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sub Organization
+          description: The name of the sub-organization (DEPRECATED)
+          deprecated: true
+          examples:
+          - SubOrg A
+        id:
+          type: integer
+          title: Id
+          description: The ID of the incident to update
+          examples:
+          - 1
+        created_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created At
+          description: Creation time of the incident
+          examples:
+          - '2023-10-01T08:00:00Z'
+        updated_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Updated At
+          description: Last update time of the incident
+          examples:
+          - '2023-10-01T08:00:00Z'
+        last_updated_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Updated By
+          description: The email of the user who last updated the incident
+          examples:
+          - user@mail.com
+      type: object
+      required:
       - description
+      - start_datetime
+      - resolution_datetime
       - impact_category
       - sessions_impacted
       - markdown
-      - created_at
-      - updated_at
-      - organization_id
-      - sub_organization_id
-      - start_datetime
-      - end_datetime
-      - resolution_datetime
-      title: IncidentProperties
-      description: Names of agent fields supported for filtering/sorting on list endpoint.
+      - id
+      - last_updated_by
+      title: IncidentResponse
+      description: Response model for service incident operations.
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
   securitySchemes:
     APIKeyHeader:
       type: apiKey

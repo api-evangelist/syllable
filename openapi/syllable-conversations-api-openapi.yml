@@ -155,13 +155,93 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.conversations.list({\n    page: 0,\n    searchFields: [\n      \"agent_name\",\n    ],\n    searchFieldValues: [\n      \"Some Object Name\",\n    ],\n    startDatetime: \"2023-01-01T00:00:00Z\",\n    endDatetime: \"2024-01-01T00:00:00Z\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
-    OrderByDirection:
+    ConversationProperties:
       type: string
       enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
+      - timestamp
+      - agent_type
+      - agent_id
+      - agent_name
+      - prompt_id
+      - prompt_name
+      - llm_provider
+      - llm_model
+      - llm_version
+      - is_legacy
+      title: ConversationProperties
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ListResponse_Conversation_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Conversation'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[Conversation]
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     Conversation:
       properties:
         timestamp:
@@ -253,93 +333,13 @@ components:
       description: 'A conversation is a record of messages between a user and an agent, and is composed of one or
 
         more sessions.'
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ConversationProperties:
+    OrderByDirection:
       type: string
       enum:
-      - timestamp
-      - agent_type
-      - agent_id
-      - agent_name
-      - prompt_id
-      - prompt_name
-      - llm_provider
-      - llm_model
-      - llm_version
-      - is_legacy
-      title: ConversationProperties
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ListResponse_Conversation_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/Conversation'
-          type: array
-          title: Items
-          description: List of items returned from the query
-          examples: []
-        page:
-          type: integer
-          title: Page
-          description: The page number of the results (0-based)
-          examples:
-          - 0
-        page_size:
-          type: integer
-          title: Page Size
-          description: The number of items returned per page
-          examples:
-          - 25
-        total_pages:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Pages
-          description: The total number of pages of results given the indicated page size
-          examples:
-          - 4
-        total_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Count
-          description: The total number of items returned from the query
-          examples:
-          - 100
-      type: object
-      required:
-      - items
-      - page
-      - page_size
-      title: ListResponse[Conversation]
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
   securitySchemes:
     APIKeyHeader:
       type: apiKey
