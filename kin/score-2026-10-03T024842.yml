@@ -1,24 +1,22 @@
-# Kin Score artifact — syllable — 2026-08-27T132314
+# Kin Score artifact — syllable — 2026-10-03T024842
 # The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
 ---
 kin_score:
   slug: syllable
-  schema_version: 0.15.1
-  scored_at: '2026-08-27'
-  run_ts: 2026-08-27T132314
-  composite: 64.8
+  schema_version: 0.23.0
+  scored_at: '2026-10-03'
+  run_ts: 2026-10-03T024842
+  composite: 58.8
   band: strong
   facets:
-    discoverability: 81.5
-    contract_quality: 66.0
-    governance: 30.3
+    discoverability: 71.7
+    contract_quality: 59.7
+    contract_governance: 18.2
     operational_transparency: 42.1
     developer_ergonomics: 85.7
-    commercial_clarity: 60.5
-    contract_governance: 30.3
     access_clarity: 60.5
   agent_readiness:
-    score: 34.3
+    score: 32.9
     band: agent-ready
     dimensions:
       spec_presence: true
@@ -34,7 +32,7 @@ kin_score:
       agent_skills: true
       well_known_catalog: false
       consent_identity: false
-      agent_card: flavored
+      agent_card: false
       dry_run_mode: false
       delegated_identity: false
       protected_resource_metadata: false
@@ -44,7 +42,7 @@ kin_score:
     applies: true
     regime: Telecommunications
     regime_id: telecommunications
-    score: 41.7
+    score: 23.4
     matched_via: tags
   provenance:
     mcp: first-party
@@ -52,7 +50,7 @@ kin_score:
     agentic_access: derived
     conformance: first-party
     contracts:
-      total: 41
+      total: 40
       derived: 0
       coverage: 0.0
       callable: 100.0
