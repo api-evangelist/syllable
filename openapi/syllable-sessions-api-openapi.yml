@@ -262,6 +262,80 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.sessions.sessionRecordingStream({\n    token: \"<value>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
+    SessionProperties:
+      type: string
+      enum:
+      - timestamp
+      - session_id
+      - conversation_id
+      - channel_manager_service
+      - channel_manager_type
+      - channel_manager_sid
+      - agent_type
+      - agent_id
+      - agent_name
+      - prompt_id
+      - prompt_name
+      - source
+      - target
+      - duration
+      - is_outbound
+      - is_legacy
+      - is_test
+      title: SessionProperties
+      description: Names of session fields supported for filtering/sorting on list endpoint.
+    SessionRecordingResponse:
+      properties:
+        session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Session Id
+          description: The internal ID of the session
+          examples:
+          - 1
+        recordings:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Recordings
+          description: List of recording URLs
+          examples:
+          - - https://example.com/recording1.mp3
+            - https://example.com/recording2.mp3
+      type: object
+      title: SessionRecordingResponse
+      description: Recording URLs for a given session.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
     Session:
       properties:
         timestamp:
@@ -422,73 +496,6 @@ components:
       - timestamp
       title: Session
       description: A session is a building block of a conversation.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    SessionRecordingResponse:
-      properties:
-        session_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Session Id
-          description: The internal ID of the session
-          examples:
-          - 1
-        recordings:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Recordings
-          description: List of recording URLs
-          examples:
-          - - https://example.com/recording1.mp3
-            - https://example.com/recording2.mp3
-      type: object
-      title: SessionRecordingResponse
-      description: Recording URLs for a given session.
-    SessionProperties:
-      type: string
-      enum:
-      - timestamp
-      - session_id
-      - conversation_id
-      - channel_manager_service
-      - channel_manager_type
-      - channel_manager_sid
-      - agent_type
-      - agent_id
-      - agent_name
-      - prompt_id
-      - prompt_name
-      - source
-      - target
-      - duration
-      - is_outbound
-      - is_legacy
-      - is_test
-      title: SessionProperties
-      description: Names of session fields supported for filtering/sorting on list endpoint.
     ListResponse_Session_:
       properties:
         items:
@@ -541,13 +548,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    OrderByDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
   securitySchemes:
     APIKeyHeader:
       type: apiKey

@@ -326,27 +326,6 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.incidents.delete({\n    incidentId: 400877,\n    reason: \"<value>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     IncidentProperties:
       type: string
       enum:
@@ -364,232 +343,6 @@ components:
       - resolution_datetime
       title: IncidentProperties
       description: Names of agent fields supported for filtering/sorting on list endpoint.
-    IncidentCreateRequest:
-      properties:
-        description:
-          type: string
-          title: Description
-          description: Description of the service incident
-          examples:
-          - Service outage in region X
-        start_datetime:
-          type: string
-          format: date-time
-          title: Start Datetime
-          description: Start time of the incident
-          examples:
-          - '2023-10-01T08:00:00Z'
-        resolution_datetime:
-          type: string
-          format: date-time
-          title: Resolution Datetime
-          description: Resolution time of the incident
-          examples:
-          - '2023-10-01T12:00:00Z'
-        impact_category:
-          type: string
-          title: Impact Category
-          description: Category of the impact
-          examples:
-          - High
-        sessions_impacted:
-          type: integer
-          title: Sessions Impacted
-          description: Number of sessions impacted
-          examples:
-          - 1500
-        markdown:
-          type: string
-          title: Markdown
-          description: Detailed markdown description of the incident
-          examples:
-          - '**Incident Details**'
-        organization_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Organization Id
-          description: The ID of the organization
-          examples:
-          - 123
-        sub_organization_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Sub Organization Id
-          description: The ID of the sub-organization
-          examples:
-          - 456
-        sub_organization:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sub Organization
-          description: The name of the sub-organization (DEPRECATED)
-          deprecated: true
-          examples:
-          - SubOrg A
-      type: object
-      required:
-      - description
-      - start_datetime
-      - resolution_datetime
-      - impact_category
-      - sessions_impacted
-      - markdown
-      title: IncidentCreateRequest
-      description: Request model to create a service incident.
-    IncidentOrganizationResponse:
-      properties:
-        id:
-          type: integer
-          title: Id
-        name:
-          type: string
-          title: Name
-        display_name:
-          type: string
-          title: Display Name
-      type: object
-      required:
-      - id
-      - name
-      - display_name
-      title: IncidentOrganizationResponse
-    ListResponse_IncidentResponse_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/IncidentResponse'
-          type: array
-          title: Items
-          description: List of items returned from the query
-          examples: []
-        page:
-          type: integer
-          title: Page
-          description: The page number of the results (0-based)
-          examples:
-          - 0
-        page_size:
-          type: integer
-          title: Page Size
-          description: The number of items returned per page
-          examples:
-          - 25
-        total_pages:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Pages
-          description: The total number of pages of results given the indicated page size
-          examples:
-          - 4
-        total_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Count
-          description: The total number of items returned from the query
-          examples:
-          - 100
-      type: object
-      required:
-      - items
-      - page
-      - page_size
-      title: ListResponse[IncidentResponse]
-    IncidentUpdateRequest:
-      properties:
-        description:
-          type: string
-          title: Description
-          description: Description of the service incident
-          examples:
-          - Service outage in region X
-        start_datetime:
-          type: string
-          format: date-time
-          title: Start Datetime
-          description: Start time of the incident
-          examples:
-          - '2023-10-01T08:00:00Z'
-        resolution_datetime:
-          type: string
-          format: date-time
-          title: Resolution Datetime
-          description: Resolution time of the incident
-          examples:
-          - '2023-10-01T12:00:00Z'
-        impact_category:
-          type: string
-          title: Impact Category
-          description: Category of the impact
-          examples:
-          - High
-        sessions_impacted:
-          type: integer
-          title: Sessions Impacted
-          description: Number of sessions impacted
-          examples:
-          - 1500
-        markdown:
-          type: string
-          title: Markdown
-          description: Detailed markdown description of the incident
-          examples:
-          - '**Incident Details**'
-        organization_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Organization Id
-          description: The ID of the organization
-          examples:
-          - 123
-        sub_organization_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Sub Organization Id
-          description: The ID of the sub-organization
-          examples:
-          - 456
-        sub_organization:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sub Organization
-          description: The name of the sub-organization (DEPRECATED)
-          deprecated: true
-          examples:
-          - SubOrg A
-        id:
-          type: integer
-          title: Id
-          description: The ID of the incident to update
-          examples:
-          - 1
-      type: object
-      required:
-      - description
-      - start_datetime
-      - resolution_datetime
-      - impact_category
-      - sessions_impacted
-      - markdown
-      - id
-      title: IncidentUpdateRequest
-      description: Request model to update an existing service incident.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     IncidentResponse:
       properties:
         description:
@@ -699,6 +452,70 @@ components:
       - last_updated_by
       title: IncidentResponse
       description: Response model for service incident operations.
+    ListResponse_IncidentResponse_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/IncidentResponse'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[IncidentResponse]
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     OrderByDirection:
       type: string
       enum:
@@ -706,6 +523,189 @@ components:
       - desc
       title: OrderByDirection
       description: The direction in which to order list results, either ascending or descending.
+    IncidentCreateRequest:
+      properties:
+        description:
+          type: string
+          title: Description
+          description: Description of the service incident
+          examples:
+          - Service outage in region X
+        start_datetime:
+          type: string
+          format: date-time
+          title: Start Datetime
+          description: Start time of the incident
+          examples:
+          - '2023-10-01T08:00:00Z'
+        resolution_datetime:
+          type: string
+          format: date-time
+          title: Resolution Datetime
+          description: Resolution time of the incident
+          examples:
+          - '2023-10-01T12:00:00Z'
+        impact_category:
+          type: string
+          title: Impact Category
+          description: Category of the impact
+          examples:
+          - High
+        sessions_impacted:
+          type: integer
+          title: Sessions Impacted
+          description: Number of sessions impacted
+          examples:
+          - 1500
+        markdown:
+          type: string
+          title: Markdown
+          description: Detailed markdown description of the incident
+          examples:
+          - '**Incident Details**'
+        organization_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Organization Id
+          description: The ID of the organization
+          examples:
+          - 123
+        sub_organization_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Sub Organization Id
+          description: The ID of the sub-organization
+          examples:
+          - 456
+        sub_organization:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sub Organization
+          description: The name of the sub-organization (DEPRECATED)
+          deprecated: true
+          examples:
+          - SubOrg A
+      type: object
+      required:
+      - description
+      - start_datetime
+      - resolution_datetime
+      - impact_category
+      - sessions_impacted
+      - markdown
+      title: IncidentCreateRequest
+      description: Request model to create a service incident.
+    IncidentOrganizationResponse:
+      properties:
+        id:
+          type: integer
+          title: Id
+        name:
+          type: string
+          title: Name
+        display_name:
+          type: string
+          title: Display Name
+      type: object
+      required:
+      - id
+      - name
+      - display_name
+      title: IncidentOrganizationResponse
+    IncidentUpdateRequest:
+      properties:
+        description:
+          type: string
+          title: Description
+          description: Description of the service incident
+          examples:
+          - Service outage in region X
+        start_datetime:
+          type: string
+          format: date-time
+          title: Start Datetime
+          description: Start time of the incident
+          examples:
+          - '2023-10-01T08:00:00Z'
+        resolution_datetime:
+          type: string
+          format: date-time
+          title: Resolution Datetime
+          description: Resolution time of the incident
+          examples:
+          - '2023-10-01T12:00:00Z'
+        impact_category:
+          type: string
+          title: Impact Category
+          description: Category of the impact
+          examples:
+          - High
+        sessions_impacted:
+          type: integer
+          title: Sessions Impacted
+          description: Number of sessions impacted
+          examples:
+          - 1500
+        markdown:
+          type: string
+          title: Markdown
+          description: Detailed markdown description of the incident
+          examples:
+          - '**Incident Details**'
+        organization_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Organization Id
+          description: The ID of the organization
+          examples:
+          - 123
+        sub_organization_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Sub Organization Id
+          description: The ID of the sub-organization
+          examples:
+          - 456
+        sub_organization:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sub Organization
+          description: The name of the sub-organization (DEPRECATED)
+          deprecated: true
+          examples:
+          - SubOrg A
+        id:
+          type: integer
+          title: Id
+          description: The ID of the incident to update
+          examples:
+          - 1
+      type: object
+      required:
+      - description
+      - start_datetime
+      - resolution_datetime
+      - impact_category
+      - sessions_impacted
+      - markdown
+      - id
+      title: IncidentUpdateRequest
+      description: Request model to update an existing service incident.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     APIKeyHeader:
       type: apiKey

@@ -58,6 +58,15 @@ components:
       - tool
       - http
       title: LatencyCategory
+    LatencyUnitType:
+      type: string
+      enum:
+      - minutes
+      - seconds
+      - milliseconds
+      - microseconds
+      - nanoseconds
+      title: LatencyUnitType
     ValidationError:
       properties:
         loc:
@@ -79,15 +88,6 @@ components:
       - msg
       - type
       title: ValidationError
-    LatencyUnitType:
-      type: string
-      enum:
-      - minutes
-      - seconds
-      - milliseconds
-      - microseconds
-      - nanoseconds
-      title: LatencyUnitType
     SummaryEntry:
       properties:
         category:

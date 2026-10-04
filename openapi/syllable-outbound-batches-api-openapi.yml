@@ -489,96 +489,7 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.outbound.batches.remove({\n    batchId: \"<id>\",\n    requestBody: [\n      \"<value 1>\",\n      \"<value 2>\",\n    ],\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
-    RequestStatusBreakdown:
-      properties:
-        total_count:
-          type: integer
-          title: Total Count
-          description: Total number of requests with this request_status
-        counts:
-          anyOf:
-          - additionalProperties:
-              type: integer
-            type: object
-          - type: 'null'
-          title: Counts
-          description: Counts by channel_manager_status within this request_status; omitted if none
-          examples:
-          - DELIVERED: 2
-            PENDING: 3
-            SENT: 5
-      type: object
-      required:
-      - total_count
-      title: RequestStatusBreakdown
-      description: Per-request_status breakdown with total count and optional channel_manager_status counts.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    CommunicationBatchInput:
-      properties:
-        batch_id:
-          type: string
-          title: Batch Id
-          description: Unique ID for conversation batch
-          examples:
-          - '20260805.9'
-        campaign_id:
-          type: integer
-          title: Campaign Id
-          description: Unique ID for campaign
-          examples:
-          - 1
-        expires_on:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Expires On
-          description: Timestamp of batch expiration
-          examples:
-          - '2026-08-06T00:00:00Z'
-        paused:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Paused
-          description: Whether the batch is on HOLD. When on HOLD, no outreach will be made.
-          examples:
-          - true
-          - false
-      type: object
-      required:
-      - batch_id
-      - campaign_id
-      title: CommunicationBatchInput
-    Body_outbound_batch_upload:
-      properties:
-        file:
-          type: string
-          format: binary
-          title: File
-      type: object
-      title: Body_outbound_batch_upload
-    CommunicationRequestResult:
+    CommunicationRequest:
       properties:
         reference_id:
           type: string
@@ -599,130 +510,12 @@ components:
           type: object
           title: Request Variables
           description: Variables for request
-        channel_manager_sid:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Channel Manager Sid
-          description: Channel manager SID
-          examples:
-          - LMc4b16a9df2ce33d84b3d30581fe6598c
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-          description: Timestamp of request creation
-          examples:
-          - '2026-08-04T00:00:00Z'
-        sent_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Sent At
-          description: Timestamp at which request was sent
-          examples:
-          - '2026-08-05T00:00:00Z'
-        attempt_count:
-          type: integer
-          title: Attempt Count
-          description: Number of attempts for request
-          default: 0
-          examples:
-          - 0
-        session_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Session Id
-          description: Unique ID for call session
-          examples:
-          - 1
-        conversation_id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Conversation Id
-          description: Unique ID for conversation
-          examples:
-          - 1
-        request_status:
-          $ref: '#/components/schemas/RequestStatus'
-          description: Status of request
-          default: PENDING
-          examples:
-          - PENDING
-          - DUPLICATE
-          - INITIATED
-          - CONNECTED
-          - COMPLETED
-          - FAILED
-          - CANCELED
-          - INVALID
-          - SKIPPED
-        channel_manager_status:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Channel Manager Status
-          description: Status of request in channel manager (see ChannelManagerStatus)
-          examples:
-          - COMPLETED
-          - FAILED
-          - NO-ANSWER
-          - BUSY
-        insights_status:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Insights Status
-          description: Status of session in insight workflow
-          examples:
-          - PENDING
-          - PROCESSING
-          - COMPLETED
-          - FAILED
-        insights:
-          anyOf:
-          - additionalProperties:
-              anyOf:
-              - type: string
-              - type: integer
-              - type: number
-            type: object
-          - type: 'null'
-          title: Insights
-          description: Insights from call
-          examples:
-          - rating: Good
-            summary: The customer service agent successfully assisted the caller with their inquiry and the call ended positively.
-        line_type:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Line Type
-          description: Line type of the target number from Twilio Lookup (e.g. 'mobile', 'landline', 'voip'); resolved at ingestion.
-          examples:
-          - mobile
-          - landline
-          - voip
-        enrichment:
-          anyOf:
-          - type: object
-          - type: 'null'
-          title: Enrichment
-          description: Full Twilio Lookup v2 line_type_intelligence payload resolved at ingestion (line_type / carrier_name / mcc / mnc / error_code). None when no lookup was performed.
-          examples:
-          - carrier_name: Onvoy, LLC - Sinch
-            line_type: mobile
-            mcc: '313'
-            mnc: '410'
       type: object
       required:
       - reference_id
       - target
       - request_variables
-      title: CommunicationRequestResult
+      title: CommunicationRequest
     CommunicationBatchUpdate:
       properties:
         paused:
@@ -745,128 +538,15 @@ components:
           - '2027-01-01T06:00:00Z'
       type: object
       title: CommunicationBatchUpdate
-    Body_outbound_batch_delete:
-      properties:
-        delete_reason:
-          type: string
-          title: Delete Reason
-      type: object
-      required:
-      - delete_reason
-      title: Body_outbound_batch_delete
-    CommunicationBatch:
-      properties:
-        batch_id:
-          type: string
-          title: Batch Id
-          description: Unique ID for conversation batch
-          examples:
-          - '20260805.9'
-        campaign_id:
-          type: integer
-          title: Campaign Id
-          description: Unique ID for campaign
-          examples:
-          - 1
-        expires_on:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Expires On
-          description: Timestamp of batch expiration
-          examples:
-          - '2026-08-06T00:00:00Z'
-        paused:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Paused
-          description: Whether the batch is on HOLD. When on HOLD, no outreach will be made.
-          examples:
-          - true
-          - false
-        status:
-          $ref: '#/components/schemas/BatchStatus'
-          description: Status of batch
-          default: PENDING
-          examples:
-          - PENDING
-          - ACTIVE
-          - PAUSED
-          - FAILED
-          - CANCELED
-          - EXPIRED
-        upload_filename:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Upload Filename
-          description: Name of file used to create batch
-          examples:
-          - LATE_PAYMENTS_20250401.csv
-        dispatch_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Dispatch Id
-          description: A unique identifier for dipatched job
-          examples:
-          - 5ac42327fbd7e03b441650b79ae91ae1
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-          description: Timestamp of batch creation
-          examples:
-          - '2026-08-05T00:00:00Z'
-        deleted_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Deleted At
-          description: Timestamp of batch deletion
-          examples:
-          - '2026-08-05T00:00:00Z'
-        deleted_reason:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Deleted Reason
-          description: Reason for batch deletion
-          examples:
-          - User request
-        last_updated_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Last Updated At
-          description: Timestamp of last change to batch
-          examples:
-          - '2026-08-05T00:00:00Z'
-        last_updated_by:
-          type: string
-          title: Last Updated By
-          description: Email of user who last updated campaign
-          examples:
-          - user@email.com
-        error_message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Error Message
-          description: Error message if batch upload failed
-          examples:
-          - Invalid file format
-          - Missing required fields
-      type: object
-      required:
+    BatchProperties:
+      type: string
+      enum:
       - batch_id
       - campaign_id
-      - last_updated_by
-      title: CommunicationBatch
+      - status
+      - expires_on
+      - last_updated_at
+      title: BatchProperties
     BatchDetails:
       properties:
         batch_id:
@@ -1016,63 +696,36 @@ components:
       - campaign_id
       - last_updated_by
       title: BatchDetails
-    CommunicationRequest:
+    ValidationError:
       properties:
-        reference_id:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          title: Reference Id
-          description: ID for target outreach (unique within batch)
-          examples:
-          - '12345'
-        target:
+          title: Message
+        type:
           type: string
-          title: Target
-          description: Target phone number
-          examples:
-          - 512-555-1234
-          - '+15125551234'
-        request_variables:
-          additionalProperties:
-            type: string
-          type: object
-          title: Request Variables
-          description: Variables for request
+          title: Error Type
       type: object
       required:
-      - reference_id
-      - target
-      - request_variables
-      title: CommunicationRequest
-    HTTPValidationError:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Body_outbound_batch_delete:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        delete_reason:
+          type: string
+          title: Delete Reason
       type: object
-      title: HTTPValidationError
-    RequestStatus:
-      type: string
-      enum:
-      - PENDING
-      - DUPLICATE
-      - INITIATED
-      - CONNECTED
-      - COMPLETED
-      - FAILED
-      - CANCELED
-      - INVALID
-      - SKIPPED
-      title: RequestStatus
-      description: Status of a communication request.
-    OrderByDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
+      required:
+      - delete_reason
+      title: Body_outbound_batch_delete
     ListResponse_CommunicationBatch_:
       properties:
         items:
@@ -1116,15 +769,195 @@ components:
       - page
       - page_size
       title: ListResponse[CommunicationBatch]
-    BatchProperties:
+    OrderByDirection:
       type: string
       enum:
-      - batch_id
-      - campaign_id
-      - status
-      - expires_on
-      - last_updated_at
-      title: BatchProperties
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
+    CommunicationRequestResult:
+      properties:
+        reference_id:
+          type: string
+          title: Reference Id
+          description: ID for target outreach (unique within batch)
+          examples:
+          - '12345'
+        target:
+          type: string
+          title: Target
+          description: Target phone number
+          examples:
+          - 512-555-1234
+          - '+15125551234'
+        request_variables:
+          additionalProperties:
+            type: string
+          type: object
+          title: Request Variables
+          description: Variables for request
+        channel_manager_sid:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Channel Manager Sid
+          description: Channel manager SID
+          examples:
+          - LMc4b16a9df2ce33d84b3d30581fe6598c
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: Timestamp of request creation
+          examples:
+          - '2026-08-04T00:00:00Z'
+        sent_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Sent At
+          description: Timestamp at which request was sent
+          examples:
+          - '2026-08-05T00:00:00Z'
+        attempt_count:
+          type: integer
+          title: Attempt Count
+          description: Number of attempts for request
+          default: 0
+          examples:
+          - 0
+        session_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Session Id
+          description: Unique ID for call session
+          examples:
+          - 1
+        conversation_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Conversation Id
+          description: Unique ID for conversation
+          examples:
+          - 1
+        request_status:
+          $ref: '#/components/schemas/RequestStatus'
+          description: Status of request
+          default: PENDING
+          examples:
+          - PENDING
+          - DUPLICATE
+          - INITIATED
+          - CONNECTED
+          - COMPLETED
+          - FAILED
+          - CANCELED
+          - INVALID
+          - SKIPPED
+        channel_manager_status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Channel Manager Status
+          description: Status of request in channel manager (see ChannelManagerStatus)
+          examples:
+          - COMPLETED
+          - FAILED
+          - NO-ANSWER
+          - BUSY
+        insights_status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Insights Status
+          description: Status of session in insight workflow
+          examples:
+          - PENDING
+          - PROCESSING
+          - COMPLETED
+          - FAILED
+        insights:
+          anyOf:
+          - additionalProperties:
+              anyOf:
+              - type: string
+              - type: integer
+              - type: number
+            type: object
+          - type: 'null'
+          title: Insights
+          description: Insights from call
+          examples:
+          - rating: Good
+            summary: The customer service agent successfully assisted the caller with their inquiry and the call ended positively.
+        line_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Line Type
+          description: Line type of the target number from Twilio Lookup (e.g. 'mobile', 'landline', 'voip'); resolved at ingestion.
+          examples:
+          - mobile
+          - landline
+          - voip
+        enrichment:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Enrichment
+          description: Full Twilio Lookup v2 line_type_intelligence payload resolved at ingestion (line_type / carrier_name / mcc / mnc / error_code). None when no lookup was performed.
+          examples:
+          - carrier_name: Onvoy, LLC - Sinch
+            line_type: mobile
+            mcc: '313'
+            mnc: '410'
+      type: object
+      required:
+      - reference_id
+      - target
+      - request_variables
+      title: CommunicationRequestResult
+    RequestStatus:
+      type: string
+      enum:
+      - PENDING
+      - DUPLICATE
+      - INITIATED
+      - CONNECTED
+      - COMPLETED
+      - FAILED
+      - CANCELED
+      - INVALID
+      - SKIPPED
+      title: RequestStatus
+      description: Status of a communication request.
+    RequestStatusBreakdown:
+      properties:
+        total_count:
+          type: integer
+          title: Total Count
+          description: Total number of requests with this request_status
+        counts:
+          anyOf:
+          - additionalProperties:
+              type: integer
+            type: object
+          - type: 'null'
+          title: Counts
+          description: Counts by channel_manager_status within this request_status; omitted if none
+          examples:
+          - DELIVERED: 2
+            PENDING: 3
+            SENT: 5
+      type: object
+      required:
+      - total_count
+      title: RequestStatusBreakdown
+      description: Per-request_status breakdown with total count and optional channel_manager_status counts.
     BatchStatus:
       type: string
       enum:
@@ -1136,6 +969,173 @@ components:
       - EXPIRED
       title: BatchStatus
       description: Status of a communication batch.
+    Body_outbound_batch_upload:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+      type: object
+      title: Body_outbound_batch_upload
+    CommunicationBatch:
+      properties:
+        batch_id:
+          type: string
+          title: Batch Id
+          description: Unique ID for conversation batch
+          examples:
+          - '20260805.9'
+        campaign_id:
+          type: integer
+          title: Campaign Id
+          description: Unique ID for campaign
+          examples:
+          - 1
+        expires_on:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Expires On
+          description: Timestamp of batch expiration
+          examples:
+          - '2026-08-06T00:00:00Z'
+        paused:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Paused
+          description: Whether the batch is on HOLD. When on HOLD, no outreach will be made.
+          examples:
+          - true
+          - false
+        status:
+          $ref: '#/components/schemas/BatchStatus'
+          description: Status of batch
+          default: PENDING
+          examples:
+          - PENDING
+          - ACTIVE
+          - PAUSED
+          - FAILED
+          - CANCELED
+          - EXPIRED
+        upload_filename:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Upload Filename
+          description: Name of file used to create batch
+          examples:
+          - LATE_PAYMENTS_20250401.csv
+        dispatch_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dispatch Id
+          description: A unique identifier for dipatched job
+          examples:
+          - 5ac42327fbd7e03b441650b79ae91ae1
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: Timestamp of batch creation
+          examples:
+          - '2026-08-05T00:00:00Z'
+        deleted_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Deleted At
+          description: Timestamp of batch deletion
+          examples:
+          - '2026-08-05T00:00:00Z'
+        deleted_reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Deleted Reason
+          description: Reason for batch deletion
+          examples:
+          - User request
+        last_updated_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Last Updated At
+          description: Timestamp of last change to batch
+          examples:
+          - '2026-08-05T00:00:00Z'
+        last_updated_by:
+          type: string
+          title: Last Updated By
+          description: Email of user who last updated campaign
+          examples:
+          - user@email.com
+        error_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Message
+          description: Error message if batch upload failed
+          examples:
+          - Invalid file format
+          - Missing required fields
+      type: object
+      required:
+      - batch_id
+      - campaign_id
+      - last_updated_by
+      title: CommunicationBatch
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    CommunicationBatchInput:
+      properties:
+        batch_id:
+          type: string
+          title: Batch Id
+          description: Unique ID for conversation batch
+          examples:
+          - '20260805.9'
+        campaign_id:
+          type: integer
+          title: Campaign Id
+          description: Unique ID for campaign
+          examples:
+          - 1
+        expires_on:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Expires On
+          description: Timestamp of batch expiration
+          examples:
+          - '2026-08-06T00:00:00Z'
+        paused:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Paused
+          description: Whether the batch is on HOLD. When on HOLD, no outreach will be made.
+          examples:
+          - true
+          - false
+      type: object
+      required:
+      - batch_id
+      - campaign_id
+      title: CommunicationBatchInput
   securitySchemes:
     APIKeyHeader:
       type: apiKey

@@ -302,231 +302,49 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.outbound.campaigns.delete({\n    campaignId: 439537,\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
-    ValidationError:
+    ListResponse_OutboundCampaign_:
       properties:
-        loc:
+        items:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/OutboundCampaign'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    OutboundCampaignInput:
-      properties:
-        campaign_name:
-          type: string
-          title: Campaign Name
-          description: Human readable name of campaign
-          examples:
-          - Outbound Campaign 1
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: Description of campaign
-          examples:
-          - This is a test campaign
-        mode:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Mode
-          description: Mode of the campaign (e.g. voice, sms, email)
-          examples:
-          - voice
-          - sms
-          - email
-        sms_session_ttl:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Sms Session Ttl
-          description: Time to live for SMS session in minutes
-          examples:
-          - 720
-        label:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Label
-          description: Label for campaign (DEPRECATED - use labels instead)
-          deprecated: true
-          examples:
-          - test
-          - demo
-        labels:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Labels
-          description: Labels for campaign
-          examples:
-          - - test
-            - demo
-        campaign_variables:
-          additionalProperties:
-            type: string
-          type: object
-          title: Campaign Variables
-          description: Variables for campaign
-          examples:
-          - key: value
-            key2: value2
-        daily_start_time:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Daily Start Time
-          description: Start time of campaign each day
-          examples:
-          - 09:00:00
-        daily_end_time:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Daily End Time
-          description: End time of campaign each day
-          examples:
-          - '17:00:00'
-        source:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Source
-          description: Source phone number, email, or SMS number
-          examples:
-          - '+19032900844'
-          - account@email.com
-        caller_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Caller Id
-          description: Caller ID for call
-          examples:
-          - 19995551234
-        hourly_rate:
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
           type: integer
-          maximum: 3600
-          minimum: 1
-          title: Hourly Rate
-          description: Target number of outreach calls per hour
-          default: 1
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
           examples:
           - 25
-        max_daily_calls:
+        total_pages:
           anyOf:
           - type: integer
           - type: 'null'
-          title: Max Daily Calls
-          description: Maximum number of outreach calls per day
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
           examples:
-          - 2500
-        retry_count:
-          type: integer
-          title: Retry Count
-          description: Number of retries per target
-          default: 0
-          examples:
-          - 1
-        retry_interval:
+          - 4
+        total_count:
           anyOf:
-          - type: string
+          - type: integer
           - type: 'null'
-          title: Retry Interval
-          description: How long to wait before retrying
+          title: Total Count
+          description: The total number of items returned from the query
           examples:
-          - 30m
-          - 12h
-          - 7d
-        active_days:
-          items:
-            $ref: '#/components/schemas/DaysOfWeek'
-          type: array
-          title: Active Days
-          description: Days of the week when campaign is active
-          examples:
-          - '["mon", "tue", "wed", "thu", "fri"]'
-        voicemail_detection:
-          anyOf:
-          - $ref: '#/components/schemas/VoicemailDetectionConfig'
-          - type: 'null'
-          description: Config for voicemail detection for voice campaigns. Set to None to disable.
-          examples:
-          - voicemail_detection_overall_timeout: 30.0
-            voicemail_detection_post_speech_timeout: 1.75
-            voicemail_detection_pre_speech_timeout: 3.5
-        allowed_line_types:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/LineTypeBucket'
-            type: array
-          - type: 'null'
-          title: Allowed Line Types
-          description: Line-type buckets this campaign is allowed to dial. Empty or omitted means no filter (all line types are dialed).
-          examples:
-          - - mobile
-            - voip
-        include_unknown_line_types:
-          type: boolean
-          title: Include Unknown Line Types
-          description: When a line-type filter is active, whether to also dial numbers whose line type is unknown or could not be classified. Has no effect when allowed_line_types is empty.
-          default: true
-          examples:
-          - true
-        target_filters:
-          anyOf:
-          - $ref: '#/components/schemas/TargetFilters'
-          - type: 'null'
-          description: Generic target filter (a flat rule list over request enrichment attributes such as line_type, carrier_name, mcc, mnc). When set, takes precedence over allowed_line_types / include_unknown_line_types. Omitted or null means those legacy fields are used instead.
-          examples:
-          - match: any
-            on_unknown: include
-            rules:
-            - field: line_type
-              op: in
-              values:
-              - landline
-              - fixedVoip
-              - nonFixedVoip
-            - field: carrier_name
-              op: in
-              values:
-              - Onvoy, LLC - Sinch
-        webhooks:
-          items:
-            $ref: '#/components/schemas/OutboundCampaignWebhookInput'
-          type: array
-          title: Webhooks
-          description: Webhooks for campaign
-          default: []
-          examples:
-          - request_method: POST
-            trigger_statuses:
-            - COMPLETED
-            url: https://example.com/hooks/syllable
+          - 100
       type: object
       required:
-      - campaign_name
-      - campaign_variables
-      - caller_id
-      - active_days
-      title: OutboundCampaignInput
+      - items
+      - page
+      - page_size
+      title: ListResponse[OutboundCampaign]
     VoicemailDetectionConfig:
       properties:
         mode:
@@ -572,50 +390,203 @@ components:
         Unknown keys are preserved (`extra=''allow''`) so the schema stays backwards compatible with blobs
 
         written before fields were added. See ZOO-7818.'
-    ChannelManagerStatus:
+    OutboundCampaignWebhookInput:
+      properties:
+        trigger_statuses:
+          items:
+            $ref: '#/components/schemas/ChannelManagerStatus'
+          type: array
+          title: Trigger Statuses
+          description: Condition expression evaluated when the trigger fires
+          examples:
+          - campaign_id == 1 && channel_manager_status == 'COMPLETED'
+        url:
+          type: string
+          title: Url
+          description: HTTPS URL to which to send the webhook payload
+          examples:
+          - https://example.com/hooks/syllable
+        request_method:
+          type: string
+          title: Request Method
+          description: HTTP method for the outbound request (POST, PUT, or PATCH)
+          examples:
+          - POST
+        id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Id
+          description: Unique ID for webhook, if updating an existing webhook
+          examples:
+          - 1
+        auth_values:
+          anyOf:
+          - additionalProperties:
+              anyOf:
+              - type: string
+              - type: 'null'
+            type: object
+          - type: 'null'
+          title: Auth Values
+          description: Optional dict of auth values. Currently, only the key "hmac_secret" is allowed; value must be standard Base64 (RFC 4648) decoding to 32–512 bytes of key material. On update, leave a value for a given key null and the stored value for that key is kept. (If a key is omitted entirely, any existing value for that key is removed.)
+          examples:
+          - hmac_secret: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+      type: object
+      required:
+      - trigger_statuses
+      - url
+      - request_method
+      title: OutboundCampaignWebhookInput
+    OutboundCampaignWebhookResponse:
+      properties:
+        trigger_statuses:
+          items:
+            $ref: '#/components/schemas/ChannelManagerStatus'
+          type: array
+          title: Trigger Statuses
+          description: Condition expression evaluated when the trigger fires
+          examples:
+          - campaign_id == 1 && channel_manager_status == 'COMPLETED'
+        url:
+          type: string
+          title: Url
+          description: HTTPS URL to which to send the webhook payload
+          examples:
+          - https://example.com/hooks/syllable
+        request_method:
+          type: string
+          title: Request Method
+          description: HTTP method for the outbound request (POST, PUT, or PATCH)
+          examples:
+          - POST
+        id:
+          type: integer
+          title: Id
+          description: Unique ID for webhook
+          examples:
+          - 1
+        auth_value_keys:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Auth Value Keys
+          description: Auth value keys (values omitted for security); only hmac_secret is currently supported
+          examples:
+          - - hmac_secret
+      type: object
+      required:
+      - trigger_statuses
+      - url
+      - request_method
+      - id
+      title: OutboundCampaignWebhookResponse
+    TargetFilters:
+      properties:
+        match:
+          type: string
+          enum:
+          - all
+          - any
+          title: Match
+          description: 'How to combine rules: ''all'' (AND) or ''any'' (OR).'
+          default: all
+          examples:
+          - all
+          - any
+        on_unknown:
+          type: string
+          enum:
+          - include
+          - exclude
+          title: On Unknown
+          description: Whether to dial requests whose enrichment is unresolved (no lookup data).
+          default: include
+          examples:
+          - include
+          - exclude
+        rules:
+          items:
+            $ref: '#/components/schemas/TargetFilterRule'
+          type: array
+          title: Rules
+          description: Predicates over request enrichment attributes. Empty means no filter.
+          examples:
+          - - field: line_type
+              op: in
+              values:
+              - landline
+              - fixedVoip
+              - nonFixedVoip
+            - field: carrier_name
+              op: in
+              values:
+              - Onvoy, LLC - Sinch
+      type: object
+      title: TargetFilters
+      description: 'Generic target filter for an outbound campaign: a flat list of rules over request enrichment.
+
+
+        A request is *dialable* when it matches the ruleset (``match=''all''`` -> every rule; ``''any''`` ->
+
+        at least one rule); non-matching requests are skipped. ``on_unknown`` decides the fate of
+
+        requests whose enrichment never resolved (no lookup / lookup failed). An empty ``rules`` list
+
+        means no filter (all numbers dialed), matching the pre-filter behavior.'
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    FilterOp:
       type: string
       enum:
-      - PENDING
-      - DUPLICATE
-      - INVALID
-      - UNEXPECTED_ERROR
-      - FILTERED_LINE_TYPE
-      - PROCESSED
-      - DROPPED
-      - DEFERRED
-      - BOUNCED
-      - DELIVERED
-      - OPENED
-      - CLICKED
-      - SPAM_REPORT
-      - UNSUBSCRIBED
-      - PRIOR_UNSUBSCRIBED
-      - PRIOR_SPAM_REPORT
-      - PRIOR_DROPPED
-      - PRIOR_BOUNCED
-      - SENT
-      - ACCEPTED
-      - QUEUED
-      - SENDING
-      - UNDELIVERED
-      - DELIVERY_UNKNOWN
-      - DELIVERY_FAILED
-      - IN-PROGRESS
-      - BUSY
-      - CANCELED
-      - COMPLETED
-      - DECLINED
-      - NO-ANSWER
-      - MACHINE
-      - HUMAN
-      - UNKNOWN
-      - FAILED
-      - SIP_NOT_FOUND
-      - SIP_TEMPORARILY_UNAVAILABLE
-      - SIP_LOOP_DETECTED
-      - SIP_DOES_NOT_EXIST_ANYWHERE
-      title: ChannelManagerStatus
-      description: Status of an outbound communication request (voice, SMS, or email).
+      - in
+      - not_in
+      - eq
+      - neq
+      - exists
+      - not_exists
+      title: FilterOp
+      description: Comparison operator for a single target-filter rule.
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
+    DaysOfWeek:
+      type: string
+      enum:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+      - sat
+      - sun
+      title: DaysOfWeek
+      description: Enum representing days of the week.
     OutboundCampaign:
       properties:
         campaign_name:
@@ -858,31 +829,50 @@ components:
       - id
       - last_updated_by
       title: OutboundCampaign
-    LineTypeBucket:
+    ChannelManagerStatus:
       type: string
       enum:
-      - mobile
-      - landline
-      - voip
-      title: LineTypeBucket
-      description: 'Friendly line-type buckets a campaign can be restricted to dial.
-
-
-        These map to raw Twilio Lookup v2 line types via
-
-        ``lib.twilio.line_type_lookup.LINE_TYPE_BUCKETS``.'
-    DaysOfWeek:
-      type: string
-      enum:
-      - mon
-      - tue
-      - wed
-      - thu
-      - fri
-      - sat
-      - sun
-      title: DaysOfWeek
-      description: Enum representing days of the week.
+      - PENDING
+      - DUPLICATE
+      - INVALID
+      - UNEXPECTED_ERROR
+      - FILTERED_LINE_TYPE
+      - PROCESSED
+      - DROPPED
+      - DEFERRED
+      - BOUNCED
+      - DELIVERED
+      - OPENED
+      - CLICKED
+      - SPAM_REPORT
+      - UNSUBSCRIBED
+      - PRIOR_UNSUBSCRIBED
+      - PRIOR_SPAM_REPORT
+      - PRIOR_DROPPED
+      - PRIOR_BOUNCED
+      - SENT
+      - ACCEPTED
+      - QUEUED
+      - SENDING
+      - UNDELIVERED
+      - DELIVERY_UNKNOWN
+      - DELIVERY_FAILED
+      - IN-PROGRESS
+      - BUSY
+      - CANCELED
+      - COMPLETED
+      - DECLINED
+      - NO-ANSWER
+      - MACHINE
+      - HUMAN
+      - UNKNOWN
+      - FAILED
+      - SIP_NOT_FOUND
+      - SIP_TEMPORARILY_UNAVAILABLE
+      - SIP_LOOP_DETECTED
+      - SIP_DOES_NOT_EXIST_ANYWHERE
+      title: ChannelManagerStatus
+      description: Status of an outbound communication request (voice, SMS, or email).
     TargetFilterRule:
       properties:
         field:
@@ -920,24 +910,6 @@ components:
         ``field`` names a key in the request''s enrichment payload (e.g. ``line_type``, ``carrier_name``,
 
         ``mcc``, ``mnc``). Any attribute captured at lookup time can be filtered on with no code change.'
-    OrderByDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
-    FilterOp:
-      type: string
-      enum:
-      - in
-      - not_in
-      - eq
-      - neq
-      - exists
-      - not_exists
-      title: FilterOp
-      description: Comparison operator for a single target-filter rule.
     HTTPValidationError:
       properties:
         detail:
@@ -947,126 +919,182 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    OutboundCampaignWebhookResponse:
+    OutboundCampaignInput:
       properties:
-        trigger_statuses:
-          items:
-            $ref: '#/components/schemas/ChannelManagerStatus'
-          type: array
-          title: Trigger Statuses
-          description: Condition expression evaluated when the trigger fires
-          examples:
-          - campaign_id == 1 && channel_manager_status == 'COMPLETED'
-        url:
+        campaign_name:
           type: string
-          title: Url
-          description: HTTPS URL to which to send the webhook payload
+          title: Campaign Name
+          description: Human readable name of campaign
           examples:
-          - https://example.com/hooks/syllable
-        request_method:
-          type: string
-          title: Request Method
-          description: HTTP method for the outbound request (POST, PUT, or PATCH)
+          - Outbound Campaign 1
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of campaign
           examples:
-          - POST
-        id:
-          type: integer
-          title: Id
-          description: Unique ID for webhook
+          - This is a test campaign
+        mode:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Mode
+          description: Mode of the campaign (e.g. voice, sms, email)
           examples:
-          - 1
-        auth_value_keys:
+          - voice
+          - sms
+          - email
+        sms_session_ttl:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Sms Session Ttl
+          description: Time to live for SMS session in minutes
+          examples:
+          - 720
+        label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Label
+          description: Label for campaign (DEPRECATED - use labels instead)
+          deprecated: true
+          examples:
+          - test
+          - demo
+        labels:
           anyOf:
           - items:
               type: string
             type: array
           - type: 'null'
-          title: Auth Value Keys
-          description: Auth value keys (values omitted for security); only hmac_secret is currently supported
+          title: Labels
+          description: Labels for campaign
           examples:
-          - - hmac_secret
-      type: object
-      required:
-      - trigger_statuses
-      - url
-      - request_method
-      - id
-      title: OutboundCampaignWebhookResponse
-    ListResponse_OutboundCampaign_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/OutboundCampaign'
-          type: array
-          title: Items
-          description: List of items returned from the query
-          examples: []
-        page:
-          type: integer
-          title: Page
-          description: The page number of the results (0-based)
+          - - test
+            - demo
+        campaign_variables:
+          additionalProperties:
+            type: string
+          type: object
+          title: Campaign Variables
+          description: Variables for campaign
           examples:
-          - 0
-        page_size:
+          - key: value
+            key2: value2
+        daily_start_time:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Daily Start Time
+          description: Start time of campaign each day
+          examples:
+          - 09:00:00
+        daily_end_time:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Daily End Time
+          description: End time of campaign each day
+          examples:
+          - '17:00:00'
+        source:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source
+          description: Source phone number, email, or SMS number
+          examples:
+          - '+19032900844'
+          - account@email.com
+        caller_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Caller Id
+          description: Caller ID for call
+          examples:
+          - 19995551234
+        hourly_rate:
           type: integer
-          title: Page Size
-          description: The number of items returned per page
+          maximum: 3600
+          minimum: 1
+          title: Hourly Rate
+          description: Target number of outreach calls per hour
+          default: 1
           examples:
           - 25
-        total_pages:
+        max_daily_calls:
           anyOf:
           - type: integer
           - type: 'null'
-          title: Total Pages
-          description: The total number of pages of results given the indicated page size
+          title: Max Daily Calls
+          description: Maximum number of outreach calls per day
           examples:
-          - 4
-        total_count:
+          - 2500
+        retry_count:
+          type: integer
+          title: Retry Count
+          description: Number of retries per target
+          default: 0
+          examples:
+          - 1
+        retry_interval:
           anyOf:
-          - type: integer
+          - type: string
           - type: 'null'
-          title: Total Count
-          description: The total number of items returned from the query
+          title: Retry Interval
+          description: How long to wait before retrying
           examples:
-          - 100
-      type: object
-      required:
-      - items
-      - page
-      - page_size
-      title: ListResponse[OutboundCampaign]
-    TargetFilters:
-      properties:
-        match:
-          type: string
-          enum:
-          - all
-          - any
-          title: Match
-          description: 'How to combine rules: ''all'' (AND) or ''any'' (OR).'
-          default: all
-          examples:
-          - all
-          - any
-        on_unknown:
-          type: string
-          enum:
-          - include
-          - exclude
-          title: On Unknown
-          description: Whether to dial requests whose enrichment is unresolved (no lookup data).
-          default: include
-          examples:
-          - include
-          - exclude
-        rules:
+          - 30m
+          - 12h
+          - 7d
+        active_days:
           items:
-            $ref: '#/components/schemas/TargetFilterRule'
+            $ref: '#/components/schemas/DaysOfWeek'
           type: array
-          title: Rules
-          description: Predicates over request enrichment attributes. Empty means no filter.
+          title: Active Days
+          description: Days of the week when campaign is active
           examples:
-          - - field: line_type
+          - '["mon", "tue", "wed", "thu", "fri"]'
+        voicemail_detection:
+          anyOf:
+          - $ref: '#/components/schemas/VoicemailDetectionConfig'
+          - type: 'null'
+          description: Config for voicemail detection for voice campaigns. Set to None to disable.
+          examples:
+          - voicemail_detection_overall_timeout: 30.0
+            voicemail_detection_post_speech_timeout: 1.75
+            voicemail_detection_pre_speech_timeout: 3.5
+        allowed_line_types:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/LineTypeBucket'
+            type: array
+          - type: 'null'
+          title: Allowed Line Types
+          description: Line-type buckets this campaign is allowed to dial. Empty or omitted means no filter (all line types are dialed).
+          examples:
+          - - mobile
+            - voip
+        include_unknown_line_types:
+          type: boolean
+          title: Include Unknown Line Types
+          description: When a line-type filter is active, whether to also dial numbers whose line type is unknown or could not be classified. Has no effect when allowed_line_types is empty.
+          default: true
+          examples:
+          - true
+        target_filters:
+          anyOf:
+          - $ref: '#/components/schemas/TargetFilters'
+          - type: 'null'
+          description: Generic target filter (a flat rule list over request enrichment attributes such as line_type, carrier_name, mcc, mnc). When set, takes precedence over allowed_line_types / include_unknown_line_types. Omitted or null means those legacy fields are used instead.
+          examples:
+          - match: any
+            on_unknown: include
+            rules:
+            - field: line_type
               op: in
               values:
               - landline
@@ -1076,66 +1104,38 @@ components:
               op: in
               values:
               - Onvoy, LLC - Sinch
-      type: object
-      title: TargetFilters
-      description: 'Generic target filter for an outbound campaign: a flat list of rules over request enrichment.
-
-
-        A request is *dialable* when it matches the ruleset (``match=''all''`` -> every rule; ``''any''`` ->
-
-        at least one rule); non-matching requests are skipped. ``on_unknown`` decides the fate of
-
-        requests whose enrichment never resolved (no lookup / lookup failed). An empty ``rules`` list
-
-        means no filter (all numbers dialed), matching the pre-filter behavior.'
-    OutboundCampaignWebhookInput:
-      properties:
-        trigger_statuses:
+        webhooks:
           items:
-            $ref: '#/components/schemas/ChannelManagerStatus'
+            $ref: '#/components/schemas/OutboundCampaignWebhookInput'
           type: array
-          title: Trigger Statuses
-          description: Condition expression evaluated when the trigger fires
+          title: Webhooks
+          description: Webhooks for campaign
+          default: []
           examples:
-          - campaign_id == 1 && channel_manager_status == 'COMPLETED'
-        url:
-          type: string
-          title: Url
-          description: HTTPS URL to which to send the webhook payload
-          examples:
-          - https://example.com/hooks/syllable
-        request_method:
-          type: string
-          title: Request Method
-          description: HTTP method for the outbound request (POST, PUT, or PATCH)
-          examples:
-          - POST
-        id:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Id
-          description: Unique ID for webhook, if updating an existing webhook
-          examples:
-          - 1
-        auth_values:
-          anyOf:
-          - additionalProperties:
-              anyOf:
-              - type: string
-              - type: 'null'
-            type: object
-          - type: 'null'
-          title: Auth Values
-          description: Optional dict of auth values. Currently, only the key "hmac_secret" is allowed; value must be standard Base64 (RFC 4648) decoding to 32–512 bytes of key material. On update, leave a value for a given key null and the stored value for that key is kept. (If a key is omitted entirely, any existing value for that key is removed.)
-          examples:
-          - hmac_secret: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+          - request_method: POST
+            trigger_statuses:
+            - COMPLETED
+            url: https://example.com/hooks/syllable
       type: object
       required:
-      - trigger_statuses
-      - url
-      - request_method
-      title: OutboundCampaignWebhookInput
+      - campaign_name
+      - campaign_variables
+      - caller_id
+      - active_days
+      title: OutboundCampaignInput
+    LineTypeBucket:
+      type: string
+      enum:
+      - mobile
+      - landline
+      - voip
+      title: LineTypeBucket
+      description: 'Friendly line-type buckets a campaign can be restricted to dial.
+
+
+        These map to raw Twilio Lookup v2 line types via
+
+        ``lib.twilio.line_type_lookup.LINE_TYPE_BUCKETS``.'
     CampaignProperties:
       type: string
       enum:

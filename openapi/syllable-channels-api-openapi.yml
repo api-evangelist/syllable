@@ -262,35 +262,17 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.channels.delete({\n    channelId: \"<id>\",\n    targetId: \"<id>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    SipTransport:
+    ChannelProperties:
       type: string
       enum:
-      - tls
-      - tcp
-      - udp
-      title: SipTransport
-      description: The transport protocol to use for the SIP endpoint.
+      - id
+      - name
+      - name_exact
+      - channel_service
+      - supported_modes
+      - config
+      title: ChannelProperties
+      description: Names of channel fields supported for filtering/sorting on list endpoint.
     ChannelConfigView:
       properties:
         telephony:
@@ -323,38 +305,291 @@ components:
           - account_sid_last_four: '1234'
       type: object
       title: ChannelConfigView
-    SipEndpoint:
+    SipTransport:
+      type: string
+      enum:
+      - tls
+      - tcp
+      - udp
+      title: SipTransport
+      description: The transport protocol to use for the SIP endpoint.
+    OrganizationChannelConfig:
       properties:
-        host:
-          type: string
-          title: Host
-          description: SIP endpoint host (IP address or hostname).
-          examples:
-          - 10.0.0.1
-          - pbx.example.com
-        port:
+        account_sid:
           anyOf:
           - type: string
           - type: 'null'
-          title: Port
-          description: SIP endpoint port.
+          title: Account Sid
+          description: SID of the Twilio account
           examples:
-          - '5060'
-          - '5071'
-        transport:
+          - AC123...
+        auth_token:
           anyOf:
-          - $ref: '#/components/schemas/SipTransport'
+          - type: string
           - type: 'null'
-          description: SIP transport protocol, e.g. `tcp`, `tls` or `udp`.
+          title: Auth Token
+          description: The Twilio auth token
           examples:
-          - tcp
-          - tls
-          - udp
+          - sometoken
+        provider_credentials:
+          anyOf:
+          - additionalProperties:
+              type: string
+            type: object
+          - type: 'null'
+          title: Provider Credentials
+          description: Provider-specific credentials. Initially to be used for AfricasTalking creds.In a future this would be used for Twilio creds too (removing the account_sid and auth_token fields).
+          examples:
+          - api_key: atk123
+            username: test_username
+        telephony:
+          anyOf:
+          - $ref: '#/components/schemas/TelephonyConfigurations'
+          - type: 'null'
+          description: Telephony configurations to be applied to the targets under the channel
+          examples:
+          - interruptibility: dtmf_only
+            overall_input_timeout: 20.0
+            passive_input_start: 0.5
+            passive_speech_input_enabled: true
+            pre_input_timeout: 1.2
+        email:
+          anyOf:
+          - $ref: '#/components/schemas/EmailConfigurations'
+          - type: 'null'
+          description: Email configurations (required for email channels)
+          examples:
+          - sending_domain: mail.example.com
+      type: object
+      title: OrganizationChannelConfig
+      description: Channel config information for creates / updates through the organizations API
+    ListResponse_Channel_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Channel'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
       type: object
       required:
-      - host
-      title: SipEndpoint
-      description: A single SIP endpoint to attempt for a transfer.
+      - items
+      - page
+      - page_size
+      title: ListResponse[Channel]
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    OrganizationChannelCreateRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The channel name
+          examples:
+          - twilio
+        channel_service:
+          $ref: '#/components/schemas/ChannelServices'
+          description: The service that facilitates communication on the channel
+          examples:
+          - webchat
+        supported_modes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Supported Modes
+          description: The comma-delimited list of supported modes for the channel, which defines the       possible communication methods for channel targets linked to it.
+          examples:
+          - chat,voice
+        is_system_channel:
+          type: boolean
+          title: Is System Channel
+          description: Whether the channel is a built-in system channel (i.e., is not customizable)
+          default: true
+          examples:
+          - false
+        config:
+          $ref: '#/components/schemas/OrganizationChannelConfig'
+          description: The configuration of the channel
+          examples:
+          - account_sid: AC123
+            auth_token: sometoken
+            telephony:
+              interruptibility: dtmf_only
+              passive_input_start: 0.5
+              passive_speech_input_enabled: true
+              pre_input_timeout: 3.0
+          - provider_credentials:
+              api_key: atk123
+              username: test_username
+            telephony:
+              interruptibility: dtmf_only
+              passive_input_start: 0.5
+              passive_speech_input_enabled: true
+              pre_input_timeout: 3.0
+      type: object
+      required:
+      - name
+      - channel_service
+      - config
+      title: OrganizationChannelCreateRequest
+      description: Request model to create a channel through the organizations API
+    OrganizationChannelUpdateRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The channel name
+          examples:
+          - twilio
+        channel_service:
+          $ref: '#/components/schemas/ChannelServices'
+          description: The service that facilitates communication on the channel
+          examples:
+          - webchat
+        supported_modes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Supported Modes
+          description: The comma-delimited list of supported modes for the channel, which defines the       possible communication methods for channel targets linked to it.
+          examples:
+          - chat,voice
+        is_system_channel:
+          type: boolean
+          title: Is System Channel
+          description: Whether the channel is a built-in system channel (i.e., is not customizable)
+          default: true
+          examples:
+          - false
+        config:
+          $ref: '#/components/schemas/OrganizationChannelConfig'
+          description: The configuration of the channel
+          examples:
+          - account_sid: AC123
+            auth_token: sometoken
+            telephony:
+              interruptibility: dtmf_only
+              passive_input_start: 0.5
+              passive_speech_input_enabled: true
+              pre_input_timeout: 3.0
+          - provider_credentials:
+              api_key: atk123
+              username: test_username
+            telephony:
+              interruptibility: dtmf_only
+              passive_input_start: 0.5
+              passive_speech_input_enabled: true
+              pre_input_timeout: 3.0
+        id:
+          type: integer
+          title: Id
+          description: The internal ID of the channel
+          examples:
+          - 1
+      type: object
+      required:
+      - name
+      - channel_service
+      - config
+      - id
+      title: OrganizationChannelUpdateRequest
+      description: Request model to update a channel through the organizations API
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
+    SipConfiguration:
+      properties:
+        sip_transfer_mode:
+          anyOf:
+          - $ref: '#/components/schemas/SipTransferMode'
+          - type: 'null'
+          description: How to perform the SIP transfer, INVITE or REFER.
+          examples:
+          - refer
+        sip_endpoints:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/SipEndpoint'
+            type: array
+          - type: 'null'
+          title: Sip Endpoints
+          description: List of SIP endpoints to attempt for the transfer.
+          examples:
+          - - host: 10.0.0.1
+              port: '5060'
+              transport: tcp
+            - host: pbx.example.com
+              port: '5071'
+              transport: tls
+        call_info_placement:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Call Info Placement
+          description: Where to place call information during a transfer. Supported values are `uri_parameters`, `to_parameters`, `from_parameters`, or `sip_header:<header-name>`.
+          examples:
+          - uri_parameters
+          - sip_header:P-Asserted-Identity
+      type: object
+      title: SipConfiguration
+      description: 'SIP routing configuration for transferring a call to a destination.
+
+
+        This is internal telephony/routing configuration used to direct a transfer to specific
+
+        SIP endpoints.'
     TelephonyConfigurations:
       properties:
         pre_input_timeout:
@@ -449,67 +684,17 @@ components:
       - sending_domain
       title: EmailConfigurations
       description: Email channel configurations.
-    OrganizationChannelCreateRequest:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: The channel name
-          examples:
-          - twilio
-        channel_service:
-          $ref: '#/components/schemas/ChannelServices'
-          description: The service that facilitates communication on the channel
-          examples:
-          - webchat
-        supported_modes:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Supported Modes
-          description: The comma-delimited list of supported modes for the channel, which defines the       possible communication methods for channel targets linked to it.
-          examples:
-          - chat,voice
-        is_system_channel:
-          type: boolean
-          title: Is System Channel
-          description: Whether the channel is a built-in system channel (i.e., is not customizable)
-          default: true
-          examples:
-          - false
-        config:
-          $ref: '#/components/schemas/OrganizationChannelConfig'
-          description: The configuration of the channel
-          examples:
-          - account_sid: AC123
-            auth_token: sometoken
-            telephony:
-              interruptibility: dtmf_only
-              passive_input_start: 0.5
-              passive_speech_input_enabled: true
-              pre_input_timeout: 3.0
-          - provider_credentials:
-              api_key: atk123
-              username: test_username
-            telephony:
-              interruptibility: dtmf_only
-              passive_input_start: 0.5
-              passive_speech_input_enabled: true
-              pre_input_timeout: 3.0
-      type: object
-      required:
-      - name
-      - channel_service
-      - config
-      title: OrganizationChannelCreateRequest
-      description: Request model to create a channel through the organizations API
-    OrderByDirection:
+    ChannelServices:
       type: string
       enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
+      - sip
+      - twilio
+      - email
+      - webchat
+      - africastalking
+      - whatsapp
+      title: ChannelServices
+      description: The communication service for a channel.
     Channel:
       properties:
         name:
@@ -560,140 +745,6 @@ components:
       - channel_service
       - id
       title: Channel
-    SipConfiguration:
-      properties:
-        sip_transfer_mode:
-          anyOf:
-          - $ref: '#/components/schemas/SipTransferMode'
-          - type: 'null'
-          description: How to perform the SIP transfer, INVITE or REFER.
-          examples:
-          - refer
-        sip_endpoints:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/SipEndpoint'
-            type: array
-          - type: 'null'
-          title: Sip Endpoints
-          description: List of SIP endpoints to attempt for the transfer.
-          examples:
-          - - host: 10.0.0.1
-              port: '5060'
-              transport: tcp
-            - host: pbx.example.com
-              port: '5071'
-              transport: tls
-        call_info_placement:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Call Info Placement
-          description: Where to place call information during a transfer. Supported values are `uri_parameters`, `to_parameters`, `from_parameters`, or `sip_header:<header-name>`.
-          examples:
-          - uri_parameters
-          - sip_header:P-Asserted-Identity
-      type: object
-      title: SipConfiguration
-      description: 'SIP routing configuration for transferring a call to a destination.
-
-
-        This is internal telephony/routing configuration used to direct a transfer to specific
-
-        SIP endpoints.'
-    ListResponse_Channel_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/Channel'
-          type: array
-          title: Items
-          description: List of items returned from the query
-          examples: []
-        page:
-          type: integer
-          title: Page
-          description: The page number of the results (0-based)
-          examples:
-          - 0
-        page_size:
-          type: integer
-          title: Page Size
-          description: The number of items returned per page
-          examples:
-          - 25
-        total_pages:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Pages
-          description: The total number of pages of results given the indicated page size
-          examples:
-          - 4
-        total_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Count
-          description: The total number of items returned from the query
-          examples:
-          - 100
-      type: object
-      required:
-      - items
-      - page
-      - page_size
-      title: ListResponse[Channel]
-    OrganizationChannelConfig:
-      properties:
-        account_sid:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Account Sid
-          description: SID of the Twilio account
-          examples:
-          - AC123...
-        auth_token:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Auth Token
-          description: The Twilio auth token
-          examples:
-          - sometoken
-        provider_credentials:
-          anyOf:
-          - additionalProperties:
-              type: string
-            type: object
-          - type: 'null'
-          title: Provider Credentials
-          description: Provider-specific credentials. Initially to be used for AfricasTalking creds.In a future this would be used for Twilio creds too (removing the account_sid and auth_token fields).
-          examples:
-          - api_key: atk123
-            username: test_username
-        telephony:
-          anyOf:
-          - $ref: '#/components/schemas/TelephonyConfigurations'
-          - type: 'null'
-          description: Telephony configurations to be applied to the targets under the channel
-          examples:
-          - interruptibility: dtmf_only
-            overall_input_timeout: 20.0
-            passive_input_start: 0.5
-            passive_speech_input_enabled: true
-            pre_input_timeout: 1.2
-        email:
-          anyOf:
-          - $ref: '#/components/schemas/EmailConfigurations'
-          - type: 'null'
-          description: Email configurations (required for email channels)
-          examples:
-          - sending_domain: mail.example.com
-      type: object
-      title: OrganizationChannelConfig
-      description: Channel config information for creates / updates through the organizations API
     SipTransferMode:
       type: string
       enum:
@@ -701,89 +752,38 @@ components:
       - invite
       title: SipTransferMode
       description: How a call should be transferred to a SIP endpoint.
-    ChannelProperties:
-      type: string
-      enum:
-      - id
-      - name
-      - name_exact
-      - channel_service
-      - supported_modes
-      - config
-      title: ChannelProperties
-      description: Names of channel fields supported for filtering/sorting on list endpoint.
-    ChannelServices:
-      type: string
-      enum:
-      - sip
-      - twilio
-      - email
-      - webchat
-      - africastalking
-      - whatsapp
-      title: ChannelServices
-      description: The communication service for a channel.
-    OrganizationChannelUpdateRequest:
+    SipEndpoint:
       properties:
-        name:
+        host:
           type: string
-          title: Name
-          description: The channel name
+          title: Host
+          description: SIP endpoint host (IP address or hostname).
           examples:
-          - twilio
-        channel_service:
-          $ref: '#/components/schemas/ChannelServices'
-          description: The service that facilitates communication on the channel
-          examples:
-          - webchat
-        supported_modes:
+          - 10.0.0.1
+          - pbx.example.com
+        port:
           anyOf:
           - type: string
           - type: 'null'
-          title: Supported Modes
-          description: The comma-delimited list of supported modes for the channel, which defines the       possible communication methods for channel targets linked to it.
+          title: Port
+          description: SIP endpoint port.
           examples:
-          - chat,voice
-        is_system_channel:
-          type: boolean
-          title: Is System Channel
-          description: Whether the channel is a built-in system channel (i.e., is not customizable)
-          default: true
+          - '5060'
+          - '5071'
+        transport:
+          anyOf:
+          - $ref: '#/components/schemas/SipTransport'
+          - type: 'null'
+          description: SIP transport protocol, e.g. `tcp`, `tls` or `udp`.
           examples:
-          - false
-        config:
-          $ref: '#/components/schemas/OrganizationChannelConfig'
-          description: The configuration of the channel
-          examples:
-          - account_sid: AC123
-            auth_token: sometoken
-            telephony:
-              interruptibility: dtmf_only
-              passive_input_start: 0.5
-              passive_speech_input_enabled: true
-              pre_input_timeout: 3.0
-          - provider_credentials:
-              api_key: atk123
-              username: test_username
-            telephony:
-              interruptibility: dtmf_only
-              passive_input_start: 0.5
-              passive_speech_input_enabled: true
-              pre_input_timeout: 3.0
-        id:
-          type: integer
-          title: Id
-          description: The internal ID of the channel
-          examples:
-          - 1
+          - tcp
+          - tls
+          - udp
       type: object
       required:
-      - name
-      - channel_service
-      - config
-      - id
-      title: OrganizationChannelUpdateRequest
-      description: Request model to update a channel through the organizations API
+      - host
+      title: SipEndpoint
+      description: A single SIP endpoint to attempt for a transfer.
     HTTPValidationError:
       properties:
         detail:

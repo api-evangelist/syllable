@@ -105,80 +105,6 @@ paths:
       - APIKeyHeader: []
 components:
   schemas:
-    TwilioChannelConfigUpdate:
-      properties:
-        account_sid:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Account Sid
-          description: SID of the Twilio account
-          examples:
-          - AC123...
-        auth_token:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Auth Token
-          description: The Twilio auth token
-          examples:
-          - sometoken
-      type: object
-      title: TwilioChannelConfigUpdate
-      description: Twilio channel config information. If a field is passed as None, it will not be updated.
-    SipTransferMode:
-      type: string
-      enum:
-      - refer
-      - invite
-      title: SipTransferMode
-      description: How a call should be transferred to a SIP endpoint.
-    TwilioChannelCreateRequest:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: The channel name
-          examples:
-          - syllable-webchat
-        config:
-          $ref: '#/components/schemas/TwilioChannelConfigCreate'
-          description: The configuration of the channel
-      type: object
-      required:
-      - name
-      - config
-      title: TwilioChannelCreateRequest
-      description: Request model for creating a Twilio channel.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    SipTransport:
-      type: string
-      enum:
-      - tls
-      - tcp
-      - udp
-      title: SipTransport
-      description: The transport protocol to use for the SIP endpoint.
     ChannelConfigView:
       properties:
         telephony:
@@ -211,52 +137,36 @@ components:
           - account_sid_last_four: '1234'
       type: object
       title: ChannelConfigView
-    SipEndpoint:
+    SipTransport:
+      type: string
+      enum:
+      - tls
+      - tcp
+      - udp
+      title: SipTransport
+      description: The transport protocol to use for the SIP endpoint.
+    ValidationError:
       properties:
-        host:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          title: Host
-          description: SIP endpoint host (IP address or hostname).
-          examples:
-          - 10.0.0.1
-          - pbx.example.com
-        port:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Port
-          description: SIP endpoint port.
-          examples:
-          - '5060'
-          - '5071'
-        transport:
-          anyOf:
-          - $ref: '#/components/schemas/SipTransport'
-          - type: 'null'
-          description: SIP transport protocol, e.g. `tcp`, `tls` or `udp`.
-          examples:
-          - tcp
-          - tls
-          - udp
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
       required:
-      - host
-      title: SipEndpoint
-      description: A single SIP endpoint to attempt for a transfer.
-    EmailConfigurations:
-      properties:
-        sending_domain:
-          type: string
-          title: Sending Domain
-          description: The domain to use for sending emails. Must be authenticated in SendGrid.
-          examples:
-          - mail.example.com
-      type: object
-      required:
-      - sending_domain
-      title: EmailConfigurations
-      description: Email channel configurations.
-    Channel:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TwilioChannelCreateRequest:
       properties:
         name:
           type: string
@@ -264,48 +174,82 @@ components:
           description: The channel name
           examples:
           - syllable-webchat
-        channel_service:
-          $ref: '#/components/schemas/ChannelServices'
-          description: The service that facilitates communication on the channel
-          examples:
-          - webchat
-        supported_modes:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Supported Modes
-          description: The comma-delimited list of supported modes for the channel, which defines the       possible communication methods for channel targets linked to it.
-          examples:
-          - chat,voice
-        is_system_channel:
-          type: boolean
-          title: Is System Channel
-          description: Whether the channel is a built-in system channel (i.e., is not customizable)
-          default: true
-          examples:
-          - false
-        id:
-          type: integer
-          title: Id
-          description: The channel ID
         config:
-          anyOf:
-          - $ref: '#/components/schemas/ChannelConfigView'
-          - type: 'null'
-          description: Configuration for the channel
-          examples:
-          - telephony:
-              interruptibility: dtmf_only
-              overall_input_timeout: 20.0
-              passive_input_start: 0.5
-              passive_speech_input_enabled: true
-              pre_input_timeout: 1.2
+          $ref: '#/components/schemas/TwilioChannelConfigCreate'
+          description: The configuration of the channel
       type: object
       required:
       - name
-      - channel_service
+      - config
+      title: TwilioChannelCreateRequest
+      description: Request model for creating a Twilio channel.
+    TwilioChannelUpdateRequest:
+      properties:
+        id:
+          type: integer
+          title: Id
+          description: The internal ID of the channel
+          examples:
+          - 1
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: The name of the channel
+          examples:
+          - syllable-webchat
+        config:
+          anyOf:
+          - $ref: '#/components/schemas/TwilioChannelConfigUpdate'
+          - type: 'null'
+          description: The configuration of the channel
+      type: object
+      required:
       - id
-      title: Channel
+      title: TwilioChannelUpdateRequest
+      description: Request model for updating a Twilio channel.
+    SipConfiguration:
+      properties:
+        sip_transfer_mode:
+          anyOf:
+          - $ref: '#/components/schemas/SipTransferMode'
+          - type: 'null'
+          description: How to perform the SIP transfer, INVITE or REFER.
+          examples:
+          - refer
+        sip_endpoints:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/SipEndpoint'
+            type: array
+          - type: 'null'
+          title: Sip Endpoints
+          description: List of SIP endpoints to attempt for the transfer.
+          examples:
+          - - host: 10.0.0.1
+              port: '5060'
+              transport: tcp
+            - host: pbx.example.com
+              port: '5071'
+              transport: tls
+        call_info_placement:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Call Info Placement
+          description: Where to place call information during a transfer. Supported values are `uri_parameters`, `to_parameters`, `from_parameters`, or `sip_header:<header-name>`.
+          examples:
+          - uri_parameters
+          - sip_header:P-Asserted-Identity
+      type: object
+      title: SipConfiguration
+      description: 'SIP routing configuration for transferring a call to a destination.
+
+
+        This is internal telephony/routing configuration used to direct a transfer to specific
+
+        SIP endpoints.'
     TelephonyConfigurations:
       properties:
         pre_input_timeout:
@@ -387,15 +331,27 @@ components:
           description: SIP routing configuration applied when transferring calls on this channel
       type: object
       title: TelephonyConfigurations
-    HTTPValidationError:
+    TwilioChannelConfigUpdate:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        account_sid:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Account Sid
+          description: SID of the Twilio account
+          examples:
+          - AC123...
+        auth_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Auth Token
+          description: The Twilio auth token
+          examples:
+          - sometoken
       type: object
-      title: HTTPValidationError
+      title: TwilioChannelConfigUpdate
+      description: Twilio channel config information. If a field is passed as None, it will not be updated.
     TwilioChannelConfigCreate:
       properties:
         account_sid:
@@ -416,32 +372,19 @@ components:
       - auth_token
       title: TwilioChannelConfigCreate
       description: Twilio channel config information.
-    TwilioChannelUpdateRequest:
+    EmailConfigurations:
       properties:
-        id:
-          type: integer
-          title: Id
-          description: The internal ID of the channel
+        sending_domain:
+          type: string
+          title: Sending Domain
+          description: The domain to use for sending emails. Must be authenticated in SendGrid.
           examples:
-          - 1
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-          description: The name of the channel
-          examples:
-          - syllable-webchat
-        config:
-          anyOf:
-          - $ref: '#/components/schemas/TwilioChannelConfigUpdate'
-          - type: 'null'
-          description: The configuration of the channel
+          - mail.example.com
       type: object
       required:
-      - id
-      title: TwilioChannelUpdateRequest
-      description: Request model for updating a Twilio channel.
+      - sending_domain
+      title: EmailConfigurations
+      description: Email channel configurations.
     ChannelServices:
       type: string
       enum:
@@ -453,47 +396,104 @@ components:
       - whatsapp
       title: ChannelServices
       description: The communication service for a channel.
-    SipConfiguration:
+    Channel:
       properties:
-        sip_transfer_mode:
-          anyOf:
-          - $ref: '#/components/schemas/SipTransferMode'
-          - type: 'null'
-          description: How to perform the SIP transfer, INVITE or REFER.
+        name:
+          type: string
+          title: Name
+          description: The channel name
           examples:
-          - refer
-        sip_endpoints:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/SipEndpoint'
-            type: array
-          - type: 'null'
-          title: Sip Endpoints
-          description: List of SIP endpoints to attempt for the transfer.
+          - syllable-webchat
+        channel_service:
+          $ref: '#/components/schemas/ChannelServices'
+          description: The service that facilitates communication on the channel
           examples:
-          - - host: 10.0.0.1
-              port: '5060'
-              transport: tcp
-            - host: pbx.example.com
-              port: '5071'
-              transport: tls
-        call_info_placement:
+          - webchat
+        supported_modes:
           anyOf:
           - type: string
           - type: 'null'
-          title: Call Info Placement
-          description: Where to place call information during a transfer. Supported values are `uri_parameters`, `to_parameters`, `from_parameters`, or `sip_header:<header-name>`.
+          title: Supported Modes
+          description: The comma-delimited list of supported modes for the channel, which defines the       possible communication methods for channel targets linked to it.
           examples:
-          - uri_parameters
-          - sip_header:P-Asserted-Identity
+          - chat,voice
+        is_system_channel:
+          type: boolean
+          title: Is System Channel
+          description: Whether the channel is a built-in system channel (i.e., is not customizable)
+          default: true
+          examples:
+          - false
+        id:
+          type: integer
+          title: Id
+          description: The channel ID
+        config:
+          anyOf:
+          - $ref: '#/components/schemas/ChannelConfigView'
+          - type: 'null'
+          description: Configuration for the channel
+          examples:
+          - telephony:
+              interruptibility: dtmf_only
+              overall_input_timeout: 20.0
+              passive_input_start: 0.5
+              passive_speech_input_enabled: true
+              pre_input_timeout: 1.2
       type: object
-      title: SipConfiguration
-      description: 'SIP routing configuration for transferring a call to a destination.
-
-
-        This is internal telephony/routing configuration used to direct a transfer to specific
-
-        SIP endpoints.'
+      required:
+      - name
+      - channel_service
+      - id
+      title: Channel
+    SipTransferMode:
+      type: string
+      enum:
+      - refer
+      - invite
+      title: SipTransferMode
+      description: How a call should be transferred to a SIP endpoint.
+    SipEndpoint:
+      properties:
+        host:
+          type: string
+          title: Host
+          description: SIP endpoint host (IP address or hostname).
+          examples:
+          - 10.0.0.1
+          - pbx.example.com
+        port:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Port
+          description: SIP endpoint port.
+          examples:
+          - '5060'
+          - '5071'
+        transport:
+          anyOf:
+          - $ref: '#/components/schemas/SipTransport'
+          - type: 'null'
+          description: SIP transport protocol, e.g. `tcp`, `tls` or `udp`.
+          examples:
+          - tcp
+          - tls
+          - udp
+      type: object
+      required:
+      - host
+      title: SipEndpoint
+      description: A single SIP endpoint to attempt for a transfer.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     APIKeyHeader:
       type: apiKey

@@ -155,6 +155,49 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.events.list({\n    page: 0,\n    searchFields: [\n      \"description\",\n    ],\n    searchFieldValues: [\n      \"Some Object Name\",\n    ],\n    startDatetime: \"2023-01-01T00:00:00Z\",\n    endDatetime: \"2024-01-01T00:00:00Z\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
+    ListResponse_Event_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Event'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[Event]
     ValidationError:
       properties:
         loc:
@@ -176,6 +219,13 @@ components:
       - msg
       - type
       title: ValidationError
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
     Event:
       properties:
         timestamp:
@@ -275,56 +325,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    OrderByDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
-    ListResponse_Event_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/Event'
-          type: array
-          title: Items
-          description: List of items returned from the query
-          examples: []
-        page:
-          type: integer
-          title: Page
-          description: The page number of the results (0-based)
-          examples:
-          - 0
-        page_size:
-          type: integer
-          title: Page Size
-          description: The number of items returned per page
-          examples:
-          - 25
-        total_pages:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Pages
-          description: The total number of pages of results given the indicated page size
-          examples:
-          - 4
-        total_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Count
-          description: The total number of items returned from the query
-          examples:
-          - 100
-      type: object
-      required:
-      - items
-      - page
-      - page_size
-      title: ListResponse[Event]
   securitySchemes:
     APIKeyHeader:
       type: apiKey

@@ -300,6 +300,307 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.dataSources.delete({\n    dataSourceId: 509584,\n    reason: \"<value>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
+    ListResponse_DataSourceMetadataResponse_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/DataSourceMetadataResponse'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[DataSourceMetadataResponse]
+    DataSourceMetadataResponse:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The data source name. Must be unique within suborg. Cannot contain whitespace.
+          examples:
+          - Rain
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: The description of the data source.
+          examples:
+          - Information about rain.
+        labels:
+          items:
+            type: string
+          type: array
+          title: Labels
+          description: Searchable labels for the data source. Can be included in agent.prompt_tool_defaults for a given tool to give the agent access to data sources with those labels when calling that tool.
+          default: []
+          examples:
+          - - Weather Info
+        chunk:
+          type: boolean
+          title: Chunk
+          description: Whether the content should be split into smaller chunks. (This feature is coming in the future - currently this value will always be treated as False.)
+          examples:
+          - false
+        chunk_delimiter:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Chunk Delimiter
+          description: String that should be treated as delimiter between intended chunks. (This feature is coming in the future - currently this value will always be treated as None.)
+          examples:
+          - ''
+        id:
+          type: integer
+          title: Id
+          description: The data source ID.
+          examples:
+          - 1
+        edit_comments:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Edit Comments
+          description: The comments for the most recent edit to the data source
+          examples:
+          - Added new info
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+          description: Timestamp of most recent update
+        last_updated_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Updated By
+          description: Email of the user who last updated the data source
+          examples:
+          - user@email.com
+      type: object
+      required:
+      - name
+      - chunk
+      - id
+      - updated_at
+      - last_updated_by
+      title: DataSourceMetadataResponse
+      description: 'Metadata about a data source, not including the text. A data source is a blob of text that
+
+        can be made available to an agent''s general info tools to provide more context to the agent when
+
+        generating its responses. For more information, see
+
+        [Console docs](https://docs.syllable.ai/Resources/DataSources).'
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    DataSourceUpdateRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The data source name. Must be unique within suborg. Cannot contain whitespace.
+          examples:
+          - Rain
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: The description of the data source.
+          examples:
+          - Information about rain.
+        labels:
+          items:
+            type: string
+          type: array
+          title: Labels
+          description: Searchable labels for the data source. Can be included in agent.prompt_tool_defaults for a given tool to give the agent access to data sources with those labels when calling that tool.
+          default: []
+          examples:
+          - - Weather Info
+        chunk:
+          type: boolean
+          title: Chunk
+          description: Whether the content should be split into smaller chunks. (This feature is coming in the future - currently this value will always be treated as False.)
+          examples:
+          - false
+        chunk_delimiter:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Chunk Delimiter
+          description: String that should be treated as delimiter between intended chunks. (This feature is coming in the future - currently this value will always be treated as None.)
+          examples:
+          - ''
+        id:
+          type: integer
+          title: Id
+          description: The data source ID.
+          examples:
+          - 1
+        edit_comments:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Edit Comments
+          description: The comments for the most recent edit to the data source
+          examples:
+          - Added new info
+        text:
+          type: string
+          title: Text
+          description: Information that the data source will provide to the agent accessing it. It is recommended to include a sentence at the beginning providing context to the LLM for the information in the data source.
+          examples:
+          - 'The following are names and addresses of pizza shops.
+
+
+            Cool Pizza, 123 Main St.
+
+
+            Really Good Pizza, 456 Water St.
+
+
+            The Best Pizza, 789 Circle Dr.'
+      type: object
+      required:
+      - name
+      - chunk
+      - id
+      - text
+      title: DataSourceUpdateRequest
+      description: Request model to update an existing data source.
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
+    DataSourceProperties:
+      type: string
+      enum:
+      - name
+      - description
+      - labels
+      - chunk
+      - chunk_delimiter
+      - updated_at
+      - last_updated_by
+      title: DataSourceProperties
+      description: Names of data source fields supported for filtering/sorting on list endpoint.
+    DataSourceCreateRequest:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: The data source name. Must be unique within suborg. Cannot contain whitespace.
+          examples:
+          - Rain
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: The description of the data source.
+          examples:
+          - Information about rain.
+        labels:
+          items:
+            type: string
+          type: array
+          title: Labels
+          description: Searchable labels for the data source. Can be included in agent.prompt_tool_defaults for a given tool to give the agent access to data sources with those labels when calling that tool.
+          default: []
+          examples:
+          - - Weather Info
+        chunk:
+          type: boolean
+          title: Chunk
+          description: Whether the content should be split into smaller chunks. (This feature is coming in the future - currently this value will always be treated as False.)
+          examples:
+          - false
+        chunk_delimiter:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Chunk Delimiter
+          description: String that should be treated as delimiter between intended chunks. (This feature is coming in the future - currently this value will always be treated as None.)
+          examples:
+          - ''
+        text:
+          type: string
+          title: Text
+          description: Information that the data source will provide to the agent accessing it. It is recommended to include a sentence at the beginning providing context to the LLM for the information in the data source.
+          examples:
+          - 'The following are names and addresses of pizza shops.
+
+
+            Cool Pizza, 123 Main St.
+
+
+            Really Good Pizza, 456 Water St.
+
+
+            The Best Pizza, 789 Circle Dr.'
+      type: object
+      required:
+      - name
+      - chunk
+      - text
+      title: DataSourceCreateRequest
+      description: Request model to create a data source.
     DataSourceDetailResponse:
       properties:
         name:
@@ -386,224 +687,6 @@ components:
         generating its responses. For more information, see
 
         [Console docs](https://docs.syllable.ai/Resources/DataSources).'
-    ListResponse_DataSourceMetadataResponse_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/DataSourceMetadataResponse'
-          type: array
-          title: Items
-          description: List of items returned from the query
-          examples: []
-        page:
-          type: integer
-          title: Page
-          description: The page number of the results (0-based)
-          examples:
-          - 0
-        page_size:
-          type: integer
-          title: Page Size
-          description: The number of items returned per page
-          examples:
-          - 25
-        total_pages:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Pages
-          description: The total number of pages of results given the indicated page size
-          examples:
-          - 4
-        total_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Count
-          description: The total number of items returned from the query
-          examples:
-          - 100
-      type: object
-      required:
-      - items
-      - page
-      - page_size
-      title: ListResponse[DataSourceMetadataResponse]
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    DataSourceMetadataResponse:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: The data source name. Must be unique within suborg. Cannot contain whitespace.
-          examples:
-          - Rain
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: The description of the data source.
-          examples:
-          - Information about rain.
-        labels:
-          items:
-            type: string
-          type: array
-          title: Labels
-          description: Searchable labels for the data source. Can be included in agent.prompt_tool_defaults for a given tool to give the agent access to data sources with those labels when calling that tool.
-          default: []
-          examples:
-          - - Weather Info
-        chunk:
-          type: boolean
-          title: Chunk
-          description: Whether the content should be split into smaller chunks. (This feature is coming in the future - currently this value will always be treated as False.)
-          examples:
-          - false
-        chunk_delimiter:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Chunk Delimiter
-          description: String that should be treated as delimiter between intended chunks. (This feature is coming in the future - currently this value will always be treated as None.)
-          examples:
-          - ''
-        id:
-          type: integer
-          title: Id
-          description: The data source ID.
-          examples:
-          - 1
-        edit_comments:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Edit Comments
-          description: The comments for the most recent edit to the data source
-          examples:
-          - Added new info
-        updated_at:
-          type: string
-          format: date-time
-          title: Updated At
-          description: Timestamp of most recent update
-        last_updated_by:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Last Updated By
-          description: Email of the user who last updated the data source
-          examples:
-          - user@email.com
-      type: object
-      required:
-      - name
-      - chunk
-      - id
-      - updated_at
-      - last_updated_by
-      title: DataSourceMetadataResponse
-      description: 'Metadata about a data source, not including the text. A data source is a blob of text that
-
-        can be made available to an agent''s general info tools to provide more context to the agent when
-
-        generating its responses. For more information, see
-
-        [Console docs](https://docs.syllable.ai/Resources/DataSources).'
-    DataSourceProperties:
-      type: string
-      enum:
-      - name
-      - description
-      - labels
-      - chunk
-      - chunk_delimiter
-      - updated_at
-      - last_updated_by
-      title: DataSourceProperties
-      description: Names of data source fields supported for filtering/sorting on list endpoint.
-    DataSourceCreateRequest:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: The data source name. Must be unique within suborg. Cannot contain whitespace.
-          examples:
-          - Rain
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: The description of the data source.
-          examples:
-          - Information about rain.
-        labels:
-          items:
-            type: string
-          type: array
-          title: Labels
-          description: Searchable labels for the data source. Can be included in agent.prompt_tool_defaults for a given tool to give the agent access to data sources with those labels when calling that tool.
-          default: []
-          examples:
-          - - Weather Info
-        chunk:
-          type: boolean
-          title: Chunk
-          description: Whether the content should be split into smaller chunks. (This feature is coming in the future - currently this value will always be treated as False.)
-          examples:
-          - false
-        chunk_delimiter:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Chunk Delimiter
-          description: String that should be treated as delimiter between intended chunks. (This feature is coming in the future - currently this value will always be treated as None.)
-          examples:
-          - ''
-        text:
-          type: string
-          title: Text
-          description: Information that the data source will provide to the agent accessing it. It is recommended to include a sentence at the beginning providing context to the LLM for the information in the data source.
-          examples:
-          - 'The following are names and addresses of pizza shops.
-
-
-            Cool Pizza, 123 Main St.
-
-
-            Really Good Pizza, 456 Water St.
-
-
-            The Best Pizza, 789 Circle Dr.'
-      type: object
-      required:
-      - name
-      - chunk
-      - text
-      title: DataSourceCreateRequest
-      description: Request model to create a data source.
     HTTPValidationError:
       properties:
         detail:
@@ -613,89 +696,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    DataSourceUpdateRequest:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: The data source name. Must be unique within suborg. Cannot contain whitespace.
-          examples:
-          - Rain
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: The description of the data source.
-          examples:
-          - Information about rain.
-        labels:
-          items:
-            type: string
-          type: array
-          title: Labels
-          description: Searchable labels for the data source. Can be included in agent.prompt_tool_defaults for a given tool to give the agent access to data sources with those labels when calling that tool.
-          default: []
-          examples:
-          - - Weather Info
-        chunk:
-          type: boolean
-          title: Chunk
-          description: Whether the content should be split into smaller chunks. (This feature is coming in the future - currently this value will always be treated as False.)
-          examples:
-          - false
-        chunk_delimiter:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Chunk Delimiter
-          description: String that should be treated as delimiter between intended chunks. (This feature is coming in the future - currently this value will always be treated as None.)
-          examples:
-          - ''
-        id:
-          type: integer
-          title: Id
-          description: The data source ID.
-          examples:
-          - 1
-        edit_comments:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Edit Comments
-          description: The comments for the most recent edit to the data source
-          examples:
-          - Added new info
-        text:
-          type: string
-          title: Text
-          description: Information that the data source will provide to the agent accessing it. It is recommended to include a sentence at the beginning providing context to the LLM for the information in the data source.
-          examples:
-          - 'The following are names and addresses of pizza shops.
-
-
-            Cool Pizza, 123 Main St.
-
-
-            Really Good Pizza, 456 Water St.
-
-
-            The Best Pizza, 789 Circle Dr.'
-      type: object
-      required:
-      - name
-      - chunk
-      - id
-      - text
-      title: DataSourceUpdateRequest
-      description: Request model to update an existing data source.
-    OrderByDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
   securitySchemes:
     APIKeyHeader:
       type: apiKey

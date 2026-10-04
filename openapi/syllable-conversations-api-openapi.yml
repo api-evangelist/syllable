@@ -190,6 +190,13 @@ components:
       - msg
       - type
       title: ValidationError
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
     ListResponse_Conversation_:
       properties:
         items:
@@ -333,13 +340,6 @@ components:
       description: 'A conversation is a record of messages between a user and an agent, and is composed of one or
 
         more sessions.'
-    OrderByDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
   securitySchemes:
     APIKeyHeader:
       type: apiKey

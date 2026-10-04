@@ -408,6 +408,13 @@ components:
       - msg
       - type
       title: ValidationError
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
     ListResponse_InsightToolOutput_:
       properties:
         items:
@@ -451,17 +458,46 @@ components:
       - page
       - page_size
       title: ListResponse[InsightToolOutput]
-    InsightToolProperties:
-      type: string
-      enum:
-      - id
+    InsightToolInput:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Human readable name of insight tool
+          examples:
+          - summary-tool
+        description:
+          type: string
+          title: Description
+          description: Text description of insight tool configuration
+          examples:
+          - This tool uses GPT4.1 to generate a summary of the call
+        version:
+          type: integer
+          title: Version
+          description: Version number of insight tool configuration
+          examples:
+          - 1
+        tool_arguments:
+          title: Tool Arguments
+          description: Arguments for calling the insight tool
+          examples:
+          - prompt: Provide a concise, accurate summary of the conversation's key points, focusing on the user's goal and how the agent responded
+        insight_tool_definition_id:
+          type: integer
+          title: Insight Tool Definition Id
+          description: Internal ID for the definition used by the insight tool configuration
+          examples:
+          - 1
+      type: object
+      required:
       - name
-      - name_exact
       - description
+      - version
       - tool_arguments
       - insight_tool_definition_id
-      - updated_at
-      title: InsightToolProperties
+      title: InsightToolInput
+      description: Request model to create/update an insight tool configuration.
     InsightToolTestInput:
       properties:
         tool_name:
@@ -491,15 +527,17 @@ components:
       - tool_name
       title: InsightToolTestInput
       description: Request model to test an insight tool.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+    InsightToolProperties:
+      type: string
+      enum:
+      - id
+      - name
+      - name_exact
+      - description
+      - tool_arguments
+      - insight_tool_definition_id
+      - updated_at
+      title: InsightToolProperties
     InsightToolOutput:
       properties:
         name:
@@ -573,6 +611,15 @@ components:
       - last_updated_by
       title: InsightToolOutput
       description: Response model for an insight tool configuration.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     InsightToolDefinition:
       properties:
         id:
@@ -619,53 +666,6 @@ components:
       description: 'Model for an insight tool definition. This is a template that can be used by multiple insight
 
         tool configurations, each providing their own parameter values.'
-    OrderByDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
-    InsightToolInput:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Human readable name of insight tool
-          examples:
-          - summary-tool
-        description:
-          type: string
-          title: Description
-          description: Text description of insight tool configuration
-          examples:
-          - This tool uses GPT4.1 to generate a summary of the call
-        version:
-          type: integer
-          title: Version
-          description: Version number of insight tool configuration
-          examples:
-          - 1
-        tool_arguments:
-          title: Tool Arguments
-          description: Arguments for calling the insight tool
-          examples:
-          - prompt: Provide a concise, accurate summary of the conversation's key points, focusing on the user's goal and how the agent responded
-        insight_tool_definition_id:
-          type: integer
-          title: Insight Tool Definition Id
-          description: Internal ID for the definition used by the insight tool configuration
-          examples:
-          - 1
-      type: object
-      required:
-      - name
-      - description
-      - version
-      - tool_arguments
-      - insight_tool_definition_id
-      title: InsightToolInput
-      description: Request model to create/update an insight tool configuration.
   securitySchemes:
     APIKeyHeader:
       type: apiKey

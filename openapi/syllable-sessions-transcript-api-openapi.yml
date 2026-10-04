@@ -49,6 +49,54 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.sessions.transcript.getById({\n    sessionId: \"<id>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
+    SessionTranscriptionResponse:
+      properties:
+        session_id:
+          type: string
+          title: Session Id
+          description: Internal ID of the session
+        transcription:
+          items:
+            $ref: '#/components/schemas/SessionText'
+          type: array
+          title: Transcription
+          description: Transcriptions of all messages in the session
+        actions:
+          items:
+            $ref: '#/components/schemas/SessionAction'
+          type: array
+          title: Actions
+          description: Tool invocations that occurred during the session
+      type: object
+      required:
+      - session_id
+      - transcription
+      - actions
+      title: SessionTranscriptionResponse
+      description: 'Text transcript of a given session. For more information, see
+
+        [Console docs](https://docs.syllable.ai/workspaces/Sessions).'
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     SessionAction:
       properties:
         timestamp:
@@ -91,27 +139,6 @@ components:
       - timestamp
       title: SessionAction
       description: Information about a given tool invocation as part of a session.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     SessionText:
       properties:
         timestamp:
@@ -158,33 +185,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    SessionTranscriptionResponse:
-      properties:
-        session_id:
-          type: string
-          title: Session Id
-          description: Internal ID of the session
-        transcription:
-          items:
-            $ref: '#/components/schemas/SessionText'
-          type: array
-          title: Transcription
-          description: Transcriptions of all messages in the session
-        actions:
-          items:
-            $ref: '#/components/schemas/SessionAction'
-          type: array
-          title: Actions
-          description: Tool invocations that occurred during the session
-      type: object
-      required:
-      - session_id
-      - transcription
-      - actions
-      title: SessionTranscriptionResponse
-      description: 'Text transcript of a given session. For more information, see
-
-        [Console docs](https://docs.syllable.ai/workspaces/Sessions).'
   securitySchemes:
     APIKeyHeader:
       type: apiKey

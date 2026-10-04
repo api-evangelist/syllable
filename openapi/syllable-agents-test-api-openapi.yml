@@ -50,6 +50,67 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.agents.test.sendTestMessage({\n    serviceName: \"<value>\",\n    source: \"user@email.com\",\n    text: \"Hello\",\n    testId: \"<id>\",\n    agentId: \"<id>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
+    TestMessageResponse:
+      properties:
+        test_id:
+          type: string
+          title: Test Id
+          description: Channel-manager-side ID of the session (see Session.channel_manager_sid)
+        agent_id:
+          type: string
+          title: Agent Id
+          description: ID of the agent with which the chat is taking place
+        text:
+          type: string
+          title: Text
+          description: The text of the message that elicited the response
+        response:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Response
+          description: The response from the agent
+        response_text:
+          type: string
+          title: Response Text
+          description: The text of the response
+      type: object
+      required:
+      - test_id
+      - agent_id
+      - response
+      title: TestMessageResponse
+      description: Response from an agent in a test chat.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     TestMessage:
       properties:
         service_name:
@@ -104,67 +165,6 @@ components:
       - agent_id
       title: TestMessage
       description: Message sent in a test chat with an agent.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    TestMessageResponse:
-      properties:
-        test_id:
-          type: string
-          title: Test Id
-          description: Channel-manager-side ID of the session (see Session.channel_manager_sid)
-        agent_id:
-          type: string
-          title: Agent Id
-          description: ID of the agent with which the chat is taking place
-        text:
-          type: string
-          title: Text
-          description: The text of the message that elicited the response
-        response:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Response
-          description: The response from the agent
-        response_text:
-          type: string
-          title: Response Text
-          description: The text of the response
-      type: object
-      required:
-      - test_id
-      - agent_id
-      - response
-      title: TestMessageResponse
-      description: Response from an agent in a test chat.
   securitySchemes:
     APIKeyHeader:
       type: apiKey

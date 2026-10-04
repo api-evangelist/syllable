@@ -372,16 +372,56 @@ components:
       - msg
       - type
       title: ValidationError
-    ServiceProperties:
+    ListResponse_ServiceResponse_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/ServiceResponse'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[ServiceResponse]
+    OrderByDirection:
       type: string
       enum:
-      - id
-      - name
-      - description
-      - last_updated
-      - last_updated_by
-      title: ServiceProperties
-      description: Names of service fields supported for filtering/sorting on list endpoint.
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
     HTTPValidationError:
       properties:
         detail:
@@ -469,6 +509,24 @@ components:
       - tools
       title: ServiceResponse
       description: Response model for service operations. A service is a collection of tools.
+    ServiceProperties:
+      type: string
+      enum:
+      - id
+      - name
+      - description
+      - last_updated
+      - last_updated_by
+      title: ServiceProperties
+      description: Names of service fields supported for filtering/sorting on list endpoint.
+    ToolAuthType:
+      type: string
+      enum:
+      - basic
+      - bearer
+      - custom_headers
+      - oauth2
+      title: ToolAuthType
     ServiceCreateRequest:
       properties:
         name:
@@ -505,64 +563,6 @@ components:
       - description
       title: ServiceCreateRequest
       description: Request model to create a service.
-    OrderByDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
-    ListResponse_ServiceResponse_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/ServiceResponse'
-          type: array
-          title: Items
-          description: List of items returned from the query
-          examples: []
-        page:
-          type: integer
-          title: Page
-          description: The page number of the results (0-based)
-          examples:
-          - 0
-        page_size:
-          type: integer
-          title: Page Size
-          description: The number of items returned per page
-          examples:
-          - 25
-        total_pages:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Pages
-          description: The total number of pages of results given the indicated page size
-          examples:
-          - 4
-        total_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Count
-          description: The total number of items returned from the query
-          examples:
-          - 100
-      type: object
-      required:
-      - items
-      - page
-      - page_size
-      title: ListResponse[ServiceResponse]
-    ToolAuthType:
-      type: string
-      enum:
-      - basic
-      - bearer
-      - custom_headers
-      - oauth2
-      title: ToolAuthType
   securitySchemes:
     APIKeyHeader:
       type: apiKey

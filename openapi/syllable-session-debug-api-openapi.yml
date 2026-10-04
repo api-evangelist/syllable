@@ -131,37 +131,81 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.sessionDebug.getSessionToolCallResultById({\n    sessionId: 832133,\n    toolCallId: \"<id>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
-    SessionMessage:
+    DialogToolCall:
       properties:
-        role:
-          $ref: '#/components/schemas/DialogRole'
-          description: Dialog role
+        tool_call_id:
+          type: string
+          title: Tool Call Id
+          description: Tool call ID
           examples:
-          - agent
-          - user
-        dialog:
-          $ref: '#/components/schemas/DialogMessage'
-          description: Dialog message
-        tool_calls:
-          items:
-            $ref: '#/components/schemas/DialogToolCall'
-          type: array
-          title: Tool Calls
-          description: Tool calls
+          - call_arbitrary_id
+        tool_name:
+          type: string
+          title: Tool Name
+          description: Tool name
+          examples:
+          - general_information_web
+        tool_arguments:
+          title: Tool Arguments
+          description: Tool arguments
+          examples:
+          - question: Tell me about Syllable.ai!
+        tool_result:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Tool Result
+          description: Tool result data (only included if tool has propagate_tool_result=true)
+          examples:
+          - answer: Syllable is a platform for building and managing AI voice agents...
         timestamp:
           type: string
           format: date-time
           title: Timestamp
-          description: Message timestamp
+          description: Tool call timestamp
           examples:
           - '2024-06-19T00:00:00'
       type: object
       required:
-      - role
-      - dialog
-      - tool_calls
+      - tool_call_id
+      - tool_name
+      - tool_arguments
+      - tool_result
       - timestamp
-      title: SessionMessage
+      title: DialogToolCall
+    DialogMessage:
+      properties:
+        text:
+          type: string
+          title: Text
+          description: Dialog message text
+          examples:
+          - Tell me about Syllable.ai!
+      type: object
+      required:
+      - text
+      title: DialogMessage
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     ToolResultData:
       properties:
         tool_name:
@@ -220,69 +264,44 @@ components:
       - is_test
       - messages
       title: SessionData
-    ValidationError:
+    DialogRole:
+      type: string
+      enum:
+      - agent
+      - user
+      title: DialogRole
+      description: Role of dialog
+    SessionMessage:
       properties:
-        loc:
+        role:
+          $ref: '#/components/schemas/DialogRole'
+          description: Dialog role
+          examples:
+          - agent
+          - user
+        dialog:
+          $ref: '#/components/schemas/DialogMessage'
+          description: Dialog message
+        tool_calls:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/DialogToolCall'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    DialogToolCall:
-      properties:
-        tool_call_id:
-          type: string
-          title: Tool Call Id
-          description: Tool call ID
-          examples:
-          - call_arbitrary_id
-        tool_name:
-          type: string
-          title: Tool Name
-          description: Tool name
-          examples:
-          - general_information_web
-        tool_arguments:
-          title: Tool Arguments
-          description: Tool arguments
-          examples:
-          - question: Tell me about Syllable.ai!
-        tool_result:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Tool Result
-          description: Tool result data (only included if tool has propagate_tool_result=true)
-          examples:
-          - answer: Syllable is a platform for building and managing AI voice agents...
+          title: Tool Calls
+          description: Tool calls
         timestamp:
           type: string
           format: date-time
           title: Timestamp
-          description: Tool call timestamp
+          description: Message timestamp
           examples:
           - '2024-06-19T00:00:00'
       type: object
       required:
-      - tool_call_id
-      - tool_name
-      - tool_arguments
-      - tool_result
+      - role
+      - dialog
+      - tool_calls
       - timestamp
-      title: DialogToolCall
+      title: SessionMessage
     HTTPValidationError:
       properties:
         detail:
@@ -292,25 +311,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    DialogMessage:
-      properties:
-        text:
-          type: string
-          title: Text
-          description: Dialog message text
-          examples:
-          - Tell me about Syllable.ai!
-      type: object
-      required:
-      - text
-      title: DialogMessage
-    DialogRole:
-      type: string
-      enum:
-      - agent
-      - user
-      title: DialogRole
-      description: Role of dialog
   securitySchemes:
     APIKeyHeader:
       type: apiKey

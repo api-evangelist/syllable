@@ -304,61 +304,6 @@ paths:
       - APIKeyHeader: []
 components:
   schemas:
-    DashboardResponse:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Name of the dashboard
-          examples:
-          - session_summary
-        display_name:
-          type: string
-          title: Display Name
-          description: Display name of the dashboard
-          examples:
-          - Session Summary
-        rank:
-          type: integer
-          title: Rank
-          description: Dashboard importance (0 is the highest)
-          examples:
-          - 0
-        label:
-          type: string
-          title: Label
-          description: Dashboard label. Typically "report" or "dashboard"
-          examples:
-          - dashboard
-      type: object
-      required:
-      - name
-      - display_name
-      - rank
-      - label
-      title: DashboardResponse
-      description: Basic information about a dashboard with a description.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     ListResponse_DashboardResponse_:
       properties:
         items:
@@ -402,6 +347,16 @@ components:
       - page
       - page_size
       title: ListResponse[DashboardResponse]
+    DashboardProperties:
+      type: string
+      enum:
+      - id
+      - name
+      - display_name
+      - rank
+      - label
+      title: DashboardProperties
+      description: Names of dashboard fields supported for filtering/sorting on list endpoint.
     DashboardTokenResponse:
       properties:
         embedded_id:
@@ -457,16 +412,68 @@ components:
       - label
       title: DashboardTokenResponse
       description: Basic information about a dashboard.
-    DashboardProperties:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    OrderByDirection:
       type: string
       enum:
-      - id
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
+    DashboardResponse:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Name of the dashboard
+          examples:
+          - session_summary
+        display_name:
+          type: string
+          title: Display Name
+          description: Display name of the dashboard
+          examples:
+          - Session Summary
+        rank:
+          type: integer
+          title: Rank
+          description: Dashboard importance (0 is the highest)
+          examples:
+          - 0
+        label:
+          type: string
+          title: Label
+          description: Dashboard label. Typically "report" or "dashboard"
+          examples:
+          - dashboard
+      type: object
+      required:
       - name
       - display_name
       - rank
       - label
-      title: DashboardProperties
-      description: Names of dashboard fields supported for filtering/sorting on list endpoint.
+      title: DashboardResponse
+      description: Basic information about a dashboard with a description.
     Dashboard:
       properties:
         embedded_id:
@@ -504,13 +511,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    OrderByDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
   securitySchemes:
     APIKeyHeader:
       type: apiKey

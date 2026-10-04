@@ -499,166 +499,6 @@ components:
       - last_updated
       title: UserResponse
       description: Information about a user.
-    UserProperties:
-      type: string
-      enum:
-      - email
-      - first_name
-      - last_name
-      - role_id
-      - role_name
-      - email_first_name_last_name
-      - activity_status
-      - last_updated
-      title: UserProperties
-      description: Names of user fields supported for filtering/sorting on list endpoint.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ListResponse_UserResponse_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/UserResponse'
-          type: array
-          title: Items
-          description: List of items returned from the query
-          examples: []
-        page:
-          type: integer
-          title: Page
-          description: The page number of the results (0-based)
-          examples:
-          - 0
-        page_size:
-          type: integer
-          title: Page Size
-          description: The number of items returned per page
-          examples:
-          - 25
-        total_pages:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Pages
-          description: The total number of pages of results given the indicated page size
-          examples:
-          - 4
-        total_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Count
-          description: The total number of items returned from the query
-          examples:
-          - 100
-      type: object
-      required:
-      - items
-      - page
-      - page_size
-      title: ListResponse[UserResponse]
-    DaoUtm:
-      properties:
-        utm_source:
-          anyOf:
-          - type: string
-            maxLength: 256
-          - type: 'null'
-          title: Utm Source
-        utm_medium:
-          anyOf:
-          - type: string
-            maxLength: 256
-          - type: 'null'
-          title: Utm Medium
-        utm_campaign:
-          anyOf:
-          - type: string
-            maxLength: 256
-          - type: 'null'
-          title: Utm Campaign
-        utm_term:
-          anyOf:
-          - type: string
-            maxLength: 256
-          - type: 'null'
-          title: Utm Term
-        utm_content:
-          anyOf:
-          - type: string
-            maxLength: 256
-          - type: 'null'
-          title: Utm Content
-      type: object
-      title: DaoUtm
-    UserUpdateRequest:
-      properties:
-        email:
-          type: string
-          title: Email
-          description: Email address of the user
-          examples:
-          - user@syllable.ai
-        first_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: First Name
-          description: First name of the user
-          examples:
-          - Jane
-        last_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Last Name
-          description: Last name of the user
-          examples:
-          - Smith
-        role_id:
-          type: integer
-          title: Role Id
-          description: ID of the role assigned to the user
-          examples:
-          - 1
-        utm:
-          anyOf:
-          - $ref: '#/components/schemas/DaoUtm'
-          - type: 'null'
-          description: Optional UTM campaign attribution to record in user_metadata.
-        last_updated_comments:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Last Updated Comments
-          description: Comments for the most recent edit to the user.
-          examples:
-          - Updated to change which role was assigned
-      type: object
-      required:
-      - email
-      - role_id
-      title: UserUpdateRequest
-      description: Request model to update an existing user.
     UserActivityStatus:
       type: string
       enum:
@@ -719,29 +559,61 @@ components:
       - role_id
       title: UserCreateRequest
       description: Request model to create a user.
-    HTTPValidationError:
+    DaoUtm:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        utm_source:
+          anyOf:
+          - type: string
+            maxLength: 256
+          - type: 'null'
+          title: Utm Source
+        utm_medium:
+          anyOf:
+          - type: string
+            maxLength: 256
+          - type: 'null'
+          title: Utm Medium
+        utm_campaign:
+          anyOf:
+          - type: string
+            maxLength: 256
+          - type: 'null'
+          title: Utm Campaign
+        utm_term:
+          anyOf:
+          - type: string
+            maxLength: 256
+          - type: 'null'
+          title: Utm Term
+        utm_content:
+          anyOf:
+          - type: string
+            maxLength: 256
+          - type: 'null'
+          title: Utm Content
       type: object
-      title: HTTPValidationError
-    OrderByDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
-    LoginType:
-      type: string
-      enum:
-      - google
-      - username_and_password
-      title: LoginType
-      description: The type of login to use for the user.
+      title: DaoUtm
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     UserDeleteRequest:
       properties:
         email:
@@ -762,6 +634,134 @@ components:
       - reason
       title: UserDeleteRequest
       description: Request model to delete a user.
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
+    UserProperties:
+      type: string
+      enum:
+      - email
+      - first_name
+      - last_name
+      - role_id
+      - role_name
+      - email_first_name_last_name
+      - activity_status
+      - last_updated
+      title: UserProperties
+      description: Names of user fields supported for filtering/sorting on list endpoint.
+    ListResponse_UserResponse_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/UserResponse'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[UserResponse]
+    LoginType:
+      type: string
+      enum:
+      - google
+      - username_and_password
+      title: LoginType
+      description: The type of login to use for the user.
+    UserUpdateRequest:
+      properties:
+        email:
+          type: string
+          title: Email
+          description: Email address of the user
+          examples:
+          - user@syllable.ai
+        first_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: First Name
+          description: First name of the user
+          examples:
+          - Jane
+        last_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Name
+          description: Last name of the user
+          examples:
+          - Smith
+        role_id:
+          type: integer
+          title: Role Id
+          description: ID of the role assigned to the user
+          examples:
+          - 1
+        utm:
+          anyOf:
+          - $ref: '#/components/schemas/DaoUtm'
+          - type: 'null'
+          description: Optional UTM campaign attribution to record in user_metadata.
+        last_updated_comments:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Updated Comments
+          description: Comments for the most recent edit to the user.
+          examples:
+          - Updated to change which role was assigned
+      type: object
+      required:
+      - email
+      - role_id
+      title: UserUpdateRequest
+      description: Request model to update an existing user.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     APIKeyHeader:
       type: apiKey

@@ -138,69 +138,6 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.organizations.delete({\n    deleteComments: \"Deleted the organization because it was no longer needed\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    Body_organizations_create:
-      properties:
-        logo:
-          type: string
-          format: binary
-          title: Logo
-          description: The organization logo image file to upload. Must be a PNG file and 120x120 pixels.
-        display_name:
-          type: string
-          title: Display Name
-          description: The human-readable display name of the organization
-          examples:
-          - My Great Org
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: Description of the organization
-          examples:
-          - An organization that does great things with agentic AI
-        domains:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Domains
-          description: Comma-delimited list of domains that users at the organization may have in their email addresses
-          examples:
-          - mygreatorg.com,mygreatorg.org
-        saml_provider_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Saml Provider Id
-          description: SAML provider ID for user authentication
-          examples:
-          - saml.syllablesso
-      type: object
-      required:
-      - logo
-      - display_name
-      title: Body_organizations_create
     OrganizationResponse:
       properties:
         display_name:
@@ -285,15 +222,39 @@ components:
       - name
       - last_updated
       title: OrganizationResponse
-    HTTPValidationError:
+    ValidationError:
       properties:
-        detail:
+        loc:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Detail
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
-      title: HTTPValidationError
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Body_organizations_delete:
+      properties:
+        delete_comments:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Delete Comments
+          description: Comments explaining the deletion
+          examples:
+          - Deleted the organization because it was no longer needed
+      type: object
+      title: Body_organizations_delete
     Body_organizations_update:
       properties:
         logo:
@@ -345,18 +306,57 @@ components:
       required:
       - display_name
       title: Body_organizations_update
-    Body_organizations_delete:
+    Body_organizations_create:
       properties:
-        delete_comments:
+        logo:
+          type: string
+          format: binary
+          title: Logo
+          description: The organization logo image file to upload. Must be a PNG file and 120x120 pixels.
+        display_name:
+          type: string
+          title: Display Name
+          description: The human-readable display name of the organization
+          examples:
+          - My Great Org
+        description:
           anyOf:
           - type: string
           - type: 'null'
-          title: Delete Comments
-          description: Comments explaining the deletion
+          title: Description
+          description: Description of the organization
           examples:
-          - Deleted the organization because it was no longer needed
+          - An organization that does great things with agentic AI
+        domains:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Domains
+          description: Comma-delimited list of domains that users at the organization may have in their email addresses
+          examples:
+          - mygreatorg.com,mygreatorg.org
+        saml_provider_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Saml Provider Id
+          description: SAML provider ID for user authentication
+          examples:
+          - saml.syllablesso
       type: object
-      title: Body_organizations_delete
+      required:
+      - logo
+      - display_name
+      title: Body_organizations_create
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     APIKeyHeader:
       type: apiKey

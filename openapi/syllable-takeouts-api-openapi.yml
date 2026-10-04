@@ -114,60 +114,6 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.takeouts.takeoutsGetFile({\n    jobId: \"<id>\",\n    fileName: \"example.file\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    TakeoutRequestStatus:
-      type: string
-      enum:
-      - pending
-      - in_progress
-      - completed
-      - failed
-      - canceled
-      title: TakeoutRequestStatus
-      description: Status of a takeout request.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    CreateTakeoutResponse:
-      properties:
-        job_id:
-          type: string
-          title: Job Id
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-      type: object
-      required:
-      - job_id
-      - created_at
-      title: CreateTakeoutResponse
     TakeoutStatusResponse:
       properties:
         job_id:
@@ -192,6 +138,60 @@ components:
       - status
       - updated_at
       title: TakeoutStatusResponse
+    CreateTakeoutResponse:
+      properties:
+        job_id:
+          type: string
+          title: Job Id
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - job_id
+      - created_at
+      title: CreateTakeoutResponse
+    TakeoutRequestStatus:
+      type: string
+      enum:
+      - pending
+      - in_progress
+      - completed
+      - failed
+      - canceled
+      title: TakeoutRequestStatus
+      description: Status of a takeout request.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     APIKeyHeader:
       type: apiKey
