@@ -1,0 +1,99 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-07'
+method: searched
+source: https://syllable.ai/pricing
+sources:
+- https://syllable.ai/pricing
+provenance:
+  tool: all/0-working/economics/harvest_pricing.py
+  run: 20261007T104522
+  grounding: every price_text was found verbatim in the fetched page text
+audience: developer-api
+pricing_basis: per-call
+delivery:
+  delivery: managed
+  method: page
+  read: '2026-10-07'
+published: true
+note: Metered platform rates plus pass-through third-party model pricing (OpenAI, Anthropic, Google LLMs,
+  TTS, STT tables). Standard Support included; Enterprise Support fee not numerically stated except waiver
+  threshold.
+plan_count: 12
+currency: USD
+plans:
+- name: Free Trial
+  price_text: Get started at no cost with a limited-minute allowance.
+  currency: USD
+  period: none
+  included_quota: Max 3 minutes per call. Credits stay active as long as your account is open. No credit
+    card required.
+- name: Metered Pay-As-You-Go
+  price_text: Start with a $150 prepayment.
+  price: 150
+  currency: USD
+  period: per-use
+  unit: prepaid credits
+  included_quota: Pay only for what you use.
+  overage: Auto-recharges $100 when your balance drops below $50.
+- name: SIP Connection
+  price_text: $0.0040
+  price: 0.004
+  currency: USD
+  period: per-use
+  unit: 60 seconds
+- name: SIP Recording
+  price_text: $0.0025
+  price: 0.0025
+  currency: USD
+  period: per-use
+  unit: 60 seconds
+- name: SIP Transfer
+  price_text: $0.0026
+  price: 0.0026
+  currency: USD
+  period: per-use
+  unit: 60 seconds
+- name: Enterprise Voice
+  price_text: $0.0600
+  price: 0.06
+  currency: USD
+  period: per-use
+  unit: 60 seconds
+- name: Enterprise Text Input
+  price_text: $15.00
+  price: 15
+  currency: USD
+  period: per-use
+  unit: 1M characters
+- name: Enterprise Text Output
+  price_text: $15.00
+  price: 15
+  currency: USD
+  period: per-use
+  unit: 1M characters
+- name: Tools (Input / Cached / Output)
+  price_text: $1.10
+  price: 1.1
+  currency: USD
+  period: per-use
+  unit: 1M tokens
+- name: Transcriptions
+  price_text: $0.0080
+  price: 0.008
+  currency: USD
+  period: per-use
+  unit: 60 seconds
+- name: Workflow Invocations
+  price_text: $0.0020
+  price: 0.002
+  currency: USD
+  period: per-use
+  unit: 1 invocation
+- name: Enterprise Support
+  price_text: Annual fee waived for customers with annual commitments over $500,000.
+  price: 500000
+  currency: USD
+  period: year
+  included_quota: 10-minute engineering escalation and a dedicated account manager with 1-hour response.
+rate_limit_statements:
+- Max 3 minutes per call.
