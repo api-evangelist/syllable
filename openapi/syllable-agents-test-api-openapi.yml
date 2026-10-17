@@ -50,6 +50,60 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.agents.test.sendTestMessage({\n    serviceName: \"<value>\",\n    source: \"user@email.com\",\n    text: \"Hello\",\n    testId: \"<id>\",\n    agentId: \"<id>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
+    TestMessage:
+      properties:
+        service_name:
+          type: string
+          title: Service Name
+          description: Name of the service producing the message
+        source:
+          type: string
+          title: Source
+          description: Name of the source of the message - identifies the user, like an email or username.
+          examples:
+          - user@email.com
+        text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Text
+          description: The text of the message
+          examples:
+          - Hello
+        test_id:
+          type: string
+          title: Test Id
+          description: Channel-manager-side ID of the session (see Session.channel_manager_sid)
+        agent_id:
+          type: string
+          title: Agent Id
+          description: ID of the agent with which the chat is taking place
+        org_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Org Name
+          description: 'Unused: Name of the organization associated with the agent'
+          deprecated: true
+        override_timestamp:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Timestamp
+          description: Override for the timestamp of the message
+        session_start:
+          type: boolean
+          title: Session Start
+          description: Whether this message is the start of a new session
+          default: false
+      type: object
+      required:
+      - service_name
+      - source
+      - test_id
+      - agent_id
+      title: TestMessage
+      description: Message sent in a test chat with an agent.
     TestMessageResponse:
       properties:
         test_id:
@@ -111,60 +165,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    TestMessage:
-      properties:
-        service_name:
-          type: string
-          title: Service Name
-          description: Name of the service producing the message
-        source:
-          type: string
-          title: Source
-          description: Name of the source of the message - identifies the user, like an email or username.
-          examples:
-          - user@email.com
-        text:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Text
-          description: The text of the message
-          examples:
-          - Hello
-        test_id:
-          type: string
-          title: Test Id
-          description: Channel-manager-side ID of the session (see Session.channel_manager_sid)
-        agent_id:
-          type: string
-          title: Agent Id
-          description: ID of the agent with which the chat is taking place
-        org_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Org Name
-          description: 'Unused: Name of the organization associated with the agent'
-          deprecated: true
-        override_timestamp:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Override Timestamp
-          description: Override for the timestamp of the message
-        session_start:
-          type: boolean
-          title: Session Start
-          description: Whether this message is the start of a new session
-          default: false
-      type: object
-      required:
-      - service_name
-      - source
-      - test_id
-      - agent_id
-      title: TestMessage
-      description: Message sent in a test chat with an agent.
   securitySchemes:
     APIKeyHeader:
       type: apiKey

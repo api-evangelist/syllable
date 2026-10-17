@@ -387,27 +387,55 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.insights.tools.insightToolGetDefinitions();\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
-    ValidationError:
+    InsightToolInput:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        name:
           type: string
-          title: Message
-        type:
+          title: Name
+          description: Human readable name of insight tool
+          examples:
+          - summary-tool
+        description:
           type: string
-          title: Error Type
+          title: Description
+          description: Text description of insight tool configuration
+          examples:
+          - This tool uses GPT4.1 to generate a summary of the call
+        version:
+          type: integer
+          title: Version
+          description: Version number of insight tool configuration
+          examples:
+          - 1
+        tool_arguments:
+          title: Tool Arguments
+          description: Arguments for calling the insight tool
+          examples:
+          - prompt: Provide a concise, accurate summary of the conversation's key points, focusing on the user's goal and how the agent responded
+        insight_tool_definition_id:
+          type: integer
+          title: Insight Tool Definition Id
+          description: Internal ID for the definition used by the insight tool configuration
+          examples:
+          - 1
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - name
+      - description
+      - version
+      - tool_arguments
+      - insight_tool_definition_id
+      title: InsightToolInput
+      description: Request model to create/update an insight tool configuration.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     OrderByDirection:
       type: string
       enum:
@@ -458,46 +486,6 @@ components:
       - page
       - page_size
       title: ListResponse[InsightToolOutput]
-    InsightToolInput:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Human readable name of insight tool
-          examples:
-          - summary-tool
-        description:
-          type: string
-          title: Description
-          description: Text description of insight tool configuration
-          examples:
-          - This tool uses GPT4.1 to generate a summary of the call
-        version:
-          type: integer
-          title: Version
-          description: Version number of insight tool configuration
-          examples:
-          - 1
-        tool_arguments:
-          title: Tool Arguments
-          description: Arguments for calling the insight tool
-          examples:
-          - prompt: Provide a concise, accurate summary of the conversation's key points, focusing on the user's goal and how the agent responded
-        insight_tool_definition_id:
-          type: integer
-          title: Insight Tool Definition Id
-          description: Internal ID for the definition used by the insight tool configuration
-          examples:
-          - 1
-      type: object
-      required:
-      - name
-      - description
-      - version
-      - tool_arguments
-      - insight_tool_definition_id
-      title: InsightToolInput
-      description: Request model to create/update an insight tool configuration.
     InsightToolTestInput:
       properties:
         tool_name:
@@ -527,17 +515,6 @@ components:
       - tool_name
       title: InsightToolTestInput
       description: Request model to test an insight tool.
-    InsightToolProperties:
-      type: string
-      enum:
-      - id
-      - name
-      - name_exact
-      - description
-      - tool_arguments
-      - insight_tool_definition_id
-      - updated_at
-      title: InsightToolProperties
     InsightToolOutput:
       properties:
         name:
@@ -611,15 +588,6 @@ components:
       - last_updated_by
       title: InsightToolOutput
       description: Response model for an insight tool configuration.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     InsightToolDefinition:
       properties:
         id:
@@ -666,6 +634,38 @@ components:
       description: 'Model for an insight tool definition. This is a template that can be used by multiple insight
 
         tool configurations, each providing their own parameter values.'
+    InsightToolProperties:
+      type: string
+      enum:
+      - id
+      - name
+      - name_exact
+      - description
+      - tool_arguments
+      - insight_tool_definition_id
+      - updated_at
+      title: InsightToolProperties
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
   securitySchemes:
     APIKeyHeader:
       type: apiKey

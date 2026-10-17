@@ -49,6 +49,57 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.sessions.transcript.getById({\n    sessionId: \"<id>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    SessionAction:
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+          description: Timestamp of the tool invocation
+        tool_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tool Name
+          description: Name of the tool that was invoked
+        tool_request:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tool Request
+          description: Request sent to the tool API, if applicable
+        tool_result:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tool Result
+          description: Response received from the tool API, if applicable
+        tool_error:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tool Error
+          description: Error received from the tool API, if applicable
+        duration_ms:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Duration Ms
+          description: How long the tool invocation took, in milliseconds
+      type: object
+      required:
+      - timestamp
+      title: SessionAction
+      description: Information about a given tool invocation as part of a session.
     SessionTranscriptionResponse:
       properties:
         session_id:
@@ -97,48 +148,6 @@ components:
       - msg
       - type
       title: ValidationError
-    SessionAction:
-      properties:
-        timestamp:
-          type: string
-          format: date-time
-          title: Timestamp
-          description: Timestamp of the tool invocation
-        tool_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Tool Name
-          description: Name of the tool that was invoked
-        tool_request:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Tool Request
-          description: Request sent to the tool API, if applicable
-        tool_result:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Tool Result
-          description: Response received from the tool API, if applicable
-        tool_error:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Tool Error
-          description: Error received from the tool API, if applicable
-        duration_ms:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Duration Ms
-          description: How long the tool invocation took, in milliseconds
-      type: object
-      required:
-      - timestamp
-      title: SessionAction
-      description: Information about a given tool invocation as part of a session.
     SessionText:
       properties:
         timestamp:
@@ -176,15 +185,6 @@ components:
       - timestamp
       title: SessionText
       description: Information about a given message from a user to an agent or vice-versa.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     APIKeyHeader:
       type: apiKey

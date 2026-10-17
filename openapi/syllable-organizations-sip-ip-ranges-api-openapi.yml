@@ -147,6 +147,15 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  await syllableSDK.organizations.sipIpRanges.delete({\n    sipIpRangeId: 394521,\n  });\n\n\n}\n\nrun();"
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     OrganizationSipIpRangeUpdate:
       properties:
         type:
@@ -171,6 +180,17 @@ components:
       type: object
       title: OrganizationSipIpRangeUpdate
       description: The request body for updating a SIP IP range.
+    OrganizationSipIpRangeType:
+      type: string
+      enum:
+      - signaling
+      - media
+      title: OrganizationSipIpRangeType
+      description: 'The type of SIP IP range. Signaling IP ranges are used for SIP signaling traffic (e.g. SIP INVITE,
+
+        SIP REFER, SIP OPTIONS, etc.), while media IP ranges are used for SIP media traffic
+
+        (audio and video).'
     OrganizationSipIpRange:
       properties:
         type:
@@ -231,27 +251,6 @@ components:
       - verified
       title: OrganizationSipIpRange
       description: SIP IP range object.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     OrganizationSipIpRangeCreate:
       properties:
         type:
@@ -276,26 +275,27 @@ components:
       - ip_range
       title: OrganizationSipIpRangeCreate
       description: The request body for creating a new SIP IP range.
-    OrganizationSipIpRangeType:
-      type: string
-      enum:
-      - signaling
-      - media
-      title: OrganizationSipIpRangeType
-      description: 'The type of SIP IP range. Signaling IP ranges are used for SIP signaling traffic (e.g. SIP INVITE,
-
-        SIP REFER, SIP OPTIONS, etc.), while media IP ranges are used for SIP media traffic
-
-        (audio and video).'
-    HTTPValidationError:
+    ValidationError:
       properties:
-        detail:
+        loc:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Detail
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
-      title: HTTPValidationError
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
   securitySchemes:
     APIKeyHeader:
       type: apiKey

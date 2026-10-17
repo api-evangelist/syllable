@@ -49,106 +49,15 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.sessions.latency.getById({\n    sessionId: \"<id>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
-    LatencyCategory:
-      type: string
-      enum:
-      - tts
-      - stt
-      - llm
-      - tool
-      - http
-      title: LatencyCategory
-    LatencyUnitType:
-      type: string
-      enum:
-      - minutes
-      - seconds
-      - milliseconds
-      - microseconds
-      - nanoseconds
-      title: LatencyUnitType
-    ValidationError:
+    HTTPValidationError:
       properties:
-        loc:
+        detail:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Detail
       type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    SummaryEntry:
-      properties:
-        category:
-          $ref: '#/components/schemas/LatencyCategory'
-        sub_category:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sub Category
-        event_count:
-          type: integer
-          title: Event Count
-        sum_ms:
-          type: number
-          title: Sum Ms
-        sum_str:
-          type: string
-          title: Sum Str
-        average_ms:
-          type: number
-          title: Average Ms
-        average_str:
-          type: string
-          title: Average Str
-      type: object
-      required:
-      - category
-      - event_count
-      - sum_ms
-      - sum_str
-      - average_ms
-      - average_str
-      title: SummaryEntry
-      description: 'A summary entry is an aggregation of latency entries by category and sub-category.
-
-        It contains the total and average latency for each category.'
-    InspectLatencyResponse:
-      properties:
-        session_id:
-          type: string
-          title: Session Id
-        timeline:
-          items:
-            $ref: '#/components/schemas/LatencyEntry'
-          type: array
-          title: Timeline
-        summary:
-          items:
-            $ref: '#/components/schemas/SummaryEntry'
-          type: array
-          title: Summary
-      type: object
-      required:
-      - session_id
-      - timeline
-      title: InspectLatencyResponse
-      description: 'This is a report of the time spent in each operation during this session. It contains a timeline,
-
-        which lists the operations in the order they were executed, and a summary, which aggregates the
-
-        operations by category and sub-category.'
+      title: HTTPValidationError
     LatencyEntry:
       properties:
         timestamp:
@@ -194,15 +103,106 @@ components:
       - time_delta
       title: LatencyEntry
       description: Data model for latency entries.
-    HTTPValidationError:
+    InspectLatencyResponse:
       properties:
-        detail:
+        session_id:
+          type: string
+          title: Session Id
+        timeline:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            $ref: '#/components/schemas/LatencyEntry'
           type: array
-          title: Detail
+          title: Timeline
+        summary:
+          items:
+            $ref: '#/components/schemas/SummaryEntry'
+          type: array
+          title: Summary
       type: object
-      title: HTTPValidationError
+      required:
+      - session_id
+      - timeline
+      title: InspectLatencyResponse
+      description: 'This is a report of the time spent in each operation during this session. It contains a timeline,
+
+        which lists the operations in the order they were executed, and a summary, which aggregates the
+
+        operations by category and sub-category.'
+    SummaryEntry:
+      properties:
+        category:
+          $ref: '#/components/schemas/LatencyCategory'
+        sub_category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sub Category
+        event_count:
+          type: integer
+          title: Event Count
+        sum_ms:
+          type: number
+          title: Sum Ms
+        sum_str:
+          type: string
+          title: Sum Str
+        average_ms:
+          type: number
+          title: Average Ms
+        average_str:
+          type: string
+          title: Average Str
+      type: object
+      required:
+      - category
+      - event_count
+      - sum_ms
+      - sum_str
+      - average_ms
+      - average_str
+      title: SummaryEntry
+      description: 'A summary entry is an aggregation of latency entries by category and sub-category.
+
+        It contains the total and average latency for each category.'
+    LatencyCategory:
+      type: string
+      enum:
+      - tts
+      - stt
+      - llm
+      - tool
+      - http
+      title: LatencyCategory
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    LatencyUnitType:
+      type: string
+      enum:
+      - minutes
+      - seconds
+      - milliseconds
+      - microseconds
+      - nanoseconds
+      title: LatencyUnitType
   securitySchemes:
     APIKeyHeader:
       type: apiKey

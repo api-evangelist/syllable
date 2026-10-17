@@ -599,58 +599,49 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.insights.folders.moveFiles({\n    folderId: 815114,\n    insightsFolderFileMove: {\n      destinationFolderId: 182764,\n      fileIdList: [\n        12334,\n        23445,\n        34556,\n      ],\n    },\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
-    InsightsFolderProperties:
-      type: string
-      enum:
-      - id
-      - name
-      - name_exact
-      - label
-      - updated_at
-      title: InsightsFolderProperties
-    ListResponse_InsightsUploadFile_:
+    ValidationError:
       properties:
-        items:
+        loc:
           items:
-            $ref: '#/components/schemas/InsightsUploadFile'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Items
-          description: List of items returned from the query
-          examples: []
-        page:
-          type: integer
-          title: Page
-          description: The page number of the results (0-based)
-          examples:
-          - 0
-        page_size:
-          type: integer
-          title: Page Size
-          description: The number of items returned per page
-          examples:
-          - 25
-        total_pages:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Pages
-          description: The total number of pages of results given the indicated page size
-          examples:
-          - 4
-        total_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Count
-          description: The total number of items returned from the query
-          examples:
-          - 100
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
       required:
-      - items
-      - page
-      - page_size
-      title: ListResponse[InsightsUploadFile]
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    InsightsUploadFileProperties:
+      type: string
+      enum:
+      - filename
+      - filename_exact
+      - call_id
+      - agent_number
+      - customer_number
+      - duration
+      - start_time
+      - end_time
+      - created_at
+      title: InsightsUploadFileProperties
     InsightsUploadFile:
       properties:
         id:
@@ -764,6 +755,56 @@ components:
       - object_key
       title: InsightsUploadFile
       description: Response model for an insight upload file.
+    ListResponse_InsightsUploadFile_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/InsightsUploadFile'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[InsightsUploadFile]
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
     ListResponse_InsightsFolder_:
       properties:
         items:
@@ -807,34 +848,6 @@ components:
       - page
       - page_size
       title: ListResponse[InsightsFolder]
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    OrderByDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
     InsightsFolderInput:
       properties:
         name:
@@ -886,6 +899,23 @@ components:
       - file_id_list
       title: InsightsFolderFileMove
       description: Request model to move files between insight upload folders.
+    Body_insights_folder_upload_file:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+      type: object
+      title: Body_insights_folder_upload_file
+    InsightsFolderProperties:
+      type: string
+      enum:
+      - id
+      - name
+      - name_exact
+      - label
+      - updated_at
+      title: InsightsFolderProperties
     InsightsFolder:
       properties:
         name:
@@ -1014,36 +1044,6 @@ components:
       - folder_stats
       title: FolderDetails
       description: Response model for an insight upload folder details.
-    Body_insights_folder_upload_file:
-      properties:
-        file:
-          type: string
-          format: binary
-          title: File
-      type: object
-      title: Body_insights_folder_upload_file
-    InsightsUploadFileProperties:
-      type: string
-      enum:
-      - filename
-      - filename_exact
-      - call_id
-      - agent_number
-      - customer_number
-      - duration
-      - start_time
-      - end_time
-      - created_at
-      title: InsightsUploadFileProperties
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     APIKeyHeader:
       type: apiKey

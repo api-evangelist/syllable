@@ -50,34 +50,40 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.sessions.timeline.getById({\n    sessionId: \"<id>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
-    TimelineEventKind:
-      type: string
-      enum:
-      - transcript
-      - tool
-      - latency
-      title: TimelineEventKind
-    ValidationError:
+    SessionTimelineResponse:
       properties:
-        loc:
+        session_id:
+          type: string
+          title: Session Id
+          description: Internal ID of the session
+        session_start:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Session Start
+          description: The call's start (placement) time; the zero point for all offsets. Falls back to the first transcript turn for legacy sessions with no session_start event.
+        events:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/TimelineEvent'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Events
+          description: All events, ordered by timestamp ascending
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - session_id
+      - events
+      title: SessionTimelineResponse
+      description: Consolidated, time-ordered timeline of a session's events.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     TimelineEvent:
       properties:
         kind:
@@ -178,40 +184,34 @@ components:
       - offset
       title: TimelineEvent
       description: A single normalized event on the consolidated session timeline.
-    HTTPValidationError:
+    TimelineEventKind:
+      type: string
+      enum:
+      - transcript
+      - tool
+      - latency
+      title: TimelineEventKind
+    ValidationError:
       properties:
-        detail:
+        loc:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    SessionTimelineResponse:
-      properties:
-        session_id:
+          title: Location
+        msg:
           type: string
-          title: Session Id
-          description: Internal ID of the session
-        session_start:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Session Start
-          description: The call's start (placement) time; the zero point for all offsets. Falls back to the first transcript turn for legacy sessions with no session_start event.
-        events:
-          items:
-            $ref: '#/components/schemas/TimelineEvent'
-          type: array
-          title: Events
-          description: All events, ordered by timestamp ascending
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
       required:
-      - session_id
-      - events
-      title: SessionTimelineResponse
-      description: Consolidated, time-ordered timeline of a session's events.
+      - loc
+      - msg
+      - type
+      title: ValidationError
   securitySchemes:
     APIKeyHeader:
       type: apiKey

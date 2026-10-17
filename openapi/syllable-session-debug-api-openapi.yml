@@ -131,6 +131,33 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.sessionDebug.getSessionToolCallResultById({\n    sessionId: 832133,\n    toolCallId: \"<id>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
+    ToolResultData:
+      properties:
+        tool_name:
+          type: string
+          title: Tool Name
+          description: Tool name
+          examples:
+          - general_information_web
+        tool_result:
+          title: Tool Result
+          description: Tool result data
+          examples:
+          - answer: Syllable is a platform for building and managing AI voice agents...
+      type: object
+      required:
+      - tool_name
+      - tool_result
+      title: ToolResultData
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     DialogToolCall:
       properties:
         tool_call_id:
@@ -173,57 +200,44 @@ components:
       - tool_result
       - timestamp
       title: DialogToolCall
-    DialogMessage:
+    DialogRole:
+      type: string
+      enum:
+      - agent
+      - user
+      title: DialogRole
+      description: Role of dialog
+    SessionMessage:
       properties:
-        text:
-          type: string
-          title: Text
-          description: Dialog message text
+        role:
+          $ref: '#/components/schemas/DialogRole'
+          description: Dialog role
           examples:
-          - Tell me about Syllable.ai!
-      type: object
-      required:
-      - text
-      title: DialogMessage
-    ValidationError:
-      properties:
-        loc:
+          - agent
+          - user
+        dialog:
+          $ref: '#/components/schemas/DialogMessage'
+          description: Dialog message
+        tool_calls:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/DialogToolCall'
           type: array
-          title: Location
-        msg:
+          title: Tool Calls
+          description: Tool calls
+        timestamp:
           type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          format: date-time
+          title: Timestamp
+          description: Message timestamp
+          examples:
+          - '2024-06-19T00:00:00'
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ToolResultData:
-      properties:
-        tool_name:
-          type: string
-          title: Tool Name
-          description: Tool name
-          examples:
-          - general_information_web
-        tool_result:
-          title: Tool Result
-          description: Tool result data
-          examples:
-          - answer: Syllable is a platform for building and managing AI voice agents...
-      type: object
-      required:
-      - tool_name
-      - tool_result
-      title: ToolResultData
+      - role
+      - dialog
+      - tool_calls
+      - timestamp
+      title: SessionMessage
     SessionData:
       properties:
         session_id:
@@ -264,53 +278,39 @@ components:
       - is_test
       - messages
       title: SessionData
-    DialogRole:
-      type: string
-      enum:
-      - agent
-      - user
-      title: DialogRole
-      description: Role of dialog
-    SessionMessage:
+    ValidationError:
       properties:
-        role:
-          $ref: '#/components/schemas/DialogRole'
-          description: Dialog role
-          examples:
-          - agent
-          - user
-        dialog:
-          $ref: '#/components/schemas/DialogMessage'
-          description: Dialog message
-        tool_calls:
+        loc:
           items:
-            $ref: '#/components/schemas/DialogToolCall'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Tool Calls
-          description: Tool calls
-        timestamp:
+          title: Location
+        msg:
           type: string
-          format: date-time
-          title: Timestamp
-          description: Message timestamp
-          examples:
-          - '2024-06-19T00:00:00'
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
       required:
-      - role
-      - dialog
-      - tool_calls
-      - timestamp
-      title: SessionMessage
-    HTTPValidationError:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    DialogMessage:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        text:
+          type: string
+          title: Text
+          description: Dialog message text
+          examples:
+          - Tell me about Syllable.ai!
       type: object
-      title: HTTPValidationError
+      required:
+      - text
+      title: DialogMessage
   securitySchemes:
     APIKeyHeader:
       type: apiKey

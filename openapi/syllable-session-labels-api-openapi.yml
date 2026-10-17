@@ -224,27 +224,49 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.sessionLabels.list({\n    page: 0,\n    searchFields: [\n      \"code\",\n    ],\n    searchFieldValues: [\n      \"Some Object Name\",\n    ],\n    startDatetime: \"2023-01-01T00:00:00Z\",\n    endDatetime: \"2024-01-01T00:00:00Z\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
-    ValidationError:
+    ListResponse_SessionLabel_:
       properties:
-        loc:
+        items:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/SessionLabel'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - items
+      - page
+      - page_size
+      title: ListResponse[SessionLabel]
     OrderByDirection:
       type: string
       enum:
@@ -252,6 +274,26 @@ components:
       - desc
       title: OrderByDirection
       description: The direction in which to order list results, either ascending or descending.
+    SessionLabelProperties:
+      type: string
+      enum:
+      - timestamp
+      - session_id
+      - type
+      - code
+      - user_email
+      - issue_categories
+      - session_id_list
+      title: SessionLabelProperties
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     SessionLabel:
       properties:
         session_id:
@@ -326,60 +368,6 @@ components:
         A session label is associated with a given session and contains an evaluation of quality and
 
         descriptions of issues the user encountered in that session or other details.'
-    ListResponse_SessionLabel_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/SessionLabel'
-          type: array
-          title: Items
-          description: List of items returned from the query
-          examples: []
-        page:
-          type: integer
-          title: Page
-          description: The page number of the results (0-based)
-          examples:
-          - 0
-        page_size:
-          type: integer
-          title: Page Size
-          description: The number of items returned per page
-          examples:
-          - 25
-        total_pages:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Pages
-          description: The total number of pages of results given the indicated page size
-          examples:
-          - 4
-        total_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Count
-          description: The total number of items returned from the query
-          examples:
-          - 100
-      type: object
-      required:
-      - items
-      - page
-      - page_size
-      title: ListResponse[SessionLabel]
-    SessionLabelProperties:
-      type: string
-      enum:
-      - timestamp
-      - session_id
-      - type
-      - code
-      - user_email
-      - issue_categories
-      - session_id_list
-      title: SessionLabelProperties
     SessionLabelCreate:
       properties:
         session_id:
@@ -435,15 +423,27 @@ components:
       - code
       - user_email
       title: SessionLabelCreate
-    HTTPValidationError:
+    ValidationError:
       properties:
-        detail:
+        loc:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Detail
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
-      title: HTTPValidationError
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
   securitySchemes:
     APIKeyHeader:
       type: apiKey

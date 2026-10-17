@@ -312,82 +312,15 @@ components:
       - su
       title: DayOfWeek
       description: Available options for day of the week for use in message rules.
-    ListResponse_CustomMessageResponse_:
+    HTTPValidationError:
       properties:
-        items:
+        detail:
           items:
-            $ref: '#/components/schemas/CustomMessageResponse'
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Items
-          description: List of items returned from the query
-          examples: []
-        page:
-          type: integer
-          title: Page
-          description: The page number of the results (0-based)
-          examples:
-          - 0
-        page_size:
-          type: integer
-          title: Page Size
-          description: The number of items returned per page
-          examples:
-          - 25
-        total_pages:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Pages
-          description: The total number of pages of results given the indicated page size
-          examples:
-          - 4
-        total_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Count
-          description: The total number of items returned from the query
-          examples:
-          - 100
+          title: Detail
       type: object
-      required:
-      - items
-      - page
-      - page_size
-      title: ListResponse[CustomMessageResponse]
-    CustomMessageProperties:
-      type: string
-      enum:
-      - id
-      - name
-      - name_exact
-      - text
-      - label
-      - type
-      - updated_at
-      - agent_id
-      title: CustomMessageProperties
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      title: HTTPValidationError
     OrderByDirection:
       type: string
       enum:
@@ -510,6 +443,126 @@ components:
         use the same custom message. Greeting-type messages may have rules for time-based variants; email
 
         templates have a subject and body only. For more information, see [Console docs](https://docs.syllable.ai/Resources/Messages).'
+    ListResponse_CustomMessageResponse_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/CustomMessageResponse'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[CustomMessageResponse]
+    CustomMessageRule:
+      properties:
+        description:
+          type: string
+          title: Description
+          description: The description of the rule
+          examples:
+          - Closed on New Year's Day
+        time_range_start:
+          anyOf:
+          - type: string
+            pattern: ^([01]\d|2[0-3]):[0-5]\d$
+          - type: 'null'
+          title: Time Range Start
+          description: The start of the time range for the rule in 24-hour format hh:mm (should be null for "all day" cases)
+          examples:
+          - 09:00
+        time_range_end:
+          anyOf:
+          - type: string
+            pattern: ^([01]\d|2[0-3]):[0-5]\d$
+          - type: 'null'
+          title: Time Range End
+          description: The end of the time range for the rule in 24-hour format hh:mm (should be null for "all day" cases)
+          examples:
+          - '17:00'
+        date:
+          anyOf:
+          - type: string
+            pattern: \b(19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\b
+          - type: 'null'
+          title: Date
+          description: The date for the rule in YYYY-MM-DD format
+          examples:
+          - '2025-01-01'
+        days_of_week:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/DayOfWeek'
+            type: array
+          - type: 'null'
+          title: Days Of Week
+          description: The days of the week for the rule
+          examples:
+          - - mo
+            - tu
+            - we
+            - th
+            - fr
+        invert:
+          type: boolean
+          title: Invert
+          description: Whether the rule logic should be inverted (i.e. "not")
+          examples:
+          - false
+        text:
+          type: string
+          title: Text
+          description: Message text associated with the rule
+          examples:
+          - Hello, thank you for calling. Sorry, we're closed today.
+      type: object
+      required:
+      - description
+      - invert
+      - text
+      title: CustomMessageRule
+      description: 'A rule used to determine whether a custom message should present a variant message based on
+
+        the current timestamp.'
+    CustomMessageType:
+      type: string
+      enum:
+      - greeting
+      - email_template
+      title: CustomMessageType
+      description: Type of custom message. Greeting is for voice; email_template is for email (subject + body).
     CustomMessageUpdateRequest:
       properties:
         name:
@@ -595,13 +648,6 @@ components:
       - id
       title: CustomMessageUpdateRequest
       description: Request model to update an existing custom message.
-    CustomMessageType:
-      type: string
-      enum:
-      - greeting
-      - email_template
-      title: CustomMessageType
-      description: Type of custom message. Greeting is for voice; email_template is for email (subject + body).
     CustomMessageCreateRequest:
       properties:
         name:
@@ -680,85 +726,39 @@ components:
       - text
       title: CustomMessageCreateRequest
       description: Request model to create a custom message.
-    HTTPValidationError:
+    CustomMessageProperties:
+      type: string
+      enum:
+      - id
+      - name
+      - name_exact
+      - text
+      - label
+      - type
+      - updated_at
+      - agent_id
+      title: CustomMessageProperties
+    ValidationError:
       properties:
-        detail:
+        loc:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    CustomMessageRule:
-      properties:
-        description:
+          title: Location
+        msg:
           type: string
-          title: Description
-          description: The description of the rule
-          examples:
-          - Closed on New Year's Day
-        time_range_start:
-          anyOf:
-          - type: string
-            pattern: ^([01]\d|2[0-3]):[0-5]\d$
-          - type: 'null'
-          title: Time Range Start
-          description: The start of the time range for the rule in 24-hour format hh:mm (should be null for "all day" cases)
-          examples:
-          - 09:00
-        time_range_end:
-          anyOf:
-          - type: string
-            pattern: ^([01]\d|2[0-3]):[0-5]\d$
-          - type: 'null'
-          title: Time Range End
-          description: The end of the time range for the rule in 24-hour format hh:mm (should be null for "all day" cases)
-          examples:
-          - '17:00'
-        date:
-          anyOf:
-          - type: string
-            pattern: \b(19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\b
-          - type: 'null'
-          title: Date
-          description: The date for the rule in YYYY-MM-DD format
-          examples:
-          - '2025-01-01'
-        days_of_week:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/DayOfWeek'
-            type: array
-          - type: 'null'
-          title: Days Of Week
-          description: The days of the week for the rule
-          examples:
-          - - mo
-            - tu
-            - we
-            - th
-            - fr
-        invert:
-          type: boolean
-          title: Invert
-          description: Whether the rule logic should be inverted (i.e. "not")
-          examples:
-          - false
-        text:
+          title: Message
+        type:
           type: string
-          title: Text
-          description: Message text associated with the rule
-          examples:
-          - Hello, thank you for calling. Sorry, we're closed today.
+          title: Error Type
       type: object
       required:
-      - description
-      - invert
-      - text
-      title: CustomMessageRule
-      description: 'A rule used to determine whether a custom message should present a variant message based on
-
-        the current timestamp.'
+      - loc
+      - msg
+      - type
+      title: ValidationError
   securitySchemes:
     APIKeyHeader:
       type: apiKey

@@ -314,7 +314,7 @@ paths:
         source: "import { SyllableSDK } from \"syllable-sdk\";\n\nconst syllableSDK = new SyllableSDK({\n  apiKeyHeader: process.env[\"SYLLABLESDK_API_KEY_HEADER\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await syllableSDK.roles.delete({\n    roleId: 458987,\n    reason: \"<value>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
 components:
   schemas:
-    RoleUpdateRequest:
+    RoleCreateRequest:
       properties:
         name:
           type: string
@@ -340,27 +340,71 @@ components:
           - - prompts_read
             - prompts_write
             - prompts_delete
-        id:
-          type: integer
-          title: Id
-          description: The internal ID of the role.
-          examples:
-          - 1
-        last_updated_comments:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Last Updated Comments
-          description: Comments for the most recent edit to the role.
-          examples:
-          - Updated to add delete permission
       type: object
       required:
       - name
       - permissions
-      - id
-      title: RoleUpdateRequest
-      description: Request model to update an existing role.
+      title: RoleCreateRequest
+      description: Request model to create a role.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    OrderByDirection:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: OrderByDirection
+      description: The direction in which to order list results, either ascending or descending.
+    ListResponse_RoleResponse_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/RoleResponse'
+          type: array
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      title: ListResponse[RoleResponse]
     RoleResponse:
       properties:
         name:
@@ -428,87 +472,7 @@ components:
       - last_updated_by
       title: RoleResponse
       description: Information about a role.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    OrderByDirection:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: OrderByDirection
-      description: The direction in which to order list results, either ascending or descending.
-    RoleProperties:
-      type: string
-      enum:
-      - name
-      - description
-      - updated_at
-      - last_updated_by
-      title: RoleProperties
-      description: Names of role fields supported for filtering/sorting on list endpoint.
-    ListResponse_RoleResponse_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/RoleResponse'
-          type: array
-          title: Items
-          description: List of items returned from the query
-          examples: []
-        page:
-          type: integer
-          title: Page
-          description: The page number of the results (0-based)
-          examples:
-          - 0
-        page_size:
-          type: integer
-          title: Page Size
-          description: The number of items returned per page
-          examples:
-          - 25
-        total_pages:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Pages
-          description: The total number of pages of results given the indicated page size
-          examples:
-          - 4
-        total_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Count
-          description: The total number of items returned from the query
-          examples:
-          - 100
-      type: object
-      required:
-      - items
-      - page
-      - page_size
-      title: ListResponse[RoleResponse]
-    RoleCreateRequest:
+    RoleUpdateRequest:
       properties:
         name:
           type: string
@@ -534,21 +498,57 @@ components:
           - - prompts_read
             - prompts_write
             - prompts_delete
+        id:
+          type: integer
+          title: Id
+          description: The internal ID of the role.
+          examples:
+          - 1
+        last_updated_comments:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Updated Comments
+          description: Comments for the most recent edit to the role.
+          examples:
+          - Updated to add delete permission
       type: object
       required:
       - name
       - permissions
-      title: RoleCreateRequest
-      description: Request model to create a role.
-    HTTPValidationError:
+      - id
+      title: RoleUpdateRequest
+      description: Request model to update an existing role.
+    RoleProperties:
+      type: string
+      enum:
+      - name
+      - description
+      - updated_at
+      - last_updated_by
+      title: RoleProperties
+      description: Names of role fields supported for filtering/sorting on list endpoint.
+    ValidationError:
       properties:
-        detail:
+        loc:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Detail
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
-      title: HTTPValidationError
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
   securitySchemes:
     APIKeyHeader:
       type: apiKey

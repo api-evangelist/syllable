@@ -304,59 +304,6 @@ paths:
       - APIKeyHeader: []
 components:
   schemas:
-    ListResponse_DashboardResponse_:
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/DashboardResponse'
-          type: array
-          title: Items
-          description: List of items returned from the query
-          examples: []
-        page:
-          type: integer
-          title: Page
-          description: The page number of the results (0-based)
-          examples:
-          - 0
-        page_size:
-          type: integer
-          title: Page Size
-          description: The number of items returned per page
-          examples:
-          - 25
-        total_pages:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Pages
-          description: The total number of pages of results given the indicated page size
-          examples:
-          - 4
-        total_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total Count
-          description: The total number of items returned from the query
-          examples:
-          - 100
-      type: object
-      required:
-      - items
-      - page
-      - page_size
-      title: ListResponse[DashboardResponse]
-    DashboardProperties:
-      type: string
-      enum:
-      - id
-      - name
-      - display_name
-      - rank
-      - label
-      title: DashboardProperties
-      description: Names of dashboard fields supported for filtering/sorting on list endpoint.
     DashboardTokenResponse:
       properties:
         embedded_id:
@@ -412,27 +359,58 @@ components:
       - label
       title: DashboardTokenResponse
       description: Basic information about a dashboard.
-    ValidationError:
+    ListResponse_DashboardResponse_:
       properties:
-        loc:
+        items:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/DashboardResponse'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Items
+          description: List of items returned from the query
+          examples: []
+        page:
+          type: integer
+          title: Page
+          description: The page number of the results (0-based)
+          examples:
+          - 0
+        page_size:
+          type: integer
+          title: Page Size
+          description: The number of items returned per page
+          examples:
+          - 25
+        total_pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Pages
+          description: The total number of pages of results given the indicated page size
+          examples:
+          - 4
+        total_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total Count
+          description: The total number of items returned from the query
+          examples:
+          - 100
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - items
+      - page
+      - page_size
+      title: ListResponse[DashboardResponse]
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     OrderByDirection:
       type: string
       enum:
@@ -440,6 +418,44 @@ components:
       - desc
       title: OrderByDirection
       description: The direction in which to order list results, either ascending or descending.
+    DashboardProperties:
+      type: string
+      enum:
+      - id
+      - name
+      - display_name
+      - rank
+      - label
+      title: DashboardProperties
+      description: Names of dashboard fields supported for filtering/sorting on list endpoint.
+    Dashboard:
+      properties:
+        embedded_id:
+          type: string
+          title: Embedded Id
+          description: Superset embedded ID of the dashboard
+        guest_token:
+          type: string
+          title: Guest Token
+          description: Superset guest token of the dashboard
+        name:
+          type: string
+          title: Name
+          description: Name of the dashboard
+        superset_url:
+          type: string
+          title: Superset Url
+          description: Superset URL of the dashboard
+      type: object
+      required:
+      - embedded_id
+      - guest_token
+      - name
+      - superset_url
+      title: Dashboard
+      description: 'Deprecated.  Please update to use DashboardTokenResponse.
+
+        Basic information about a dashboard.'
     DashboardResponse:
       properties:
         name:
@@ -474,43 +490,27 @@ components:
       - label
       title: DashboardResponse
       description: Basic information about a dashboard with a description.
-    Dashboard:
+    ValidationError:
       properties:
-        embedded_id:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          title: Embedded Id
-          description: Superset embedded ID of the dashboard
-        guest_token:
+          title: Message
+        type:
           type: string
-          title: Guest Token
-          description: Superset guest token of the dashboard
-        name:
-          type: string
-          title: Name
-          description: Name of the dashboard
-        superset_url:
-          type: string
-          title: Superset Url
-          description: Superset URL of the dashboard
+          title: Error Type
       type: object
       required:
-      - embedded_id
-      - guest_token
-      - name
-      - superset_url
-      title: Dashboard
-      description: 'Deprecated.  Please update to use DashboardTokenResponse.
-
-        Basic information about a dashboard.'
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+      - loc
+      - msg
+      - type
+      title: ValidationError
   securitySchemes:
     APIKeyHeader:
       type: apiKey

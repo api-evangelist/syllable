@@ -138,20 +138,15 @@ components:
       - status
       - updated_at
       title: TakeoutStatusResponse
-    CreateTakeoutResponse:
+    HTTPValidationError:
       properties:
-        job_id:
-          type: string
-          title: Job Id
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - job_id
-      - created_at
-      title: CreateTakeoutResponse
+      title: HTTPValidationError
     TakeoutRequestStatus:
       type: string
       enum:
@@ -183,15 +178,20 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
+    CreateTakeoutResponse:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        job_id:
+          type: string
+          title: Job Id
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
       type: object
-      title: HTTPValidationError
+      required:
+      - job_id
+      - created_at
+      title: CreateTakeoutResponse
   securitySchemes:
     APIKeyHeader:
       type: apiKey
